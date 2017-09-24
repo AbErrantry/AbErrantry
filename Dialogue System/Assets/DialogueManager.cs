@@ -29,6 +29,7 @@ public static class XElementExtensionMethods
             return -1;
         }
     }
+
     public static string AttributeValueNull_String(this XElement element, string attributeName)
     {
         if (element != null)
