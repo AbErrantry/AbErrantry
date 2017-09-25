@@ -1,6 +1,10 @@
 <dialogue>
 
-	
+	<segment id="0">
+		<type>1</type>
+		<content>Hello. Welcome to my shop.</content>
+		<next>1</next>
+	</segment>
 	
 	<segment id="1">
 		<type>1</type>
@@ -50,29 +54,21 @@
 	</segment>
 	
 	<segment id="5">
-		<type>1</type>
+		<type>2</type>
 		<content>Would you like to buy anything else?</content>
-		<choice id="1">
-			<response>No</response>
-			<next>6</next>
-		</choice>
-		
 		<choice id="0">
 			<response>Yes</response>
 			<next>4</next>
 		</choice>
-		
+		<choice id="1">
+			<response>No</response>
+			<next>6</next>
+		</choice>
 	</segment>
 	
 	<segment id="6">
 		<type>0</type>
 		<content>See you later.</content>
-	</segment>
-	
-	<segment id="0">
-		<type>1</type>
-		<content>Hello. Welcome to my shop.</content>
-		<next>1</next>
 	</segment>
 	
 </dialogue>

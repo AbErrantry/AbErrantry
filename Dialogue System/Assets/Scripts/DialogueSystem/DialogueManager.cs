@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public static class XElementExtensionMethods
 {
@@ -73,11 +75,27 @@ public static class XElementExtensionMethods
 
 public class DialogueManager : MonoBehaviour
 {
+    public TMP_Text NameText;
+    public TMP_Text DialogueText;
+
+    public TMP_Text Choice_0_Text;
+    public TMP_Text Choice_1_Text;
+    public TMP_Text Choice_2_Text;
+    public TMP_Text Choice_3_Text;
+    public TMP_Text ContinueText;
+
+    public GameObject Choice_0_Button;
+    public GameObject Choice_1_Button;
+    public GameObject Choice_2_Button;
+    public GameObject Choice_3_Button;
+    public GameObject ContinueButton;
+
+    public Animator DialogueAnimator;
+
     private List<DialogueSegment> DialogueSegments;
     private DialogueSegment CurrentSegment;
     private string CharacterName;
     private string DialogueFileName;
-    private int NextSegmentID;
 
 	// Use this for initialization
 	void Start ()
@@ -86,12 +104,11 @@ public class DialogueManager : MonoBehaviour
         CurrentSegment = new DialogueSegment();
         CharacterName = "";
         DialogueFileName = "";
-        NextSegmentID = -1;
     }
 
-    public void EndDialogue()
+    private void EndDialogue()
     {
-        Debug.Log("End of conversation.");
+        DialogueAnimator.SetBool("IsOpen", false);
         //close dialogue and etc etc
     }
 
@@ -108,27 +125,39 @@ public class DialogueManager : MonoBehaviour
         GetNextSegment();
     }
 
-    public void DisplaySegment()
+    private void DisplaySegment()
     {
+        StopAllCoroutines();
+        StartCoroutine(TypeSentence(CurrentSegment.SegmentText));
+        DisableButtons();
         switch (CurrentSegment.SegmentType)
         {
             case 0: //end of dialogue
-
+                ContinueButton.SetActive(true);
                 break;
             case 1: //continue
-
+                ContinueButton.SetActive(true);
                 break;
             case 2: //2 choice response
-
+                Choice_0_Text.text = CurrentSegment.SegmentChoices.ElementAt(0).ResponseText;
+                Choice_1_Text.text = CurrentSegment.SegmentChoices.ElementAt(1).ResponseText;
+                Choice_0_Button.SetActive(true);
+                Choice_1_Button.SetActive(true);
                 break;
             case 3: //4 choice response
-
+                Choice_0_Text.text = CurrentSegment.SegmentChoices.ElementAt(0).ResponseText;
+                Choice_1_Text.text = CurrentSegment.SegmentChoices.ElementAt(1).ResponseText;
+                Choice_2_Text.text = CurrentSegment.SegmentChoices.ElementAt(2).ResponseText;
+                Choice_3_Text.text = CurrentSegment.SegmentChoices.ElementAt(3).ResponseText;
+                Choice_0_Button.SetActive(true);
+                Choice_1_Button.SetActive(true);
+                Choice_2_Button.SetActive(true);
+                Choice_3_Button.SetActive(true);
                 break;
             default:
                 Debug.Log("Error. Reached default in switch statement that should not have been reached.");
                 break;
         }
-        Debug.Log(CurrentSegment.SegmentText);
     }
 
     public void GetNextSegment()
@@ -152,10 +181,24 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    IEnumerator TypeSentence(string Segment)
+    {
+        DialogueText.text = "";
+        foreach(char Letter in Segment.ToCharArray())
+        {
+            DialogueText.text = DialogueText.text + Letter;
+            yield return new WaitForFixedUpdate(); //Todo: change to a WaitForSeconds to allow for different text speeds.
+        }
+    }
 
     public void StartDialogue()
     {
-        Debug.Log("Starting conversation with NPC.");
+        DialogueAnimator.SetBool("IsOpen", true);
+
+        NameText.text = "Dapaidanon"; //Todo: pull from character in actual dialogue. maybe as a parameter here?
+
+        DisableButtons();
+
         DialogueSegments.Clear();
         GetDialogueFile(); //todo: implement
         GetDialogue();
@@ -213,5 +256,14 @@ public class DialogueManager : MonoBehaviour
                 Debug.Log(Choice.ChoiceID + " " + Choice.ChoiceNextID + " " + Choice.ResponseText);
             }
         }
+    }
+
+    private void DisableButtons()
+    {
+        Choice_0_Button.SetActive(false);
+        Choice_1_Button.SetActive(false);
+        Choice_2_Button.SetActive(false);
+        Choice_3_Button.SetActive(false);
+        ContinueButton.SetActive(false);
     }
 }
