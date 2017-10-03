@@ -1,0 +1,34 @@
+type
+	the type of dialogue segment that is occurring. 
+	Does it continue, end, or require a player response?
+	0 - Dialogue End
+	1 - Continue (no player response)
+	2 - 2 choice response
+	3 - 4 choice response
+
+id
+	the id number for the current segment.
+	Other segments may point to this.
+	
+segment
+	a portion of dialogue that is displayed to the player.
+
+dialogue
+	an entire conversation consisting of many segments.
+
+content
+	the text for the segment that is displayed to the player.
+
+next
+	the id number of the next segment in the dialogue.
+	may depend on a response from the player.
+
+choice
+	consists of a response and action on that response
+
+action
+	something that occurs outside of the dialogue because of 
+	something that was said in the dialogue.
+
+response
+	words from the player to the NPC.
