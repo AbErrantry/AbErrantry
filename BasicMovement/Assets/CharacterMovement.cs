@@ -10,11 +10,11 @@ namespace Character2D
         private Animator anim;
         private Rigidbody2D rb;
 
-        private bool isJumping;
-        private bool isCrouching;
-        private bool isRunning;
-        private bool isGrounded;
-        private bool isMoving;
+        [SerializeField] private bool isJumping;
+        [SerializeField] private bool isCrouching;
+        [SerializeField] private bool isRunning;
+        [SerializeField] private bool isGrounded;
+        [SerializeField] private bool isMoving;
 
         private float mvmtSpeed; //horizontal movement speed
 
