@@ -91,7 +91,7 @@ namespace Character2D
         //moves the player
         private void Move()
         {
-            if (isJumping)
+            if(isJumping)
             {
                 //player jumps
                 //reduce max speed a bit
@@ -102,7 +102,7 @@ namespace Character2D
                     isInitJump = false;
                 } 
             }
-            if (isCrouching)
+            if(isCrouching)
             {
                 //player crouches
                 //reduce max speed a lot
