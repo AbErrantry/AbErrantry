@@ -125,6 +125,9 @@ public class DialogueManager : MonoBehaviour
         GetNextSegment();
     }
 
+    //todo: fix implementation. Make choice list dynamic
+    //      =0 choices - continue
+    //      >0 choices - display all in text boxes
     private void DisplaySegment()
     {
         StopAllCoroutines();
@@ -195,7 +198,7 @@ public class DialogueManager : MonoBehaviour
     {
         DialogueAnimator.SetBool("IsOpen", true);
 
-        NameText.text = "Dapaidanon"; //Todo: pull from character in actual dialogue. maybe as a parameter here?
+        NameText.text = "Villager"; //Todo: pull from character in actual dialogue. maybe as a parameter here?
 
         DisableButtons();
 
@@ -220,6 +223,7 @@ public class DialogueManager : MonoBehaviour
 
     private void GetDialogueFile()
     {
+        //todo: implement
         //get the file that is associated with the NPC and game state
     }
 
@@ -245,6 +249,7 @@ public class DialogueManager : MonoBehaviour
                             }).OrderBy(x => x.SegmentID).ToList();
     }
 
+    //TODO: remove debug function
     private void PrintDialogue()
     {
         foreach(DialogueSegment Segment in DialogueSegments)
