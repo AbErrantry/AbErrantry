@@ -248,6 +248,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -382,7 +383,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 226460219}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.88, y: 1.8, z: 0}
+  m_LocalPosition: {x: 2.6, y: 1.8, z: 0}
   m_LocalScale: {x: 0.3761715, y: 0.3761715, z: 0.3761715}
   m_Children:
   - {fileID: 166000318}
@@ -402,7 +403,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f9b6fd5e3c947a4181c512e86cc2a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  finalSpeed: 0
+  isJumping: 0
+  isCrouching: 0
+  isRunning: 0
+  isGrounded: 0
+  isMoving: 0
   top_left: {fileID: 17477886}
   bottom_right: {fileID: 582069041}
   ground_layers:
