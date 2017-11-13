@@ -64,7 +64,11 @@ namespace Character2D
             if (!isJumping && !isCrouching && isGrounded)
             {
                 isJumping = CrossPlatformInputManager.GetButtonDown("Jump"); //spacebar
-                tJump = Time.time;
+                //if jumping, set the timer
+                if(isJumping)
+                {
+                    tJump = Time.time;
+                }
             }
             if (!isJumping && !isCrouching && isGrounded)
             {
