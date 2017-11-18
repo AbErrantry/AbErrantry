@@ -120,7 +120,7 @@ namespace Character2D
                 mvmtSpeed *= jumpMovementMultiplier;
                 if(isInitJump)
                 {
-                    rb.AddForce(new Vector2(0f, 400f));
+                    rb.AddForce(new Vector2(0f, 500f));
                     isInitJump = false;
                 } 
             }
