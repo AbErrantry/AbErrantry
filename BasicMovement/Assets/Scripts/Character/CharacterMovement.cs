@@ -21,6 +21,9 @@ namespace Character2D
         private float tJump; //time since the last jump
         private bool isInitJump; //initial frame of a jump (to apply jump force)
 
+        private float tCrouch; //time since the last crouch
+        private bool isInitCrouch; //initial frame of a crouch (to apply crouch logic)
+
         private float maxSpeed = 3.0f;
 
         private float crouchMovementMultiplier = 0.50f;
@@ -42,6 +45,7 @@ namespace Character2D
             isCrouching = false;
             isGrounded = true;
             isInitJump = true;
+            isInitCrouch = true;
         }
 
         //called once per frame (for input)
@@ -76,7 +80,19 @@ namespace Character2D
             }
             if (!isJumping && isGrounded)
             {
-                isCrouching = CrossPlatformInputManager.GetButton("Fire1"); //ctrl
+                if(!isCrouching || CheckIfCanUncrouch())
+                {
+                    isCrouching = CrossPlatformInputManager.GetButton("Fire1"); //ctrl
+                    if (isCrouching && !isInitCrouch)
+                    {
+                        isInitCrouch = true;
+                        tCrouch = Time.time;
+                    }
+                    else
+                    {
+                        isInitCrouch = false;
+                    }
+                }
             }
             mvmtSpeed = CrossPlatformInputManager.GetAxis("Horizontal"); //A and D
             isMoving = (mvmtSpeed != 0) ? true : false; //sets whether or not the player is moving on this frame
@@ -114,9 +130,12 @@ namespace Character2D
             }
             if(isRunning)
             {
-                //player runs
-                //increase max speed a lot
-                mvmtSpeed *= runMovementMultiplier;
+                if(!isCrouching || Time.time - tCrouch < 0.25f)
+                {
+                    //player runs
+                    //increase max speed a lot
+                    mvmtSpeed *= runMovementMultiplier;
+                }   
             }
             //finally, move the player
             rb.velocity = new Vector2(mvmtSpeed * maxSpeed, rb.velocity.y);
@@ -133,7 +152,24 @@ namespace Character2D
             }
         }
 
-        //these listeners below are for later
+        //checks if the player is in contact with the ground
+        private bool CheckIfCanUncrouch()
+        {
+            if(Physics2D.OverlapArea(top_left.position, bottom_right.position + new Vector3(0, 0.1f, 0), ground_layers))
+            {
+                return false;
+            }
+            else if (Time.time - tCrouch < 0.5f)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        //these listeners below are for later ;)
         //private void OnCollisionEnter2D(Collision2D collision){}
         //private void OnCollisionStay2D(Collision2D collision){}
         //private void OnCollisionExit2D(Collision2D collision){}
