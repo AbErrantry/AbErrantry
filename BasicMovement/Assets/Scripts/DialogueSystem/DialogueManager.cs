@@ -189,6 +189,7 @@ public class DialogueManager : MonoBehaviour
         DialogueText.text = "";
         foreach(char Letter in Segment.ToCharArray())
         {
+            //add audio for letter being played
             DialogueText.text = DialogueText.text + Letter;
             yield return new WaitForFixedUpdate(); //Todo: change to a WaitForSeconds to allow for different text speeds.
         }

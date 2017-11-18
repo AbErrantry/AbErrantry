@@ -15,7 +15,6 @@ namespace Character2D
         [SerializeField] private bool isRunning;
         [SerializeField] private bool isGrounded;
         [SerializeField] private bool isMoving;
-        [SerializeField] private bool isFacingRight;
 
         private float mvmtSpeed; //horizontal movement speed
 
@@ -43,8 +42,6 @@ namespace Character2D
             isCrouching = false;
             isGrounded = true;
             isInitJump = true;
-            isMoving = false;
-            isFacingRight = true;
         }
 
         //called once per frame (for input)
@@ -67,7 +64,11 @@ namespace Character2D
             if (!isJumping && !isCrouching && isGrounded)
             {
                 isJumping = CrossPlatformInputManager.GetButtonDown("Jump"); //spacebar
-                tJump = Time.time;
+                //if jumping, set the timer
+                if(isJumping)
+                {
+                    tJump = Time.time;
+                }
             }
             if (!isJumping && !isCrouching && isGrounded)
             {
@@ -78,16 +79,6 @@ namespace Character2D
                 isCrouching = CrossPlatformInputManager.GetButton("Fire1"); //ctrl
             }
             mvmtSpeed = CrossPlatformInputManager.GetAxis("Horizontal"); //A and D
-            if(isFacingRight && mvmtSpeed < 0)
-            {
-                isFacingRight = false;
-                
-            }
-            else if(!isFacingRight && mvmtSpeed > 0)
-            {
-                isFacingRight = true;
-            }
-
             isMoving = (mvmtSpeed != 0) ? true : false; //sets whether or not the player is moving on this frame
         }
 
@@ -99,7 +90,6 @@ namespace Character2D
             anim.SetBool("isRunning", isRunning);
             anim.SetBool("isCrouching", isCrouching);
             anim.SetBool("isMoving", isMoving);
-            anim.SetBool("isFacingRight", isFacingRight);
         }
 
         //moves the player
