@@ -7,35 +7,41 @@ namespace Character2D
 {
     public class CharacterMovement : MonoBehaviour
     {
-        private Animator anim;
-        private Rigidbody2D rb;
+        private Animator anim; //the animator component of the player character
+        private Rigidbody2D rb; //rigidbocdy component of the player character
 
-        [SerializeField] private bool isJumping;
-        [SerializeField] private bool isCrouching;
-        [SerializeField] private bool isRunning;
-        [SerializeField] private bool isGrounded;
-        [SerializeField] private bool isMoving;
+        [SerializeField] private bool isJumping; //whether the player is jumping or not
+        [SerializeField] private bool isCrouching; //whether the player is crouching or not
+        [SerializeField] private bool isRunning; //whether the player is running or not
+        [SerializeField] private bool isGrounded; //whether the player is on the ground or not
+        [SerializeField] private bool isMoving; //whether the player is moving or not
 
         private float mvmtSpeed; //horizontal movement speed
 
         private float tJump; //time since the last jump
         private bool isInitJump; //initial frame of a jump (to apply jump force)
 
+        private float crouchDelay; //the amount of time before the player can uncrouch
+        private float slideDelay; //the duration of the slide animation
+        private float jumpDelay; //the amount of time before the player can jump again
+
+        private float jumpForce; //the upwards force of a jump
+
         private float tCrouch; //time since the last crouch
         private bool isInitCrouch; //initial frame of a crouch (to apply crouch logic)
 
-        private float maxSpeed = 3.0f;
+        private float maxSpeed; //the maximum speed of the player
 
-        private float crouchMovementMultiplier = 0.50f;
-        private float jumpMovementMultiplier = 0.80f;
-        private float runMovementMultiplier = 2.0f;
+        private float crouchMovementMultiplier; //how much crouching decreases the movement speed
+        private float jumpMovementMultiplier; //how much jumping decreases the movement speed
+        private float runMovementMultiplier; //how much running increases the movement speed
 
-        //for checking if the player is grounded (creates collision box at base)
-        public Transform top_left;
-        public Transform bottom_right;
-        public LayerMask ground_layers;
+        //for checking if the player is on ground or can uncrouch (creates box to check overlap)
+        public Transform top_left; //the upper left bounds of the box
+        public Transform bottom_right; //the lower right bounds of the box
+        public LayerMask ground_layers; //the layers that are accepted as ground/terrain
 
-        // Use this for initialization
+        //used for initialization
         void Start()
         {
             anim = GetComponent<Animator>();
@@ -43,10 +49,22 @@ namespace Character2D
 
             isJumping = false;
             isCrouching = false;
-            isGrounded = true;
+            isGrounded = false;
             isInitJump = true;
             isInitCrouch = true;
-        }
+
+            maxSpeed = 3.0f;
+
+            crouchMovementMultiplier = 0.50f;
+            jumpMovementMultiplier = 0.80f;
+            runMovementMultiplier = 2.0f;
+
+            crouchDelay = 0.5f;
+            slideDelay = 0.25f;
+            jumpDelay = 0.5f;
+
+            jumpForce = 500.0f;
+    }
 
         //called once per frame (for input)
         private void Update()
@@ -65,6 +83,7 @@ namespace Character2D
         //handles player input
         private void HandlePlayerInput()
         {
+            //check if the player can jump
             if (!isJumping && !isCrouching && isGrounded)
             {
                 isJumping = CrossPlatformInputManager.GetButtonDown("Jump"); //spacebar
@@ -74,25 +93,30 @@ namespace Character2D
                     tJump = Time.time;
                 }
             }
+            //check if the player can run (or stop running)
             if (!isJumping && !isCrouching && isGrounded)
             {
                 isRunning = CrossPlatformInputManager.GetButton("Fire3"); //left shift
             }
+            //check if the player can crouch (or stop crouching)
             if (!isJumping && isGrounded)
             {
+                //the player can only crouch when they are not crouching
+                //the player can only uncrouch when they have room to stand up
                 if(!isCrouching || CheckIfCanUncrouch())
                 {
                     isCrouching = CrossPlatformInputManager.GetButton("Fire1"); //ctrl
-                    if (isCrouching && !isInitCrouch)
+                    //start the crouch timer if this is the first crouch frame
+                    if(isCrouching && isInitCrouch)
                     {
                         //started crouching
-                        isInitCrouch = true;
+                        isInitCrouch = false;
                         tCrouch = Time.time;
                     }
                     if(!isCrouching)
                     {
                         //stopped crouching
-                        isInitCrouch = false;
+                        isInitCrouch = true;
                     }
                 }
             }
@@ -115,28 +139,24 @@ namespace Character2D
         {
             if(isJumping)
             {
-                //player jumps
-                //reduce max speed a bit
-                mvmtSpeed *= jumpMovementMultiplier;
-                if(isInitJump)
+                mvmtSpeed *= jumpMovementMultiplier; //reduce max speed a bit
+                //if this is the first jump frame, add the jump force
+                if (isInitJump)
                 {
-                    rb.AddForce(new Vector2(0f, 500f));
+                    rb.AddForce(new Vector2(0f, jumpForce));
                     isInitJump = false;
                 } 
             }
             if(isCrouching)
             {
-                //player crouches
-                //reduce max speed a lot
-                mvmtSpeed *= crouchMovementMultiplier;
+                mvmtSpeed *= crouchMovementMultiplier; //reduce max speed by a lot
             }
             if(isRunning)
             {
-                if(!isCrouching || Time.time - tCrouch < 0.25f)
+                if(!isCrouching || Time.time - tCrouch < slideDelay)
                 {
-                    //player runs
-                    //increase max speed a lot
-                    mvmtSpeed *= runMovementMultiplier;
+                    //player runs or slides into a crawl
+                    mvmtSpeed *= runMovementMultiplier; //increase max speed by a lot
                 }   
             }
             //finally, move the player
@@ -147,21 +167,22 @@ namespace Character2D
         private void CheckIfGrounded()
         {
             isGrounded = Physics2D.OverlapArea(top_left.position, bottom_right.position, ground_layers);
-            if (isGrounded && isJumping && Time.time - tJump > 0.5f)
+            if (isGrounded && isJumping && Time.time - tJump > jumpDelay)
             {
                 isJumping = false;
                 isInitJump = true;
             }
         }
 
-        //checks if the player is in contact with the ground
+        //checks if the player has enough room to uncrouch
         private bool CheckIfCanUncrouch()
         {
-            if(Physics2D.OverlapArea(top_left.position, bottom_right.position + new Vector3(0, 0.1f, 0), ground_layers))
-            {
-                return false;
-            }
-            else if (Time.time - tCrouch < 0.5f)
+            Vector3 tl = top_left.position;
+            //add a bit to the bottom collider so that it doesn't catch the ground
+            Vector3 br = bottom_right.position + new Vector3(0, 0.1f, 0);
+            //if a hitbox of the uncrouched player overlaps with the world, 
+            //then the player does not have enough room to uncrouch
+            if (Physics2D.OverlapArea(tl, br, ground_layers) || Time.time - tCrouch < crouchDelay)
             {
                 return false;
             }
