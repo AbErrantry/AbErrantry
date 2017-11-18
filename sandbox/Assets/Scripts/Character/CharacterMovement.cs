@@ -85,11 +85,13 @@ namespace Character2D
                     isCrouching = CrossPlatformInputManager.GetButton("Fire1"); //ctrl
                     if (isCrouching && !isInitCrouch)
                     {
+                        //started crouching
                         isInitCrouch = true;
                         tCrouch = Time.time;
                     }
-                    else
+                    if(!isCrouching)
                     {
+                        //stopped crouching
                         isInitCrouch = false;
                     }
                 }
