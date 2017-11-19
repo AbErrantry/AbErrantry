@@ -7,14 +7,18 @@ namespace Character2D
 {
     public class CharacterMovement : MonoBehaviour
     {
+        Collider2D groundTrigger;
+        Collider2D uncrouchTrigger;
+
         private Animator anim; //the animator component of the player character
         private Rigidbody2D rb; //rigidbocdy component of the player character
 
-        [SerializeField] private bool isJumping; //whether the player is jumping or not
-        [SerializeField] private bool isCrouching; //whether the player is crouching or not
-        [SerializeField] private bool isRunning; //whether the player is running or not
-        [SerializeField] private bool isGrounded; //whether the player is on the ground or not
-        [SerializeField] private bool isMoving; //whether the player is moving or not
+        private bool isJumping; //whether the player is jumping or not
+        private bool isCrouching; //whether the player is crouching or not
+        private bool isRunning; //whether the player is running or not
+        [SerializeField] public bool isGrounded; //whether the player is on the ground or not
+        [SerializeField] public bool canUncrouch; //
+        private bool isMoving; //whether the player is moving or not
 
         private float mvmtSpeed; //horizontal movement speed
 
@@ -35,11 +39,6 @@ namespace Character2D
         private float crouchMovementMultiplier; //how much crouching decreases the movement speed
         private float jumpMovementMultiplier; //how much jumping decreases the movement speed
         private float runMovementMultiplier; //how much running increases the movement speed
-
-        //for checking if the player is on ground or can uncrouch (creates box to check overlap)
-        public Transform top_left; //the upper left bounds of the box
-        public Transform bottom_right; //the lower right bounds of the box
-        public LayerMask ground_layers; //the layers that are accepted as ground/terrain
 
         //used for initialization
         void Start()
@@ -166,7 +165,6 @@ namespace Character2D
         //checks if the player is in contact with the ground
         private void CheckIfGrounded()
         {
-            isGrounded = Physics2D.OverlapArea(top_left.position, bottom_right.position, ground_layers);
             if (isGrounded && isJumping && Time.time - tJump > jumpDelay)
             {
                 isJumping = false;
@@ -177,12 +175,7 @@ namespace Character2D
         //checks if the player has enough room to uncrouch
         private bool CheckIfCanUncrouch()
         {
-            Vector3 tl = top_left.position;
-            //add a bit to the bottom collider so that it doesn't catch the ground
-            Vector3 br = bottom_right.position + new Vector3(0, 0.1f, 0);
-            //if a hitbox of the uncrouched player overlaps with the world, 
-            //then the player does not have enough room to uncrouch
-            if (Physics2D.OverlapArea(tl, br, ground_layers) || Time.time - tCrouch < crouchDelay)
+            if (canUncrouch || Time.time - tCrouch < crouchDelay)
             {
                 return false;
             }
