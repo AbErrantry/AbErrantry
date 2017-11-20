@@ -19,6 +19,7 @@ namespace Character2D
         [SerializeField] public bool isGrounded; //whether the player is on the ground or not
         [SerializeField] public bool canUncrouch; //
         private bool isMoving; //whether the player is moving or not
+        private bool isFacingRight;
 
         private float mvmtSpeed; //horizontal movement speed
 
@@ -121,6 +122,15 @@ namespace Character2D
             }
             mvmtSpeed = CrossPlatformInputManager.GetAxis("Horizontal"); //A and D
             isMoving = (mvmtSpeed != 0) ? true : false; //sets whether or not the player is moving on this frame
+
+            if(mvmtSpeed < 0 && isFacingRight)
+            {
+                isFacingRight = false;
+            }
+            else if(mvmtSpeed >0 && !isFacingRight)
+            {
+                isFacingRight = true;
+            }
         }
 
         //sends boolean values describing player state to the animator
@@ -131,6 +141,7 @@ namespace Character2D
             anim.SetBool("isRunning", isRunning);
             anim.SetBool("isCrouching", isCrouching);
             anim.SetBool("isMoving", isMoving);
+            anim.SetBool("isFacingRight", isFacingRight);
         }
 
         //moves the player
