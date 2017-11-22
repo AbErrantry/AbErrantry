@@ -7,8 +7,8 @@ namespace Character2D
 {
     public class CharacterMovement : MonoBehaviour
     {
-        Collider2D groundTrigger;
-        Collider2D uncrouchTrigger;
+        Collider2D groundTrigger; //TODO: refactor
+        Collider2D uncrouchTrigger; //TODO: refactor
 
         private Animator anim; //the animator component of the player character
         private Rigidbody2D rb; //rigidbocdy component of the player character

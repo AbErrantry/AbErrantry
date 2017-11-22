@@ -144,8 +144,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000053406, y: -1.79}
-  m_SizeDelta: {x: 22.22, y: 18.717}
+  m_AnchoredPosition: {x: -0.000053406, y: -0.00026321}
+  m_SizeDelta: {x: 22.22, y: 22.296}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9925530
 MonoBehaviour:
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_textAlignment: 514
+  m_textAlignment: 1026
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 0
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_enableKerning: 1
@@ -295,6 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableText: {fileID: 0}
   interactType: pick up
   interactText: Pick up shield 4
 --- !u!61 &28125589
@@ -823,9 +824,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8fabb76ae4d4eb4ebf2f06e81502be6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactType: {fileID: 1679392359}
-  interactButton: {fileID: 1370768229}
-  interactBox: {fileID: 1468654465}
 --- !u!114 &226460224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1077,10 +1075,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentInteractables: []
+  interactBar: {fileID: 1468654465}
   interactButton: {fileID: 1396146788937702, guid: 4ef403c158af3b44e89c015d25c9e164,
     type: 2}
   interactList: {fileID: 1024484922}
   interactContainer: {fileID: 653814527}
+  interactBarType: {fileID: 1679392359}
+  interactBarKey: {fileID: 1370768229}
 --- !u!1 &575502377
 GameObject:
   m_ObjectHideFlags: 0
@@ -6019,6 +6020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableText: {fileID: 0}
   interactType: close
   interactText: Close door 8
 --- !u!61 &771904165
@@ -6420,6 +6422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableText: {fileID: 0}
   interactType: open
   interactText: Open chest 5
 --- !u!61 &1032254412
@@ -6684,6 +6687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableText: {fileID: 0}
   interactType: talk
   interactText: Talk to shopkeep 7
 --- !u!61 &1217843895
@@ -6818,6 +6822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableText: {fileID: 0}
   interactType: pick up
   interactText: Pick up spear 9
 --- !u!61 &1254245193
@@ -7064,7 +7069,7 @@ GameObject:
   - component: {fileID: 1370768230}
   - component: {fileID: 1370768229}
   m_Layer: 5
-  m_Name: InteractButton_Text
+  m_Name: InteractKey_Text
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7905,6 +7910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableText: {fileID: 0}
   interactType: talk
   interactText: Talk to princess 6
 --- !u!61 &1694915672
@@ -8208,6 +8214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableText: {fileID: 0}
   interactType: pick up
   interactText: Pick up sword 1
 --- !u!1 &1800227014
@@ -8538,6 +8545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableText: {fileID: 0}
   interactType: talk
   interactText: Talk to villager 0
 --- !u!1 &1953134747
@@ -8994,6 +9002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableText: {fileID: 0}
   interactType: open
   interactText: Open door 2
 --- !u!1 &2144354409
@@ -9026,6 +9035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableText: {fileID: 0}
   interactType: consume
   interactText: Consume potion 3
 --- !u!61 &2144354411

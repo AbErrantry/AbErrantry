@@ -2,34 +2,28 @@
 using System.Collections.Generic;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine;
-using TMPro;
 
 namespace Character2D
 {
-    public class CharacterState : MonoBehaviour
+    public class CharacterInteraction : MonoBehaviour
     {
-        public TMP_Text interactType;
-        public TMP_Text interactButton;
-        public GameObject interactBox;
-        private float health;
-
-        InteractCheck interactCheck;
+        InteractionManager interactionManager; //reference to the interaction manager
 
         // Use this for initialization
         void Start()
         {
-            interactCheck = GameObject.Find("Knight/TriggerBoxes/InteractTrigger").GetComponent<InteractCheck>();
-            interactBox.SetActive(false);
+            interactionManager = GameObject.Find("Knight/TriggerBoxes/InteractTrigger").GetComponent<InteractionManager>();
         }
 
         // Update is called once per frame
         void Update()
         {
+            //if the game is not paused, get input for 
             if (Time.timeScale == 1)
             {
                 if (CrossPlatformInputManager.GetButtonDown("Fire2"))
                 {
-                    interactCheck.InteractPress();
+                    interactionManager.InteractPress();
                 }
             }
         }
