@@ -52,6 +52,7 @@ namespace Character2D
             isGrounded = false;
             isInitJump = true;
             isInitCrouch = true;
+            canUncrouch = true;
 
             maxSpeed = 3.0f;
 
@@ -69,8 +70,11 @@ namespace Character2D
         //called once per frame (for input)
         private void Update()
         {
-            HandlePlayerInput();
-            SendToAnimator();
+            if(Time.timeScale == 1)
+            {
+                HandlePlayerInput();
+                SendToAnimator();
+            }
         }
 
         //called once per game tick (for game physics)
@@ -186,7 +190,7 @@ namespace Character2D
         //checks if the player has enough room to uncrouch
         private bool CheckIfCanUncrouch()
         {
-            if (canUncrouch || Time.time - tCrouch < crouchDelay)
+            if (!canUncrouch || Time.time - tCrouch < crouchDelay)
             {
                 return false;
             }

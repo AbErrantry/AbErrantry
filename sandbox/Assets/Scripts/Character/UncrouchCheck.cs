@@ -6,8 +6,8 @@ namespace Character2D
 {
     public class UncrouchCheck : MonoBehaviour
     {
-
-        // Use this for initialization
+        [SerializeField] public List<GameObject> currentObstacles;
+        //used for initialization
         void Start()
         {
 
@@ -15,9 +15,10 @@ namespace Character2D
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.tag != "Player")
+            if (other.tag == "World")
             {
-                GameObject.Find("Knight").GetComponent<CharacterMovement>().canUncrouch = true;
+                GameObject.Find("Knight").GetComponent<CharacterMovement>().canUncrouch = false;
+                currentObstacles.Add(other.gameObject);
             }
         }
 
@@ -25,7 +26,11 @@ namespace Character2D
         {
             if (other.tag != "Player")
             {
-                GameObject.Find("Knight").GetComponent<CharacterMovement>().canUncrouch = false;
+                currentObstacles.Remove(other.gameObject);
+                if (currentObstacles.Count == 0)
+                {
+                    GameObject.Find("Knight").GetComponent<CharacterMovement>().canUncrouch = true;
+                }
             }
         }
     }
