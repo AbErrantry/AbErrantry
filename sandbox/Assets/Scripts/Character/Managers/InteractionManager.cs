@@ -8,7 +8,7 @@ namespace Character2D
     public class InteractionManager : MonoBehaviour
     {
         [SerializeField] public List<GameObject> currentInteractables; //list of current interactable gameobjects
-        public GameObject interactBar; //reference to the interact popup box referenced by the character interaction script
+        public GameObject interactBar; //reference to the interact popup bar that asks for input to interact
         public GameObject interactButton; //reference to the interact button prefab
         public GameObject interactList; //reference to the interact list which contains interact button prefabs
         public GameObject interactContainer; //reference to the interact container which contains the interact list
