@@ -616,6 +616,7 @@ GameObject:
   - component: {fileID: 226460226}
   - component: {fileID: 226460225}
   - component: {fileID: 226460223}
+  - component: {fileID: 226460228}
   m_Layer: 8
   m_Name: Knight
   m_TagString: Player
@@ -734,6 +735,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c46a9d922e7b4f46b77fa64d18fe39e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpInput: 0
+  crouchInput: 0
+  runInput: 0
+  mvmtSpeed: 0
   isGrounded: 0
   canUncrouch: 0
 --- !u!251 &226460225
@@ -788,9 +793,21 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 14.84, y: 1.1735439}
+  m_AnchoredPosition: {x: 2.97, y: 1.1735439}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &226460228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 226460219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97fde78d92f44b84e87ab33233acdc6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterMovement: {fileID: 226460224}
 --- !u!1 &273441228
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,6 +952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Movement-SC
+  isLoaded: 0
 --- !u!1 &429312705
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,7 +1009,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1609110225}
   m_HandleRect: {fileID: 1609110223}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4304,6 +4322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Level2-SC
+  isLoaded: 0
 --- !u!61 &1162878970
 BoxCollider2D:
   m_ObjectHideFlags: 0

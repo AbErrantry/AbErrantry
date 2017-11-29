@@ -13,15 +13,18 @@ namespace Character2D
         private Animator anim; //the animator component of the player character
         private Rigidbody2D rb; //rigidbocdy component of the player character
 
+        public bool jumpInput;
+        public bool crouchInput;
+        public bool runInput;
+        public float mvmtSpeed; //horizontal movement speed
+
         private bool isJumping; //whether the player is jumping or not
         private bool isCrouching; //whether the player is crouching or not
         private bool isRunning; //whether the player is running or not
-        [SerializeField] public bool isGrounded; //whether the player is on the ground or not
-        [SerializeField] public bool canUncrouch; //
+        public bool isGrounded; //whether the player is on the ground or not
+        public bool canUncrouch; //
         private bool isMoving; //whether the player is moving or not
-        private bool isFacingRight;
-
-        private float mvmtSpeed; //horizontal movement speed
+        private bool isFacingRight; //
 
         private float tJump; //time since the last jump
         private bool isInitJump; //initial frame of a jump (to apply jump force)
@@ -44,6 +47,9 @@ namespace Character2D
         //used for initialization
         void Start()
         {
+            Application.targetFrameRate = 100;
+            QualitySettings.vSyncCount = 0;
+
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
 
@@ -90,7 +96,7 @@ namespace Character2D
             //check if the player can jump
             if (!isJumping && !isCrouching && isGrounded)
             {
-                isJumping = CrossPlatformInputManager.GetButtonDown("Jump"); //spacebar
+                isJumping = jumpInput;
                 //if jumping, set the timer
                 if(isJumping)
                 {
@@ -100,7 +106,7 @@ namespace Character2D
             //check if the player can run (or stop running)
             if (!isJumping && !isCrouching && isGrounded)
             {
-                isRunning = CrossPlatformInputManager.GetButton("Fire3"); //left shift
+                isRunning = runInput; //left shift
             }
             //check if the player can crouch (or stop crouching)
             if (!isJumping && isGrounded)
@@ -109,7 +115,7 @@ namespace Character2D
                 //the player can only uncrouch when they have room to stand up
                 if(!isCrouching || CheckIfCanUncrouch())
                 {
-                    isCrouching = CrossPlatformInputManager.GetButton("Fire1"); //ctrl
+                    isCrouching = crouchInput; //ctrl
                     //start the crouch timer if this is the first crouch frame
                     if(isCrouching && isInitCrouch)
                     {
@@ -124,15 +130,16 @@ namespace Character2D
                     }
                 }
             }
-            mvmtSpeed = CrossPlatformInputManager.GetAxis("Horizontal"); //A and D
             isMoving = (mvmtSpeed != 0) ? true : false; //sets whether or not the player is moving on this frame
 
             if(mvmtSpeed < 0 && isFacingRight)
             {
+                rb.transform.localScale = new Vector3(-rb.transform.localScale.x, rb.transform.localScale.y, 0);
                 isFacingRight = false;
             }
-            else if(mvmtSpeed >0 && !isFacingRight)
+            else if(mvmtSpeed > 0 && !isFacingRight)
             {
+                rb.transform.localScale = new Vector3(rb.transform.localScale.x, rb.transform.localScale.y, 0);
                 isFacingRight = true;
             }
         }
@@ -174,7 +181,7 @@ namespace Character2D
                 }   
             }
             //finally, move the player
-            rb.velocity = new Vector2(mvmtSpeed * maxSpeed, rb.velocity.y);
+            rb.velocity = new Vector2(mvmtSpeed * maxSpeed*Time.fixedDeltaTime*25, rb.velocity.y);
         }
 
         //checks if the player is in contact with the ground
@@ -199,13 +206,5 @@ namespace Character2D
                 return true;
             }
         }
-
-        //these listeners below are for later ;)
-        //private void OnCollisionEnter2D(Collision2D collision){}
-        //private void OnCollisionStay2D(Collision2D collision){}
-        //private void OnCollisionExit2D(Collision2D collision){}
-        //private void OnTriggerEnter2D(Collider2D collision){}
-        //private void OnTriggerStay2D(Collider2D collision){}
-        //private void OnTriggerExit2D(Collider2D collision){}
     }
 }
