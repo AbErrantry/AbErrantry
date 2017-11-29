@@ -8,11 +8,13 @@ namespace Character2D
     public class CharacterInteraction : MonoBehaviour
     {
         InteractionManager interactionManager; //reference to the interaction manager
+        public GameObject interactionManager2;
 
         // Use this for initialization
         void Start()
         {
             interactionManager = GameObject.Find("Knight/TriggerBoxes/InteractTrigger").GetComponent<InteractionManager>();
+           
         }
 
         // Update is called once per frame

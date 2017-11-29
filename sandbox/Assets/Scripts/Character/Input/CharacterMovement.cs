@@ -181,7 +181,7 @@ namespace Character2D
                 }   
             }
             //finally, move the player
-            rb.velocity = new Vector2(mvmtSpeed * maxSpeed*Time.fixedDeltaTime*25, rb.velocity.y);
+            rb.velocity = new Vector2(mvmtSpeed * maxSpeed, rb.velocity.y);
         }
 
         //checks if the player is in contact with the ground
