@@ -17,6 +17,7 @@ namespace Character2D
         public bool crouchInput;
         public bool runInput;
         public float mvmtSpeed; //horizontal movement speed
+        private float frameSpeed;
 
         private bool isJumping; //whether the player is jumping or not
         private bool isCrouching; //whether the player is crouching or not
@@ -40,15 +41,17 @@ namespace Character2D
 
         private float maxSpeed; //the maximum speed of the player
 
-        private float crouchMovementMultiplier; //how much crouching decreases the movement speed
-        private float jumpMovementMultiplier; //how much jumping decreases the movement speed
-        private float runMovementMultiplier; //how much running increases the movement speed
+        private float crouchSpeed; //how much crouching decreases the movement speed
+        private float jumpSpeed; //how much jumping decreases the movement speed
+        private float runSpeed; //how much running increases the movement speed
+
+        private float multiplier;
 
         //used for initialization
         void Start()
         {
-            Application.targetFrameRate = 100;
-            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 120;
+            QualitySettings.vSyncCount = 1;
 
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
@@ -60,30 +63,31 @@ namespace Character2D
             isInitCrouch = true;
             canUncrouch = true;
 
-            maxSpeed = 3.0f;
+            isFacingRight = true;
 
-            crouchMovementMultiplier = 0.50f;
-            jumpMovementMultiplier = 0.80f;
-            runMovementMultiplier = 2.0f;
+            maxSpeed = 150f;
 
-            crouchDelay = 0.5f;
+            crouchSpeed = 0.50f;
+            jumpSpeed = 0.80f;
+            runSpeed = 2.0f;
+
+            crouchDelay = 0.75f;
             slideDelay = 0.25f;
             jumpDelay = 0.5f;
 
             jumpForce = 500.0f;
+
+            multiplier = 1;
     }
 
         //called once per frame (for input)
         private void Update()
         {
-            if(Time.timeScale == 1)
-            {
-                HandlePlayerInput();
-                SendToAnimator();
-            }
+            HandlePlayerInput();
+            SendToAnimator();
         }
 
-        //called once per game tick (for game physics)
+        //called once per game tick (for physics)
         private void FixedUpdate()
         {
             Move();
@@ -134,12 +138,12 @@ namespace Character2D
 
             if(mvmtSpeed < 0 && isFacingRight)
             {
-                rb.transform.localScale = new Vector3(-rb.transform.localScale.x, rb.transform.localScale.y, 0);
+                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
                 isFacingRight = false;
             }
             else if(mvmtSpeed > 0 && !isFacingRight)
             {
-                rb.transform.localScale = new Vector3(rb.transform.localScale.x, rb.transform.localScale.y, 0);
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
                 isFacingRight = true;
             }
         }
@@ -158,30 +162,44 @@ namespace Character2D
         //moves the player
         private void Move()
         {
-            if(isJumping)
+            if (isJumping)
             {
-                mvmtSpeed *= jumpMovementMultiplier; //reduce max speed a bit
+                if (isRunning)
+                {
+                    multiplier = jumpSpeed * runSpeed;
+                }
+                else
+                {
+                    multiplier = jumpSpeed;
+                }
+
                 //if this is the first jump frame, add the jump force
                 if (isInitJump)
                 {
                     rb.AddForce(new Vector2(0f, jumpForce));
                     isInitJump = false;
+                }
+            }
+            else if (isCrouching)
+            {
+                if(isRunning && Time.time - tCrouch < slideDelay)
+                {
+                    multiplier = runSpeed * crouchSpeed;
+                }
+                else
+                {
+                    multiplier = crouchSpeed;
                 } 
             }
-            if(isCrouching)
+            else if (isRunning)
             {
-                mvmtSpeed *= crouchMovementMultiplier; //reduce max speed by a lot
+                multiplier = runSpeed;
             }
-            if(isRunning)
+            else
             {
-                if(!isCrouching || Time.time - tCrouch < slideDelay)
-                {
-                    //player runs or slides into a crawl
-                    mvmtSpeed *= runMovementMultiplier; //increase max speed by a lot
-                }   
+                multiplier = 1;
             }
-            //finally, move the player
-            rb.velocity = new Vector2(mvmtSpeed * maxSpeed, rb.velocity.y);
+            rb.velocity = new Vector2(mvmtSpeed * multiplier * maxSpeed * Time.deltaTime, rb.velocity.y);
         }
 
         //checks if the player is in contact with the ground
