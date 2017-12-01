@@ -4,27 +4,22 @@ using UnityEngine;
 
 namespace Character2D
 {
-    public class GroundedManager : MonoBehaviour
+    public class AICrouchManager : MonoBehaviour
     {
-        [SerializeField] public List<GameObject> currentGround; //list of objects the character is standing on
+        [SerializeField] public List<GameObject> currentCeiling; //list of objects the character is standing on
         public CharacterMovement characterMovement; //reference to the character movement script
-        public string tag;
-
-        //used for initialization
-        void Start()
-        {
-
-        }
+        public BehaviorAI aiBehavior;
 
         //detects when the player is standing on a new object
         private void OnTriggerEnter2D(Collider2D other)
         {
             //if the object is not part of the player,
-            if (other.tag != tag)
+            if (other.tag == "World")
             {
+                Debug.Log("enter " + other);
                 //set the player to be grounded and add the object to the list
-                characterMovement.isGrounded = true;
-                currentGround.Add(other.gameObject);
+                currentCeiling.Add(other.gameObject);
+                aiBehavior.Crouch();
             }
         }
 
@@ -32,17 +27,16 @@ namespace Character2D
         private void OnTriggerExit2D(Collider2D other)
         {
             //if the object is not part of the player,
-            if (other.tag != tag)
+            if (other.tag == "World")
             {
+                Debug.Log("exit " + other);
                 //remove the object from the list
-                currentGround.Remove(other.gameObject);
-                if(currentGround.Count == 0)
+                currentCeiling.Remove(other.gameObject);
+                if (currentCeiling.Count == 0)
                 {
-                    //if there are no objects in the list, the character is no longer grounded
-                    characterMovement.isGrounded = false;
+                    aiBehavior.Crouch();
                 }
             }
         }
-        //TODO: create check if grounded to optimize CharacterMovement
     }
 }
