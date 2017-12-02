@@ -7,7 +7,7 @@ namespace Character2D
     public class AICrouchManager : MonoBehaviour
     {
         [SerializeField] public List<GameObject> currentCeiling; //list of objects the character is standing on
-        public CharacterMovement characterMovement; //reference to the character movement script
+        public CharacterMovement aiMovement; //reference to the character movement script
         public BehaviorAI aiBehavior;
 
         //detects when the player is standing on a new object
@@ -36,6 +36,17 @@ namespace Character2D
                 {
                     aiBehavior.Crouch();
                 }
+            }
+        }
+
+        private void OnTriggerStay(Collider2D other)
+        {
+            if (other.tag == "World")
+            {
+                //Debug.Log("exit " + other);
+                //remove the object from the list
+                currentCeiling.Add(other.gameObject);
+                aiBehavior.Crouch();
             }
         }
     }

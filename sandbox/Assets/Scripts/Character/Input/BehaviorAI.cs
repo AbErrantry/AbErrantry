@@ -47,6 +47,7 @@ namespace Character2D
         {
             if (shouldWalk)
             {
+                
                 aiMovement.mvmtSpeed = currDirection * 2f; //Speed up if tracking the player
                 trackingPlayer = true;
             }
