@@ -16,12 +16,15 @@ namespace Character2D
         {
 
             //if the object is not part of the player,
-            if (other.tag == "Player")
+            if (other.tag == "Player" || other.tag == "World")
             {
                 //Debug.Log(other + " Entered");
                 //set the player to be grounded and add the object to the list
                 currentTarget.Add(other.gameObject);
-                aiBehavior.AIMove(true);
+                if (currentTarget.Count == 1 && other.tag == "Player")
+                {
+                    aiBehavior.AIMove(true);
+                }
             }
         }
 
@@ -29,7 +32,7 @@ namespace Character2D
         private void OnTriggerExit2D(Collider2D other)
         {
             //if the object is not part of the player,
-            if (other.tag =="Player")
+            if (other.tag == "Player" || other.tag == "World")
             {
                 //Debug.Log(other + " Exited");
                 //remove the object from the list
