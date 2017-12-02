@@ -4,22 +4,24 @@ using UnityEngine;
 
 namespace Character2D
 {
-    public class AICrouchManager : MonoBehaviour
+    public class AIMoveManager : MonoBehaviour
     {
-        [SerializeField] public List<GameObject> currentCeiling; //list of objects the character is standing on
+
+        [SerializeField] public List<GameObject> currentTarget; //list of objects the character is standing on
         public CharacterMovement characterMovement; //reference to the character movement script
         public BehaviorAI aiBehavior;
 
         //detects when the player is standing on a new object
         private void OnTriggerEnter2D(Collider2D other)
         {
+
             //if the object is not part of the player,
-            if (other.tag == "World")
+            if (other.tag == "Player")
             {
-                //Debug.Log("enter " + other);
+                //Debug.Log(other + " Entered");
                 //set the player to be grounded and add the object to the list
-                currentCeiling.Add(other.gameObject);
-                aiBehavior.Crouch();
+                currentTarget.Add(other.gameObject);
+                aiBehavior.AIMove(true);
             }
         }
 
@@ -27,14 +29,15 @@ namespace Character2D
         private void OnTriggerExit2D(Collider2D other)
         {
             //if the object is not part of the player,
-            if (other.tag == "World")
+            if (other.tag =="Player")
             {
-                //Debug.Log("exit " + other);
+                //Debug.Log(other + " Exited");
                 //remove the object from the list
-                currentCeiling.Remove(other.gameObject);
-                if (currentCeiling.Count == 0)
+                currentTarget.Remove(other.gameObject);
+
+                if (currentTarget.Count == 0)
                 {
-                    aiBehavior.Crouch();
+                    aiBehavior.AIMove(false);
                 }
             }
         }

@@ -10,28 +10,53 @@ namespace Character2D
         public CharacterInteraction aiInteraction;
         public AICrouchManager topCrouch;
         public AICrouchManager botCrouch;
+        public AIMoveManager aiMoving;
+
+        public float secondsToPatrol; //How many seconds should the AI patrol in one direction
+        private float currDirection;
+        public float timeToDist;
+        private static bool trackingPlayer;
 
         // Use this for initialization
         void Start()
         {
-
+            currDirection = 1;
+            aiMovement.mvmtSpeed = 1;
+            timeToDist = secondsToPatrol;
         }
 
-        // Update is called once per frame
-        void Update()
+        void LateUpdate()
         {
-            if (Time.timeScale == 1)
+            if (Time.timeScale == 1  && aiMovement.crouchInput == false && aiMovement.jumpInput == false)
             {
-                //aiMovement.jumpInput = true; //send jump input
-
-                //cm.crouchInput = CrossPlatformInputManager.GetButton("Fire1"); //send crouch input
-                // cm.runInput = CrossPlatformInputManager.GetButton("Fire3"); //send run input
-
-                
-                aiMovement.mvmtSpeed = -.5f; //send movement speed
-               // ci.interactionInput = CrossPlatformInputManager.GetButtonDown("Fire2"); //send interaction input
+                if (timeToDist <= 0 && trackingPlayer == false) //As Long as the AI is not tracking the player then it can change directions.
+                {
+                    currDirection = aiMovement.mvmtSpeed * -1; //switch direction
+                    aiMovement.mvmtSpeed = currDirection; 
+                    timeToDist = secondsToPatrol; //Reset the time
+                }
+                else
+                {
+                    timeToDist -= Time.deltaTime;
+                }
             }
         }
+
+
+        public void AIMove(bool shouldWalk)
+        {
+            if (shouldWalk)
+            {
+                aiMovement.mvmtSpeed = currDirection * 2f; //Speed up if tracking the player
+                trackingPlayer = true;
+            }
+            else
+            {
+                aiMovement.mvmtSpeed = currDirection; //Go back to patrolling speed.
+                trackingPlayer = false;
+            }
+        }
+
 
         public void Crouch()
         {
