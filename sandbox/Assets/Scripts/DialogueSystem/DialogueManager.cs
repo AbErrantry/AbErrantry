@@ -6,8 +6,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+//extension methods to null check XElements from a LINQ query
 public static class XElementExtensionMethods
 {
+    //null checks a string value
     public static string ElementValueNull_String(this XElement element)
     {
         if (element != null)
@@ -20,6 +22,7 @@ public static class XElementExtensionMethods
         }
     }
 
+    //null checks an integer value
     public static int ElementValueNull_Integer(this XElement element)
     {
         if (element != null)
@@ -32,6 +35,7 @@ public static class XElementExtensionMethods
         }
     }
 
+    //null checks a string attribute
     public static string AttributeValueNull_String(this XElement element, string attributeName)
     {
         if (element != null)
@@ -52,6 +56,7 @@ public static class XElementExtensionMethods
         }
     }
 
+    //null checks an integer attribute
     public static int AttributeValueNull_Integer(this XElement element, string attributeName)
     {
         if (element != null)
@@ -75,65 +80,67 @@ public static class XElementExtensionMethods
 
 public class DialogueManager : MonoBehaviour
 {
-    public TMP_Text NameText;
-    public TMP_Text DialogueText;
+    public TMP_Text nameText;
+    public TMP_Text dialogueText;
 
+    //TODO: remove for a dynamic list
     public TMP_Text Choice_0_Text;
     public TMP_Text Choice_1_Text;
     public TMP_Text Choice_2_Text;
     public TMP_Text Choice_3_Text;
     public TMP_Text ContinueText;
-
     public GameObject Choice_0_Button;
     public GameObject Choice_1_Button;
     public GameObject Choice_2_Button;
     public GameObject Choice_3_Button;
     public GameObject ContinueButton;
 
-    public Animator DialogueAnimator;
+    public Animator dialogueAnimator;
 
-    private List<DialogueSegment> DialogueSegments;
-    private DialogueSegment CurrentSegment;
-    private string CharacterName;
-    private string DialogueFileName;
+    private List<DialogueSegment> dialogueSegments;
+    private DialogueSegment currentSegment;
+    private string characterName;
+    private string dialogueFile;
 
 	// Use this for initialization
-	void Start ()
+	private void Start ()
     {
-        DialogueSegments = new List<DialogueSegment>();
-        CurrentSegment = new DialogueSegment();
-        CharacterName = "";
-        DialogueFileName = "";
+        dialogueSegments = new List<DialogueSegment>();
+        currentSegment = new DialogueSegment();
+        characterName = "";
+        dialogueFile = "";
     }
 
+    //finishes the dialogue
     private void EndDialogue()
     {
-        DialogueAnimator.SetBool("IsOpen", false);
+        dialogueAnimator.SetBool("IsOpen", false);
         //close dialogue and etc etc
     }
 
+    //submits the choice picked by the user to get the next segment
     public void SubmitChoice(int InChoice)
     {
-        foreach (DialogueChoice Choice in CurrentSegment.SegmentChoices)
+        foreach (DialogueChoice choice in currentSegment.choices)
         {
-            if (InChoice == Choice.ChoiceID)
+            if (InChoice == choice.id)
             {
-                CurrentSegment.SegmentNextID = Choice.ChoiceNextID;
+                currentSegment.next = choice.next;
                 break;
             }
         }
         GetNextSegment();
     }
 
-    //todo: fix implementation. Make choice list dynamic
+    //Todo: fix implementation. Make choice list dynamic
     //      =0 choices - continue
     //      >0 choices - display all in text boxes
     private void DisplaySegment()
     {
         StopAllCoroutines();
-        StartCoroutine(TypeSentence(CurrentSegment.SegmentText));
+        StartCoroutine(TypeSentence(currentSegment.text));
         DisableButtons();
-        switch (CurrentSegment.SegmentType)
+        switch (currentSegment.type)
         {
             case 0: //end of dialogue
                 ContinueButton.SetActive(true);
@@ -142,16 +149,16 @@ public class DialogueManager : MonoBehaviour
                 ContinueButton.SetActive(true);
                 break;
             case 2: //2 choice response
-                Choice_0_Text.text = CurrentSegment.SegmentChoices.ElementAt(0).ResponseText;
-                Choice_1_Text.text = CurrentSegment.SegmentChoices.ElementAt(1).ResponseText;
+                Choice_0_Text.text = currentSegment.choices.ElementAt(0).text;
+                Choice_1_Text.text = currentSegment.choices.ElementAt(1).text;
                 Choice_0_Button.SetActive(true);
                 Choice_1_Button.SetActive(true);
                 break;
             case 3: //4 choice response
-                Choice_0_Text.text = CurrentSegment.SegmentChoices.ElementAt(0).ResponseText;
-                Choice_1_Text.text = CurrentSegment.SegmentChoices.ElementAt(1).ResponseText;
-                Choice_2_Text.text = CurrentSegment.SegmentChoices.ElementAt(2).ResponseText;
-                Choice_3_Text.text = CurrentSegment.SegmentChoices.ElementAt(3).ResponseText;
+                Choice_0_Text.text = currentSegment.choices.ElementAt(0).text;
+                Choice_1_Text.text = currentSegment.choices.ElementAt(1).text;
+                Choice_2_Text.text = currentSegment.choices.ElementAt(2).text;
+                Choice_3_Text.text = currentSegment.choices.ElementAt(3).text;
                 Choice_0_Button.SetActive(true);
                 Choice_1_Button.SetActive(true);
                 Choice_2_Button.SetActive(true);
@@ -163,20 +170,21 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    //gets the next segment in dialogue
     public void GetNextSegment()
     {
-        if (CurrentSegment.SegmentType == 0)
+        if (currentSegment.type == 0)
         {
             EndDialogue();
         }
         else
         {
             //get the next segment
-            foreach(DialogueSegment Segment in DialogueSegments)
+            foreach(DialogueSegment segment in dialogueSegments)
             {
-                if(CurrentSegment.SegmentNextID == Segment.SegmentID)
+                if(currentSegment.next == segment.id)
                 {
-                    CurrentSegment = Segment;
+                    currentSegment = segment;
                     break;
                 }
             }
@@ -184,33 +192,36 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    IEnumerator TypeSentence(string Segment)
+    //coroutine that animates the text on screen character by character
+    private IEnumerator TypeSentence(string Segment)
     {
-        DialogueText.text = "";
-        foreach(char Letter in Segment.ToCharArray())
+        dialogueText.text = "";
+        foreach(char letter in Segment.ToCharArray())
         {
             //add audio for letter being played
-            DialogueText.text = DialogueText.text + Letter;
+            dialogueText.text = dialogueText.text + letter;
             yield return new WaitForFixedUpdate(); //Todo: change to a WaitForSeconds to allow for different text speeds.
         }
     }
 
+    //starts a dialogue once the character triggers it
     public void StartDialogue()
     {
-        DialogueAnimator.SetBool("IsOpen", true);
-
-        NameText.text = "Villager"; //Todo: pull from character in actual dialogue. maybe as a parameter here?
+        dialogueAnimator.SetBool("IsOpen", true);
 
         DisableButtons();
 
-        DialogueSegments.Clear();
+        dialogueSegments.Clear();
         GetDialogueFile(); //todo: implement
         GetDialogue();
         //PrintDialogue(); //todo: remove since only for debugging
 
-        if(DialogueSegments.Count > 0)
+        //get the character's name
+        nameText.text = characterName; //Todo: pull from character in actual dialogue. maybe as a parameter here?
+
+        if (dialogueSegments.Count > 0)
         {
-            CurrentSegment = DialogueSegments.First();
+            currentSegment = dialogueSegments.First();
         }
         else
         {
@@ -222,48 +233,56 @@ public class DialogueManager : MonoBehaviour
         DisplaySegment();
     }
 
+    //locates the dialogue file that is needed for the specific conversation
     private void GetDialogueFile()
     {
         //todo: implement
         //get the file that is associated with the NPC and game state
+        dialogueFile = "SampleShopkeepDialogue.xml"; //TODO: abstract
+        characterName = "Villager"; //TODO: abstract
     }
 
+    //gets the current conversation into memory from a file
     private void GetDialogue()
     {
         //parse XML with LINQ
-        XDocument XDoc = XDocument.Load("SampleShopkeepDialogue.xml");
-        DialogueSegments = (from Segment in XDoc.Root.Elements("segment")
+        XDocument XDoc = XDocument.Load(dialogueFile);
+        dialogueSegments = (from segment in XDoc.Root.Elements("segment")
                             select new DialogueSegment
                             {
-                                SegmentID = Segment.AttributeValueNull_Integer("id"),
-                                SegmentText = Segment.Element("content").ElementValueNull_String(),
-                                SegmentType = Segment.Element("type").ElementValueNull_Integer(),
-                                SegmentNextID = Segment.Element("next").ElementValueNull_Integer(),
+                                id = segment.AttributeValueNull_Integer("id"),
+                                text = segment.Element("content").ElementValueNull_String(),
+                                type = segment.Element("type").ElementValueNull_Integer(),
+                                next = segment.Element("next").ElementValueNull_Integer(),
                                 //SegmentAction = TODO: implement
-                                SegmentChoices = Segment.Elements("choice")
-                                    .Select(Choice => new DialogueChoice
+                                choices = segment.Elements("choice")
+                                    .Select(choice => new DialogueChoice
                                     {
-                                        ChoiceID = Choice.AttributeValueNull_Integer("id"),
-                                        ChoiceNextID = Choice.Element("next").ElementValueNull_Integer(),
-                                        ResponseText = Choice.Element("response").ElementValueNull_String(),
-                                    }).OrderBy(x => x.ChoiceID).ToList()
-                            }).OrderBy(x => x.SegmentID).ToList();
+                                        id = choice.AttributeValueNull_Integer("id"),
+                                        next = choice.Element("next").ElementValueNull_Integer(),
+                                        text = choice.Element("response").ElementValueNull_String(),
+                                    }).OrderBy(x => x.id).ToList()
+                            }).OrderBy(x => x.id).ToList();
     }
 
     //TODO: remove debug function
+    //prints out the dialogue information
     private void PrintDialogue()
     {
-        foreach(DialogueSegment Segment in DialogueSegments)
+        foreach(DialogueSegment segment in dialogueSegments)
         {
-            Debug.Log(Segment.SegmentID + " " + Segment.SegmentText + " " + Segment.SegmentType + " " + Segment.SegmentNextID + " " + Segment.SegmentChoices.Count);
-            if(Segment.SegmentChoices.Count != 0)
+            Debug.Log(segment.id + " " + segment.text + " " + segment.type + " " + segment.next + " " + segment.choices.Count);
+            if(segment.choices.Count != 0)
             {
-                foreach(DialogueChoice Choice in Segment.SegmentChoices)
-                Debug.Log(Choice.ChoiceID + " " + Choice.ChoiceNextID + " " + Choice.ResponseText);
+                foreach(DialogueChoice choice in segment.choices)
+                {
+                    Debug.Log(choice.id + " " + choice.next + " " + choice.text);
+                }
             }
         }
     }
 
+    //disables the dialogue buttons for the next segment
     private void DisableButtons()
     {
         Choice_0_Button.SetActive(false);

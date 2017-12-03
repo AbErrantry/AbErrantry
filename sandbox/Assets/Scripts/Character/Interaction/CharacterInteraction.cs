@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityStandardAssets.CrossPlatformInput;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Character2D
 {
     public class CharacterInteraction : MonoBehaviour
     {
         public InteractionManager interactionManager; //reference to the interaction manager
-        public bool interactionInput;
+        public bool interactionInput; //whether the character is trying to interact or not
 
         void Start()
         {
@@ -18,6 +15,7 @@ namespace Character2D
         // Update is called once per frame
         void Update()
         {
+            //if the character inputs for an interaction
             if (interactionInput)
             {
                 interactionManager.InteractPress();

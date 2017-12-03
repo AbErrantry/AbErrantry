@@ -7,6 +7,7 @@ TagManager:
   - World
   - Interactable
   - NPC
+  - ChildComponent
   layers:
   - Default
   - TransparentFX
@@ -17,9 +18,9 @@ TagManager:
   - 
   - 
   - Player
-  - 
-  - 
-  - 
+  - Enemy
+  - ChildComponent
+  - Interactable
   - 
   - 
   - 
@@ -41,6 +42,24 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1102771831
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Interactable
+    uniqueID: 1234215843
+    locked: 0
+  - name: NPC
+    uniqueID: 1326636725
+    locked: 0
+  - name: Player
+    uniqueID: 349918109
+    locked: 0
+  - name: Foreground
+    uniqueID: 1132419603
+    locked: 0
+  - name: UI
+    uniqueID: 2665021649
     locked: 0

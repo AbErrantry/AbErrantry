@@ -1,17 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 namespace Character2D
 {
     public class InteractTrigger : MonoBehaviour
     {
-        InteractionManager interactionManager; //reference to the interaction manager
+        private InteractionManager interactionManager; //reference to the interaction manager
 
         //used for initialization
         void Start()
         {
+            //TODO: fix with knight prefab
             interactionManager = GameObject.Find("Knight/TriggerBoxes/InteractTrigger").GetComponent<InteractionManager>();
         }
 

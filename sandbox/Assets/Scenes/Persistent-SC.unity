@@ -715,8 +715,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 349918109
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a10117e1200a96b4086d5e276091462d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -758,6 +758,7 @@ MonoBehaviour:
   mvmtSpeed: 0
   isGrounded: 0
   canUncrouch: 0
+  isInitJump: 0
 --- !u!251 &226460225
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -768,7 +769,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294964479
   m_RotationalOffset: 0
   m_UseOneWay: 0
   m_UseOneWayGrouping: 0
@@ -823,8 +824,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97fde78d92f44b84e87ab33233acdc6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cm: {fileID: 226460224}
-  ci: {fileID: 226460223}
+  characterMovement: {fileID: 226460224}
+  characterInteraction: {fileID: 226460223}
 --- !u!1 &273441228
 GameObject:
   m_ObjectHideFlags: 0
@@ -969,7 +970,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Movement-SC
-  isLoaded: 0
 --- !u!1 &429312705
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,7 +1026,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1609110225}
   m_HandleRect: {fileID: 1609110223}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1096,7 +1096,7 @@ GameObject:
   - component: {fileID: 491414021}
   - component: {fileID: 491414022}
   - component: {fileID: 491414023}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: InteractTrigger
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -3969,7 +3969,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 695458173}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: TriggerBoxes
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -4075,7 +4075,7 @@ GameObject:
   m_Component:
   - component: {fileID: 774043718}
   - component: {fileID: 774043719}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: StabTrigger
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -4130,7 +4130,7 @@ GameObject:
   - component: {fileID: 844920509}
   - component: {fileID: 844920510}
   - component: {fileID: 844920511}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: UncrouchTrigger
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -4187,6 +4187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObstacles: []
+  characterMovement: {fileID: 226460224}
 --- !u!1 &1024484922
 GameObject:
   m_ObjectHideFlags: 0
@@ -4339,7 +4340,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Level2-SC
-  isLoaded: 0
 --- !u!61 &1162878970
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5530,7 +5530,7 @@ GameObject:
   - component: {fileID: 1709398644}
   - component: {fileID: 1709398646}
   - component: {fileID: 1709398645}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GroundTrigger
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -5563,7 +5563,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGround: []
   characterMovement: {fileID: 226460224}
-  tag: Player
 --- !u!61 &1709398646
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5598,7 +5597,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1800227015}
   - component: {fileID: 1800227016}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: SwingTrigger
   m_TagString: Player
   m_Icon: {fileID: 0}
