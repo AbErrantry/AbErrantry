@@ -55,9 +55,6 @@ namespace Character2D
         //used for initialization
         private void Start()
         {
-            Application.targetFrameRate = 144;
-            QualitySettings.vSyncCount = 1;
-
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
 

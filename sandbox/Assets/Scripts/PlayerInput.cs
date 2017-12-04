@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
 namespace Character2D
@@ -9,6 +7,7 @@ namespace Character2D
     {
         public CharacterMovement characterMovement;
         public CharacterInteraction characterInteraction;
+        public CharacterAttack characterAttack;
 
         // Update is called once per frame
         void Update()
@@ -20,6 +19,10 @@ namespace Character2D
                 characterMovement.runInput = CrossPlatformInputManager.GetButton("Fire3"); //send run input
                 characterMovement.mvmtSpeed = CrossPlatformInputManager.GetAxis("Horizontal"); //send movement speed
                 characterInteraction.interactionInput = CrossPlatformInputManager.GetButtonDown("Fire2"); //send interaction input
+
+                //characterAttack.stabInput = CrossPlatformInputManager.GetButtonDown(""); //send stab attack input
+                //characterAttack.swingInput = CrossPlatformInputManager.GetButtonDown(""); //send swing attack input
+                //characterAttack.powerInput = CrossPlatformInputManager.GetButtonDown(""); //send power attack input
             }
         }
     }

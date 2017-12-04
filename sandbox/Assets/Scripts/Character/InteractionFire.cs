@@ -3,15 +3,15 @@ using TMPro;
 
 namespace Character2D
 {
-    public class InteractTrigger : MonoBehaviour
+    public class InteractionFire : MonoBehaviour
     {
-        private InteractionManager interactionManager; //reference to the interaction manager
+        private CharacterInteraction characterInteraction; //reference to the interaction manager
 
         //used for initialization
         void Start()
         {
             //TODO: fix with knight prefab
-            interactionManager = GameObject.Find("Knight/TriggerBoxes/InteractTrigger").GetComponent<InteractionManager>();
+            characterInteraction = GameObject.Find("Knight").GetComponent<CharacterInteraction>();
         }
 
         //player clicks on an interactable in the interactable list
@@ -19,13 +19,13 @@ namespace Character2D
         public void TriggerInteraction(TMP_Text clickedText)
         {
             //iterate through the interactable list
-            for(int i = 0; i < interactionManager.currentInteractables.Count; i++)
+            for(int i = 0; i < characterInteraction.interactionTrigger.currentObjects.Count; i++)
             {
                 //if the current interactable's text is equal to the clicked text, then we have found the clicked interactable 
-                if(interactionManager.currentInteractables[i].GetComponent<InteractableObject>().interactText == clickedText.text)
+                if(characterInteraction.interactionTrigger.currentObjects[i].GetComponent<InteractableObject>().interactText == clickedText.text)
                 {
                     //interact with the selected interactable
-                    interactionManager.Interact(i);
+                    characterInteraction.Interact(i);
                     break;
                 }
             }
@@ -35,7 +35,7 @@ namespace Character2D
         public void Escape()
         {
             //since the player did not choose to interact with anything, we just close the container
-            interactionManager.CloseContainer();
+            characterInteraction.CloseContainer();
         }
     }
 }

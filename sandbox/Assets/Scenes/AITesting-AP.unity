@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 48900147}
   - component: {fileID: 48900146}
   - component: {fileID: 48900145}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: 5
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -234,8 +234,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1234215843
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300010, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 129559595}
   - component: {fileID: 129559587}
   - component: {fileID: 129559586}
+  - component: {fileID: 129559597}
   m_Layer: 8
   m_Name: Knight
   m_TagString: Player
@@ -319,6 +320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterMovement: {fileID: 129559590}
   characterInteraction: {fileID: 129559587}
+  characterAttack: {fileID: 129559597}
 --- !u!114 &129559587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,7 +332,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8fabb76ae4d4eb4ebf2f06e81502be6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionManager: {fileID: 256567197}
+  interactionTrigger: {fileID: 256567197}
+  interactBar: {fileID: 523208122}
+  interactButton: {fileID: 1396146788937702, guid: 4ef403c158af3b44e89c015d25c9e164,
+    type: 2}
+  interactList: {fileID: 464219937}
+  interactContainer: {fileID: 1816564149}
+  interactBarType: {fileID: 1390917123}
+  interactBarKey: {fileID: 348751899}
   interactionInput: 0
 --- !u!251 &129559588
 PlatformEffector2D:
@@ -342,7 +351,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294966527
+    m_Bits: 4294964479
   m_RotationalOffset: 0
   m_UseOneWay: 0
   m_UseOneWayGrouping: 0
@@ -384,6 +393,7 @@ MonoBehaviour:
   mvmtSpeed: 0
   isGrounded: 0
   canUncrouch: 0
+  isInitJump: 0
 --- !u!61 &129559591
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -460,8 +470,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 349918109
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a10117e1200a96b4086d5e276091462d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -508,6 +518,17 @@ MonoBehaviour:
   strength: 10
   agility: 10
   weight: 0
+--- !u!114 &129559597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 129559585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4a7d17f149174c4286df72c970f5d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &192284704
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +541,7 @@ GameObject:
   - component: {fileID: 192284708}
   - component: {fileID: 192284707}
   - component: {fileID: 192284706}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: 3
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -630,8 +651,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1234215843
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300006, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -839,7 +860,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1962186409}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &256567197
 MonoBehaviour:
@@ -849,17 +870,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 256567195}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47c6262ca54908a4cb6077a022c0916e, type: 3}
+  m_Script: {fileID: 11500000, guid: e36b3b20c63442e4189a32d9d1cdb7b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentInteractables: []
-  interactBar: {fileID: 523208122}
-  interactButton: {fileID: 1396146788937702, guid: 4ef403c158af3b44e89c015d25c9e164,
-    type: 2}
-  interactList: {fileID: 464219937}
-  interactContainer: {fileID: 1816564149}
-  interactBarType: {fileID: 1390917123}
-  interactBarKey: {fileID: 348751899}
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
+  characterInteraction: {fileID: 129559587}
 --- !u!61 &256567198
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -902,9 +919,10 @@ GameObject:
   - component: {fileID: 267679974}
   - component: {fileID: 267679965}
   - component: {fileID: 267679973}
+  - component: {fileID: 267679975}
   m_Layer: 9
   m_Name: AIChar
-  m_TagString: NPC
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -920,7 +938,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8fabb76ae4d4eb4ebf2f06e81502be6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionManager: {fileID: 501217294}
+  interactionTrigger: {fileID: 501217294}
+  interactBar: {fileID: 523208122}
+  interactButton: {fileID: 1396146788937702, guid: 4ef403c158af3b44e89c015d25c9e164,
+    type: 2}
+  interactList: {fileID: 464219937}
+  interactContainer: {fileID: 1816564149}
+  interactBarType: {fileID: 1390917123}
+  interactBarKey: {fileID: 348751899}
   interactionInput: 0
 --- !u!251 &267679966
 PlatformEffector2D:
@@ -974,6 +999,7 @@ MonoBehaviour:
   mvmtSpeed: 0
   isGrounded: 0
   canUncrouch: 0
+  isInitJump: 0
 --- !u!61 &267679969
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1050,8 +1076,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1326636725
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a10117e1200a96b4086d5e276091462d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1098,7 +1124,6 @@ MonoBehaviour:
   aiInteraction: {fileID: 267679965}
   topCrouch: {fileID: 435518189}
   botCrouch: {fileID: 1047759351}
-  aiMoving: {fileID: 940557578}
   secondsToPatrol: 1
   timeToDist: 0
 --- !u!114 &267679974
@@ -1117,6 +1142,17 @@ MonoBehaviour:
   strength: 10
   agility: 10
   weight: 0
+--- !u!114 &267679975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 267679964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4a7d17f149174c4286df72c970f5d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &348751897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,7 +1347,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9658ca6708a0d554abcf566f50883e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentObstacles: []
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
   characterMovement: {fileID: 267679968}
 --- !u!61 &351506751
 BoxCollider2D:
@@ -1379,7 +1417,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8535ae5c3f6aa1341a9319a845e317e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentObstacles: []
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
   aiBehavior: {fileID: 267679973}
 --- !u!60 &435518191
 PolygonCollider2D:
@@ -1557,17 +1597,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 501217292}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47c6262ca54908a4cb6077a022c0916e, type: 3}
+  m_Script: {fileID: 11500000, guid: e36b3b20c63442e4189a32d9d1cdb7b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentInteractables: []
-  interactBar: {fileID: 0}
-  interactButton: {fileID: 1396146788937702, guid: 4ef403c158af3b44e89c015d25c9e164,
-    type: 2}
-  interactList: {fileID: 0}
-  interactContainer: {fileID: 0}
-  interactBarType: {fileID: 0}
-  interactBarKey: {fileID: 0}
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
+  characterInteraction: {fileID: 267679965}
 --- !u!61 &501217295
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1714,7 +1750,7 @@ GameObject:
   - component: {fileID: 570787558}
   - component: {fileID: 570787557}
   - component: {fileID: 570787556}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: 2
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -1824,8 +1860,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1234215843
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300004, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1849,7 +1885,7 @@ GameObject:
   - component: {fileID: 624004461}
   - component: {fileID: 624004460}
   - component: {fileID: 624004459}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: 6
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -1959,8 +1995,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1234215843
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300012, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2125,6 +2161,76 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 660579345}
+--- !u!1 &685309229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 685309230}
+  - component: {fileID: 685309231}
+  - component: {fileID: 685309232}
+  m_Layer: 10
+  m_Name: PowerTrigger
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &685309230
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685309229}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.999996, y: 0.999996, z: 0.999996}
+  m_Children: []
+  m_Father: {fileID: 1962186409}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &685309231
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685309229}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 3.5, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5, y: 4}
+  m_EdgeRadius: 0
+--- !u!114 &685309232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685309229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4362ad9cee9be394eb4d68bf5e77886e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
+  characterAttack: {fileID: 129559597}
 --- !u!1 &773888919
 GameObject:
   m_ObjectHideFlags: 0
@@ -2137,7 +2243,7 @@ GameObject:
   - component: {fileID: 773888923}
   - component: {fileID: 773888922}
   - component: {fileID: 773888921}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: 0
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -2247,8 +2353,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1234215843
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2272,7 +2378,7 @@ GameObject:
   - component: {fileID: 785458609}
   - component: {fileID: 785458608}
   - component: {fileID: 785458607}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: 9
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -2382,8 +2488,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1234215843
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300018, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2552,7 +2658,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 509343e4d618aad40bf712fd895d841e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGround: []
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
   characterMovement: {fileID: 129559590}
 --- !u!61 &883114509
 BoxCollider2D:
@@ -2607,7 +2715,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d827b8e1c2cc7e49a5f393dfec1f5aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTargets: []
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
   aiBehavior: {fileID: 267679973}
 --- !u!61 &940557579
 BoxCollider2D:
@@ -2841,7 +2951,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8535ae5c3f6aa1341a9319a845e317e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentObstacles: []
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
   aiBehavior: {fileID: 267679973}
 --- !u!61 &1047759352
 BoxCollider2D:
@@ -3553,9 +3665,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1433725989}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Interactables
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3663,7 +3775,7 @@ GameObject:
   - component: {fileID: 1465273967}
   - component: {fileID: 1465273966}
   - component: {fileID: 1465273965}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: 7
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -3773,8 +3885,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1234215843
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300014, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3795,6 +3907,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1519430016}
   - component: {fileID: 1519430017}
+  - component: {fileID: 1519430018}
   m_Layer: 10
   m_Name: StabTrigger
   m_TagString: NPC
@@ -3840,6 +3953,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1519430018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1519430015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f746e600018134fbd3433396fd5381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
+  characterAttack: {fileID: 267679975}
 --- !u!1 &1564469972
 GameObject:
   m_ObjectHideFlags: 0
@@ -4234,6 +4362,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1776575818}
   - component: {fileID: 1776575819}
+  - component: {fileID: 1776575820}
   m_Layer: 10
   m_Name: SwingTrigger
   m_TagString: NPC
@@ -4279,6 +4408,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 4}
   m_EdgeRadius: 0
+--- !u!114 &1776575820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1776575817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22fc4fdd6b6f3744d99ae53d83822a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
+  characterAttack: {fileID: 267679975}
 --- !u!1 &1784563700
 GameObject:
   m_ObjectHideFlags: 0
@@ -4288,6 +4432,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1784563701}
   - component: {fileID: 1784563702}
+  - component: {fileID: 1784563703}
   m_Layer: 10
   m_Name: SwingTrigger
   m_TagString: Player
@@ -4333,6 +4478,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 4}
   m_EdgeRadius: 0
+--- !u!114 &1784563703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1784563700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22fc4fdd6b6f3744d99ae53d83822a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
+  characterAttack: {fileID: 129559597}
 --- !u!1 &1812798778
 GameObject:
   m_ObjectHideFlags: 0
@@ -4374,7 +4534,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9658ca6708a0d554abcf566f50883e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentObstacles: []
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
   characterMovement: {fileID: 129559590}
 --- !u!61 &1812798781
 BoxCollider2D:
@@ -4495,7 +4657,7 @@ GameObject:
   - component: {fileID: 1849042591}
   - component: {fileID: 1849042590}
   - component: {fileID: 1849042589}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: 4
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -4605,8 +4767,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1234215843
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300008, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4783,7 +4945,7 @@ GameObject:
   - component: {fileID: 1904044513}
   - component: {fileID: 1904044512}
   - component: {fileID: 1904044511}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: 1
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -4893,8 +5055,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1234215843
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4915,6 +5077,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1958375769}
   - component: {fileID: 1958375770}
+  - component: {fileID: 1958375771}
   m_Layer: 10
   m_Name: StabTrigger
   m_TagString: Player
@@ -4960,6 +5123,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1958375771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1958375768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f746e600018134fbd3433396fd5381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
+  characterAttack: {fileID: 129559597}
 --- !u!1 &1962186408
 GameObject:
   m_ObjectHideFlags: 0
@@ -4989,6 +5167,7 @@ Transform:
   - {fileID: 883114507}
   - {fileID: 1958375769}
   - {fileID: 1784563701}
+  - {fileID: 685309230}
   - {fileID: 256567196}
   m_Father: {fileID: 129559594}
   m_RootOrder: 0
@@ -5034,7 +5213,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 509343e4d618aad40bf712fd895d841e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGround: []
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
   characterMovement: {fileID: 267679968}
 --- !u!61 &1980631148
 BoxCollider2D:
@@ -5157,7 +5338,7 @@ GameObject:
   - component: {fileID: 2013435467}
   - component: {fileID: 2013435466}
   - component: {fileID: 2013435465}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: 8
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -5267,8 +5448,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1234215843
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300016, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

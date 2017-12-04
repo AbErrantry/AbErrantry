@@ -6,8 +6,8 @@ namespace Character2D
     {
         public CharacterMovement aiMovement; //reference to the character movement component
         public CharacterInteraction aiInteraction; //reference to the character interaction component
-        public AICrouchManager topCrouch; //reference to the top trigger ai crouch manager component
-        public AICrouchManager botCrouch; //reference to the bottom trigger ai crouch manager component
+        public AICrouchTrigger topCrouch; //reference to the top trigger ai crouch trigger component
+        public AICrouchTrigger botCrouch; //reference to the bottom trigger ai crouch trigger component
 
         public float secondsToPatrol; //How many seconds should the AI patrol in one direction
         private float currDirection; 
@@ -62,11 +62,11 @@ namespace Character2D
         {
             aiMovement.jumpInput = false;
             aiMovement.crouchInput = false;
-            if (topCrouch.currentObstacles.Count != 0 && botCrouch.currentObstacles.Count == 0)
+            if (topCrouch.currentObjects.Count != 0 && botCrouch.currentObjects.Count == 0)
             {
                 aiMovement.crouchInput = true; //send crouch input
             }
-            else if(topCrouch.currentObstacles.Count == 0 && botCrouch.currentObstacles.Count != 0)
+            else if(topCrouch.currentObjects.Count == 0 && botCrouch.currentObjects.Count != 0)
             {
                 aiMovement.jumpInput = true; //send jump input
             }

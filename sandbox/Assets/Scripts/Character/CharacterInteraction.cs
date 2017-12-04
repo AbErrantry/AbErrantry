@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections.Generic;
 using TMPro;
 
 namespace Character2D
 {
-    public class InteractionManager : MonoBehaviour
+    public class CharacterInteraction : MonoBehaviour
     {
-        [SerializeField] public List<GameObject> currentInteractables; //list of current interactable gameobjects
+        public InteractionTrigger interactionTrigger;
+
         public GameObject interactBar; //reference to the interact popup bar that asks for input to interact
         public GameObject interactButton; //reference to the interact button prefab
         public GameObject interactList; //reference to the interact list which contains interact button prefabs
@@ -17,51 +18,42 @@ namespace Character2D
 
         private float interactListYPos; //the default y position of the interact list (to scroll back to the top)
 
-        //used for initialization
+        public bool interactionInput; //whether the character is trying to interact or not
+
         void Start()
         {
-            currentInteractables = new List<GameObject>();
+            interactionInput = false;
+
             interactListYPos = interactList.transform.position.y;
             interactBar.SetActive(false);
             interactContainer.SetActive(false);
             //TODO: set default interactBarKey
         }
 
-        //detects when a new interactable has entered the interaction trigger box
-        private void OnTriggerEnter2D(Collider2D other)
+        // Update is called once per frame
+        void Update()
         {
-            if (other.tag == "Interactable")
+            //if the character inputs for an interaction
+            if (interactionInput)
             {
-                //adds the interactable to the list of current interactables
-                currentInteractables.Add(other.gameObject);
-                DisplayText();
-            }
-        }
-
-        //detects when an interactable has left the interaction trigger box
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            if (other.tag == "Interactable")
-            {
-                //removes the interactable from the list of current interactables
-                currentInteractables.Remove(other.gameObject);
-                DisplayText();
+                InteractPress();
+                interactionInput = false;
             }
         }
 
         //displays the interaction popup depending on the current item count
-        private void DisplayText()
+        public void DisplayText()
         {
             //if there are no current interactables, don't display the popup
-            if (currentInteractables.Count == 0)
+            if (interactionTrigger.currentObjects.Count == 0)
             {
                 interactBar.SetActive(false);
             }
             //if there is one interactable, display its unique popup
-            else if (currentInteractables.Count == 1)
+            else if (interactionTrigger.currentObjects.Count == 1)
             {
                 interactBar.SetActive(true);
-                interactBarType.text = currentInteractables[0].GetComponent<InteractableObject>().interactType;
+                interactBarType.text = interactionTrigger.currentObjects[0].GetComponent<InteractableObject>().interactType;
             }
             //if there exists more than one interactable, display a generic popup
             else
@@ -75,12 +67,12 @@ namespace Character2D
         public void InteractPress()
         {
             //if there are no interactables, do nothing
-            if(currentInteractables.Count == 0)
+            if (interactionTrigger.currentObjects.Count == 0)
             {
                 return;
             }
             //if there is one interactable, interact with it
-            else if (currentInteractables.Count == 1)
+            else if (interactionTrigger.currentObjects.Count == 1)
             {
                 Interact(0);
             }
@@ -95,14 +87,14 @@ namespace Character2D
         public void ShowList()
         {
             //iterate through the list of interactables spawning buttons on screen in a list
-            for(int i = 0; i < currentInteractables.Count; i++)
+            for (int i = 0; i < interactionTrigger.currentObjects.Count; i++)
             {
                 //instantiate a prefab for the interact button
                 GameObject newButton = Instantiate(interactButton) as GameObject;
                 InteractableObject controller = newButton.GetComponent<InteractableObject>();
 
                 //set the text for the interactable onscreen 
-                controller.interactableText.text = currentInteractables[i].GetComponent<InteractableObject>().interactText;
+                controller.interactableText.text = interactionTrigger.currentObjects[i].GetComponent<InteractableObject>().interactText;
 
                 //put the interactable in the list
                 newButton.transform.SetParent(interactList.transform);
@@ -126,10 +118,10 @@ namespace Character2D
         public void Interact(int index)
         {
             //interact with the selected item
-            Debug.Log(currentInteractables[index].GetComponent<InteractableObject>().interactText);
+            Debug.Log(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().interactText);
 
             //destroy the item, removing it from the game and list
-            Destroy(currentInteractables[index]);
+            Destroy(interactionTrigger.currentObjects[index]);
             CloseContainer();
         }
 
