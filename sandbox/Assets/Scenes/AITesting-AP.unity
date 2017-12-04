@@ -844,7 +844,7 @@ GameObject:
   - component: {fileID: 256567197}
   m_Layer: 10
   m_Name: InteractTrigger
-  m_TagString: Player
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1318,7 +1318,7 @@ GameObject:
   - component: {fileID: 351506750}
   m_Layer: 10
   m_Name: UncrouchTrigger
-  m_TagString: NPC
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1571,7 +1571,7 @@ GameObject:
   - component: {fileID: 501217294}
   m_Layer: 10
   m_Name: InteractTrigger
-  m_TagString: NPC
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1587,7 +1587,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1584885959}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &501217294
 MonoBehaviour:
@@ -2173,7 +2173,7 @@ GameObject:
   - component: {fileID: 685309232}
   m_Layer: 10
   m_Name: PowerTrigger
-  m_TagString: Player
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2186,7 +2186,7 @@ Transform:
   m_GameObject: {fileID: 685309229}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.999996, y: 0.999996, z: 0.999996}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1962186409}
   m_RootOrder: 4
@@ -2629,7 +2629,7 @@ GameObject:
   - component: {fileID: 883114508}
   m_Layer: 10
   m_Name: GroundTrigger
-  m_TagString: Player
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2979,6 +2979,76 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1.85, y: 0.68151283}
+  m_EdgeRadius: 0
+--- !u!1 &1106091521
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1106091522}
+  - component: {fileID: 1106091524}
+  - component: {fileID: 1106091523}
+  m_Layer: 10
+  m_Name: PowerTrigger
+  m_TagString: ChildComponent
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1106091522
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1106091521}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1584885959}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1106091523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1106091521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4362ad9cee9be394eb4d68bf5e77886e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
+  characterAttack: {fileID: 267679975}
+--- !u!61 &1106091524
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1106091521}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 3.5, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5, y: 4}
   m_EdgeRadius: 0
 --- !u!1 &1151517318
 GameObject:
@@ -3910,7 +3980,7 @@ GameObject:
   - component: {fileID: 1519430018}
   m_Layer: 10
   m_Name: StabTrigger
-  m_TagString: NPC
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4150,6 +4220,7 @@ Transform:
   - {fileID: 1980631146}
   - {fileID: 1519430016}
   - {fileID: 1776575818}
+  - {fileID: 1106091522}
   - {fileID: 501217293}
   m_Father: {fileID: 267679972}
   m_RootOrder: 1
@@ -4365,7 +4436,7 @@ GameObject:
   - component: {fileID: 1776575820}
   m_Layer: 10
   m_Name: SwingTrigger
-  m_TagString: NPC
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4435,7 +4506,7 @@ GameObject:
   - component: {fileID: 1784563703}
   m_Layer: 10
   m_Name: SwingTrigger
-  m_TagString: Player
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4505,7 +4576,7 @@ GameObject:
   - component: {fileID: 1812798780}
   m_Layer: 10
   m_Name: UncrouchTrigger
-  m_TagString: Player
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5080,7 +5151,7 @@ GameObject:
   - component: {fileID: 1958375771}
   m_Layer: 10
   m_Name: StabTrigger
-  m_TagString: Player
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5148,7 +5219,7 @@ GameObject:
   - component: {fileID: 1962186409}
   m_Layer: 10
   m_Name: TriggerBoxes
-  m_TagString: Player
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5184,7 +5255,7 @@ GameObject:
   - component: {fileID: 1980631147}
   m_Layer: 10
   m_Name: GroundTrigger
-  m_TagString: NPC
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
