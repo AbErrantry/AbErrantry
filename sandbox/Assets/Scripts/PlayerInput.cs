@@ -27,7 +27,9 @@ namespace Character2D
                 characterMovement.runInput = CrossPlatformInputManager.GetButton("Run"); //send run input
                 characterMovement.mvmtSpeed = CrossPlatformInputManager.GetAxis("Move"); //send movement speed
                 characterInteraction.interactionInput = CrossPlatformInputManager.GetButtonDown("Interact"); //send interaction input
-                characterAttack.attackInput = CrossPlatformInputManager.GetButton("Attack"); //send attack input
+
+                characterAttack.attackInputDown = CrossPlatformInputManager.GetButtonDown("Attack"); //send attack input
+                characterAttack.attackInputUp = CrossPlatformInputManager.GetButtonUp("Attack"); //send attack input
             }
         }
     }

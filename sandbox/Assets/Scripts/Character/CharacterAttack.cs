@@ -6,7 +6,9 @@ namespace Character2D
 {
     public class CharacterAttack : MonoBehaviour
     {
-        public bool attackInput;
+        public bool attackInputDown;
+        public bool attackInputUp;
+
         public bool isAttacking;
         public bool isInitAttack;
         public bool isWindingUp;
@@ -17,7 +19,9 @@ namespace Character2D
         //used for initialization
         private void Start()
         {
-            attackInput = false;
+            attackInputDown = false;
+            attackInputUp = true;
+
             isAttacking = false;
             isInitAttack = false;
             isWindingUp = false;
@@ -26,12 +30,12 @@ namespace Character2D
         //
         private void Update()
         {
-            if (attackInput && !isWindingUp)
+            if (attackInputDown && !isWindingUp)
             {
                 attackPress = Time.time;
                 isWindingUp = true;
             }
-            else if(!attackInput && isWindingUp)
+            else if(attackInputUp && isWindingUp)
             {
                 attackRelease = Time.time;
                 isWindingUp = false;
@@ -46,7 +50,7 @@ namespace Character2D
             {
                 isAttacking = true;
                 isInitAttack = false;
-                if (attackRelease - attackPress > 0.25)
+                if (attackRelease - attackPress > 0.20f) //TODO: fix
                 {
                     SwingAttack();
                     Debug.Log("swing");
@@ -56,6 +60,17 @@ namespace Character2D
                 {
                     StabAttack();
                     Debug.Log("stab");
+                    isAttacking = false;
+                }
+            }
+            else if(isWindingUp)
+            {
+                if(Time.time - attackPress > 1.0f) //TODO: fix
+                {
+                    isWindingUp = false;
+                    isAttacking = true;
+                    PowerAttack();
+                    Debug.Log("power");
                     isAttacking = false;
                 }
             }
