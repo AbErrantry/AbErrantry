@@ -7,21 +7,76 @@ namespace Character2D
     public class CharacterAttack : MonoBehaviour
     {
         public bool attackInput;
-        private float attackTime;
+        public bool isAttacking;
+        public bool isInitAttack;
+        public bool isWindingUp;
 
-        // Use this for initialization
-        void Start()
+        private float attackPress;
+        private float attackRelease;
+
+        //used for initialization
+        private void Start()
         {
             attackInput = false;
+            isAttacking = false;
+            isInitAttack = false;
+            isWindingUp = false;
         }
 
-        // Update is called once per frame
-        void Update()
+        //
+        private void Update()
         {
-            if(attackInput)
+            if (attackInput && !isWindingUp)
             {
-
+                attackPress = Time.time;
+                isWindingUp = true;
             }
+            else if(!attackInput && isWindingUp)
+            {
+                attackRelease = Time.time;
+                isWindingUp = false;
+                isInitAttack = true;
+            }
+        }
+
+        //
+        private void FixedUpdate()
+        {
+            if(isInitAttack)
+            {
+                isAttacking = true;
+                isInitAttack = false;
+                if (attackRelease - attackPress > 0.25)
+                {
+                    SwingAttack();
+                    Debug.Log("swing");
+                    isAttacking = false;
+                }
+                else
+                {
+                    StabAttack();
+                    Debug.Log("stab");
+                    isAttacking = false;
+                }
+            }
+        }
+
+        //invokes the stab attack
+        public void StabAttack()
+        {
+
+        }
+
+        //invokes the swing attack
+        public void SwingAttack()
+        {
+
+        }
+
+        //invokes the power attack
+        public void PowerAttack()
+        {
+
         }
     }
 }
