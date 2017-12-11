@@ -9,20 +9,25 @@ namespace Character2D
         public CharacterInteraction characterInteraction;
         public CharacterAttack characterAttack;
 
+        public bool acceptInput;
+
+        //used for initialization
+        private void Start()
+        {
+            acceptInput = true; //to be used for menu navigation
+        }
+
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (Time.timeScale == 1)
             {
                 characterMovement.jumpInput = CrossPlatformInputManager.GetButtonDown("Jump"); //send jump input
-                characterMovement.crouchInput = CrossPlatformInputManager.GetButton("Fire1"); //send crouch input
-                characterMovement.runInput = CrossPlatformInputManager.GetButton("Fire3"); //send run input
-                characterMovement.mvmtSpeed = CrossPlatformInputManager.GetAxis("Horizontal"); //send movement speed
-                characterInteraction.interactionInput = CrossPlatformInputManager.GetButtonDown("Fire2"); //send interaction input
-
-                //characterAttack.stabInput = CrossPlatformInputManager.GetButtonDown(""); //send stab attack input
-                //characterAttack.swingInput = CrossPlatformInputManager.GetButtonDown(""); //send swing attack input
-                //characterAttack.powerInput = CrossPlatformInputManager.GetButtonDown(""); //send power attack input
+                characterMovement.crouchInput = CrossPlatformInputManager.GetButton("Crouch"); //send crouch input
+                characterMovement.runInput = CrossPlatformInputManager.GetButton("Run"); //send run input
+                characterMovement.mvmtSpeed = CrossPlatformInputManager.GetAxis("Move"); //send movement speed
+                characterInteraction.interactionInput = CrossPlatformInputManager.GetButtonDown("Interact"); //send interaction input
+                characterAttack.attackInput = CrossPlatformInputManager.GetButton("Attack"); //send attack input
             }
         }
     }
