@@ -531,7 +531,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a7d17f149174c4286df72c970f5d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackInput: 0
+  attackInputDown: 0
+  attackInputUp: 0
+  canHitStab: 0
+  canHitSwing: 0
+  canHitPower: 0
+  stabbingTrigger: {fileID: 1958375771}
+  swingingTrigger: {fileID: 1784563703}
+  powerTrigger: {fileID: 685309232}
+  isWindingUp: 0
   isAttacking: 0
 --- !u!1 &192284704
 GameObject:
@@ -1158,7 +1166,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a7d17f149174c4286df72c970f5d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackInput: 0
+  attackInputDown: 0
+  attackInputUp: 0
+  canHitStab: 0
+  canHitSwing: 0
+  canHitPower: 0
+  stabbingTrigger: {fileID: 1519430018}
+  swingingTrigger: {fileID: 1776575820}
+  powerTrigger: {fileID: 1106091523}
+  isWindingUp: 0
   isAttacking: 0
 --- !u!1 &348751897
 GameObject:
@@ -1395,7 +1411,7 @@ GameObject:
   - component: {fileID: 435518189}
   m_Layer: 10
   m_Name: FrontTrigger-Top
-  m_TagString: NPC
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2706,7 +2722,7 @@ GameObject:
   - component: {fileID: 940557578}
   m_Layer: 10
   m_Name: AIPlayerScanning
-  m_TagString: NPC
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2929,7 +2945,7 @@ GameObject:
   - component: {fileID: 1047759351}
   m_Layer: 10
   m_Name: FrontTrigger-Bottom
-  m_TagString: NPC
+  m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

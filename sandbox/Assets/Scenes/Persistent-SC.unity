@@ -5571,7 +5571,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a7d17f149174c4286df72c970f5d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackInput: 0
+  attackInputDown: 0
+  attackInputUp: 0
+  canHitStab: 0
+  canHitSwing: 0
+  canHitPower: 0
+  stabbingTrigger: {fileID: 1241964940}
+  swingingTrigger: {fileID: 1029709588}
+  powerTrigger: {fileID: 1090689366}
+  isWindingUp: 0
+  isAttacking: 0
 --- !u!114 &1809025118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5623,6 +5632,7 @@ MonoBehaviour:
   strength: 10
   agility: 10
   weight: 0
+  spawnPoint: {x: 0, y: 0}
 --- !u!251 &1809025121
 PlatformEffector2D:
   m_ObjectHideFlags: 0

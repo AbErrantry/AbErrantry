@@ -23,11 +23,11 @@
         {
             if (isInTrigger)
             {
-                //set canHitStab to true
+                characterAttack.canHitStab = true;
             }
             else
             {
-                //set canHitStab to false
+                characterAttack.canHitStab = false;
             }
         }
     }

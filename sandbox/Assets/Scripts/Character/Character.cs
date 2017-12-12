@@ -85,6 +85,7 @@ namespace Character2D
 
             vitality = maxVitality;
 
+            Debug.Log("enemy died. respawning.");
             //enemies target player
             //give player back input
         }

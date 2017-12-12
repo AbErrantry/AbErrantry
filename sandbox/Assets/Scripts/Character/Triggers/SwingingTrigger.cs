@@ -23,11 +23,11 @@
         {
             if (isInTrigger)
             {
-                //set canHitSwing to true
+                characterAttack.canHitSwing = true;
             }
             else
             {
-                //set canHitSwing to false
+                characterAttack.canHitSwing = false;
             }
         }
     }

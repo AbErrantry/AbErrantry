@@ -23,11 +23,11 @@
         {
             if (isInTrigger)
             {
-                //set canHitPower to true
+                characterAttack.canHitPower = true;
             }
             else
             {
-                //set canHitPower to false
+                characterAttack.canHitPower = false;
             }
         }
     }
