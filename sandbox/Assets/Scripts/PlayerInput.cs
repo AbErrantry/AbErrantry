@@ -22,14 +22,14 @@ namespace Character2D
         {
             if (Time.timeScale == 1)
             {
-                characterMovement.jumpInput = CrossPlatformInputManager.GetButtonDown("Jump"); //send jump input
+                characterMovement.jumpInput = CrossPlatformInputManager.GetButtonDown("Jump"); //send jump input pressed
                 characterMovement.crouchInput = CrossPlatformInputManager.GetButton("Crouch"); //send crouch input
                 characterMovement.runInput = CrossPlatformInputManager.GetButton("Run"); //send run input
                 characterMovement.mvmtSpeed = CrossPlatformInputManager.GetAxis("Move"); //send movement speed
                 characterInteraction.interactionInput = CrossPlatformInputManager.GetButtonDown("Interact"); //send interaction input
 
-                characterAttack.attackInputDown = CrossPlatformInputManager.GetButtonDown("Attack"); //send attack input
-                characterAttack.attackInputUp = CrossPlatformInputManager.GetButtonUp("Attack"); //send attack input
+                characterAttack.attackInputDown = CrossPlatformInputManager.GetButtonDown("Attack"); //send attack input pressed
+                characterAttack.attackInputUp = CrossPlatformInputManager.GetButtonUp("Attack"); //send attack input released
             }
         }
     }

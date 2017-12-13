@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Collections;
+using System.Linq;
+using System;
+using System.IO;
 
 namespace Character2D
 {
@@ -23,44 +26,7 @@ namespace Character2D
         //used for initialization
         private void Start()
         {
-            //initialize stats with the character type.
-            switch(type)
-            {
-                //TODO: set values from file instead of directly in code.
-                case Types.Knight:
-                    maxVitality = 100;
-                    strength = 10;
-                    agility = 10;
-                    weight = 10;
-                    break;
-                case Types.Goblin:
-                    maxVitality = 80;
-                    strength = 12;
-                    agility = 5;
-                    weight = 15;
-                    break;
-                case Types.Villager:
-                    maxVitality = 50;
-                    strength = 2;
-                    agility = 10;
-                    weight = 10;
-                    break;
-                case Types.Skeleton:
-                    maxVitality = 50;
-                    strength = 15;
-                    agility = 5;
-                    weight = 5;
-                    break;
-                case Types.Orc:
-                    maxVitality = 200;
-                    strength = 15;
-                    agility = 3;
-                    weight = 20;
-                    break;
-                default:
-                    Debug.Log("Error. Character type could not be found.");
-                    break;
-            }
+            //set from CharacterData
             vitality = maxVitality;
         }
 
@@ -68,7 +34,7 @@ namespace Character2D
         public void TakeDamage(float damage)
         {
             vitality = vitality - damage;
-            if (vitality < 0)
+            if (vitality <= 0f)
             {
                 Respawn();
             }
