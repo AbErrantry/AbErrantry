@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Character2D
 {
-    public class Character : MonoBehaviour
+    public class CharacterBehavior : MonoBehaviour
     {
         public enum Types //enumeration of character types
         {

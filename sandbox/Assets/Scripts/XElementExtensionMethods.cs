@@ -29,6 +29,39 @@ public static class XElementExtensionMethods
         }
     }
 
+    //null checks a boolean value
+    public static bool ElementValueNull_Boolean(this XElement element)
+    {
+        if (element != null)
+        {
+            if(int.Parse(element.Value) == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    //null checks a float value
+    public static float ElementValueNull_Float(this XElement element)
+    {
+        if (element != null)
+        {
+            return float.Parse(element.Value);
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
     //null checks a string attribute
     public static string AttributeValueNull_String(this XElement element, string attributeName)
     {
@@ -69,5 +102,5 @@ public static class XElementExtensionMethods
         {
             return -1;
         }
-    }
+    } 
 }

@@ -143,7 +143,7 @@ namespace Character2D
         {
             foreach(GameObject enemy in enemies)
             {
-                enemy.GetComponent<Character>().TakeDamage(damage);
+                enemy.GetComponent<CharacterBehavior>().TakeDamage(damage);
             }
         }
     }

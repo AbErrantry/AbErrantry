@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueData : MonoBehaviour
+public class DialogueData : ScriptableObject
 {
-    //used for initialization
-    void Start ()
+    //default constructor
+    public DialogueData()
     {
 		
 	}
 	
-	//load in the dialogue data
-        //key-> character and dialogue
-        //collection of characters
-            //collection of dialogues (already set up in DialogueManager-> move here)      
+    //this is the dialogue database reference in memory
+	    //load in the dialogue data
+            //key-> character and dialogue
+            //collection of characters
+                //collection of dialogues (already set up in DialogueManager-> move here)      
     //whenever we initiate a dialogue, we consult the key to locate the 
         //conversation in question. Then, we start that conversation.
 }
