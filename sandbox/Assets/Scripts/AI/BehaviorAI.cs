@@ -8,11 +8,21 @@ namespace Character2D
         public CharacterInteraction aiInteraction; //reference to the character interaction component
         public AICrouchTrigger topCrouch; //reference to the top trigger ai crouch trigger component
         public AICrouchTrigger botCrouch; //reference to the bottom trigger ai crouch trigger component
+       
+        public GameObject leftBeacon;
+        public GameObject rightBeacon;
+        public GameObject currBeacon;
+        public GameObject closestBeacon;
+        public float disBtwnBeacons;
+        public float disToCurrBeacon;
 
         public float secondsToPatrol; //How many seconds should the AI patrol in one direction
         private float currDirection; 
         public float timeToDist;
+
         private static bool trackingPlayer;
+        public bool beaconRight; //false will be left, true will be right
+        private bool shouldSwitch;
 
         //used for initialization
         private void Start()
@@ -20,6 +30,10 @@ namespace Character2D
             currDirection = 1;
             aiMovement.mvmtSpeed = 1;
             timeToDist = secondsToPatrol;
+            beaconRight = true;
+            //currBeacon = rightBeacon;
+            //disBtwnBeacons = Vector2.Distance(rightBeacon.transform.position, leftBeacon.transform.position);
+            shouldSwitch = false;
         }
 
         //occurs after all Update methods
@@ -28,7 +42,26 @@ namespace Character2D
         {
             if (Time.timeScale == 1  && aiMovement.crouchInput == false && aiMovement.jumpInput == false)
             {
+               /*
+               disToCurrBeacon = Vector2.Distance(this.transform.position,currBeacon.transform.position);
+                Debug.Log(disToCurrBeacon);
+                if ((trackingPlayer == false  && disToCurrBeacon <=0) || shouldSwitch == true)
+                {
+                    if (currBeacon == rightBeacon && disBtwnBeacons <= disToCurrBeacon)
+                    {
+                        SwitchBeacon();
+                    }
+                    else if(currBeacon == leftBeacon && disBtwnBeacons <= disToCurrBeacon)
+                    {
+                        SwitchBeacon();
+                    }
+                    shouldSwitch = false;
+                }*/
+
+
+                //OLD WALKING
                 //As Long as the AI is not tracking the player then it can change directions.
+                
                 if (timeToDist <= 0 && trackingPlayer == false) 
                 {
                     currDirection = aiMovement.mvmtSpeed * -1; //switch direction
@@ -39,6 +72,8 @@ namespace Character2D
                 {
                     timeToDist -= Time.deltaTime;
                 }
+
+
             }
         }
 
@@ -62,6 +97,7 @@ namespace Character2D
         {
             aiMovement.jumpInput = false;
             aiMovement.crouchInput = false;
+
             if (topCrouch.currentObjects.Count != 0 && botCrouch.currentObjects.Count == 0)
             {
                 aiMovement.crouchInput = true; //send crouch input
@@ -69,6 +105,22 @@ namespace Character2D
             else if(topCrouch.currentObjects.Count == 0 && botCrouch.currentObjects.Count != 0)
             {
                 aiMovement.jumpInput = true; //send jump input
+            }
+        }
+
+        public void SwitchBeacon()
+        {
+            if (rightBeacon == false)
+            {
+                currBeacon = rightBeacon;
+                currDirection = 1;
+                aiMovement.mvmtSpeed = 1;
+            }
+            else
+            {
+                currBeacon = leftBeacon;
+                currDirection = aiMovement.mvmtSpeed * -1; //switch direction
+                aiMovement.mvmtSpeed = currDirection;
             }
         }
     }
