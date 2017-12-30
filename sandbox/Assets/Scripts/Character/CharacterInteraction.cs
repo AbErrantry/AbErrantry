@@ -7,6 +7,7 @@ namespace Character2D
     public class CharacterInteraction : MonoBehaviour
     {
         public InteractionTrigger interactionTrigger;
+        public CharacterBehavior characterBehavior;
 
         public GameObject interactBar; //reference to the interact popup bar that asks for input to interact
         public GameObject interactButton; //reference to the interact button prefab
@@ -117,6 +118,21 @@ namespace Character2D
         //performs the interaction with the selected item
         public void Interact(int index)
         {
+            switch(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().interactType)
+            {
+                case "pick up":
+                    characterBehavior.AddItem(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().interactItem);
+                    break;
+                case "talk":
+                    //open talk dialogue
+                    break;
+                case "open":
+                    //toggle item open/closed based on current state
+                    break;
+                default:
+                    Debug.Log("Error: interact type is unknown. Please add its behavior to CharacterInteraction.");
+                    break;
+            }
             //interact with the selected item
             Debug.Log(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().interactText);
 

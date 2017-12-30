@@ -9,6 +9,8 @@ namespace Character2D
         public CharacterInteraction characterInteraction;
         public CharacterAttack characterAttack;
 
+        public BackpackMenu backpackMenu;
+
         public bool acceptInput;
 
         //used for initialization
@@ -30,6 +32,11 @@ namespace Character2D
 
                 characterAttack.attackInputDown = CrossPlatformInputManager.GetButtonDown("Attack"); //send attack input pressed
                 characterAttack.attackInputUp = CrossPlatformInputManager.GetButtonUp("Attack"); //send attack input released
+            }
+
+            if (CrossPlatformInputManager.GetButtonDown("Backpack"))
+            {
+                backpackMenu.ToggleBackpack();
             }
         }
     }

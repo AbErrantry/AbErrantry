@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-using UnityEngine.Collections;
-using System.Linq;
-using System;
-using System.IO;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Character2D
 {
@@ -20,40 +18,79 @@ namespace Character2D
         public float agility; //the agility of the character
         public float weight; //the weight of the character
 
-        public Vector2 spawnPoint; //the spawnpoint upon death
-        private float maxVitality; //the maximum value of health
+        public bool isAttackable; //whether or not the character is attackable
+
+        public List<InventoryItem> items; //items held by the character
+        public GameData gameData;
 
         //used for initialization
         private void Start()
         {
-            //set from CharacterData
-            vitality = maxVitality;
+            items = new List<InventoryItem>();
         }
 
         //applies damage to the player
-        public void TakeDamage(float damage)
+        public virtual void TakeDamage(float damage)
         {
-            vitality = vitality - damage;
-            if (vitality <= 0f)
+            if(isAttackable)
             {
-                Respawn();
+                vitality = vitality - damage;
+                if (vitality <= 0f)
+                {
+                    //kill
+                    //spawn items as loot
+                }
             }
         }
 
-        private void Respawn()
+        public void AddItem(string name)
         {
-            //take away player input
-            //enemies no longer target player
+            bool isFound = false;
+            foreach(InventoryItem item in items)
+            {
+                if(item.item == gameData.itemData.itemDictionary[name])
+                {
+                    item.quantity++;
+                    isFound = true;
+                    break;
+                }
+            }
+            if(!isFound)
+            {
+                InventoryItem itemToAdd = new InventoryItem();
+                itemToAdd.item = gameData.itemData.itemDictionary[name];
+                itemToAdd.quantity = 1;
+                items.Add(itemToAdd);
+            }
+        }
 
-            //death animation for player
-            //screen overlay of death?
-            //respawn at spawnPoint
+        public void RemoveItem(string name)
+        {
+            InventoryItem itemToRemove = new InventoryItem();
+            itemToRemove.item = gameData.itemData.itemDictionary[name];
+            foreach (InventoryItem inv in items)
+            {
+                if (inv.item == gameData.itemData.itemDictionary[name])
+                {
+                    inv.quantity--;
+                    //instantiate item on the ground
+                    if(inv.quantity <= 0)
+                    {
+                        items.Remove(inv);
+                    }
+                    break;
+                }
+            }
+        }
 
-            vitality = maxVitality;
+        //todo: differentiate between remove/drop/destroy generically.
 
-            Debug.Log("enemy died. respawning.");
-            //enemies target player
-            //give player back input
+        private void PrintItems()
+        {
+            foreach(InventoryItem inv in items)
+            {
+                Debug.Log("Item: " + inv.item.name + " | " + inv.quantity);
+            }
         }
     }
 }
