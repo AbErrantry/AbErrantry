@@ -19,6 +19,8 @@ namespace Character2D
         public GameObject inventoryItem;
         public GameObject inventoryGrid;
 
+        public float inventoryGridYPos;
+
         public GameObject inventoryMask;
         public GameObject descriptionMask;
 
@@ -40,6 +42,7 @@ namespace Character2D
             backpackContainer.SetActive(false);
             CloseTabs();
             isOpen = false;
+            inventoryGridYPos = inventoryGrid.transform.position.y;
         }
 
         public void ToggleBackpack()
@@ -51,6 +54,9 @@ namespace Character2D
                 OpenInventoryTab();
                 isOpen = true;
                 Time.timeScale = 0.0f;
+
+                //move the scrollbar back to the top of the list
+                inventoryGrid.transform.position = new Vector3(inventoryGrid.transform.position.x, inventoryGridYPos, 0);
             }
             else
             {
@@ -105,6 +111,8 @@ namespace Character2D
 
         private void LoadInventoryItems()
         {
+            Canvas.ForceUpdateCanvases();
+
             foreach (InventoryItem inv in characterBehavior.items)
             {
                 //TODO: fix comments

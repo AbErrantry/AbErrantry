@@ -42,8 +42,8 @@ namespace Character2D
             attackPress = 0.0f;
             attackRelease = 0.0f;
 
-            swingThreshold = 0.25f;
-            powerThreshold = 1.00f;
+            swingThreshold = 0.15f;
+            powerThreshold = 0.60f;
         }
 
         //
@@ -72,15 +72,16 @@ namespace Character2D
             {
                 isAttacking = true;
                 isInitAttack = false;
-                if (attackRelease - attackPress > swingThreshold)
+                float attackDuration = attackRelease - attackPress;
+                if (attackDuration > swingThreshold)
                 {
                     SwingAttack();
-                    Debug.Log("swing");
+                    Debug.Log("swing: " + attackDuration.ToString());
                 }
                 else
                 {
                     StabAttack();
-                    Debug.Log("stab");
+                    Debug.Log("stab: " + attackDuration.ToString());
                 }
                 isAttacking = false;
             }

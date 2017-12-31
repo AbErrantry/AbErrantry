@@ -14,6 +14,7 @@ namespace Character2D
         public GameObject interactList; //reference to the interact list which contains interact button prefabs
         public GameObject interactContainer; //reference to the interact container which contains the interact list
 
+        public TMP_Text interactBarItem; //reference to the item to interact with
         public TMP_Text interactBarType; //reference to the type of interaction
         public TMP_Text interactBarKey; //reference to the key pressed for the interaction
 
@@ -55,12 +56,14 @@ namespace Character2D
             {
                 interactBar.SetActive(true);
                 interactBarType.text = interactionTrigger.currentObjects[0].GetComponent<InteractableObject>().interactType;
+                interactBarItem.text = interactionTrigger.currentObjects[0].GetComponent<InteractableObject>().interactItem;
             }
             //if there exists more than one interactable, display a generic popup
             else
             {
                 interactBar.SetActive(true);
-                interactBarType.text = "interact";
+                interactBarType.text = "choose interaction";
+                interactBarItem.text = "";
             }
         }
 
@@ -87,6 +90,8 @@ namespace Character2D
         //shows the list of interactables that the player can select to interact with
         public void ShowList()
         {
+            Canvas.ForceUpdateCanvases();
+
             //iterate through the list of interactables spawning buttons on screen in a list
             for (int i = 0; i < interactionTrigger.currentObjects.Count; i++)
             {
