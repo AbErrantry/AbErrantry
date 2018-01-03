@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 
@@ -18,7 +19,7 @@ namespace Character2D
         public TMP_Text interactBarType; //reference to the type of interaction
         public TMP_Text interactBarKey; //reference to the key pressed for the interaction
 
-        private float interactListYPos; //the default y position of the interact list (to scroll back to the top)
+        public ScrollRect scrollableList; //the default y position of the interact list (to scroll back to the top)
 
         public bool interactionInput; //whether the character is trying to interact or not
 
@@ -26,7 +27,6 @@ namespace Character2D
         {
             interactionInput = false;
 
-            interactListYPos = interactList.transform.position.y;
             interactBar.SetActive(false);
             interactContainer.SetActive(false);
             //TODO: set default interactBarKey
@@ -90,7 +90,6 @@ namespace Character2D
         //shows the list of interactables that the player can select to interact with
         public void ShowList()
         {
-            Canvas.ForceUpdateCanvases();
 
             //iterate through the list of interactables spawning buttons on screen in a list
             for (int i = 0; i < interactionTrigger.currentObjects.Count; i++)
@@ -112,7 +111,7 @@ namespace Character2D
             interactContainer.SetActive(true);
 
             //move the scrollbar back to the top of the list
-            interactList.transform.position = new Vector3(interactList.transform.position.x, interactListYPos, 0);
+            scrollableList.verticalNormalizedPosition = 1.0f;
 
             //pause game time (in part to prevent user input)
             //TODO: decide if we want to keep time paused here or just disable user action/motion input
