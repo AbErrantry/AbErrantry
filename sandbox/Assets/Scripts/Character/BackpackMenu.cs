@@ -17,9 +17,9 @@ namespace Character2D
         public CharacterBehavior characterBehavior;
 
         public GameObject inventoryItem;
-        public GameObject inventoryGrid;
+        public GameObject inventoryList;
 
-        public ScrollRect scrollableList;
+        public ScrollRect scrollRect;
 
         public GameObject inventoryMask;
         public GameObject descriptionMask;
@@ -32,7 +32,21 @@ namespace Character2D
         public TMP_Text itemStrength;
         public TMP_Text itemPrice;
 
+        public Button useButton;
+        public Button dropButton;
+        public Button destroyButton;
+
         public InventoryItem selectedItem;
+
+        public GameObject amountMask;
+        public GameObject confirmMask;
+
+        public GameObject amountContainer;
+        public GameObject confirmContainer;
+
+        public bool isDestroying;
+        public bool isAll;
+        public bool isOne;
 
         private bool isOpen;
 
@@ -55,7 +69,7 @@ namespace Character2D
                 Time.timeScale = 0.0f;
 
                 //move the scrollbar back to the top of the list
-                scrollableList.verticalNormalizedPosition = 1.0f;
+                scrollRect.verticalNormalizedPosition = 1.0f;
             }
             else
             {
@@ -68,6 +82,7 @@ namespace Character2D
         private void CloseTabs()
         {
             inventoryContainer.SetActive(false);
+            HideAmountConfirmContainers();
             journalContainer.SetActive(false);
             mapContainer.SetActive(false);
         }
@@ -94,15 +109,7 @@ namespace Character2D
         public void CloseBackpackMenu()
         {
             CloseTabs();
-
-            //delete ui elements from the list for the next iteration
-            var children = new List<GameObject>();
-            foreach (Transform child in inventoryGrid.transform)
-            {
-                children.Add(child.gameObject);
-            }
-            children.ForEach(child => Destroy(child));
-
+            UnloadInventoryItems();
             backpackContainer.SetActive(false);
             isOpen = false;
             Time.timeScale = 1.0f;
@@ -121,13 +128,15 @@ namespace Character2D
                 controller.itemText.text = inv.item.name;
 
                 controller.itemQuantity.text = inv.quantity.ToString();
+                controller.itemPrice.text = inv.item.price.ToString();
+                controller.itemStrength.text = inv.item.strength.ToString();
 
                 controller.itemImage.sprite = inv.item.sprite;
 
                 controller.item = inv; //TODO: may not need. figure that out.
 
                 //put the interactable in the list
-                newButton.transform.SetParent(inventoryGrid.transform);
+                newButton.transform.SetParent(inventoryList.transform);
 
                 //for some reason Unity does not use full scale for the instantiated object by default
                 newButton.transform.localScale = Vector3.one;
@@ -145,6 +154,17 @@ namespace Character2D
             descriptionMask.SetActive(true);
         }
 
+        //delete ui elements from the list for the next iteration
+        private void UnloadInventoryItems()
+        {
+            var children = new List<GameObject>();
+            foreach (Transform child in inventoryList.transform)
+            {
+                children.Add(child.gameObject);
+            }
+            children.ForEach(child => Destroy(child));
+        }
+
         public void SelectItem(InventoryItem inv)
         {
             itemText.text = inv.item.name;
@@ -156,6 +176,101 @@ namespace Character2D
             itemPrice.text = inv.item.price.ToString();
             selectedItem = inv;
             descriptionMask.SetActive(false);
+            if(inv.item.type == "story")
+            {
+                useButton.interactable = false;
+                dropButton.interactable = false;
+                destroyButton.interactable = false;
+            }
+            else
+            {
+                useButton.interactable = true;
+                dropButton.interactable = true;
+                destroyButton.interactable = true;
+            }
+        }
+
+        public void HideAmountConfirmContainers()
+        {
+            amountMask.SetActive(false);
+            amountContainer.SetActive(false);
+            confirmMask.SetActive(false);
+            confirmContainer.SetActive(false);
+            isDestroying = false;
+            isAll = false;
+            isOne = false;
+        }
+
+        public void ShowAmountContainer(bool destroying)
+        {
+            isDestroying = destroying;
+            amountMask.SetActive(true);
+            amountContainer.SetActive(true);
+        }
+
+        public void ShowConfirmContainer()
+        {
+            confirmMask.SetActive(true);
+            confirmContainer.SetActive(true);
+        }
+
+        public void UseItem()
+        {
+            if(selectedItem.item.type == "weapon")
+            {
+                Debug.Log("Equipped " + selectedItem.item.name + ".");
+                //need to also unequip the currently-equipped item and add it back to inventory.
+            }
+            else if(selectedItem.item.type == "consumable")
+            {
+                Debug.Log("Heal player for " + selectedItem.item.strength + " health points.");
+            }
+            else
+            {
+                Debug.Log("Should not have gotten here.");
+            }
+            if(selectedItem.quantity == 1)
+            {
+                //move the scrollbar back to the top of the list
+                scrollRect.verticalNormalizedPosition = 1.0f;
+            }
+            characterBehavior.RemoveItem(selectedItem, false, false);
+            UnloadInventoryItems();
+            LoadInventoryItems();
+            
+        }
+
+        public void DropItem()
+        {
+            characterBehavior.RemoveItem(selectedItem, isAll, true);
+            UnloadInventoryItems();
+            LoadInventoryItems();
+            HideAmountConfirmContainers();
+            //move the scrollbar back to the top of the list
+            scrollRect.verticalNormalizedPosition = 1.0f;
+        }
+
+        public void DestroyItem()
+        {
+            characterBehavior.RemoveItem(selectedItem, isAll, false);
+            UnloadInventoryItems();
+            LoadInventoryItems();
+            HideAmountConfirmContainers();
+            //move the scrollbar back to the top of the list
+            scrollRect.verticalNormalizedPosition = 1.0f;
+        }
+
+        public void SetAmount(bool all)
+        {
+            isAll = all;
+            if (isDestroying)
+            {
+                ShowConfirmContainer();
+            }
+            else
+            {
+                DropItem();
+            }
         }
     }
 }

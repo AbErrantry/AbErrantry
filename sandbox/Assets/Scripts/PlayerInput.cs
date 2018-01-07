@@ -22,7 +22,7 @@ namespace Character2D
         // Update is called once per frame
         private void Update()
         {
-            if (Time.timeScale == 1)
+            if (Time.timeScale != 0)
             {
                 characterMovement.jumpInput = CrossPlatformInputManager.GetButtonDown("Jump"); //send jump input pressed
                 characterMovement.crouchInput = CrossPlatformInputManager.GetButton("Crouch"); //send crouch input

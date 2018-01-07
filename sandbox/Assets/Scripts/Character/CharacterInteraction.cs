@@ -15,11 +15,11 @@ namespace Character2D
         public GameObject interactList; //reference to the interact list which contains interact button prefabs
         public GameObject interactContainer; //reference to the interact container which contains the interact list
 
-        public TMP_Text interactBarItem; //reference to the item to interact with
-        public TMP_Text interactBarType; //reference to the type of interaction
-        public TMP_Text interactBarKey; //reference to the key pressed for the interaction
+        public TMP_Text interactBarText; //the text displayed on the interact bar
 
-        public ScrollRect scrollableList; //the default y position of the interact list (to scroll back to the top)
+        private string interactKey; //the key for interaction
+
+        public ScrollRect scrollRect; //the default y position of the interact list (to scroll back to the top)
 
         public bool interactionInput; //whether the character is trying to interact or not
 
@@ -29,7 +29,9 @@ namespace Character2D
 
             interactBar.SetActive(false);
             interactContainer.SetActive(false);
+
             //TODO: set default interactBarKey
+            interactKey = "Q";
         }
 
         // Update is called once per frame
@@ -55,15 +57,14 @@ namespace Character2D
             else if (interactionTrigger.currentObjects.Count == 1)
             {
                 interactBar.SetActive(true);
-                interactBarType.text = interactionTrigger.currentObjects[0].GetComponent<InteractableObject>().interactType;
-                interactBarItem.text = interactionTrigger.currentObjects[0].GetComponent<InteractableObject>().interactItem;
+                SetInteractBarText(interactionTrigger.currentObjects[0].GetComponent<InteractableObject>().type, 
+                    interactionTrigger.currentObjects[0].GetComponent<InteractableObject>().name, false);
             }
             //if there exists more than one interactable, display a generic popup
             else
             {
                 interactBar.SetActive(true);
-                interactBarType.text = "choose interaction";
-                interactBarItem.text = "";
+                SetInteractBarText("choose interaction", "", false);
             }
         }
 
@@ -90,16 +91,16 @@ namespace Character2D
         //shows the list of interactables that the player can select to interact with
         public void ShowList()
         {
-
             //iterate through the list of interactables spawning buttons on screen in a list
             for (int i = 0; i < interactionTrigger.currentObjects.Count; i++)
             {
                 //instantiate a prefab for the interact button
                 GameObject newButton = Instantiate(interactButton) as GameObject;
-                InteractableObject controller = newButton.GetComponent<InteractableObject>();
+                InteractionPrefabReference temp = newButton.GetComponent<InteractionPrefabReference>();
 
                 //set the text for the interactable onscreen 
-                controller.interactableText.text = interactionTrigger.currentObjects[i].GetComponent<InteractableObject>().interactText;
+                temp.interactText.text = interactionTrigger.currentObjects[i].GetComponent<InteractableObject>().type 
+                    + " " + interactionTrigger.currentObjects[i].GetComponent<InteractableObject>().name;
 
                 //put the interactable in the list
                 newButton.transform.SetParent(interactList.transform);
@@ -111,7 +112,7 @@ namespace Character2D
             interactContainer.SetActive(true);
 
             //move the scrollbar back to the top of the list
-            scrollableList.verticalNormalizedPosition = 1.0f;
+            scrollRect.verticalNormalizedPosition = 1.0f;
 
             //pause game time (in part to prevent user input)
             //TODO: decide if we want to keep time paused here or just disable user action/motion input
@@ -122,10 +123,10 @@ namespace Character2D
         //performs the interaction with the selected item
         public void Interact(int index)
         {
-            switch(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().interactType)
+            switch(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().type)
             {
                 case "pick up":
-                    characterBehavior.AddItem(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().interactItem);
+                    characterBehavior.AddItem(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().name);
                     break;
                 case "talk":
                     //open talk dialogue
@@ -137,8 +138,6 @@ namespace Character2D
                     Debug.Log("Error: interact type is unknown. Please add its behavior to CharacterInteraction.");
                     break;
             }
-            //interact with the selected item
-            Debug.Log(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().interactText);
 
             //destroy the item, removing it from the game and list
             Destroy(interactionTrigger.currentObjects[index]);
@@ -165,11 +164,44 @@ namespace Character2D
             children.ForEach(child => Destroy(child));
         }
 
+        //collects all items in the player's vicinity
+        public void CollectAllItems()
+        {
+            for (int i = interactionTrigger.currentObjects.Count - 1; i >= 0; i--)
+            {
+                InteractableObject io = interactionTrigger.currentObjects[i].GetComponent<InteractableObject>();
+                Debug.Log(io.name);
+                if (io.type == "pick up")
+                {
+                    characterBehavior.AddItem(io.name);
+                    Destroy(interactionTrigger.currentObjects[i]);
+                }
+            }
+            CloseContainer();
+        }
+
         //changes the interact key for display
         //TODO: implement
-        public void interactKeyChange(string newKey)
+        public void InteractKeyChange(string newKey)
         {
-            interactBarKey.text = newKey;
+            interactKey = newKey;
+        }
+
+        private void SetInteractBarText(string interactType, string interactItem, bool isMultiple)
+        {
+            string press = "<color=black>Press ";
+            string key = "<color=red>" + interactKey;
+            string type = "<color=black> to " + interactType;
+            if(isMultiple)
+            {
+                interactBarText.text = press + key + type;
+            }
+            else
+            {
+                //TODO: can set the item color based on item rarity
+                string item = "<color=red> " + interactItem;
+                interactBarText.text = press + key + type + item;
+            }
         }
     }
 }

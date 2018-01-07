@@ -156,10 +156,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Large Health Potion
-  interactItem: Large Health Potion
+  name: Large Health Potion
+  type: pick up
 --- !u!61 &217098486
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -292,10 +290,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Large Health Potion
-  interactItem: Large Health Potion
+  name: Large Health Potion
+  type: pick up
 --- !u!61 &237140267
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -415,7 +411,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 2
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &331556519
 MonoBehaviour:
@@ -428,10 +424,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Emerald Sword
-  interactItem: Emerald Sword
+  name: Emerald Sword
+  type: pick up
 --- !u!61 &331556520
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -551,10 +545,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Medium Health Potion
-  interactItem: Medium Health Potion
+  name: Medium Health Potion
+  type: pick up
 --- !u!61 &486779090
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -655,7 +647,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 19
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &493850689
 GameObject:
@@ -667,8 +659,8 @@ GameObject:
   - component: {fileID: 493850690}
   - component: {fileID: 493850694}
   - component: {fileID: 493850693}
-  - component: {fileID: 493850692}
   - component: {fileID: 493850691}
+  - component: {fileID: 493850692}
   m_Layer: 11
   m_Name: Castle Key (1)
   m_TagString: Interactable
@@ -687,7 +679,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 17
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &493850691
 MonoBehaviour:
@@ -700,10 +692,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Castle Key
-  interactItem: Castle Key
+  name: Castle Key
+  type: pick up
 --- !u!61 &493850692
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -720,14 +710,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.6111111, y: 0.22222222}
-    newSize: {x: 0.6111111, y: 0.22222222}
+    oldSize: {x: 0.3, y: 0.5}
+    newSize: {x: 0.32, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6111111, y: 0.22222222}
+  m_Size: {x: 0.3, y: 0.5}
   m_EdgeRadius: 0
 --- !u!50 &493850693
 Rigidbody2D:
@@ -783,12 +773,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2ca880fedc9f5af45bd82f893334f809, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bec3b4f315c7a2445a0b1273f2b52cf7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.6111111, y: 0.22222222}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -823,7 +813,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 21
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &538627261
 MonoBehaviour:
@@ -836,10 +826,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Medium Health Potion
-  interactItem: Medium Health Potion
+  name: Medium Health Potion
+  type: pick up
 --- !u!61 &538627262
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -972,10 +960,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Large Health Potion
-  interactItem: Large Health Potion
+  name: Large Health Potion
+  type: pick up
 --- !u!61 &572602289
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5192,28 +5178,28 @@ Transform:
   m_LocalPosition: {x: 224.43373, y: 368.7901, z: -3.9702907}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1479287927}
   - {fileID: 1003952707}
-  - {fileID: 331556518}
-  - {fileID: 1363583099}
-  - {fileID: 1492746254}
-  - {fileID: 1273784862}
+  - {fileID: 493850690}
+  - {fileID: 1563463364}
   - {fileID: 933149485}
-  - {fileID: 1688057206}
-  - {fileID: 1714337049}
-  - {fileID: 1753383324}
   - {fileID: 2009371289}
   - {fileID: 1780286854}
   - {fileID: 1559907097}
+  - {fileID: 1363583099}
   - {fileID: 1580743744}
   - {fileID: 1060396545}
+  - {fileID: 1273784862}
   - {fileID: 1072772103}
-  - {fileID: 883350749}
-  - {fileID: 493850690}
-  - {fileID: 1563463364}
+  - {fileID: 331556518}
+  - {fileID: 1492746254}
+  - {fileID: 1688057206}
+  - {fileID: 1714337049}
+  - {fileID: 1753383324}
   - {fileID: 486779093}
   - {fileID: 1263755393}
   - {fileID: 538627260}
+  - {fileID: 1479287927}
+  - {fileID: 883350749}
   - {fileID: 572602287}
   - {fileID: 1071116870}
   - {fileID: 912876364}
@@ -5269,10 +5255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Large Health Potion
-  interactItem: Large Health Potion
+  name: Large Health Potion
+  type: pick up
 --- !u!61 &865482968
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5392,7 +5376,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 16
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &883350750
 MonoBehaviour:
@@ -5405,10 +5389,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Large Health Potion
-  interactItem: Large Health Potion
+  name: Large Health Potion
+  type: pick up
 --- !u!61 &883350751
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5541,10 +5523,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Large Health Potion
-  interactItem: Large Health Potion
+  name: Large Health Potion
+  type: pick up
 --- !u!61 &912876366
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5664,7 +5644,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &933149486
 MonoBehaviour:
@@ -5677,10 +5657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Wood Sword
-  interactItem: Wood Sword
+  name: Wood Sword
+  type: pick up
 --- !u!61 &933149487
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5821,8 +5799,8 @@ GameObject:
   - component: {fileID: 1003952707}
   - component: {fileID: 1003952711}
   - component: {fileID: 1003952710}
-  - component: {fileID: 1003952709}
   - component: {fileID: 1003952708}
+  - component: {fileID: 1003952709}
   m_Layer: 11
   m_Name: Castle Key
   m_TagString: Interactable
@@ -5837,11 +5815,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1003952706}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -237.96, y: -361.58, z: 3.9702907}
+  m_LocalPosition: {x: -238.01, y: -361.42, z: 3.9702907}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1003952708
 MonoBehaviour:
@@ -5854,10 +5832,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Castle Key
-  interactItem: Castle Key
+  name: Castle Key
+  type: pick up
 --- !u!61 &1003952709
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5874,14 +5850,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.6111111, y: 0.22222222}
-    newSize: {x: 0.6111111, y: 0.22222222}
+    oldSize: {x: 0.3, y: 0.5}
+    newSize: {x: 0.32, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6111111, y: 0.22222222}
+  m_Size: {x: 0.3, y: 0.5}
   m_EdgeRadius: 0
 --- !u!50 &1003952710
 Rigidbody2D:
@@ -5937,12 +5913,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2ca880fedc9f5af45bd82f893334f809, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bec3b4f315c7a2445a0b1273f2b52cf7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.6111111, y: 0.22222222}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -5990,10 +5966,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Large Health Potion
-  interactItem: Large Health Potion
+  name: Large Health Potion
+  type: pick up
 --- !u!61 &1014670080
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6113,7 +6087,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 14
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1060396546
 MonoBehaviour:
@@ -6126,10 +6100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Iron Sword
-  interactItem: Iron Sword
+  name: Iron Sword
+  type: pick up
 --- !u!61 &1060396547
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6262,10 +6234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Large Health Potion
-  interactItem: Large Health Potion
+  name: Large Health Potion
+  type: pick up
 --- !u!61 &1071116872
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6385,7 +6355,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 15
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1072772104
 MonoBehaviour:
@@ -6398,10 +6368,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Steel Sword
-  interactItem: Steel Sword
+  name: Steel Sword
+  type: pick up
 --- !u!61 &1072772105
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6521,7 +6489,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 20
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1263755394
 MonoBehaviour:
@@ -6534,10 +6502,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Medium Health Potion
-  interactItem: Medium Health Potion
+  name: Medium Health Potion
+  type: pick up
 --- !u!61 &1263755395
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6657,7 +6623,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 5
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1273784863
 MonoBehaviour:
@@ -6670,10 +6636,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Steel Sword
-  interactItem: Steel Sword
+  name: Steel Sword
+  type: pick up
 --- !u!61 &1273784864
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6793,7 +6757,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 3
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1363583100
 MonoBehaviour:
@@ -6806,10 +6770,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Iron Sword
-  interactItem: Iron Sword
+  name: Iron Sword
+  type: pick up
 --- !u!61 &1363583101
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6973,7 +6935,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 0
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1479287928
 MonoBehaviour:
@@ -6986,10 +6948,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Large Health Potion
-  interactItem: Large Health Potion
+  name: Large Health Potion
+  type: pick up
 --- !u!61 &1479287929
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7065,7 +7025,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 4
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1492746255
 MonoBehaviour:
@@ -7078,10 +7038,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Small Health Potion
-  interactItem: Small Health Potion
+  name: Small Health Potion
+  type: pick up
 --- !u!61 &1492746256
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7201,7 +7159,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 12
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1559907098
 MonoBehaviour:
@@ -7214,10 +7172,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Wood Sword
-  interactItem: Wood Sword
+  name: Wood Sword
+  type: pick up
 --- !u!61 &1559907099
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7317,8 +7273,8 @@ GameObject:
   - component: {fileID: 1563463364}
   - component: {fileID: 1563463368}
   - component: {fileID: 1563463367}
-  - component: {fileID: 1563463366}
   - component: {fileID: 1563463365}
+  - component: {fileID: 1563463366}
   m_Layer: 11
   m_Name: Castle Key (2)
   m_TagString: Interactable
@@ -7337,7 +7293,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 18
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1563463365
 MonoBehaviour:
@@ -7350,10 +7306,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Castle Key
-  interactItem: Castle Key
+  name: Castle Key
+  type: pick up
 --- !u!61 &1563463366
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7370,14 +7324,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.6111111, y: 0.22222222}
-    newSize: {x: 0.6111111, y: 0.22222222}
+    oldSize: {x: 0.3, y: 0.5}
+    newSize: {x: 0.32, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6111111, y: 0.22222222}
+  m_Size: {x: 0.3, y: 0.5}
   m_EdgeRadius: 0
 --- !u!50 &1563463367
 Rigidbody2D:
@@ -7433,12 +7387,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2ca880fedc9f5af45bd82f893334f809, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bec3b4f315c7a2445a0b1273f2b52cf7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.6111111, y: 0.22222222}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -7473,7 +7427,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 13
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1580743745
 MonoBehaviour:
@@ -7486,10 +7440,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Iron Sword
-  interactItem: Iron Sword
+  name: Iron Sword
+  type: pick up
 --- !u!61 &1580743746
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7622,10 +7574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Large Health Potion
-  interactItem: Large Health Potion
+  name: Large Health Potion
+  type: pick up
 --- !u!61 &1601003284
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7745,7 +7695,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 7
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1688057207
 MonoBehaviour:
@@ -7758,10 +7708,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Small Health Potion
-  interactItem: Small Health Potion
+  name: Small Health Potion
+  type: pick up
 --- !u!61 &1688057208
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7881,7 +7829,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 8
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1714337050
 MonoBehaviour:
@@ -7894,10 +7842,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Small Health Potion
-  interactItem: Small Health Potion
+  name: Small Health Potion
+  type: pick up
 --- !u!61 &1714337051
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8017,7 +7963,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 9
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1753383325
 MonoBehaviour:
@@ -8030,10 +7976,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Small Health Potion
-  interactItem: Small Health Potion
+  name: Small Health Potion
+  type: pick up
 --- !u!61 &1753383326
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8153,7 +8097,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 11
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1780286855
 MonoBehaviour:
@@ -8166,10 +8110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Wood Sword
-  interactItem: Wood Sword
+  name: Wood Sword
+  type: pick up
 --- !u!61 &1780286856
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8302,10 +8244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Large Health Potion
-  interactItem: Large Health Potion
+  name: Large Health Potion
+  type: pick up
 --- !u!61 &1968478535
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8425,7 +8365,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 740536335}
-  m_RootOrder: 10
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2009371290
 MonoBehaviour:
@@ -8438,10 +8378,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcbd6ebc6e6981418398d681989c0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableText: {fileID: 0}
-  interactType: pick up
-  interactText: Pick up Wood Sword
-  interactItem: Wood Sword
+  name: Wood Sword
+  type: pick up
 --- !u!61 &2009371291
 BoxCollider2D:
   m_ObjectHideFlags: 0

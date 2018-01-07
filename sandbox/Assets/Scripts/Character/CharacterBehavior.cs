@@ -20,6 +20,8 @@ namespace Character2D
 
         public bool isAttackable; //whether or not the character is attackable
 
+        public GameObject interactable;
+
         public List<InventoryItem> items; //items held by the character
         public GameData gameData;
 
@@ -64,21 +66,29 @@ namespace Character2D
             }
         }
 
-        public void RemoveItem(string name)
+        public void RemoveItem(InventoryItem itemToRemove, bool removeAll, bool drop)
         {
-            InventoryItem itemToRemove = new InventoryItem();
-            itemToRemove.item = gameData.itemData.itemDictionary[name];
-            foreach (InventoryItem inv in items)
+            int amountToDrop = 0;
+            if(removeAll)
             {
-                if (inv.item == gameData.itemData.itemDictionary[name])
+                amountToDrop = itemToRemove.quantity;
+                items.Remove(itemToRemove);
+            }
+            else
+            {
+                amountToDrop = 1;
+                itemToRemove.quantity--;
+                if (itemToRemove.quantity <= 0)
                 {
-                    inv.quantity--;
-                    //instantiate item on the ground
-                    if(inv.quantity <= 0)
-                    {
-                        items.Remove(inv);
-                    }
-                    break;
+                    items.Remove(itemToRemove);
+                }
+            }
+
+            if(drop)
+            {
+                for(int i = 0; i < amountToDrop; i++)
+                {
+                    instantiateItem(itemToRemove.item);
                 }
             }
         }
@@ -91,6 +101,29 @@ namespace Character2D
             {
                 Debug.Log("Item: " + inv.item.name + " | " + inv.quantity);
             }
+        }
+
+        private void instantiateItem(Item item)
+        {
+            //TODO: fix comments
+            //instantiate a prefab for the interact button
+            GameObject newItem = Instantiate(interactable) as GameObject;
+            InteractableObject io = newItem.GetComponent<InteractableObject>();
+            SpriteRenderer sr = newItem.GetComponent<SpriteRenderer>();
+            BoxCollider2D bc = newItem.GetComponent<BoxCollider2D>();
+
+            //set the text for the interactable onscreen 
+            io.name = item.name;
+            io.type = "pick up";
+
+            sr.sprite = item.sprite;
+
+            newItem.transform.position = transform.position;
+
+            bc.size = sr.bounds.size;
+
+            //for some reason Unity does not use full scale for the instantiated object by default
+            newItem.transform.localScale = Vector3.one;
         }
     }
 }

@@ -47,9 +47,11 @@ public class LevelStreamManager : MonoBehaviour
         asyncLoad.allowSceneActivation = true; //scene will be activated automatically
         while (!asyncLoad.isDone)
         {
-            yield return null;
+            yield return asyncLoad;
         }
         isLoaded = true;
+        scene = SceneManager.GetSceneByName(sceneName);
+        SceneManager.SetActiveScene(scene);
     }
 
     //coroutine that unloads a scene asynchronously
