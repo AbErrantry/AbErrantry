@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using System.Collections;
 
 namespace Character2D
 {
@@ -23,6 +24,8 @@ namespace Character2D
 
         public bool interactionInput; //whether the character is trying to interact or not
 
+        private float openTime;
+
         void Start()
         {
             interactionInput = false;
@@ -32,6 +35,8 @@ namespace Character2D
 
             //TODO: set default interactBarKey
             interactKey = "Q";
+
+            openTime = 0.1f;
         }
 
         // Update is called once per frame
@@ -123,24 +128,28 @@ namespace Character2D
         //performs the interaction with the selected item
         public void Interact(int index)
         {
-            switch(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().type)
+            switch(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().typeOfInteractable)
             {
-                case "pick up":
+                case InteractableObject.Types.Item:
                     characterBehavior.AddItem(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().name);
+                    Destroy(interactionTrigger.currentObjects[index]); //TODO: change to teleport item to player
                     break;
-                case "talk":
+                case InteractableObject.Types.Character:
                     //open talk dialogue
                     break;
-                case "open":
+                case InteractableObject.Types.EnterDoor:
+                case InteractableObject.Types.ExitDoor:
                     //toggle item open/closed based on current state
+                    StartCoroutine(interactionTrigger.currentObjects[index].GetComponent<Door>().EnterDoor(gameObject));
+                    break;
+                case InteractableObject.Types.Chest:
+                    //open chest
                     break;
                 default:
                     Debug.Log("Error: interact type is unknown. Please add its behavior to CharacterInteraction.");
                     break;
             }
-
-            //destroy the item, removing it from the game and list
-            Destroy(interactionTrigger.currentObjects[index]);
+            
             CloseContainer();
         }
 
@@ -171,7 +180,7 @@ namespace Character2D
             {
                 InteractableObject io = interactionTrigger.currentObjects[i].GetComponent<InteractableObject>();
                 Debug.Log(io.name);
-                if (io.type == "pick up")
+                if (io.typeOfInteractable == InteractableObject.Types.Item)
                 {
                     characterBehavior.AddItem(io.name);
                     Destroy(interactionTrigger.currentObjects[i]);
@@ -203,5 +212,7 @@ namespace Character2D
                 interactBarText.text = press + key + type + item;
             }
         }
+
+        
     }
 }

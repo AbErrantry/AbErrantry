@@ -114,7 +114,8 @@ namespace Character2D
 
             //set the text for the interactable onscreen 
             io.name = item.name;
-            io.type = "pick up";
+            io.typeOfInteractable = InteractableObject.Types.Item;
+            io.SetType();
 
             sr.sprite = item.sprite;
 
