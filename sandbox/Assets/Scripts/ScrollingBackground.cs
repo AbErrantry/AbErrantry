@@ -5,23 +5,20 @@ using UnityEngine;
 
 public class ScrollingBackground : MonoBehaviour {
 
-    public float speed = 0;
-    public CharacterMovement player;
-    private Vector2 offset;
+    public float scrollSpeed;
+    public float tileSizeZ;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    private Vector3 startPosition;
+
+    void Start()
     {
-        speed = player.mvmtSpeed / 4;
-        if (speed == 0)
-            speed = 1;
-        offset = new Vector2(Time.deltaTime * speed, 0);
+        startPosition = transform.position;
+    }
 
-        this.GetComponent<MeshRenderer>().material.mainTextureOffset = offset;
-	}
+    void Update()
+    {
+        float newPosition = Mathf.Repeat(Time.time * scrollSpeed, tileSizeZ);
+        transform.position = startPosition + Vector3.forward * newPosition;
+    }
 }
+
