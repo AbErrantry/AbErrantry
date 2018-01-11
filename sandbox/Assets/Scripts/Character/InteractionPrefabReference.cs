@@ -5,7 +5,7 @@ namespace Character2D
 {
     public class InteractionPrefabReference : MonoBehaviour
     {
-        public InteractableObject interactable;
+        public Interactable interactable;
         public TMP_Text interactText;
 
         private CharacterInteraction characterInteraction; //reference to the interaction manager
@@ -24,8 +24,8 @@ namespace Character2D
             //iterate through the interactable list
             for (int i = 0; i < characterInteraction.interactionTrigger.currentObjects.Count; i++)
             {
-                string currentText = characterInteraction.interactionTrigger.currentObjects[i].GetComponent<InteractableObject>().type 
-                    + " " + characterInteraction.interactionTrigger.currentObjects[i].GetComponent<InteractableObject>().name;
+                string currentText = characterInteraction.interactionTrigger.currentObjects[i].GetComponent<Interactable>().type 
+                    + " " + characterInteraction.interactionTrigger.currentObjects[i].GetComponent<Interactable>().name;
                 //if the current interactable's text is equal to the clicked text, then we have found the clicked interactable 
                 if (currentText == clickedText.text)
                 {

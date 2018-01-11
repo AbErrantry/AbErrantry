@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pickup : Interactable
+public class NPC : Interactable
 {
-	//used for initialization
-	private new void Start ()
+    //used for initialization
+    private new void Start()
     {
         base.Start();
 

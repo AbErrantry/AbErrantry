@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Door : InteractableObject
+public class BackDoor : Interactable
 {
     public GameObject doorPair;
     private Animator anim;
     private float openTime;
-
     private new void Start()
     {
+        typeOfInteractable = Types.BackDoor;
         base.Start();
         anim = GetComponent<Animator>();
         openTime = 0.25f;

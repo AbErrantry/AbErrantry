@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class InteractableObject : MonoBehaviour
+public class Interactable : MonoBehaviour
 {
     public enum Types //enumeration of character types
     {
-        EnterDoor, ExitDoor, Item, Character, Chest
+        BackDoor, SideDoor, Pickup, NPC, Chest
     };
 
     public new string name;
@@ -20,16 +20,16 @@ public class InteractableObject : MonoBehaviour
     {
         switch (typeOfInteractable)
         {
-            case Types.EnterDoor:
+            case Types.BackDoor:
                 type = "Enter";
                 break;
-            case Types.ExitDoor:
-                type = "Exit";
+            case Types.SideDoor:
+                type = "Open";
                 break;
-            case Types.Item:
+            case Types.Pickup:
                 type = "Pick up";
                 break;
-            case Types.Character:
+            case Types.NPC:
                 type = "Talk";
                 break;
             case Types.Chest:

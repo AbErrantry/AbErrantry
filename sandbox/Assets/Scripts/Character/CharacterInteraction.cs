@@ -62,8 +62,8 @@ namespace Character2D
             else if (interactionTrigger.currentObjects.Count == 1)
             {
                 interactBar.SetActive(true);
-                SetInteractBarText(interactionTrigger.currentObjects[0].GetComponent<InteractableObject>().type, 
-                    interactionTrigger.currentObjects[0].GetComponent<InteractableObject>().name, false);
+                SetInteractBarText(interactionTrigger.currentObjects[0].GetComponent<Interactable>().type, 
+                    interactionTrigger.currentObjects[0].GetComponent<Interactable>().name, false);
             }
             //if there exists more than one interactable, display a generic popup
             else
@@ -104,8 +104,8 @@ namespace Character2D
                 InteractionPrefabReference temp = newButton.GetComponent<InteractionPrefabReference>();
 
                 //set the text for the interactable onscreen 
-                temp.interactText.text = interactionTrigger.currentObjects[i].GetComponent<InteractableObject>().type 
-                    + " " + interactionTrigger.currentObjects[i].GetComponent<InteractableObject>().name;
+                temp.interactText.text = interactionTrigger.currentObjects[i].GetComponent<Interactable>().type 
+                    + " " + interactionTrigger.currentObjects[i].GetComponent<Interactable>().name;
 
                 //put the interactable in the list
                 newButton.transform.SetParent(interactList.transform);
@@ -128,21 +128,23 @@ namespace Character2D
         //performs the interaction with the selected item
         public void Interact(int index)
         {
-            switch(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().typeOfInteractable)
+            switch(interactionTrigger.currentObjects[index].GetComponent<Interactable>().typeOfInteractable)
             {
-                case InteractableObject.Types.Item:
-                    characterBehavior.AddItem(interactionTrigger.currentObjects[index].GetComponent<InteractableObject>().name);
+                case Interactable.Types.Pickup:
+                    characterBehavior.AddItem(interactionTrigger.currentObjects[index].GetComponent<Interactable>().name);
                     Destroy(interactionTrigger.currentObjects[index]); //TODO: change to teleport item to player
                     break;
-                case InteractableObject.Types.Character:
+                case Interactable.Types.NPC:
                     //open talk dialogue
                     break;
-                case InteractableObject.Types.EnterDoor:
-                case InteractableObject.Types.ExitDoor:
+                case Interactable.Types.BackDoor:
                     //toggle item open/closed based on current state
-                    StartCoroutine(interactionTrigger.currentObjects[index].GetComponent<Door>().EnterDoor(gameObject));
+                    StartCoroutine(interactionTrigger.currentObjects[index].GetComponent<BackDoor>().EnterDoor(gameObject));
                     break;
-                case InteractableObject.Types.Chest:
+                case Interactable.Types.SideDoor:
+                    interactionTrigger.currentObjects[index].GetComponent<SideDoor>().ToggleState();
+                    break;
+                case Interactable.Types.Chest:
                     //open chest
                     break;
                 default:
@@ -178,9 +180,9 @@ namespace Character2D
         {
             for (int i = interactionTrigger.currentObjects.Count - 1; i >= 0; i--)
             {
-                InteractableObject io = interactionTrigger.currentObjects[i].GetComponent<InteractableObject>();
+                Interactable io = interactionTrigger.currentObjects[i].GetComponent<Interactable>();
                 Debug.Log(io.name);
-                if (io.typeOfInteractable == InteractableObject.Types.Item)
+                if (io.typeOfInteractable == Interactable.Types.Pickup)
                 {
                     characterBehavior.AddItem(io.name);
                     Destroy(interactionTrigger.currentObjects[i]);
