@@ -13,16 +13,22 @@ public class ScrollingBackground : MonoBehaviour
     public MeshRenderer mainBackground;
     public MeshRenderer middleBackground;
 
+    private Vector3 currPos;
+    private Vector3 prevPos;
     // Use this for initialization
     void Start()
     {
-
+        currPos = player.transform.position;
     }
 
     // Update is called once per frame
-    public void ScrollIt()
+    void LateUpdate()
     {
-        if (player.mvmtSpeed != 0)
+        prevPos = currPos;
+        currPos = player.transform.position;
+
+
+        if (player.mvmtSpeed != 0 && (currPos != prevPos))
         {
             speed = player.mvmtSpeed / 100;
             mainOffset += new Vector2(Time.deltaTime * speed, 0);
