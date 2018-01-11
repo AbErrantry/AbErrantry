@@ -185,7 +185,7 @@ namespace Character2D
                 if (io.typeOfInteractable == Interactable.Types.Pickup)
                 {
                     characterBehavior.AddItem(io.name);
-                    Destroy(interactionTrigger.currentObjects[i]);
+                    StartCoroutine(interactionTrigger.currentObjects[i].GetComponent<Pickup>().Collect(gameObject));
                 }
             }
             CloseContainer();

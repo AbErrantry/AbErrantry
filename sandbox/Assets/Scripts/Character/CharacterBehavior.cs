@@ -108,14 +108,14 @@ namespace Character2D
             //TODO: fix comments
             //instantiate a prefab for the interact button
             GameObject newItem = Instantiate(interactable) as GameObject;
-            Interactable io = newItem.GetComponent<Interactable>();
+            Pickup pu = newItem.GetComponent<Pickup>();
             SpriteRenderer sr = newItem.GetComponent<SpriteRenderer>();
             BoxCollider2D bc = newItem.GetComponent<BoxCollider2D>();
 
             //set the text for the interactable onscreen 
-            io.name = item.name;
-            io.typeOfInteractable = Interactable.Types.Pickup;
-            io.SetType();
+            pu.name = item.name;
+            pu.typeOfInteractable = Interactable.Types.Pickup;
+            pu.SetType();
 
             sr.sprite = item.sprite;
 
