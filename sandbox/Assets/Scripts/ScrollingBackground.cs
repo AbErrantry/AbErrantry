@@ -3,22 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrollingBackground : MonoBehaviour {
+public class ScrollingBackground : MonoBehaviour
+{
 
-    public float scrollSpeed;
-    public float tileSizeZ;
+    public float speed = 0;
+    public CharacterMovement player;
+    private Vector2 mainOffset;
+    private Vector2 midOffset;
+    public MeshRenderer mainBackground;
+    public MeshRenderer middleBackground;
 
-    private Vector3 startPosition;
-
+    // Use this for initialization
     void Start()
     {
-        startPosition = transform.position;
+
     }
 
-    void Update()
+    // Update is called once per frame
+    public void ScrollIt()
     {
-        float newPosition = Mathf.Repeat(Time.time * scrollSpeed, tileSizeZ);
-        transform.position = startPosition + Vector3.forward * newPosition;
+        if (player.mvmtSpeed != 0)
+        {
+            speed = player.mvmtSpeed / 100;
+            mainOffset += new Vector2(Time.deltaTime * speed, 0);
+            mainBackground.material.mainTextureOffset = mainOffset;
+
+            speed = player.mvmtSpeed / 50;
+            midOffset += new Vector2(Time.deltaTime * speed, 0);
+            middleBackground.material.mainTextureOffset = midOffset;
+        }
     }
 }
 
