@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Character2D
 {
-    public class CharacterBehavior : MonoBehaviour
+    public class Character : MonoBehaviour
     {
         public enum Types //enumeration of character types
         {
@@ -17,8 +17,7 @@ namespace Character2D
         public float strength; //the strength of the character
         public float agility; //the agility of the character
         public float weight; //the weight of the character
-
-        public bool isAttackable; //whether or not the character is attackable
+        public bool isActive; //whether or not the character is active
 
         public GameObject interactable;
 
@@ -26,23 +25,9 @@ namespace Character2D
         public GameData gameData;
 
         //used for initialization
-        private void Start()
+        protected void Start()
         {
             items = new List<InventoryItem>();
-        }
-
-        //applies damage to the player
-        public virtual void TakeDamage(float damage)
-        {
-            if(isAttackable)
-            {
-                vitality = vitality - damage;
-                if (vitality <= 0f)
-                {
-                    //kill
-                    //spawn items as loot
-                }
-            }
         }
 
         public void AddItem(string name)
@@ -93,7 +78,6 @@ namespace Character2D
             }
         }
 
-        //todo: differentiate between remove/drop/destroy generically.
 
         private void PrintItems()
         {

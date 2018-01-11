@@ -14,7 +14,7 @@ namespace Character2D
         public GameObject journalContainer;
         public GameObject mapContainer;
 
-        public CharacterBehavior characterBehavior;
+        public Character character;
 
         public GameObject inventoryItem;
         public GameObject inventoryList;
@@ -119,7 +119,7 @@ namespace Character2D
 
         private void LoadInventoryItems()
         {
-            foreach (InventoryItem inv in characterBehavior.items)
+            foreach (InventoryItem inv in character.items)
             {
                 //TODO: fix comments
                 //instantiate a prefab for the interact button
@@ -144,7 +144,7 @@ namespace Character2D
                 newButton.transform.localScale = Vector3.one;
             }
 
-            if(characterBehavior.items.Count > 0)
+            if(character.items.Count > 0)
             {
                 inventoryMask.SetActive(false);
             }
@@ -237,7 +237,7 @@ namespace Character2D
                 //move the scrollbar back to the top of the list
                 scrollRect.verticalNormalizedPosition = 1.0f;
             }
-            characterBehavior.RemoveItem(selectedItem, false, false);
+            character.RemoveItem(selectedItem, false, false);
             UnloadInventoryItems();
             LoadInventoryItems();
             
@@ -245,7 +245,7 @@ namespace Character2D
 
         public void DropItem()
         {
-            characterBehavior.RemoveItem(selectedItem, isAll, true);
+            character.RemoveItem(selectedItem, isAll, true);
             UnloadInventoryItems();
             LoadInventoryItems();
             HideAmountConfirmContainers();
@@ -255,7 +255,7 @@ namespace Character2D
 
         public void DestroyItem()
         {
-            characterBehavior.RemoveItem(selectedItem, isAll, false);
+            character.RemoveItem(selectedItem, isAll, false);
             UnloadInventoryItems();
             LoadInventoryItems();
             HideAmountConfirmContainers();

@@ -5,12 +5,12 @@ using System.Xml.Linq;
 
 public class CharacterData : ScriptableObject
 {
-    public Dictionary<string, Character> characterDictionary;
+    public Dictionary<string, CharacterFields> characterDictionary;
 
     //default constructor
-    public CharacterData()
+    private void OnEnable()
     {
-        characterDictionary = new Dictionary<string, Character>();
+        characterDictionary = new Dictionary<string, CharacterFields>();
         GetCharacters();
     }
 
@@ -18,12 +18,12 @@ public class CharacterData : ScriptableObject
     private void GetCharacters()
     {
         string characterDatabase = "CharacterTypeDatabase.xml";
-        List<Character> characterList = new List<Character>();
+        List<CharacterFields> characterList = new List<CharacterFields>();
 
         //parse XML with LINQ
         XDocument XDoc = XDocument.Load(characterDatabase);
         characterList = (from character in XDoc.Root.Elements("character")
-                    select new Character
+                    select new CharacterFields
                     {
                         type = character.AttributeValueNull_String("type"),
                         vitality = character.Element("vitality").ElementValueNull_Float(),
@@ -32,7 +32,7 @@ public class CharacterData : ScriptableObject
                         weight = character.Element("weight").ElementValueNull_Float(),
                     }).OrderBy(x => x.type).ToList();
 
-        foreach (Character character in characterList)
+        foreach (CharacterFields character in characterList)
         {
             characterDictionary.Add(character.type, character);
         }
@@ -41,7 +41,7 @@ public class CharacterData : ScriptableObject
     //debug function
     private void PrintCharacters()
     {
-        foreach (Character val in characterDictionary.Values)
+        foreach (CharacterFields val in characterDictionary.Values)
         {
             Debug.Log(val.type + " " + val.vitality + " " + val.strength + " " + val.agility + " " + val.weight);
         }

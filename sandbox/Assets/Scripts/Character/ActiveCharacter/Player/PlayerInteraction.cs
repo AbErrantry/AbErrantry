@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace Character2D
 {
-    public class CharacterInteraction : MonoBehaviour
+    public class PlayerInteraction : MonoBehaviour
     {
         public InteractionTrigger interactionTrigger;
         public Character character;
@@ -209,8 +209,6 @@ namespace Character2D
                 string item = "<color=red> " + interactItem;
                 interactBarText.text = press + key + type + item;
             }
-        }
-
-        
+        }  
     }
 }

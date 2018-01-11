@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Character2D
 {
-    public class CharacterAttack : MonoBehaviour
+    public class PlayerAttack : MonoBehaviour
     {
         //character components
         private Animator anim; //the animator component of the character character
@@ -168,12 +168,12 @@ namespace Character2D
         }
 
         //applies damage to each character in the attack range
-        public void ApplyDamage(List<GameObject> characters, float damage)
+        public void ApplyDamage(List<GameObject> enemies, float damage)
         {
-            foreach(GameObject character in characters)
+            foreach(GameObject enemy in enemies)
             {
                 //TODO: setup enemy with Enemy.cs script reference for this to work
-                character.GetComponent<Enemy>().TakeDamage(damage);
+                enemy.GetComponent<Enemy>().TakeDamage(damage);
             }
         }
     }

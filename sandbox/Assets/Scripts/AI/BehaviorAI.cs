@@ -22,7 +22,7 @@ namespace Character2D
 
         private static bool trackingPlayer;
         public bool beaconRight; //false will be left, true will be right
-        private bool shouldSwitch;
+        //private bool shouldSwitch; TODO: use
 
         //used for initialization
         private void Start()
@@ -33,14 +33,14 @@ namespace Character2D
             beaconRight = true;
             //currBeacon = rightBeacon;
             //disBtwnBeacons = Vector2.Distance(rightBeacon.transform.position, leftBeacon.transform.position);
-            shouldSwitch = false;
+            //shouldSwitch = false;
         }
 
         //occurs after all Update methods
         //TODO: implement extents for ai pathing as opposed to time (and move out of update)
         private void LateUpdate()
         {
-            if (Time.timeScale == 1  && aiMovement.crouchInput == false && aiMovement.jumpInput == false)
+            if (Time.timeScale == 1 && aiMovement.jumpInput == false)
             {
                /*
                disToCurrBeacon = Vector2.Distance(this.transform.position,currBeacon.transform.position);
@@ -96,13 +96,7 @@ namespace Character2D
         public void InputAttempt()
         {
             aiMovement.jumpInput = false;
-            aiMovement.crouchInput = false;
-
-            if (topCrouch.currentObjects.Count != 0 && botCrouch.currentObjects.Count == 0)
-            {
-                aiMovement.crouchInput = true; //send crouch input
-            }
-            else if(topCrouch.currentObjects.Count == 0 && botCrouch.currentObjects.Count != 0)
+            if(topCrouch.currentObjects.Count == 0 && botCrouch.currentObjects.Count != 0)
             {
                 aiMovement.jumpInput = true; //send jump input
             }

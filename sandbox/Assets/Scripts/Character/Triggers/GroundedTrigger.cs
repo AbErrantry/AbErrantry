@@ -9,11 +9,11 @@
         {
             if (isInTrigger)
             {
-                characterMovement.GroundedReset();
+                characterMovement.SetGrounded();
             }
             else
             {
-                characterMovement.isGrounded = false;
+                characterMovement.SetUngrounded();
             }
         }
     }
