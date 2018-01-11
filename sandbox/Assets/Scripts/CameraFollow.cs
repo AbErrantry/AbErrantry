@@ -33,6 +33,8 @@ public class CameraFollow : MonoBehaviour
         }
 
         transform.position = targetPosition;
+
+        StopCoroutine(AlignToNewBounds());
     }
 
     public void SetNewBounds(Bounds newBounds)
@@ -49,10 +51,20 @@ public class CameraFollow : MonoBehaviour
         return v3_ret;
     }
 
-    private void LateUpdate()
+    void LateUpdate()
     {
-        Vector3 temp = new Vector3(target.position.x, 0, target.position.z);
-        Vector3 desiredPosition = temp + offset;
+        Vector3 desiredPosition;
+
+        if (target.position.y > 0)
+        {
+            Vector3 temp = new Vector3(target.position.x, 0, target.position.z);
+            desiredPosition = temp + offset;
+        }
+        else
+        {
+            desiredPosition = target.position + offset;
+        }
+        
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
         transform.position = smoothedPosition;
     }
