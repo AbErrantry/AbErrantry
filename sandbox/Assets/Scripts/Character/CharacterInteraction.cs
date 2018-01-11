@@ -132,14 +132,14 @@ namespace Character2D
             {
                 case Interactable.Types.Pickup:
                     characterBehavior.AddItem(interactionTrigger.currentObjects[index].GetComponent<Interactable>().name);
-                    Destroy(interactionTrigger.currentObjects[index]); //TODO: change to teleport item to player
+                    StartCoroutine(interactionTrigger.currentObjects[index].GetComponent<Pickup>().Collect(gameObject));
                     break;
                 case Interactable.Types.NPC:
                     //open talk dialogue
                     break;
                 case Interactable.Types.BackDoor:
                     //toggle item open/closed based on current state
-                    StartCoroutine(interactionTrigger.currentObjects[index].GetComponent<BackDoor>().EnterDoor(gameObject));
+                    StartCoroutine(interactionTrigger.currentObjects[index].GetComponent<BackDoor>().EnterDoor(gameObject, true));
                     break;
                 case Interactable.Types.SideDoor:
                     interactionTrigger.currentObjects[index].GetComponent<SideDoor>().ToggleState();

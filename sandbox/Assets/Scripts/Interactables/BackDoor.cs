@@ -14,7 +14,7 @@ public class BackDoor : Interactable
         openTime = 0.25f;
     }
 
-    public IEnumerator EnterDoor(GameObject character)
+    public IEnumerator EnterDoor(GameObject character, bool isFirst)
     {
         float startTime;
         startTime = Time.time;
@@ -25,5 +25,9 @@ public class BackDoor : Interactable
         }
         character.transform.position = doorPair.transform.position;
         anim.SetBool("isOpen", false);
+        if(isFirst)
+        {
+            yield return StartCoroutine(doorPair.GetComponent<BackDoor>().EnterDoor(gameObject, false));
+        }
     }
 }

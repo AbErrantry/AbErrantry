@@ -44,6 +44,8 @@ namespace Character2D
         public GameObject amountContainer;
         public GameObject confirmContainer;
 
+        public Animator anim;
+
         public bool isDestroying;
         public bool isAll;
         public bool isOne;
@@ -224,6 +226,7 @@ namespace Character2D
             else if(selectedItem.item.type == "consumable")
             {
                 Debug.Log("Heal player for " + selectedItem.item.strength + " health points.");
+                anim.Play("large-health");
             }
             else
             {
