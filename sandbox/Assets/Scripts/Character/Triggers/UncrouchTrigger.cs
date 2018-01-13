@@ -1,4 +1,6 @@
-﻿namespace Character2D
+﻿using UnityEngine;
+
+namespace Character2D
 {
     public class UncrouchTrigger : Trigger
     {

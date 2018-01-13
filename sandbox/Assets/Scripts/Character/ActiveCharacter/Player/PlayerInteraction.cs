@@ -9,6 +9,8 @@ namespace Character2D
     public class PlayerInteraction : MonoBehaviour
     {
         public InteractionTrigger interactionTrigger;
+
+        private PlayerInput playerInput;
         public Character character;
 
         public GameObject interactBar; //reference to the interact popup bar that asks for input to interact
@@ -18,14 +20,23 @@ namespace Character2D
 
         public TMP_Text interactBarText; //the text displayed on the interact bar
 
+        public Button collectAllButton;
+
         private string interactKey; //the key for interaction
 
         public ScrollRect scrollRect; //the default y position of the interact list (to scroll back to the top)
 
         public bool interactionInput; //whether the character is trying to interact or not
 
+        public bool isInteracting;
+        public float interactTime;
+
         void Start()
         {
+            playerInput = GetComponent<PlayerInput>();
+
+            isInteracting = false; 
+
             interactionInput = false;
 
             interactBar.SetActive(false);
@@ -33,6 +44,8 @@ namespace Character2D
 
             //TODO: set default interactBarKey
             interactKey = "Q";
+
+            interactTime = 0.5f;
         }
 
         // Update is called once per frame
@@ -92,6 +105,8 @@ namespace Character2D
         //shows the list of interactables that the player can select to interact with
         public void ShowList()
         {
+            playerInput.acceptInput = false;
+            int numberOfItems = 0;
             //iterate through the list of interactables spawning buttons on screen in a list
             for (int i = 0; i < interactionTrigger.currentObjects.Count; i++)
             {
@@ -108,7 +123,22 @@ namespace Character2D
 
                 //for some reason Unity does not use full scale for the instantiated object by default
                 newButton.transform.localScale = Vector3.one;
+
+                if(interactionTrigger.currentObjects[i].GetComponent<Interactable>().typeOfInteractable == Interactable.Types.Pickup)
+                {
+                    numberOfItems++;
+                }
             }
+
+            if(numberOfItems > 0)
+            {
+                collectAllButton.interactable = true;
+            }
+            else
+            {
+                collectAllButton.interactable = false;
+            }
+
             interactBar.SetActive(false);
             interactContainer.SetActive(true);
 
@@ -124,6 +154,7 @@ namespace Character2D
         //performs the interaction with the selected item
         public void Interact(int index)
         {
+            StartCoroutine(InteractDelay());
             switch(interactionTrigger.currentObjects[index].GetComponent<Interactable>().typeOfInteractable)
             {
                 case Interactable.Types.Pickup:
@@ -151,6 +182,15 @@ namespace Character2D
             CloseContainer();
         }
 
+        private IEnumerator InteractDelay()
+        {
+            playerInput.acceptInput = false;
+            isInteracting = true;
+            yield return new WaitForSeconds(interactTime);
+            isInteracting = false;
+            playerInput.acceptInput = true;
+        }
+
         //cleans up the screen after an interactable is chosen
         public void CloseContainer()
         {
@@ -169,11 +209,14 @@ namespace Character2D
                 children.Add(child.gameObject);
             }
             children.ForEach(child => Destroy(child));
+
+            playerInput.acceptInput = true;
         }
 
         //collects all items in the player's vicinity
         public void CollectAllItems()
         {
+            StartCoroutine(InteractDelay());
             for (int i = interactionTrigger.currentObjects.Count - 1; i >= 0; i--)
             {
                 Interactable io = interactionTrigger.currentObjects[i].GetComponent<Interactable>();

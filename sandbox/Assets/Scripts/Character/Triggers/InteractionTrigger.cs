@@ -2,7 +2,7 @@
 {
     public class InteractionTrigger : Trigger
     {
-        public CharacterInteraction characterInteraction;
+        public PlayerInteraction playerInteraction;
 
         //used for initialization
         void Start()
@@ -14,7 +14,7 @@
         //fires upon an object entering/exiting the trigger box
         protected override void TriggerAction(bool isInTrigger)
         {
-            characterInteraction.DisplayText();
+            playerInteraction.DisplayText();
         }
     }
 }

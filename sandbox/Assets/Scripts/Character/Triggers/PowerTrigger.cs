@@ -2,7 +2,7 @@
 {
     public class PowerTrigger : Trigger
     {
-        public CharacterAttack characterAttack; //reference to the character attack script
+        public ActiveCharacterAttack characterAttack; //reference to the character attack script
 
         // Use this for initialization
         void Start()

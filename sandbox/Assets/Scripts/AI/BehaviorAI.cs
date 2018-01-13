@@ -5,7 +5,6 @@ namespace Character2D
     public class BehaviorAI : MonoBehaviour
     {
         public CharacterMovement aiMovement; //reference to the character movement component
-        public CharacterInteraction aiInteraction; //reference to the character interaction component
         public AICrouchTrigger topCrouch; //reference to the top trigger ai crouch trigger component
         public AICrouchTrigger botCrouch; //reference to the bottom trigger ai crouch trigger component
        

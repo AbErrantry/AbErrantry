@@ -19,15 +19,14 @@ public class BackDoor : Interactable
         float startTime;
         startTime = Time.time;
         anim.SetBool("isOpen", true);
-        while (Time.time - startTime < openTime)
-        {
-            yield return null;
-        }
-        character.transform.position = doorPair.transform.position;
+
+        yield return new WaitForSeconds(openTime);
+
         anim.SetBool("isOpen", false);
         if(isFirst)
         {
-            yield return StartCoroutine(doorPair.GetComponent<BackDoor>().EnterDoor(gameObject, false));
+            character.transform.position = doorPair.transform.position;
+            yield return StartCoroutine(doorPair.GetComponent<BackDoor>().EnterDoor(character, false));
         }
     }
 }

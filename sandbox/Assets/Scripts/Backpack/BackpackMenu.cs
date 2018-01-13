@@ -8,6 +8,9 @@ namespace Character2D
 {
     public class BackpackMenu : MonoBehaviour
     {
+        private PlayerInput playerInput;
+        private PlayerInteraction playerInteraction;
+
         public GameObject backpackContainer;
 
         public GameObject inventoryContainer;
@@ -55,6 +58,9 @@ namespace Character2D
         //used for initialization
         private void Start()
         {
+            playerInput = GetComponent<PlayerInput>();
+            playerInteraction = GetComponent<PlayerInteraction>();
+
             backpackContainer.SetActive(false);
             CloseTabs();
             isOpen = false;
@@ -64,20 +70,22 @@ namespace Character2D
         {
             if (!isOpen)
             {
+                playerInteraction.CloseContainer();
+                playerInput.acceptInput = false;
+                //TODO: move camera to side
                 backpackContainer.SetActive(true);
                 LoadInventoryItems();
                 OpenInventoryTab();
                 isOpen = true;
-                Time.timeScale = 0.0f;
 
                 //move the scrollbar back to the top of the list
                 scrollRect.verticalNormalizedPosition = 1.0f;
             }
             else
             {
+                //TODO: move camera back
                 CloseBackpackMenu();
                 isOpen = false;
-                Time.timeScale = 1.0f;
             }
         }
 
@@ -110,6 +118,7 @@ namespace Character2D
 
         public void CloseBackpackMenu()
         {
+            playerInput.acceptInput = true;
             CloseTabs();
             UnloadInventoryItems();
             backpackContainer.SetActive(false);

@@ -21,6 +21,7 @@ namespace Character2D
 			//drop loot
 			//destroy enemy
 			Debug.Log("Enemy died: " + gameObject.name); //TODO: remove debug
+			Destroy(gameObject);
         }
 	}
 }

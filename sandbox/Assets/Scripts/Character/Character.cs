@@ -28,6 +28,8 @@ namespace Character2D
         protected void Start()
         {
             items = new List<InventoryItem>();
+            
+            vitality = 100; //TODO: remove
         }
 
         public void AddItem(string name)

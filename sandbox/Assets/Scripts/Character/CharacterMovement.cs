@@ -76,7 +76,7 @@ namespace Character2D
         //called once per frame (for input)
         protected void Update()
         {
-            HandleCharacterInput();
+            HandleInput();
         }
 
         //called once per game tick (for physics)
@@ -84,38 +84,39 @@ namespace Character2D
         {
             Move();
             SetMovementLogic();
-            SendMovementToAnimator();
+            SendToAnimator();
         }
 
         //handles character input
-        protected void HandleCharacterInput()
+        protected virtual void HandleInput()
         {
             //check if the character can jump
             if (!isJumping && isGrounded && Time.time - tJump > jumpDelay)
             {
                 isJumping = jumpInput;
-                SendMovementToAnimator();
+                SendToAnimator();
             }
             //check if the character can run (or stop running)
             if (!isJumping && isGrounded)
             {
                 isRunning = runInput;
-                SendMovementToAnimator();
+                SendToAnimator();
             }
         }
 
         //sends boolean values describing character state to the animator
-        protected void SendMovementToAnimator()
+        protected virtual void SendToAnimator()
         {
             anim.SetBool("isJumping", isJumping);
             anim.SetBool("isGrounded", isGrounded);
             anim.SetBool("isRunning", isRunning);
             anim.SetBool("isMoving", isMoving);
             anim.SetBool("isFalling", isFalling);
+            anim.SetFloat("mvmtSpeed", Mathf.Abs(mvmtSpeed));
         }
 
         //moves the character
-        protected void Move()
+        protected virtual void Move()
         {
             if (isJumping)
             {
@@ -134,10 +135,6 @@ namespace Character2D
                     isInitJump = false;
                 }
             }
-            else if(ExtraMovement())
-            {
-                //handle any other types of movement in derived classes
-            }
             else if (isRunning)
             {
                 speedMultiplier = runSpeed;
@@ -149,19 +146,14 @@ namespace Character2D
             rb.velocity = new Vector2(mvmtSpeed * speedMultiplier * maxSpeed * Time.deltaTime, rb.velocity.y);
         }
 
-        protected virtual bool ExtraMovement()
-        {
-            return false;
-        }
-
         //sets the logic for values related to character movement
-        protected void SetMovementLogic()
+        protected virtual void SetMovementLogic()
         {
             //boolean expression that sets whether or not the player has moved this tick
-            isMoving = Mathf.Abs(lastPosition - rb.transform.position.x) > 0.001f ? true : false;
+            isMoving = Mathf.Abs(lastPosition - rb.transform.position.x) > 0.0001f ? true : false;
 
             //boolean expression that sets whether or not the character is falling on this tick
-            isFalling = rb.velocity.y < 0 ? true : false;
+            isFalling = rb.velocity.y < 0 && !isGrounded ? true : false;
 
             lastPosition = rb.transform.position.x; //set the last position for the next tick
 
@@ -185,13 +177,13 @@ namespace Character2D
             isInitJump = true;
             isJumping = false;
             tJump = Time.time;
-            SendMovementToAnimator();
+            SendToAnimator();
         }
 
         public void SetUngrounded()
         {
             isGrounded = false;
-            SendMovementToAnimator();
+            SendToAnimator();
         }
     }
 }
