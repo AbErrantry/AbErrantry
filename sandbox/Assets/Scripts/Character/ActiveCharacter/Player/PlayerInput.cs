@@ -11,7 +11,7 @@ namespace Character2D
 
         public BackpackMenu backpackMenu;
 
-        public bool acceptInput;
+        protected bool acceptInput;
 
         //used for initialization
         private void Start()
@@ -34,23 +34,31 @@ namespace Character2D
                 playerAttack.attackInputDown = CrossPlatformInputManager.GetButtonDown("Attack"); //send attack input pressed
                 playerAttack.attackInputUp = CrossPlatformInputManager.GetButtonUp("Attack"); //send attack input released
             }
-            else
-            {
-                playerMovement.jumpInput = false;
-                playerMovement.crouchInput = false;
-                playerMovement.runInput = false;
-                playerMovement.mvmtSpeed = 0.0f;
-                playerMovement.climbSpeed = 0.0f;
-                playerInteraction.interactionInput = false;
-                playerAttack.attackInputDown = false;
-                playerAttack.attackInputDown = false;
-                playerAttack.attackInputUp = false;
-            }
 
             if (CrossPlatformInputManager.GetButtonDown("Backpack"))
             {
                 backpackMenu.ToggleBackpack();
             }
+        }
+
+        public void DisableInput()
+        {
+            acceptInput = false;
+
+            playerMovement.jumpInput = false;
+            playerMovement.crouchInput = false;
+            playerMovement.runInput = false;
+            playerMovement.mvmtSpeed = 0.0f;
+            playerMovement.climbSpeed = 0.0f;
+            playerInteraction.interactionInput = false;
+            playerAttack.attackInputDown = false;
+            playerAttack.attackInputDown = false;
+            playerAttack.attackInputUp = false;
+        }
+
+        public void EnableInput()
+        {
+            acceptInput = true;
         }
     }
 }

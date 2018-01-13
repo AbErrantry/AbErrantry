@@ -105,7 +105,7 @@ namespace Character2D
         //shows the list of interactables that the player can select to interact with
         public void ShowList()
         {
-            playerInput.acceptInput = false;
+            playerInput.DisableInput();
             int numberOfItems = 0;
             //iterate through the list of interactables spawning buttons on screen in a list
             for (int i = 0; i < interactionTrigger.currentObjects.Count; i++)
@@ -184,11 +184,11 @@ namespace Character2D
 
         private IEnumerator InteractDelay()
         {
-            playerInput.acceptInput = false;
+            playerInput.DisableInput();
             isInteracting = true;
             yield return new WaitForSeconds(interactTime);
             isInteracting = false;
-            playerInput.acceptInput = true;
+            playerInput.EnableInput();
         }
 
         //cleans up the screen after an interactable is chosen
@@ -210,7 +210,7 @@ namespace Character2D
             }
             children.ForEach(child => Destroy(child));
 
-            playerInput.acceptInput = true;
+            playerInput.EnableInput();
         }
 
         //collects all items in the player's vicinity

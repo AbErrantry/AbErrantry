@@ -46,13 +46,13 @@ public class LevelStreamManager : MonoBehaviour
 
     private IEnumerator WaitUntilLoaded()
     {
-        playerInput.acceptInput = false;
+        playerInput.DisableInput();
         Debug.LogError("Loading... add UI for loading."); //TODO: add UI popup for loading
         while(!isLoaded)
         {
             yield return null;
         }
-        playerInput.acceptInput = true;
+        playerInput.EnableInput();
     }
 
     //coroutine that loads a scene asynchronously and additively

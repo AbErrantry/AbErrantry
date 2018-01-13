@@ -71,7 +71,7 @@ namespace Character2D
             if (!isOpen)
             {
                 playerInteraction.CloseContainer();
-                playerInput.acceptInput = false;
+                playerInput.DisableInput();
                 //TODO: move camera to side
                 backpackContainer.SetActive(true);
                 LoadInventoryItems();
@@ -118,7 +118,7 @@ namespace Character2D
 
         public void CloseBackpackMenu()
         {
-            playerInput.acceptInput = true;
+            playerInput.EnableInput();
             CloseTabs();
             UnloadInventoryItems();
             backpackContainer.SetActive(false);
