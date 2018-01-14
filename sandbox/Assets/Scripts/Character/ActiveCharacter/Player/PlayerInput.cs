@@ -11,7 +11,7 @@ namespace Character2D
 
         public BackpackMenu backpackMenu;
 
-        protected bool acceptInput;
+        public bool acceptInput;
 
         //used for initialization
         private void Start()
