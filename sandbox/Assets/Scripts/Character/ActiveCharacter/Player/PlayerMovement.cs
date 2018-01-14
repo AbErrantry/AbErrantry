@@ -210,7 +210,7 @@ namespace Character2D
             }
             else
             {
-                rb.velocity = new Vector2(mvmtSpeed * speedMultiplier * maxSpeed * Time.deltaTime, rb.velocity.y);
+                SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed * Time.deltaTime, rb.velocity.y, true);
             }  
         }
 

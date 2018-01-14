@@ -11,7 +11,16 @@ namespace Character2D
         private PlayerInput playerInput;
         private PlayerInteraction playerInteraction;
 
+        public CameraShift cameraShift;
+
         public GameObject backpackContainer;
+        private RectTransform backpackTransform;
+
+        public float xMinLeft;
+        public float xMaxLeft;
+
+        public float xMinRight;
+        public float xMaxRight;
 
         public GameObject inventoryContainer;
         public GameObject journalContainer;
@@ -64,6 +73,14 @@ namespace Character2D
             backpackContainer.SetActive(false);
             CloseTabs();
             isOpen = false;
+
+            backpackTransform = backpackContainer.GetComponent<RectTransform>();
+
+            xMinLeft = 0.01f;
+            xMaxLeft = 0.75f;
+
+            xMinRight = 0.25f;
+            xMaxRight = 0.99f;
         }
 
         public void ToggleBackpack()
@@ -71,6 +88,16 @@ namespace Character2D
             if (!isOpen)
             {
                 playerInteraction.CloseContainer();
+                if(cameraShift.ShiftCameraLeft())
+                {
+                    backpackTransform.anchorMin = new Vector2(xMinLeft, backpackTransform.anchorMin.y);
+                    backpackTransform.anchorMax = new Vector2(xMaxLeft, backpackTransform.anchorMax.y);
+                }
+                else
+                {
+                    backpackTransform.anchorMin = new Vector2(xMinRight, backpackTransform.anchorMin.y);
+                    backpackTransform.anchorMax = new Vector2(xMaxRight, backpackTransform.anchorMax.y);
+                }
                 playerInput.DisableInput();
                 //TODO: move camera to side
                 backpackContainer.SetActive(true);
@@ -118,6 +145,7 @@ namespace Character2D
 
         public void CloseBackpackMenu()
         {
+            cameraShift.ResetCamera();
             playerInput.EnableInput();
             CloseTabs();
             UnloadInventoryItems();

@@ -143,7 +143,20 @@ namespace Character2D
             {
                 speedMultiplier = 1;
             }
-            rb.velocity = new Vector2(mvmtSpeed * speedMultiplier * maxSpeed * Time.deltaTime, rb.velocity.y);
+            SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed * Time.deltaTime, rb.velocity.y, false);
+        }
+
+        protected void SmoothMove(float x, float y, bool z)
+        {
+            if(Mathf.Abs(Mathf.Abs(rb.velocity.x) - Mathf.Abs(x)) > 0.25)
+            {
+                x = ((8.0f * rb.velocity.x) + (2.0f * x))/(10.0f);
+            }
+            rb.velocity = new Vector2(x, y);
+            if(z)
+            {
+                //Debug.Log(rb.velocity.ToString());
+            }
         }
 
         //sets the logic for values related to character movement

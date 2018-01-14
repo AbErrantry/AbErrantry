@@ -7,7 +7,7 @@ public class ScrollingBackground : MonoBehaviour
 {
 
     public float speed = 0;
-    public CharacterMovement player;
+    public Camera cam;
 
     public MeshRenderer[] Backgrounds;
     public float[] BackgroundSpeed;
@@ -18,7 +18,7 @@ public class ScrollingBackground : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        currPos = player.transform.position;
+        currPos = cam.transform.position;
         offsets = new Vector2[Backgrounds.Length];
     }
 
@@ -26,14 +26,14 @@ public class ScrollingBackground : MonoBehaviour
     void LateUpdate()
     {
         prevPos = currPos;
-        currPos = player.transform.position;
+        currPos = cam.transform.position;
 
 
-        if (player.mvmtSpeed != 0 && (currPos != prevPos))
+        if (cam.velocity.x != 0 && (currPos != prevPos))
         {
             for(int i = 0; i < Backgrounds.Length; i++)
             {
-                speed = player.mvmtSpeed / BackgroundSpeed[i];
+                speed = cam.velocity.x / BackgroundSpeed[i];
                 offsets[i] += new Vector2(Time.deltaTime * speed, 0);
                 Backgrounds[i].material.mainTextureOffset = offsets[i];
             }
