@@ -1007,7 +1007,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -12.14, y: -0.51555455}
+  m_AnchoredPosition: {x: -5.573448, y: -0.51555455}
   m_SizeDelta: {x: 10.93, y: 9.772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &324255820
@@ -1024,6 +1024,7 @@ MonoBehaviour:
   jumpInput: 0
   runInput: 0
   mvmtSpeed: 0
+  isFalling: 0
 --- !u!114 &324255821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1089,7 +1090,7 @@ Animator:
   m_GameObject: {fileID: 324255818}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 46e4c297ffe628945a528bc43226582f, type: 2}
+  m_Controller: {fileID: 9100000, guid: da2710efd723db348acd9fdc915c8792, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1156,7 +1157,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b49a6ba447dd8a949910f6293ab2b1cc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1176,9 +1177,9 @@ SpriteRenderer:
   m_SortingLayerID: 349918109
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e33282c7050a1574cbc58d018b5d7424, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e49147dbbe679554ead5d86672a29b8f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 8.533334, y: 8.533334}
@@ -1823,7 +1824,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -12.67, y: -0.5155544}
+  m_AnchoredPosition: {x: 1.577, y: -0.5155544}
   m_SizeDelta: {x: 10.93, y: 9.772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &456105841
@@ -1859,6 +1860,7 @@ MonoBehaviour:
   jumpInput: 0
   runInput: 0
   mvmtSpeed: 0
+  isFalling: 0
 --- !u!114 &456105843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1972,7 +1974,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2db2835519386ae41a6d7d17650105c1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1993,7 +1995,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e33282c7050a1574cbc58d018b5d7424, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.42733568, b: 0.7647059, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7100,6 +7102,7 @@ MonoBehaviour:
   jumpInput: 0
   runInput: 0
   mvmtSpeed: 0
+  isFalling: 0
 --- !u!114 &609333414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8984,6 +8987,7 @@ MonoBehaviour:
   jumpInput: 0
   runInput: 0
   mvmtSpeed: 0
+  isFalling: 0
 --- !u!114 &991699387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9016,6 +9020,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Villager
   typeOfInteractable: 3
+  currentDialogueState: 0
 --- !u!251 &991699389
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -9915,6 +9920,7 @@ MonoBehaviour:
   jumpInput: 0
   runInput: 0
   mvmtSpeed: 0
+  isFalling: 0
 --- !u!114 &1097537316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12814,6 +12820,7 @@ MonoBehaviour:
   jumpInput: 0
   runInput: 0
   mvmtSpeed: 0
+  isFalling: 0
 --- !u!114 &1753214260
 MonoBehaviour:
   m_ObjectHideFlags: 0

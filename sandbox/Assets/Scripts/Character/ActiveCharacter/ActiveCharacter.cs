@@ -44,6 +44,7 @@ namespace Character2D
 			rb.AddForce(force);
 		}
 
+		//no longer works due to HSV material :(
 		protected IEnumerator FlinchColor()
 		{
 			float redTime = Time.time;

@@ -121,7 +121,7 @@ namespace Character2D
                     }
                 }
             }
-            if(!isCrouching && canClimb)
+            if(!isCrouching && canClimb && !isOnLadder)
             {
                 if(climbSpeed > 0.0f || (climbSpeed < 0.0f && !isGrounded))
                 {
@@ -170,10 +170,6 @@ namespace Character2D
                     speedMultiplier = crouchSpeed;
                 }
             }
-            else if (isOnLadder)
-            {
-                //stop descent
-            }
             else if (isRunning)
             {
                 speedMultiplier = runSpeed;
@@ -192,12 +188,12 @@ namespace Character2D
                 if(climbSpeed > 0.0f || (climbSpeed < 0.0f && !isGrounded))
                 {
                     isClimbing = true;
-                    transform.Translate(Vector3.up * climbSpeed / 25f);
+                    transform.Translate(Vector3.up * climbSpeed / 50f);
                 }
                 else if(Mathf.Abs(mvmtSpeed) > 0.0f && !isGrounded)
                 {
                     isStrafing = true;
-                    transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed) / 50f);
+                    transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed) / 75f);
                 }
                 else if(isGrounded)
                 {
