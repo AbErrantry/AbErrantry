@@ -6,217 +6,158 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class DialogueManager : MonoBehaviour
+namespace Dialogue2D
 {
-    public TMP_Text nameText;
-    public TMP_Text dialogueText;
-
-    //TODO: remove for a dynamic list
-    public TMP_Text Choice_0_Text;
-    public TMP_Text Choice_1_Text;
-    public TMP_Text Choice_2_Text;
-    public TMP_Text Choice_3_Text;
-    public TMP_Text ContinueText;
-    public GameObject Choice_0_Button;
-    public GameObject Choice_1_Button;
-    public GameObject Choice_2_Button;
-    public GameObject Choice_3_Button;
-    public GameObject ContinueButton;
-
-    public Animator dialogueAnimator;
-
-    private List<DialogueSegment> dialogueSegments;
-    private DialogueSegment currentSegment;
-    private string characterName;
-    private string dialogueFile;
-
-	//used for initialization
-	private void Start ()
+    public class DialogueManager : MonoBehaviour
     {
-        dialogueSegments = new List<DialogueSegment>();
-        currentSegment = new DialogueSegment();
-        characterName = "";
-        dialogueFile = "";
-    }
+        public GameData gameData;
+        private Character2D.PlayerInput playerInput;
 
-    //finishes the dialogue
-    private void EndDialogue()
-    {
-        dialogueAnimator.SetBool("IsOpen", false);
-        //close dialogue and etc etc
-    }
+        public TMP_Text nameText;
+        public TMP_Text dialogueText;
 
-    //submits the choice picked by the user to get the next segment
-    public void SubmitChoice(int InChoice)
-    {
-        foreach (DialogueChoice choice in currentSegment.choices)
+        public GameObject choiceButton;
+        public GameObject choiceList;
+
+        public Animator dialogueAnimator;
+
+        private List<DialogueSegment> dialogueSegments;
+        private DialogueSegment currentSegment;
+
+        public float textSpeed;
+
+        //used for initialization
+        private void Start ()
         {
-            if (InChoice == choice.id)
+            dialogueSegments = new List<DialogueSegment>();
+            currentSegment = new DialogueSegment();
+            playerInput = GetComponent<Character2D.PlayerInput>();
+            
+            textSpeed = 2.0f;
+        }
+
+        //finishes the dialogue
+        private void EndDialogue()
+        {
+            dialogueAnimator.SetBool("IsOpen", false);
+            playerInput.EnableInput();
+            //close dialogue and etc etc
+        }
+
+        //submits the choice picked by the user to get the next segment
+        public void SubmitChoice(int InChoice)
+        {
+            currentSegment.next = InChoice;
+            GetNextSegment();
+        }
+
+        //Todo: fix implementation. Make choice list dynamic
+        //      =0 choices - continue
+        //      >0 choices - display all in text boxes
+        private void DisplaySegment()
+        {
+            StopAllCoroutines();
+            StartCoroutine(TypeSentence(currentSegment.text));
+            FlushChoices();
+
+            //flush buttons from UI
+
+            if(currentSegment.choices.Count > 0)
             {
-                currentSegment.next = choice.next;
-                break;
-            }
-        }
-        GetNextSegment();
-    }
-
-    //Todo: fix implementation. Make choice list dynamic
-    //      =0 choices - continue
-    //      >0 choices - display all in text boxes
-    private void DisplaySegment()
-    {
-        StopAllCoroutines();
-        StartCoroutine(TypeSentence(currentSegment.text));
-        DisableButtons();
-        switch (currentSegment.type)
-        {
-            case 0: //end of dialogue
-                ContinueButton.SetActive(true);
-                break;
-            case 1: //continue
-                ContinueButton.SetActive(true);
-                break;
-            case 2: //2 choice response
-                Choice_0_Text.text = currentSegment.choices.ElementAt(0).text;
-                Choice_1_Text.text = currentSegment.choices.ElementAt(1).text;
-                Choice_0_Button.SetActive(true);
-                Choice_1_Button.SetActive(true);
-                break;
-            case 3: //4 choice response
-                Choice_0_Text.text = currentSegment.choices.ElementAt(0).text;
-                Choice_1_Text.text = currentSegment.choices.ElementAt(1).text;
-                Choice_2_Text.text = currentSegment.choices.ElementAt(2).text;
-                Choice_3_Text.text = currentSegment.choices.ElementAt(3).text;
-                Choice_0_Button.SetActive(true);
-                Choice_1_Button.SetActive(true);
-                Choice_2_Button.SetActive(true);
-                Choice_3_Button.SetActive(true);
-                break;
-            default:
-                Debug.Log("Error. Reached default in switch statement that should not have been reached.");
-                break;
-        }
-    }
-
-    //gets the next segment in dialogue
-    public void GetNextSegment()
-    {
-        if (currentSegment.type == 0)
-        {
-            EndDialogue();
-        }
-        else
-        {
-            //get the next segment
-            foreach(DialogueSegment segment in dialogueSegments)
-            {
-                if(currentSegment.next == segment.id)
+                foreach(DialogueChoice choice in currentSegment.choices)
                 {
-                    currentSegment = segment;
-                    break;
+                    CreateChoiceButton(choice.text, choice.next);
                 }
             }
+            else
+            {
+                CreateChoiceButton("Continue", currentSegment.next);
+            }
+        }
+
+        //
+        private void FlushChoices()
+        {
+            var children = new List<GameObject>();
+            foreach (Transform child in choiceList.transform)
+            {
+                children.Add(child.gameObject);
+            }
+            children.ForEach(child => Destroy(child));
+        }
+
+        private void CreateChoiceButton(string text, int next)
+        {
+            //TODO: fix comments
+            //instantiate a prefab for the interact button
+            GameObject newButton = Instantiate(choiceButton) as GameObject;
+            DialoguePrefabReference controller = newButton.GetComponent<DialoguePrefabReference>();
+
+            //set the text for the choice onscreen 
+            controller.choiceText.text = text;
+            controller.choiceNext = next;
+
+            //put the interactable in the list
+            newButton.transform.SetParent(choiceList.transform);
+
+            //for some reason Unity does not use full scale for the instantiated object by default
+            newButton.transform.localScale = Vector3.one;
+        }
+
+        //gets the next segment in dialogue
+        public void GetNextSegment()
+        {
+            if (currentSegment.next == -1)
+            {
+                EndDialogue();
+            }
+            else
+            {
+                //get the next segment
+                foreach(DialogueSegment segment in dialogueSegments)
+                {
+                    if(currentSegment.next == segment.id)
+                    {
+                        currentSegment = segment;
+                        break;
+                    }
+                }
+                DisplaySegment();
+            }
+        }
+
+        //coroutine that animates the text on screen character by character
+        private IEnumerator TypeSentence(string Segment)
+        {
+            dialogueText.text = "";
+            foreach(char letter in Segment.ToCharArray())
+            {
+                dialogueText.text = dialogueText.text + letter; //add audio for letter being played
+                yield return new WaitForSeconds(0.01f * textSpeed);
+            }
+        }
+
+        //starts a dialogue once the character triggers it
+        public void StartDialogue(string charName, int convName)
+        {
+            dialogueAnimator.SetBool("IsOpen", true);
+            dialogueSegments.Clear();
+            dialogueSegments = gameData.dialogueData.dialogueDictionary[charName].conversation[convName].segments.Values.ToList();
+
+            nameText.text = charName;
+
+            if (dialogueSegments.Count > 0)
+            {
+                currentSegment = dialogueSegments.First();
+            }
+            else
+            {
+                //error handling of empty conversation
+                Debug.LogError("Conversation has zero segments." + charName + " " + convName);
+                return;
+            }
+
             DisplaySegment();
         }
-    }
-
-    //coroutine that animates the text on screen character by character
-    private IEnumerator TypeSentence(string Segment)
-    {
-        dialogueText.text = "";
-        foreach(char letter in Segment.ToCharArray())
-        {
-            //add audio for letter being played
-            dialogueText.text = dialogueText.text + letter;
-            yield return new WaitForFixedUpdate(); //Todo: change to a WaitForSeconds to allow for different text speeds.
-        }
-    }
-
-    //starts a dialogue once the character triggers it
-    public void StartDialogue()
-    {
-        dialogueAnimator.SetBool("IsOpen", true);
-
-        DisableButtons();
-
-        dialogueSegments.Clear();
-        GetDialogueFile(); //todo: implement
-        GetDialogue();
-        //PrintDialogue(); //todo: remove since only for debugging
-
-        //get the character's name
-        nameText.text = characterName; //Todo: pull from character in actual dialogue. maybe as a parameter here?
-
-        if (dialogueSegments.Count > 0)
-        {
-            currentSegment = dialogueSegments.First();
-        }
-        else
-        {
-            //error handling of empty conversation
-            Debug.Log("Error. Conversation has zero segments.");
-            return;
-        }
-
-        DisplaySegment();
-    }
-
-    //locates the dialogue file that is needed for the specific conversation
-    private void GetDialogueFile()
-    {
-        //todo: implement
-        //get the file that is associated with the NPC and game state
-        dialogueFile = "SampleShopkeepDialogue.xml"; //TODO: abstract
-        characterName = "Villager"; //TODO: abstract
-    }
-
-    //gets the current conversation into memory from a file
-    private void GetDialogue()
-    {
-        //parse XML with LINQ
-        XDocument XDoc = XDocument.Load(dialogueFile);
-        dialogueSegments = (from segment in XDoc.Root.Elements("segment")
-                            select new DialogueSegment
-                            {
-                                id = segment.AttributeValueNull_Integer("id"),
-                                text = segment.Element("content").ElementValueNull_String(),
-                                type = segment.Element("type").ElementValueNull_Integer(),
-                                next = segment.Element("next").ElementValueNull_Integer(),
-                                //SegmentAction = TODO: implement
-                                choices = segment.Elements("choice")
-                                    .Select(choice => new DialogueChoice
-                                    {
-                                        id = choice.AttributeValueNull_Integer("id"),
-                                        next = choice.Element("next").ElementValueNull_Integer(),
-                                        text = choice.Element("response").ElementValueNull_String(),
-                                    }).OrderBy(x => x.id).ToList()
-                            }).OrderBy(x => x.id).ToList();
-    }
-
-    //TODO: remove debug function
-    //prints out the dialogue information
-    private void PrintDialogue()
-    {
-        foreach(DialogueSegment segment in dialogueSegments)
-        {
-            Debug.Log(segment.id + " " + segment.text + " " + segment.type + " " + segment.next + " " + segment.choices.Count);
-            if(segment.choices.Count != 0)
-            {
-                foreach(DialogueChoice choice in segment.choices)
-                {
-                    Debug.Log(choice.id + " " + choice.next + " " + choice.text);
-                }
-            }
-        }
-    }
-
-    //disables the dialogue buttons for the next segment
-    private void DisableButtons()
-    {
-        Choice_0_Button.SetActive(false);
-        Choice_1_Button.SetActive(false);
-        Choice_2_Button.SetActive(false);
-        Choice_3_Button.SetActive(false);
-        ContinueButton.SetActive(false);
     }
 }

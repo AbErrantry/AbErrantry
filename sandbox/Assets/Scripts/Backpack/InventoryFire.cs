@@ -13,11 +13,6 @@ namespace Character2D
             backpackMenu = GameObject.Find("Knight").GetComponent<BackpackMenu>();
         }
 
-        public void Hello()
-        {
-
-        }
-
         public void SelectItem(InventoryItem item)
         {
             backpackMenu.SelectItem(item);

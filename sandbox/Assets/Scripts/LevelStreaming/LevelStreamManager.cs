@@ -46,7 +46,7 @@ public class LevelStreamManager : MonoBehaviour
 
     private IEnumerator WaitUntilLoaded()
     {
-        playerInput.DisableInput();
+        playerInput.DisableInput(false);
         Debug.LogError("Loading... add UI for loading."); //TODO: add UI popup for loading
         while(!isLoaded)
         {

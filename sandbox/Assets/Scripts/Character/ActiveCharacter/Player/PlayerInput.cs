@@ -11,12 +11,16 @@ namespace Character2D
 
         public BackpackMenu backpackMenu;
 
+        public GameObject interactTrigger;
+        private BoxCollider2D interactCollider;
+
         public bool acceptInput;
 
         //used for initialization
         private void Start()
         {
             acceptInput = true; //to be used for menu navigation
+            interactCollider = interactTrigger.GetComponent<BoxCollider2D>();
         }
 
         // Update is called once per frame
@@ -37,14 +41,22 @@ namespace Character2D
 
             if (CrossPlatformInputManager.GetButtonDown("Backpack"))
             {
-                backpackMenu.ToggleBackpack();
+                if((!acceptInput && backpackMenu.isOpen) || acceptInput)
+                {
+                    backpackMenu.ToggleBackpack();
+                }
             }
         }
 
-        public void DisableInput()
+        public void DisableInput(bool isInteractList)
         {
             acceptInput = false;
 
+            if(!isInteractList)
+            {
+                interactCollider.enabled = false;
+            }
+            
             playerMovement.jumpInput = false;
             playerMovement.crouchInput = false;
             playerMovement.runInput = false;
@@ -59,6 +71,7 @@ namespace Character2D
         public void EnableInput()
         {
             acceptInput = true;
+            interactCollider.enabled = true;
         }
     }
 }

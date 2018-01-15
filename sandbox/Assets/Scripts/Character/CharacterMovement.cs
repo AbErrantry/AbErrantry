@@ -18,7 +18,7 @@ namespace Character2D
         protected bool isJumping; //whether the character is jumping or not
         protected bool isRunning; //whether the character is running or not
         protected bool isMoving; //whether the character is moving or not
-        protected bool isFalling; //whether the character is falling or not
+        public bool isFalling; //whether the character is falling or not
 
         //values that affect the player's speed
         protected float speedMultiplier; //the multiplier to be applied to character movement speed

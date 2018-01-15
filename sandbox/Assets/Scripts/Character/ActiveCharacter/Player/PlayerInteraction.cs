@@ -11,6 +11,8 @@ namespace Character2D
         public InteractionTrigger interactionTrigger;
 
         private PlayerInput playerInput;
+        private Dialogue2D.DialogueManager dialogueManager;
+
         public Character character;
 
         public GameObject interactBar; //reference to the interact popup bar that asks for input to interact
@@ -34,6 +36,7 @@ namespace Character2D
         void Start()
         {
             playerInput = GetComponent<PlayerInput>();
+            dialogueManager = GetComponent<Dialogue2D.DialogueManager>();
 
             isInteracting = false; 
 
@@ -105,7 +108,8 @@ namespace Character2D
         //shows the list of interactables that the player can select to interact with
         public void ShowList()
         {
-            playerInput.DisableInput();
+            playerInput.DisableInput(true);
+
             int numberOfItems = 0;
             //iterate through the list of interactables spawning buttons on screen in a list
             for (int i = 0; i < interactionTrigger.currentObjects.Count; i++)
@@ -117,6 +121,8 @@ namespace Character2D
                 //set the text for the interactable onscreen 
                 temp.interactText.text = interactionTrigger.currentObjects[i].GetComponent<Interactable>().type 
                     + " " + interactionTrigger.currentObjects[i].GetComponent<Interactable>().name;
+
+                temp.indexInList = i;
 
                 //put the interactable in the list
                 newButton.transform.SetParent(interactList.transform);
@@ -154,41 +160,51 @@ namespace Character2D
         //performs the interaction with the selected item
         public void Interact(int index)
         {
-            StartCoroutine(InteractDelay());
-            switch(interactionTrigger.currentObjects[index].GetComponent<Interactable>().typeOfInteractable)
+            GameObject interactable = interactionTrigger.currentObjects[index];
+            CloseContainer();
+            switch(interactable.GetComponent<Interactable>().typeOfInteractable)
             {
                 case Interactable.Types.Pickup:
-                    character.AddItem(interactionTrigger.currentObjects[index].GetComponent<Interactable>().name);
-                    StartCoroutine(interactionTrigger.currentObjects[index].GetComponent<Pickup>().Collect(gameObject));
+                    character.AddItem(interactable.GetComponent<Interactable>().name);
+                    StartCoroutine(interactable.GetComponent<Pickup>().Collect(gameObject));
+                    StartCoroutine(InteractDelay(false));
                     break;
                 case Interactable.Types.NPC:
                     //open talk dialogue
+                    string name = interactable.GetComponent<NPC>().name;
+                    int state = interactable.GetComponent<NPC>().currentDialogueState;
+                    dialogueManager.StartDialogue(name, state);
+                    StartCoroutine(InteractDelay(true));
                     break;
                 case Interactable.Types.BackDoor:
                     //toggle item open/closed based on current state
-                    StartCoroutine(interactionTrigger.currentObjects[index].GetComponent<BackDoor>().EnterDoor(gameObject, true));
+                    StartCoroutine(interactable.GetComponent<BackDoor>().EnterDoor(gameObject, true));
+                    StartCoroutine(InteractDelay(false));
                     break;
                 case Interactable.Types.SideDoor:
-                    interactionTrigger.currentObjects[index].GetComponent<SideDoor>().ToggleState();
+                    interactable.GetComponent<SideDoor>().ToggleState();
+                    StartCoroutine(InteractDelay(false));
                     break;
                 case Interactable.Types.Chest:
                     //open chest
+                    StartCoroutine(InteractDelay(false));
                     break;
                 default:
                     Debug.Log("Error: interact type is unknown. Please add its behavior to CharacterInteraction.");
                     break;
             }
-            
-            CloseContainer();
         }
 
-        private IEnumerator InteractDelay()
+        private IEnumerator InteractDelay(bool isExtended)
         {
-            playerInput.DisableInput();
+            playerInput.DisableInput(false);
             isInteracting = true;
             yield return new WaitForSeconds(interactTime);
             isInteracting = false;
-            playerInput.EnableInput();
+            if(!isExtended)
+            {
+                playerInput.EnableInput();
+            }
         }
 
         //cleans up the screen after an interactable is chosen
@@ -216,11 +232,9 @@ namespace Character2D
         //collects all items in the player's vicinity
         public void CollectAllItems()
         {
-            StartCoroutine(InteractDelay());
             for (int i = interactionTrigger.currentObjects.Count - 1; i >= 0; i--)
             {
                 Interactable io = interactionTrigger.currentObjects[i].GetComponent<Interactable>();
-                Debug.Log(io.name);
                 if (io.typeOfInteractable == Interactable.Types.Pickup)
                 {
                     character.AddItem(io.name);
@@ -228,6 +242,7 @@ namespace Character2D
                 }
             }
             CloseContainer();
+            StartCoroutine(InteractDelay(false));
         }
 
         //changes the interact key for display

@@ -6,6 +6,7 @@ namespace Character2D
 {
     public class PlayerAttack : ActiveCharacterAttack
     {
+        protected PlayerMovement playerMovement;
         public bool canAttack;
         
         public bool attackInputDown;
@@ -28,6 +29,8 @@ namespace Character2D
 
             attackPress = 0.0f;
             attackRelease = 0.0f;
+
+            playerMovement = GetComponent<PlayerMovement>();
         }
 
         //
@@ -37,17 +40,24 @@ namespace Character2D
 
             if (!isAttacking && canAttack)
             {
-                if (attackInputDown && !isWindingUp)
+                if (attackInputDown && !isWindingUp && !playerMovement.isFalling)
                 {
                     attackPress = Time.time;
                     isWindingUp = true;
                     SendToAnimator();
                 }
-                else if (attackInputUp && isWindingUp)
+                else if (attackInputUp && isWindingUp && !playerMovement.isFalling)
                 {
                     attackRelease = Time.time;
                     isWindingUp = false;
                     isInitAttack = true;
+                    SendToAnimator();
+                }
+                else if(playerMovement.isFalling)
+                {
+                    isWindingUp = false;
+                    isInitAttack = false;
+                    isAttacking = false;
                     SendToAnimator();
                 }
             }
@@ -71,7 +81,7 @@ namespace Character2D
                     StartCoroutine(StabAttack());
                 }
             }
-            else if(isWindingUp)
+            else if(isWindingUp && !playerMovement.isFalling)
             {
                 if(Time.time - attackPress > powerThreshold)
                 {

@@ -62,7 +62,7 @@ namespace Character2D
         public bool isAll;
         public bool isOne;
 
-        private bool isOpen;
+        public bool isOpen;
 
         //used for initialization
         private void Start()
@@ -98,7 +98,7 @@ namespace Character2D
                     backpackTransform.anchorMin = new Vector2(xMinRight, backpackTransform.anchorMin.y);
                     backpackTransform.anchorMax = new Vector2(xMaxRight, backpackTransform.anchorMax.y);
                 }
-                playerInput.DisableInput();
+                playerInput.DisableInput(false);
                 //TODO: move camera to side
                 backpackContainer.SetActive(true);
                 LoadInventoryItems();

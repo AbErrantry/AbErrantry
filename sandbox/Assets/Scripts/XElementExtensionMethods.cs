@@ -1,4 +1,7 @@
 ﻿using System.Xml.Linq;
+using UnityEngine;
+using System;
+using Dialogue2D;
 
 //extension methods to null check XElements from a LINQ query
 public static class XElementExtensionMethods
@@ -101,6 +104,35 @@ public static class XElementExtensionMethods
         else
         {
             return -1;
+        }
+    }
+
+    //null checks an integer attribute
+    public static ActionTypes AttributeValueNull_ActionType(this XElement element, string attributeName)
+    {
+        if (element != null)
+        {
+            XAttribute attr = element.Attribute(attributeName);
+            if (attr != null)
+            {
+                if (Enum.IsDefined(typeof(ActionTypes), attr.Value))
+                {
+                    return (ActionTypes)Enum.Parse(typeof(ActionTypes), attr.Value);
+                }
+                else
+                {
+                    Debug.LogError("Action type " + attr.Value + " is undefined for " + element.ToString());
+                    return ActionTypes.None;
+                }
+            }
+            else
+            {
+                return ActionTypes.None;
+            }
+        }
+        else
+        {
+            return ActionTypes.None;
         }
     } 
 }
