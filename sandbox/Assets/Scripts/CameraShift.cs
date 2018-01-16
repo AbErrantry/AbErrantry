@@ -66,7 +66,7 @@ public class CameraShift : MonoBehaviour
         body.m_DeadZoneHeight = deadZoneHeight;
         body.m_DeadZoneWidth = deadZoneWidth;
         StopAllCoroutines();
-        StartCoroutine(CameraLerp(6f, 5f));
+        StartCoroutine(CameraLerp(6f, 4f));
     }
 
     private IEnumerator CameraLerp(float lerpTime, float endSize)

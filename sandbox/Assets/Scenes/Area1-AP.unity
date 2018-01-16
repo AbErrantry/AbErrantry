@@ -922,7 +922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05a6ffbadbb37140a7d6d7a4c71533f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInteraction: {fileID: 0}
+  playerInteraction: {fileID: 1723951427}
 --- !u!114 &146423777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1638,7 +1638,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000061035156}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &241909630
@@ -2201,7 +2201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05a6ffbadbb37140a7d6d7a4c71533f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInteraction: {fileID: 0}
+  playerInteraction: {fileID: 1723951427}
 --- !u!114 &377845829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4442,7 +4442,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 42.25
+  m_fontSize: 40.55
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4740,7 +4740,7 @@ MonoBehaviour:
   currentObjects: []
   objectTag: 
   disregardCount: 0
-  characterAttack: {fileID: 0}
+  characterAttack: {fileID: 1723951428}
 --- !u!61 &727314177
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5679,7 +5679,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 28.7
+  m_fontSize: 27.5
   m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8692,7 +8692,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 36
+  m_fontSize: 34.55
   m_fontSizeBase: 0.1
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8826,7 +8826,7 @@ MonoBehaviour:
   currentObjects: []
   objectTag: 
   disregardCount: 0
-  characterAttack: {fileID: 0}
+  characterAttack: {fileID: 1723951428}
 --- !u!61 &1199939648
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10330,7 +10330,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 42.95
+  m_fontSize: 41.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -26353,7 +26353,7 @@ MonoBehaviour:
   runInput: 0
   mvmtSpeed: 0
   isFalling: 0
-  climbingTriggerTop: {fileID: 0}
+  climbingTriggerTop: {fileID: 668301734}
   crouchInput: 0
   climbSpeed: 0
   canUncrouch: 0
@@ -26380,7 +26380,7 @@ MonoBehaviour:
   interactList: {fileID: 241909628}
   interactContainer: {fileID: 865146404}
   interactBarText: {fileID: 1197771161}
-  collectAllButton: {fileID: 0}
+  collectAllButton: {fileID: 377845827}
   scrollRect: {fileID: 1840457287}
   interactionInput: 0
   isInteracting: 0
@@ -26456,11 +26456,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cebe3fb4ecb3faf44a783997a2581909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameData: {fileID: 0}
+  gameData: {fileID: 1492704336}
   nameText: {fileID: 1416123006}
   dialogueText: {fileID: 10194868}
-  choiceButton: {fileID: 0}
-  choiceList: {fileID: 0}
+  choiceButton: {fileID: 1545965220402194, guid: aee6f59001f0cda4a97c8aae92685dfd,
+    type: 2}
+  choiceList: {fileID: 149577665}
   dialogueAnimator: {fileID: 13695999}
   textSpeed: 0
 --- !u!251 &1723951432
@@ -26665,7 +26666,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1737643906}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.82130146, y: 3.1268616, z: -10}
+  m_LocalPosition: {x: 0.44650936, y: 3.138698, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1224786957}
@@ -26692,9 +26693,9 @@ MonoBehaviour:
   - {fileID: 1448215033}
   BackgroundSpeed:
   - 100
-  - 75
   - 50
   - 25
+  - 35
 --- !u!114 &1737643913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26874,7 +26875,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 38.75
+  m_fontSize: 37.15
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -28850,7 +28851,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1010364093}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -29906,7 +29907,7 @@ MonoBehaviour:
   currentObjects: []
   objectTag: 
   disregardCount: 0
-  characterAttack: {fileID: 0}
+  characterAttack: {fileID: 1723951428}
 --- !u!61 &2082385633
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -30026,7 +30027,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 58.25
+  m_fontSize: 55.85
   m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 1
