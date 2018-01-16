@@ -41,6 +41,7 @@ namespace Dialogue2D
         {
             dialogueAnimator.SetBool("IsOpen", false);
             playerInput.EnableInput();
+            FlushChoices();
             //close dialogue and etc etc
         }
 
@@ -60,9 +61,10 @@ namespace Dialogue2D
             StopAllCoroutines();
             FlushChoices();
             StartCoroutine(TypeSentence(currentSegment.text));
-            
-            //flush buttons from UI
+        }
 
+        private void DisplayChoices()
+        {
             if(currentSegment.choices.Count > 0)
             {
                 foreach(DialogueChoice choice in currentSegment.choices)
@@ -210,6 +212,7 @@ namespace Dialogue2D
                 dialogueText.text = dialogueText.text + letter; //add audio for letter being played
                 yield return new WaitForSeconds(0.01f * textSpeed);
             }
+            DisplayChoices();
         }
 
         //starts a dialogue once the character triggers it

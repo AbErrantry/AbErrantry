@@ -6,6 +6,8 @@ namespace Character2D
 {
     public class PlayerAttack : ActiveCharacterAttack
     {
+        public PlayerInput playerInput;
+
         protected PlayerMovement playerMovement;
         public bool canAttack;
         
@@ -88,6 +90,16 @@ namespace Character2D
                     StartCoroutine(PowerAttack());
                 }
             }
+        }
+
+        protected override void InitializeAttack()
+        {
+            playerInput.DisableInput(false);
+        }
+
+        protected override void FinalizeAttack()
+        {
+            playerInput.EnableInput();
         }
     }
 }

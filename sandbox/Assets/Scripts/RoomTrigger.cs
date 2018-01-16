@@ -17,7 +17,7 @@ public class RoomTrigger : MonoBehaviour {
     void SetNewCameraBounds()
     {
         CameraFollow cam = Camera.main.gameObject.GetComponent<CameraFollow>();
-        cam.SetNewBounds(_collider.bounds);
+        //cam.SetNewBounds(_collider.bounds); changed follow script
     }
 
     void OnTriggerEnter2D(Collider2D other)

@@ -62,7 +62,6 @@ namespace Character2D
             playerMovement.climbSpeed = 0.0f;
             playerInteraction.interactionInput = false;
             playerAttack.attackInputDown = false;
-            playerAttack.attackInputDown = false;
             playerAttack.attackInputUp = false;
         }
 

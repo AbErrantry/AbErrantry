@@ -7,6 +7,8 @@ namespace Character2D
         private PlayerInteraction playerInteraction;
         private PlayerAttack playerAttack;
 
+        public ClimbingTriggerTop climbingTriggerTop;
+
         //external input
         public bool crouchInput; //crouch input from character
         public float climbSpeed;
@@ -121,7 +123,7 @@ namespace Character2D
                     }
                 }
             }
-            if(!isCrouching && canClimb && !isOnLadder)
+            if(!isCrouching && canClimb && !isOnLadder && climbingTriggerTop.currentObjects.Count != 0)
             {
                 if(climbSpeed > 0.0f || (climbSpeed < 0.0f && !isGrounded))
                 {
@@ -195,7 +197,7 @@ namespace Character2D
                     isStrafing = true;
                     transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed) / 75f);
                 }
-                else if(isGrounded)
+                else if(isGrounded && climbingTriggerTop.currentObjects.Count != 0)
                 {
                     DoneClimbing();
                 }

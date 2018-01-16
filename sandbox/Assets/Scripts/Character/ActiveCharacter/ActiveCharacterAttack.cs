@@ -87,6 +87,8 @@ namespace Character2D
 
         protected IEnumerator StabAttack()
         {
+            InitializeAttack();
+
             attackStart = Time.time;
             isAttacking = true;
             isStabAttacking = true;
@@ -111,6 +113,8 @@ namespace Character2D
 
         protected IEnumerator SwingAttack()
         {
+            InitializeAttack();
+
             attackStart = Time.time;
             isAttacking = true;
             isSwingAttacking = true;
@@ -135,6 +139,8 @@ namespace Character2D
 
         protected IEnumerator PowerAttack()
         {
+            InitializeAttack();
+
             attackStart = Time.time;
             isWindingUp = false;
             isAttacking = true;
@@ -154,6 +160,7 @@ namespace Character2D
                 }
                 yield return new WaitForFixedUpdate();
             }
+            
             FinishedAttacking();
         }
 
@@ -164,6 +171,7 @@ namespace Character2D
             isSwingAttacking = false;
             isPowerAttacking = false;
 			SendToAnimator();
+            FinalizeAttack();
         }
 
         //applies damage to each character in the attack range
@@ -179,6 +187,16 @@ namespace Character2D
                     targets[i].GetComponent<ActiveCharacter>().TakeDamage(gameObject, damage);
                 }
             }
+        }
+
+        protected virtual void InitializeAttack()
+        {
+            //put things that happen before an attack here
+        }
+
+        protected virtual void FinalizeAttack()
+        {
+            //put things that happen after an attack here
         }
     }
 }

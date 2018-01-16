@@ -785,6 +785,7 @@ Transform:
   - {fileID: 1761089627}
   - {fileID: 1383655447}
   - {fileID: 527941473}
+  - {fileID: 933242869}
   m_Father: {fileID: 1449687944}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3802,7 +3803,7 @@ GameObject:
   - component: {fileID: 527941475}
   - component: {fileID: 527941474}
   m_Layer: 10
-  m_Name: ClimbTrigger
+  m_Name: ClimbTriggerBottom
   m_TagString: ChildComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3848,7 +3849,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.032845676, y: -0.57114875}
+  m_Offset: {x: 0.032845676, y: -1.2127763}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3859,7 +3860,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4907822, y: 1.3145735}
+  m_Size: {x: 0.4907822, y: 0.058335543}
   m_EdgeRadius: 0
 --- !u!1 &533613003
 GameObject:
@@ -6851,7 +6852,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &650739401
@@ -7370,7 +7371,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 102924208}
   m_HandleRect: {fileID: 102924207}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7566,7 +7567,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &834075411
@@ -8100,6 +8101,76 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 0
+--- !u!1 &933242868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 933242869}
+  - component: {fileID: 933242871}
+  - component: {fileID: 933242870}
+  m_Layer: 10
+  m_Name: ClimbTriggerTop
+  m_TagString: ChildComponent
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &933242869
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 933242868}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.05200023, y: 0.6800002, z: 0}
+  m_LocalScale: {x: 2.6583622, y: 2.6583622, z: 2.6583622}
+  m_Children: []
+  m_Father: {fileID: 51489604}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &933242870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 933242868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5f21f583fbcc534ca3d739bc450dc45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentObjects: []
+  objectTag: 
+  disregardCount: 0
+  playerMovement: {fileID: 1449687940}
+--- !u!61 &933242871
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 933242868}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.032845676, y: -0.46727958}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.4907822, y: 0.07167047}
+  m_EdgeRadius: 0
 --- !u!1 &951074564
 GameObject:
   m_ObjectHideFlags: 0
@@ -10556,7 +10627,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 326904299}
   m_HandleRect: {fileID: 326904297}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -11426,6 +11497,7 @@ MonoBehaviour:
   powerTrigger: {fileID: 1761089625}
   isWindingUp: 0
   isAttacking: 0
+  playerInput: {fileID: 1449687936}
   canAttack: 0
   attackInputDown: 0
   attackInputUp: 0
@@ -11520,6 +11592,7 @@ MonoBehaviour:
   runInput: 0
   mvmtSpeed: 0
   isFalling: 0
+  climbingTriggerTop: {fileID: 933242870}
   crouchInput: 0
   climbSpeed: 0
   canUncrouch: 0
