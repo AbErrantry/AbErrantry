@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class Play : MonoBehaviour {
+public class BackToMain : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -12,7 +12,7 @@ public class Play : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void LoadGame() {
-        SceneManager.LoadScene("Area1-AP");
-	}
+	void LoadGame () {
+        SceneManager.LoadScene("MainMenu");
+    }
 }

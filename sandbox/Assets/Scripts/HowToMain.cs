@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Play : MonoBehaviour {
+public class HowToMain : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -12,7 +12,7 @@ public class Play : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void LoadGame() {
-        SceneManager.LoadScene("Area1-AP");
-	}
+	void LoadGame () {
+        SceneManager.LoadScene("HowToPlay");
+    }
 }
