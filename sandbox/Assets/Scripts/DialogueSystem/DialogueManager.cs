@@ -48,6 +48,7 @@ namespace Dialogue2D
         public void SubmitChoice(int InChoice)
         {
             currentSegment.next = InChoice;
+            DoActions();
             GetNextSegment();
         }
 
@@ -57,9 +58,9 @@ namespace Dialogue2D
         private void DisplaySegment()
         {
             StopAllCoroutines();
-            StartCoroutine(TypeSentence(currentSegment.text));
             FlushChoices();
-
+            StartCoroutine(TypeSentence(currentSegment.text));
+            
             //flush buttons from UI
 
             if(currentSegment.choices.Count > 0)
@@ -72,6 +73,80 @@ namespace Dialogue2D
             else
             {
                 CreateChoiceButton("Continue", currentSegment.next);
+            }
+        }
+
+        private void DoActions()
+        {
+            foreach(DialogueAction action in currentSegment.actions)
+            {
+                switch(action.type)
+                {
+                    case ActionTypes.BecomeHostile:
+                        Debug.Log(nameText.text + " became hostile.");
+                        //call function to make character hostile
+                        break;
+                    case ActionTypes.Disappear:
+                        Debug.Log(nameText.text + " vanished.");
+                        //call function to make character disappear and remove from memory
+                            //add a fade to black and back to let the character disappear
+                        break;
+                    case ActionTypes.GiveGold:
+                        Debug.Log(nameText.text + " gave you " + action.number + " gold.");
+                        //add action.amount gold to the player's gold supply and notify them
+                        break;
+                    case ActionTypes.GiveItem:
+                        Debug.Log(nameText.text + " gave you " + action.number + " " + action.name + "(s).");
+                        //add action.amount action.name to the player's inventory and notify them
+                        break;
+                    case ActionTypes.None:
+                        break;
+                    case ActionTypes.OpenShopMenu:
+                        Debug.Log("Opened shop menu.");
+                        //open shop menu where you can buy things from the shopkeep's inventory and sell things from yours
+                            //buying adds items to your inventory and removes from theirs
+                            //selling removes items from your inventory and adds to theirs
+                                //TODO: after x amount of time played, add items to each shopkeep's inventory.
+                        break;
+                    case ActionTypes.ProgressDialogue:
+                        Debug.Log("Dialogue progressed to conversation " + action.number + ".");
+                        //move to a new conversation id that has been specified.
+                        break;
+                    case ActionTypes.ProgressQuest:
+                        Debug.Log("Quest " + action.name + " progressed to step " + action.number);
+                        //move to a new point in the specified quest.
+                        break;
+                    case ActionTypes.RequestGold:
+                        Debug.Log(nameText.text + " requests " + action.number + " gold.");
+                        //request gold to continue the specified conversation
+                            //can also progress to a dialogue that starts off here if this is the only continuing branch
+                        break;
+                    case ActionTypes.RequestItem:
+                        Debug.Log(nameText.text + " requests " + action.number + " " + action.name + "(s).");
+                        //request items to continue the specified conversation
+                            //can also progress to a dialogue that starts off here if this is the only continuing branch
+                        break;
+                    case ActionTypes.TakeGold:
+                        Debug.Log(nameText.text + " took " + action.number + " gold.");
+                        //take/steal action.number gold from the player. If they do not have that much, take as much as they have.
+                        break;
+                    case ActionTypes.TransportLevel:
+                        Debug.Log(nameText.text + " transported to " + action.name + " level at location x=" + action.xloc + ", y=" + action.yloc + ".");
+                        //transport the character to the specified level at the coordinates provided.
+                            //they will be added to a list of characters in that level with specified coordinates.
+                            //add a fade to black and back to let the character disappear
+                        break;
+                    case ActionTypes.TransportLocation:
+                        Debug.Log(nameText.text + " transported to " + action.name + " level at location x=" + action.xloc + ", y=" + action.yloc + ".");
+                        //transport the character to the specified coordinates in the current level
+                            //they will be added to a list of characters in this level with new specified coordinates.
+                            //they will stay instantiated and actually be transported in this case.
+                            //add a fade to black and back to let the character disappear
+                        break;
+                    default:
+                        Debug.LogError(nameText.text + " has an action of type " + action.type.ToString() + " which is undefined.");
+                        break;
+                }
             }
         }
 

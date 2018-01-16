@@ -11,8 +11,7 @@ namespace Character2D
 
         public BackpackMenu backpackMenu;
 
-        public GameObject interactTrigger;
-        private BoxCollider2D interactCollider;
+        public InteractionTrigger interactTrigger;
 
         public bool acceptInput;
 
@@ -20,7 +19,6 @@ namespace Character2D
         private void Start()
         {
             acceptInput = true; //to be used for menu navigation
-            interactCollider = interactTrigger.GetComponent<BoxCollider2D>();
         }
 
         // Update is called once per frame
@@ -54,7 +52,7 @@ namespace Character2D
 
             if(!isInteractList)
             {
-                interactCollider.enabled = false;
+                interactTrigger.DisableTrigger();
             }
             
             playerMovement.jumpInput = false;
@@ -71,7 +69,7 @@ namespace Character2D
         public void EnableInput()
         {
             acceptInput = true;
-            interactCollider.enabled = true;
+            interactTrigger.EnableTrigger();
         }
     }
 }

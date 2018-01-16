@@ -17,7 +17,7 @@ public class CharacterData : ScriptableObject
     //gets each character type into memory from the database
     private void GetCharacters()
     {
-        string characterDatabase = "CharacterTypeDatabase.xml";
+        string characterDatabase = "CharacterDatabase.xml";
         List<CharacterFields> characterList = new List<CharacterFields>();
 
         //parse XML with LINQ

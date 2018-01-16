@@ -18,6 +18,7 @@ public class DialogueData : ScriptableObject
         dialogueDictionary = new Dictionary<string, CharacterDialogue>();
         root = Application.dataPath.Substring(0, Application.dataPath.Length - 7) + "/Dialogue/";
         GetAllDialogue();
+        //PrintDialogue(); //uncomment for debug
     }
 
     private void GetAllDialogue()
@@ -58,7 +59,7 @@ public class DialogueData : ScriptableObject
                             select new DialogueSegment
                             {
                                 id = segment.AttributeValueNull_Integer("id"),
-                                text = segment.Element("content").ElementValueNull_String(),
+                                text = segment.Element("text").ElementValueNull_String(),
                                 next = segment.Element("next").ElementValueNull_Integer(),
                                 //SegmentAction = TODO: implement
                                 choices = segment.Elements("choice")
@@ -66,14 +67,16 @@ public class DialogueData : ScriptableObject
                                     {
                                         id = choice.AttributeValueNull_Integer("id"),
                                         next = choice.Element("next").ElementValueNull_Integer(),
-                                        text = choice.Element("response").ElementValueNull_String(),
+                                        text = choice.Element("text").ElementValueNull_String(),
                                     }).OrderBy(x => x.id).ToList(),
                                 actions = segment.Elements("action")
                                     .Select(choice => new DialogueAction
                                     {
                                         type = choice.AttributeValueNull_ActionType("type"),
                                         name = choice.Element("name").ElementValueNull_String(),
-                                        amount = choice.Element("amount").ElementValueNull_Integer(),
+                                        number = choice.Element("number").ElementValueNull_Integer(),
+                                        xloc = choice.Element("xloc").ElementValueNull_Float(),
+                                        yloc = choice.Element("yloc").ElementValueNull_Float(),
                                     }).OrderBy(x => x.type).ToList() 
                             }).OrderBy(x => x.id).ToList();
         foreach(DialogueSegment segment in segments)
@@ -132,7 +135,9 @@ public class DialogueData : ScriptableObject
                         Debug.Log("             -----ACTION-----");
                         Debug.Log("                 " + "Type: " + da.type.ToString());
                         Debug.Log("                 " + "Name: " + da.name);
-                        Debug.Log("                 " + "Amount: " + da.amount);
+                        Debug.Log("                 " + "Amount: " + da.number);
+                        Debug.Log("                 " + "X-Location: " + da.xloc);
+                        Debug.Log("                 " + "Y-Location: " + da.yloc);
                     }
                 }
             }
@@ -142,6 +147,7 @@ public class DialogueData : ScriptableObject
         Debug.Log("----------------------------------------");
         //tests
         Debug.Log(dialogueDictionary["Villager"].conversation[1].segments[3].choices[1].text);
+        Debug.Log(dialogueDictionary["Villager"].conversation[1].segments[6].actions[1].type.ToString());
         Debug.Log(dialogueDictionary["Villager2"].conversation[3].segments[0].text);
     }
 }
