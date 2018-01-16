@@ -13,6 +13,6 @@ public class Play : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LoadGame() {
-        SceneManager.LoadScene("Level1-SC");
+        SceneManager.LoadScene("Area1-AP");
 	}
 }
