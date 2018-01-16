@@ -11,6 +11,7 @@ namespace Character2D
 
         //external input
         public bool crouchInput; //crouch input from character
+        public float climbSpeedInput;
         public float climbSpeed;
 
         //external booleans that drive the character states
@@ -55,6 +56,9 @@ namespace Character2D
             slideDelay = 0.25f;
 
             crouchSpeed = 0.50f;
+
+            climbSpeedInput = 0.0f;
+            climbSpeed = 0.0f;
         }
 
         //called once per frame (for input)
@@ -125,7 +129,7 @@ namespace Character2D
             }
             if(!isCrouching && canClimb && !isOnLadder && climbingTriggerTop.currentObjects.Count != 0)
             {
-                if(climbSpeed > 0.0f || (climbSpeed < 0.0f && !isGrounded))
+                if(climbSpeedInput > 0.0f || (climbSpeedInput < 0.0f && !isGrounded))
                 {
                     isOnLadder = true;
                 }
@@ -187,23 +191,32 @@ namespace Character2D
                 isStrafing = false;
                 rb.gravityScale = 0.0f;
                 rb.velocity = Vector2.zero;
-                if(climbSpeed > 0.0f || (climbSpeed < 0.0f && !isGrounded))
+                if(climbSpeedInput > 0.0f || (climbSpeedInput < 0.0f && !isGrounded))
                 {
+                    climbSpeed = climbSpeedInput;
                     isClimbing = true;
-                    transform.Translate(Vector3.up * climbSpeed / 50f);
+                    transform.Translate(Vector3.up * climbSpeedInput / 50f);
                 }
                 else if(Mathf.Abs(mvmtSpeed) > 0.0f && !isGrounded)
                 {
+                    climbSpeed = 0.0f;
                     isStrafing = true;
                     transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed) / 75f);
                 }
                 else if(isGrounded && climbingTriggerTop.currentObjects.Count != 0)
                 {
+                    climbSpeed = 0.0f;
                     DoneClimbing();
+                }
+                else if(isGrounded && climbingTriggerTop.currentObjects.Count == 0)
+                {
+                    climbSpeed = 1.0f;
+                    isClimbing = true;
+                    transform.Translate(Vector3.up / 50f);
                 }
                 else
                 {
-                    //hanging motionless on the ladder
+                    climbSpeed = 0.0f;
                 }
             }
             else
@@ -272,6 +285,7 @@ namespace Character2D
             isStrafing = false;
             isClimbing = false;
             rb.gravityScale = 2.0f;
+            climbSpeed = 0.0f;
         }
     }
 }

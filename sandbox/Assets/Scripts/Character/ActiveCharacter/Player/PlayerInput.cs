@@ -30,7 +30,7 @@ namespace Character2D
                 playerMovement.crouchInput = CrossPlatformInputManager.GetButton("Crouch"); //send crouch input
                 playerMovement.runInput = CrossPlatformInputManager.GetButton("Run"); //send run input
                 playerMovement.mvmtSpeed = CrossPlatformInputManager.GetAxis("Move"); //send movement speed
-                playerMovement.climbSpeed = CrossPlatformInputManager.GetAxis("Vertical"); //send movement speed
+                playerMovement.climbSpeedInput = CrossPlatformInputManager.GetAxis("Vertical"); //send movement speed
                 playerInteraction.interactionInput = CrossPlatformInputManager.GetButtonDown("Interact"); //send interaction input
 
                 playerAttack.attackInputDown = CrossPlatformInputManager.GetButtonDown("Attack"); //send attack input pressed
