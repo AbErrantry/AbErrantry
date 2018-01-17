@@ -295,11 +295,11 @@ namespace Character2D
         {
             if(isFacingRight)
             {
-                rb.AddForce(new Vector2(1000f, 0f));
+                rb.AddForce(new Vector2(1500f, 0f));
             }
             else
             {
-                rb.AddForce(new Vector2(-1000f, 0f));
+                rb.AddForce(new Vector2(-1500f, 0f));
             }
         }
     }
