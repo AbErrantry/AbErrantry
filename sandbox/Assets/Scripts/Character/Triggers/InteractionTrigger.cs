@@ -7,6 +7,7 @@ namespace Character2D
     {
         public PlayerInteraction playerInteraction;
         private BoxCollider2D boxCollider;
+        private float colliderSizeX;
 
         //used for initialization
         void Start()
@@ -15,6 +16,7 @@ namespace Character2D
             disregardCount = true; //don't consider the object count for onTriggerExit in Trigger
 
             boxCollider = GetComponent<BoxCollider2D>();
+            colliderSizeX = boxCollider.size.x;
         }
 
         //fires upon an object entering/exiting the trigger box
@@ -36,17 +38,10 @@ namespace Character2D
 
         private IEnumerator WiggleCollider()
         {
-            for(int i = 0; i < 5; i++)
-            {
-                boxCollider.size = new Vector2(boxCollider.size.x - 0.1f, boxCollider.size.y);
-                yield return new WaitForFixedUpdate();
-            }
-
-            for(int i = 0; i < 5; i++)
-            {
-                boxCollider.size = new Vector2(boxCollider.size.x + 0.1f, boxCollider.size.y);
-                yield return new WaitForFixedUpdate();
-            }
+            boxCollider.size = new Vector2(colliderSizeX, boxCollider.size.y);
+            boxCollider.size = new Vector2(boxCollider.size.x - 0.01f, boxCollider.size.y);
+            yield return new WaitForFixedUpdate();
+            boxCollider.size = new Vector2(colliderSizeX, boxCollider.size.y);
         }
     }
 }

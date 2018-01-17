@@ -4,10 +4,11 @@ namespace Character2D
 {
     public class PlayerMovement : ActiveCharacterMovement
     {
-        private PlayerInteraction playerInteraction;
+        public PlayerInteraction playerInteraction;
         private PlayerAttack playerAttack;
 
         public ClimbingTriggerTop climbingTriggerTop;
+        public UncrouchTrigger uncrouchTrigger;
 
         //external input
         public bool crouchInput; //crouch input from character
@@ -31,6 +32,7 @@ namespace Character2D
         //delays after each action
         protected float crouchDelay; //the amount of time before the character can uncrouch
         protected float slideDelay; //the duration of the slide animation
+        private bool slideBonus;
 
         //movement speed in each state
         protected float crouchSpeed; //how much crouching decreases the movement speed
@@ -48,6 +50,7 @@ namespace Character2D
             canUncrouch = true;
 
             isCrouching = false;
+            slideBonus = true;
 
             tCrouch = 0.0f;
             isInitCrouch = true;
@@ -64,11 +67,8 @@ namespace Character2D
         //called once per frame (for input)
         protected new void Update()
         {
-            if(!playerInteraction.isInteracting)
-            {
-                base.Update();
-            }
-            else
+            base.Update();
+            if(playerInteraction.isInteracting)
             {
                 rb.velocity = new Vector2(0.0f, rb.velocity.y);
                 SendToAnimator();
@@ -78,11 +78,8 @@ namespace Character2D
         //called once per game tick (for physics)
         protected new void FixedUpdate()
         {
-            if(!playerInteraction.isInteracting)
-            {
-                base.FixedUpdate();
-            }
-            else
+            base.FixedUpdate();
+            if(playerInteraction.isInteracting)
             {
                 rb.velocity = new Vector2(0.0f, rb.velocity.y);
                 SendToAnimator();
@@ -109,7 +106,7 @@ namespace Character2D
             {
                 //the character can only crouch when they are not crouching
                 //the character can only uncrouch when they have room to stand up
-                if(!isCrouching || CheckIfCanUncrouch())
+                if(CheckIfCanUncrouch() || !isCrouching)
                 {
                     isCrouching = crouchInput;
                     SendToAnimator();
@@ -124,6 +121,7 @@ namespace Character2D
                     {
                         //stopped crouching
                         isInitCrouch = true;
+                        slideBonus = true;
                     }
                 }
             }
@@ -167,13 +165,18 @@ namespace Character2D
             }
             else if (isCrouching)
             {
-                if(isRunning && Time.time - tCrouch < slideDelay)
+                if(isRunning && Time.time - tCrouch < slideDelay && slideBonus)
                 {
                     speedMultiplier = runSpeed * crouchSpeed;
                 }
                 else
                 {
+                    slideBonus = false;
                     speedMultiplier = crouchSpeed;
+                }
+                if(playerInteraction.isInteracting)
+                {
+                    tCrouch = Time.time;
                 }
             }
             else if (isRunning)
@@ -269,13 +272,13 @@ namespace Character2D
         //checks if the character has enough room to uncrouch
         protected bool CheckIfCanUncrouch()
         {
-            if (!canUncrouch || Time.time - tCrouch < crouchDelay)
+            if (canUncrouch && !crouchInput && Time.time - tCrouch > crouchSpeed)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
 
@@ -286,6 +289,18 @@ namespace Character2D
             isClimbing = false;
             rb.gravityScale = 2.0f;
             climbSpeed = 0.0f;
+        }
+
+        public void RollBonus()
+        {
+            if(isFacingRight)
+            {
+                rb.AddForce(new Vector2(1000f, 0f));
+            }
+            else
+            {
+                rb.AddForce(new Vector2(-1000f, 0f));
+            }
         }
     }
 }
