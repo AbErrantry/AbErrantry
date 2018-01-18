@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 namespace Character2D
 {
     public class Player : ActiveCharacter
     {
+        public CinemachineVirtualCamera virtualCamera;
+
         public Vector3 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
         private float maxVitality; //the maximum value of health
 
@@ -36,7 +39,12 @@ namespace Character2D
             vitality = maxVitality;
             transform.position = spawnPoint;
             Debug.Log("player died. respawning.");
-        } 
+        }
+
+        public void ToggleCamera(bool isActive)
+        {
+            virtualCamera.enabled = isActive;
+        }
     }
 }
 

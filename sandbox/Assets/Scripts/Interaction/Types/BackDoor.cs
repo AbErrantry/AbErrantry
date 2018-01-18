@@ -25,7 +25,9 @@ public class BackDoor : Interactable
         anim.SetBool("isOpen", false);
         if(isFirst)
         {
+            character.GetComponent<Character2D.Player>().ToggleCamera(false);
             character.transform.position = doorPair.transform.position;
+            character.GetComponent<Character2D.Player>().ToggleCamera(true);
             yield return StartCoroutine(doorPair.GetComponent<BackDoor>().EnterDoor(character, false));
         }
     }

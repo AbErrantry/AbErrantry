@@ -25,12 +25,12 @@ public class CameraShift : MonoBehaviour
         cam = GetComponent<Camera>();
         body = vcam.GetCinemachineComponent<CinemachineFramingTransposer>();
 
+        shiftedY = 0.50f;
         shiftedLeftX = 0.875f;
         shiftedRightX = 0.125f;
-        unshiftedX = 0.5f;
 
-        shiftedY = 0.50f;
-        unshiftedY = 0.70f;
+        unshiftedX = body.m_ScreenX;
+        unshiftedY = body.m_ScreenY;
 
         deadZoneHeight = body.m_DeadZoneHeight;
         deadZoneWidth = body.m_DeadZoneWidth;
