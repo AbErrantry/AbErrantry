@@ -13,6 +13,8 @@ namespace Dialogue2D
         public GameData gameData;
         private Character2D.PlayerInput playerInput;
 
+        public CameraShift cameraShift;
+
         public TMP_Text nameText;
         public TMP_Text dialogueText;
 
@@ -20,9 +22,16 @@ namespace Dialogue2D
         public GameObject choiceList;
 
         public Animator dialogueAnimator;
+        public RectTransform dialogueTransform;
 
         private List<DialogueSegment> dialogueSegments;
         private DialogueSegment currentSegment;
+
+        public float xMinLeft;
+        public float xMaxLeft;
+
+        public float xMinRight;
+        public float xMaxRight;
 
         public float textSpeed;
 
@@ -34,12 +43,19 @@ namespace Dialogue2D
             playerInput = GetComponent<Character2D.PlayerInput>();
             
             textSpeed = 2.0f;
+
+            xMinLeft = 0.01f;
+            xMaxLeft = 0.50f;
+
+            xMinRight = 0.50f;
+            xMaxRight = 0.99f;
         }
 
         //finishes the dialogue
         private void EndDialogue()
         {
             dialogueAnimator.SetBool("IsOpen", false);
+            cameraShift.ResetCamera();
             playerInput.EnableInput();
             FlushChoices();
             //close dialogue and etc etc
@@ -221,6 +237,17 @@ namespace Dialogue2D
             dialogueAnimator.SetBool("IsOpen", true);
             dialogueSegments.Clear();
             dialogueSegments = gameData.dialogueData.dialogueDictionary[charName].conversation[convName].segments.Values.ToList();
+
+            if(cameraShift.ShiftCameraLeft(false))
+            {
+                dialogueTransform.anchorMin = new Vector2(xMinLeft, dialogueTransform.anchorMin.y);
+                dialogueTransform.anchorMax = new Vector2(xMaxLeft, dialogueTransform.anchorMax.y);
+            }
+            else
+            {
+                dialogueTransform.anchorMin = new Vector2(xMinRight, dialogueTransform.anchorMin.y);
+                dialogueTransform.anchorMax = new Vector2(xMaxRight, dialogueTransform.anchorMax.y);
+            }
 
             nameText.text = charName;
 

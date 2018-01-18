@@ -88,7 +88,7 @@ namespace Character2D
             if (!isOpen)
             {
                 playerInteraction.CloseContainer();
-                if(cameraShift.ShiftCameraLeft())
+                if(cameraShift.ShiftCameraLeft(true))
                 {
                     backpackTransform.anchorMin = new Vector2(xMinLeft, backpackTransform.anchorMin.y);
                     backpackTransform.anchorMax = new Vector2(xMaxLeft, backpackTransform.anchorMax.y);

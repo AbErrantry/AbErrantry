@@ -33,7 +33,10 @@ namespace Character2D
         public void EnableTrigger()
         {
             boxCollider.enabled = true;
-            StartCoroutine(WiggleCollider());
+            if(boxCollider.isActiveAndEnabled)
+            {
+                StartCoroutine(WiggleCollider());
+            }
         }
 
         private IEnumerator WiggleCollider()
