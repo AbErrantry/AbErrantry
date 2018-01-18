@@ -9,6 +9,7 @@ public class Pickup : Interactable
 	//used for initialization
 	private new void Start ()
     {
+        typeOfInteractable = Types.Pickup;
         base.Start();
         collectTime = 1.0f;
     }

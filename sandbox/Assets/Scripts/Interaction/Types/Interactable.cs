@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Interactable : MonoBehaviour
+public abstract class Interactable : MonoBehaviour
 {
     public enum Types //enumeration of character types
     {
@@ -9,7 +9,7 @@ public class Interactable : MonoBehaviour
 
     public new string name;
     [System.NonSerialized] public string type;
-    public Types typeOfInteractable;
+    [System.NonSerialized] public Types typeOfInteractable;
 
     protected void Start()
     {
@@ -30,7 +30,7 @@ public class Interactable : MonoBehaviour
                 type = "Pick up";
                 break;
             case Types.NPC:
-                type = "Talk";
+                type = "Talk to";
                 break;
             case Types.Chest:
                 type = "Open";

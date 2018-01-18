@@ -19,14 +19,18 @@ public class CameraShift : MonoBehaviour
     private float shiftedY;
     private float unshiftedY;
 
-    private float xDamping;
-    private float yDamping;
+    private float xDampingUnshifted;
+    private float yDampingUnshifted;
+    private float xDampingShifted;
+    private float yDampingShifted;
 
     private float unshiftedOrthSize;
     private float shiftedOrthSize;
 
-    private float deadZoneWidth;
-    private float deadZoneHeight;
+    private float deadZoneWidthUnshifted;
+    private float deadZoneHeightUnshifted;
+    private float deadZoneWidthShifted;
+    private float deadZoneHeightShifted;
 
     private float shiftTime;
 
@@ -50,11 +54,15 @@ public class CameraShift : MonoBehaviour
         unshiftedX = body.m_ScreenX;
         unshiftedY = body.m_ScreenY;
 
-        xDamping = body.m_XDamping;
-        yDamping = body.m_YDamping;
+        xDampingUnshifted = body.m_XDamping;
+        yDampingUnshifted = body.m_YDamping;
+        xDampingShifted = 0.0f;
+        yDampingShifted = 0.0f;
 
-        deadZoneHeight = body.m_DeadZoneHeight;
-        deadZoneWidth = body.m_DeadZoneWidth;
+        deadZoneHeightUnshifted = body.m_DeadZoneHeight;
+        deadZoneWidthUnshifted = body.m_DeadZoneWidth;
+        deadZoneHeightShifted = 0.0f;
+        deadZoneWidthShifted = 0.0f;
 
         shiftTime = 3.0f;
     }
@@ -64,14 +72,9 @@ public class CameraShift : MonoBehaviour
     {
         bool result;
         Vector3 screenPos = cam.WorldToScreenPoint(player.position);
-
-        body.m_ScreenY = shiftedY;
-
-        body.m_DeadZoneHeight = 0.0f;
-        body.m_DeadZoneWidth = 0.0f;
         
-        body.m_XDamping = 0.0f;
-        body.m_YDamping = 0.0f;
+        body.m_XDamping = xDampingShifted;
+        body.m_YDamping = yDampingShifted;
 
         float shiftedX = 0.0f;
 
@@ -101,33 +104,31 @@ public class CameraShift : MonoBehaviour
         }
 
         StopAllCoroutines();
-        StartCoroutine(CameraLerp(shiftTime, shiftedX, shiftedOrthSize));
+        StartCoroutine(CameraLerp(shiftTime, shiftedX, shiftedY, deadZoneHeightShifted, deadZoneWidthShifted ,shiftedOrthSize));
 
         return result;
     }
 
     public void ResetCamera()
     {
-        body.m_ScreenY = unshiftedY;
-
-        body.m_DeadZoneHeight = deadZoneHeight;
-        body.m_DeadZoneWidth = deadZoneWidth;
-
-        body.m_XDamping = xDamping;
-        body.m_YDamping = yDamping;
+        body.m_XDamping = xDampingUnshifted;
+        body.m_YDamping = yDampingUnshifted;
 
         StopAllCoroutines();
-        StartCoroutine(CameraLerp(shiftTime, unshiftedX, unshiftedOrthSize));
+        StartCoroutine(CameraLerp(shiftTime, unshiftedX, unshiftedY, deadZoneHeightUnshifted, deadZoneWidthUnshifted, unshiftedOrthSize));
     }
 
-    private IEnumerator CameraLerp(float lerpTime, float endLoc, float endSize)
+    private IEnumerator CameraLerp(float lerpTime, float endLocX, float endLocY, float endDeadZoneHeight, float endDeadZoneWidth, float endSize)
     {
         float lerpStart = Time.time;
         while(Time.time - lerpStart < lerpTime)
         {
             float time = (Time.time - lerpStart) / lerpTime;
             vcam.m_Lens.OrthographicSize = Mathf.SmoothStep(vcam.m_Lens.OrthographicSize, endSize, time);
-            body.m_ScreenX = Mathf.SmoothStep(body.m_ScreenX, endLoc, time);
+            body.m_ScreenX = Mathf.SmoothStep(body.m_ScreenX, endLocX, time);
+            body.m_ScreenY = Mathf.SmoothStep(body.m_ScreenY, endLocY, time);
+            body.m_DeadZoneHeight = Mathf.SmoothStep(body.m_DeadZoneHeight, endDeadZoneHeight, time);
+            body.m_DeadZoneWidth = Mathf.SmoothStep(body.m_DeadZoneWidth, endDeadZoneWidth, time);
             yield return null;
         }
     }

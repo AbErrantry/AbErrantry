@@ -9,7 +9,7 @@ public class NPC : Interactable
     //used for initialization
     private new void Start()
     {
+        typeOfInteractable = Types.NPC;
         base.Start();
-        currentDialogueState = 1;
     }
 }
