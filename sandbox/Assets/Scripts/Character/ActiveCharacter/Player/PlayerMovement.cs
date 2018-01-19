@@ -31,8 +31,8 @@ namespace Character2D
 
         //delays after each action
         protected float crouchDelay; //the amount of time before the character can uncrouch
-        protected float slideDelay; //the duration of the slide animation
-        private bool slideBonus;
+
+        protected float bonusForce;
 
         //movement speed in each state
         protected float crouchSpeed; //how much crouching decreases the movement speed
@@ -50,18 +50,18 @@ namespace Character2D
             canUncrouch = true;
 
             isCrouching = false;
-            slideBonus = true;
 
             tCrouch = 0.0f;
             isInitCrouch = true;
 
             crouchDelay = 0.75f;
-            slideDelay = 0.25f;
 
             crouchSpeed = 0.50f;
 
             climbSpeedInput = 0.0f;
             climbSpeed = 0.0f;
+
+            bonusForce = 500.0f;
         }
 
         //called once per frame (for input)
@@ -121,7 +121,6 @@ namespace Character2D
                     {
                         //stopped crouching
                         isInitCrouch = true;
-                        slideBonus = true;
                     }
                 }
             }
@@ -165,15 +164,7 @@ namespace Character2D
             }
             else if (isCrouching)
             {
-                if(isRunning && Time.time - tCrouch < slideDelay && slideBonus)
-                {
-                    speedMultiplier = runSpeed * crouchSpeed;
-                }
-                else
-                {
-                    slideBonus = false;
-                    speedMultiplier = crouchSpeed;
-                }
+                speedMultiplier = crouchSpeed;
                 if(playerInteraction.isInteracting)
                 {
                     tCrouch = Time.time;
@@ -291,15 +282,15 @@ namespace Character2D
             climbSpeed = 0.0f;
         }
 
-        public void RollBonus()
+        public void MoveBonus(float intensity)
         {
             if(isFacingRight)
             {
-                rb.AddForce(new Vector2(1500f, 0f));
+                rb.AddForce(new Vector2(bonusForce*intensity, 0f));
             }
             else
             {
-                rb.AddForce(new Vector2(-1500f, 0f));
+                rb.AddForce(new Vector2(-bonusForce*intensity, 0f));
             }
         }
     }

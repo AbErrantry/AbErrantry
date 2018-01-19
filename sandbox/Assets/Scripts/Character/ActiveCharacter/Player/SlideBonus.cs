@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Character2D
 {
-	public class RollBonus : StateMachineBehaviour 
+	public class SlideBonus : StateMachineBehaviour 
 	{
 		private PlayerMovement playerMovement;
 
@@ -12,7 +12,7 @@ namespace Character2D
 		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
 		{
 			playerMovement = animator.GetComponentInParent<PlayerMovement>();
-			playerMovement.MoveBonus(3.0f);
+			playerMovement.MoveBonus(1.0f);
 		}
 	}
 }
