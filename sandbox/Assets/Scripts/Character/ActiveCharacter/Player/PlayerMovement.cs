@@ -4,7 +4,7 @@ namespace Character2D
 {
     public class PlayerMovement : ActiveCharacterMovement
     {
-        public PlayerInteraction playerInteraction;
+        private PlayerInteraction playerInteraction;
         private PlayerAttack playerAttack;
 
         public ClimbingTriggerTop climbingTriggerTop;
@@ -68,11 +68,6 @@ namespace Character2D
         protected new void Update()
         {
             base.Update();
-            if(playerInteraction.isInteracting)
-            {
-                rb.velocity = new Vector2(0.0f, rb.velocity.y);
-                SendToAnimator();
-            }
         }
 
         //called once per game tick (for physics)

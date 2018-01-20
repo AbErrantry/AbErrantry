@@ -7,7 +7,7 @@ public class ConfigData : ScriptableObject
 	//default constructor
 	public ConfigData()
     {
-		
+		//playerprefs
 	}
 
     //this is the configuration reference in memory

@@ -8,14 +8,18 @@ namespace Character2D
 	{
 		protected Rigidbody2D rb;
 		protected SpriteRenderer sr;
+		protected Animator anim;
 
+		public bool isDying;
 
 		//used for initialization
 		protected new void Start () 
 		{
 			base.Start();
+			isDying = false;
 			rb = GetComponent<Rigidbody2D>();
 			sr = GetComponent<SpriteRenderer>();
+			anim = GetComponent<Animator>();
 		}
 
 		//applies damage to the player
@@ -64,6 +68,13 @@ namespace Character2D
 			yield return null;
 		}
 
-		protected abstract void Die();
+		protected void Die()
+		{
+			InitializeDeath();
+		}
+
+		protected abstract void InitializeDeath();
+
+		public abstract void FinalizeDeath();
 	}
 }

@@ -12,16 +12,20 @@ namespace Character2D
 			base.Start();
 		}
 
-		protected override void Die()
-        {
-            //take away enemy input
+		protected override void InitializeDeath()
+		{
+			//take away enemy input
             //enemy no longer targets player
 			//enemy no longer attackable
-            //death animation for enemy
+			isDying = true;
+			anim.SetBool("isDying", isDying); //death animation 
+		}
+
+		public override void FinalizeDeath()
+		{
 			//drop loot
-			//destroy enemy
 			Debug.Log("Enemy died: " + gameObject.name); //TODO: remove debug
 			Destroy(gameObject);
-        }
+		}
 	}
 }

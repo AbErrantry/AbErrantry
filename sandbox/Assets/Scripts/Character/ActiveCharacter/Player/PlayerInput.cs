@@ -46,7 +46,7 @@ namespace Character2D
             }
         }
 
-        public void DisableInput(bool isInteractList)
+        public void DisableInput(bool isInteractList = false)
         {
             acceptInput = false;
 

@@ -9,6 +9,9 @@ namespace Character2D
     {
         public CinemachineVirtualCamera virtualCamera;
 
+        public PlayerMovement playerMovement;
+        public PlayerInput playerInput;
+
         public Vector3 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
         private float maxVitality; //the maximum value of health
 
@@ -17,28 +20,37 @@ namespace Character2D
         {
 			base.Start();
             //set from CharacterData
-            maxVitality = vitality;
+            spawnPoint = transform.position; //todo: set from file
+            maxVitality = vitality; //todo: set from file
         }
 
-        protected override void Die()
+        protected override void InitializeDeath()
         {
             //take away player input
+            playerInput.DisableInput();
+            isDying = true;
+            anim.SetBool("isDying", isDying); //death animation 
             //enemies no longer target player
-
-            //death animation for player
             //screen overlay of death?
+        }
 
-            Respawn();
-
+        public override void FinalizeDeath()
+        {
             //enemies target player
             //give player back input
+            isDying = false;
+            anim.SetBool("isDying", isDying);
+            Respawn();
+            playerInput.EnableInput();
         }
 
         private void Respawn()
         {
-            vitality = maxVitality;
+            ToggleCamera(false);
+            vitality = maxVitality; //TODO: uncomment
             transform.position = spawnPoint;
             Debug.Log("player died. respawning.");
+            ToggleCamera(true);
         }
 
         public void ToggleCamera(bool isActive)

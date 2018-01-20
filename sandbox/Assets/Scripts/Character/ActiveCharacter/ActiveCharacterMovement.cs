@@ -7,35 +7,26 @@ namespace Character2D
 	public class ActiveCharacterMovement : CharacterMovement 
 	{
 		private ActiveCharacterAttack characterAttack;
+		private ActiveCharacter activeCharacter;
 
 		// Use this for initialization
 		protected new void Start() 
 		{
 			base.Start();
+			activeCharacter = gameObject.GetComponent<ActiveCharacter>();
 			characterAttack = gameObject.GetComponent<ActiveCharacterAttack>();
 		}
 
 		// Update is called once per frame
 		protected new void Update() 
 		{
-			if(!characterAttack.isAttacking)
-			{
-				base.Update();
-			}
-			else
-			{
-				rb.velocity = new Vector2(0.0f, rb.velocity.y);
-				SendToAnimator();
-			}
+			base.Update();
 		}
 
 		protected new void FixedUpdate()
 		{
-			if(!characterAttack.isAttacking)
-			{
-				base.FixedUpdate();
-			}
-			else
+			base.FixedUpdate();
+			if(characterAttack.isAttacking || activeCharacter.isDying)
 			{
 				rb.velocity = new Vector2(0.0f, rb.velocity.y);
 				SendToAnimator();
