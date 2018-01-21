@@ -5481,7 +5481,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Small Health Potion
-  typeOfInteractable: 2
 --- !u!61 &735920765
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6493,7 +6492,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Medium Health Potion
-  typeOfInteractable: 2
 --- !u!61 &890295981
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7775,7 +7773,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: My house
-  typeOfInteractable: 0
   doorPair: {fileID: 1998128895}
 --- !u!95 &1055091578
 Animator:
@@ -8077,7 +8074,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Steel Sword
-  typeOfInteractable: 2
 --- !u!61 &1103399591
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8517,7 +8513,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Medium Health Potion
-  typeOfInteractable: 2
 --- !u!61 &1130884635
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8734,7 +8729,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Small Health Potion
-  typeOfInteractable: 2
 --- !u!61 &1135444648
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9731,7 +9725,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0.000061035156}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1272246773
@@ -9813,7 +9807,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Large Health Potion
-  typeOfInteractable: 2
 --- !u!61 &1310719647
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10767,7 +10760,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Small Health Potion
-  typeOfInteractable: 2
 --- !u!61 &1463181741
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -27975,7 +27967,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Small Health Potion
-  typeOfInteractable: 2
 --- !u!61 &1679838725
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -28565,11 +28556,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 0}
+  cameraShift: {fileID: 0}
   nameText: {fileID: 1416123006}
   dialogueText: {fileID: 10194868}
   choiceButton: {fileID: 0}
   choiceList: {fileID: 0}
   dialogueAnimator: {fileID: 13695999}
+  dialogueTransform: {fileID: 0}
+  xMinLeft: 0
+  xMaxLeft: 0
+  xMinRight: 0
+  xMaxRight: 0
   textSpeed: 0
 --- !u!251 &1723951432
 PlatformEffector2D:
@@ -28872,7 +28869,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1737643906}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.82130146, y: 3.1268616, z: -10}
+  m_LocalPosition: {x: -3.1280003, y: 2.8899999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1224786957}
@@ -29371,7 +29368,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1798034350}
   m_HandleRect: {fileID: 928971404}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -29935,7 +29932,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Large Health Potion
-  typeOfInteractable: 2
 --- !u!61 &1863164598
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -30142,7 +30138,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Medium Health Potion
-  typeOfInteractable: 2
 --- !u!61 &1890784636
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -31454,7 +31449,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: My house
-  typeOfInteractable: 1
   doorPair: {fileID: 1055091574}
 --- !u!61 &1998128898
 BoxCollider2D:
