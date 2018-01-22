@@ -186,11 +186,13 @@ namespace Character2D
                     StartCoroutine(InteractDelay(false));
                     break;
                 case Interactable.Types.Chest:
-                    //open chest
+                    Chest chest = interactable.GetComponent<Chest>();
+                    chest.OpenChest();
+                    character.InstantiateItem(GameData.data.itemData.itemDictionary[chest.itemName], chest.transform.position);
                     StartCoroutine(InteractDelay(false));
                     break;
                 default:
-                    Debug.Log("Error: interact type is unknown. Please add its behavior to CharacterInteraction.");
+                    Debug.LogError("Interact type is unknown. Please add its behavior to CharacterInteraction.");
                     break;
             }
         }

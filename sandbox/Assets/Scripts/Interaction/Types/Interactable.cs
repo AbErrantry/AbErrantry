@@ -7,13 +7,16 @@ public abstract class Interactable : MonoBehaviour
         BackDoor, SideDoor, Pickup, NPC, Chest
     };
 
+    public int id;
     public new string name;
     [System.NonSerialized] public string type;
     [System.NonSerialized] public Types typeOfInteractable;
 
     protected void Start()
     {
+        //set name 
         SetType();
+        SetID();
     }
 
     public void SetType()
@@ -40,5 +43,15 @@ public abstract class Interactable : MonoBehaviour
                     "has an undefined type. Please set it in the InteractableObject script.");
                 break;
         }
+    }
+
+    private void SetID()
+    {
+        //on scene load, instantiate objects in scene with instance ID that was set previously
+        //if object is newly instantiated,
+        id = GetInstanceID();
+
+        //if object is being instantiated from file
+        //id = id in file.
     }
 }

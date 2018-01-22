@@ -22,7 +22,6 @@ namespace Character2D
         public GameObject interactable;
 
         public List<InventoryItem> items; //items held by the character
-        public GameData gameData;
 
         //used for initialization
         protected void Start()
@@ -37,7 +36,7 @@ namespace Character2D
             bool isFound = false;
             foreach(InventoryItem item in items)
             {
-                if(item.item == gameData.itemData.itemDictionary[name])
+                if(item.item == GameData.data.itemData.itemDictionary[name])
                 {
                     item.quantity++;
                     isFound = true;
@@ -47,7 +46,7 @@ namespace Character2D
             if(!isFound)
             {
                 InventoryItem itemToAdd = new InventoryItem();
-                itemToAdd.item = gameData.itemData.itemDictionary[name];
+                itemToAdd.item = GameData.data.itemData.itemDictionary[name];
                 itemToAdd.quantity = 1;
                 items.Add(itemToAdd);
             }
@@ -75,7 +74,7 @@ namespace Character2D
             {
                 for(int i = 0; i < amountToDrop; i++)
                 {
-                    instantiateItem(itemToRemove.item);
+                    InstantiateItem(itemToRemove.item, transform.position);
                 }
             }
         }
@@ -89,7 +88,7 @@ namespace Character2D
             }
         }
 
-        private void instantiateItem(Item item)
+        public void InstantiateItem(Item item, Vector3 pos)
         {
             //TODO: fix comments
             //instantiate a prefab for the interact button
@@ -105,7 +104,7 @@ namespace Character2D
 
             sr.sprite = item.sprite;
 
-            newItem.transform.position = transform.position;
+            newItem.transform.position = pos;
 
             bc.size = sr.bounds.size;
 

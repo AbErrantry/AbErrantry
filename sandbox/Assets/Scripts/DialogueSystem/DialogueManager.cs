@@ -10,7 +10,6 @@ namespace Dialogue2D
 {
     public class DialogueManager : MonoBehaviour
     {
-        public GameData gameData;
         private Character2D.PlayerInput playerInput;
 
         public CameraShift cameraShift;
@@ -236,7 +235,7 @@ namespace Dialogue2D
         {
             dialogueAnimator.SetBool("IsOpen", true);
             dialogueSegments.Clear();
-            dialogueSegments = gameData.dialogueData.dialogueDictionary[charName].conversation[convName].segments.Values.ToList();
+            dialogueSegments = GameData.data.dialogueData.dialogueDictionary[charName].conversation[convName].segments.Values.ToList();
 
             if(cameraShift.ShiftCameraLeft(false))
             {
