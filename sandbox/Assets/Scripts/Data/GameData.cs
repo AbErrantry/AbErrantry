@@ -3,18 +3,28 @@
 //encapsulates all data objects into a single object
 public class GameData : MonoBehaviour
 {
+    public static GameData data;
+
     public DialogueData dialogueData;
     public CharacterData characterData;
     public ItemData itemData;
     public SaveData saveData;
     public ConfigData configData;
 
-    private void Start()
+    private void Awake()
     {
-        dialogueData = ScriptableObject.CreateInstance<DialogueData>();
-        characterData = ScriptableObject.CreateInstance<CharacterData>();
-        itemData = ScriptableObject.CreateInstance<ItemData>();
-        saveData = ScriptableObject.CreateInstance<SaveData>();
-        configData = ScriptableObject.CreateInstance<ConfigData>();
+        if(data == null)
+        {
+            data = this;
+            dialogueData = ScriptableObject.CreateInstance<DialogueData>();
+            characterData = ScriptableObject.CreateInstance<CharacterData>();
+            itemData = ScriptableObject.CreateInstance<ItemData>();
+            saveData = ScriptableObject.CreateInstance<SaveData>();
+            configData = ScriptableObject.CreateInstance<ConfigData>();
+        }
+        else if(data != this)
+        {
+            Destroy(gameObject);
+        }
     }
 }
