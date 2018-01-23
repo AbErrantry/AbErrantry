@@ -23,8 +23,12 @@ namespace Dialogue2D
         public Animator dialogueAnimator;
         public RectTransform dialogueTransform;
 
+        public GameObject dialogueContainer;
+
         private List<DialogueSegment> dialogueSegments;
         private DialogueSegment currentSegment;
+
+        public ScrollRect scrollRect;
 
         public float xMinLeft;
         public float xMaxLeft;
@@ -40,6 +44,8 @@ namespace Dialogue2D
             dialogueSegments = new List<DialogueSegment>();
             currentSegment = new DialogueSegment();
             playerInput = GetComponent<Character2D.PlayerInput>();
+
+            dialogueContainer.SetActive(false);
             
             textSpeed = 2.0f;
 
@@ -53,11 +59,11 @@ namespace Dialogue2D
         //finishes the dialogue
         private void EndDialogue()
         {
+            playerInput.EnableInput();
             dialogueAnimator.SetBool("IsOpen", false);
             cameraShift.ResetCamera();
-            playerInput.EnableInput();
             FlushChoices();
-            //close dialogue and etc etc
+            dialogueContainer.SetActive(false);
         }
 
         //submits the choice picked by the user to get the next segment
@@ -91,6 +97,7 @@ namespace Dialogue2D
             {
                 CreateChoiceButton("Continue", currentSegment.next);
             }
+            ElementFocus.focus.SetFocus(choiceList.transform.GetChild(0).gameObject, scrollRect, choiceList.GetComponent<RectTransform>());
         }
 
         private void DoActions()
@@ -176,6 +183,7 @@ namespace Dialogue2D
                 children.Add(child.gameObject);
             }
             children.ForEach(child => Destroy(child));
+            ElementFocus.focus.RemoveFocus();
         }
 
         private void CreateChoiceButton(string text, int next)
@@ -233,6 +241,7 @@ namespace Dialogue2D
         //starts a dialogue once the character triggers it
         public void StartDialogue(string charName, int convName)
         {
+            dialogueContainer.SetActive(true);
             dialogueAnimator.SetBool("IsOpen", true);
             dialogueSegments.Clear();
             dialogueSegments = GameData.data.dialogueData.dialogueDictionary[charName].conversation[convName].segments.Values.ToList();

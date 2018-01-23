@@ -26,6 +26,8 @@ namespace Character2D
         public GameObject journalContainer;
         public GameObject mapContainer;
 
+        public GameObject inventoryTab;
+
         public Character character;
 
         public GameObject inventoryItem;
@@ -184,10 +186,12 @@ namespace Character2D
             if(character.items.Count > 0)
             {
                 inventoryMask.SetActive(false);
+                ElementFocus.focus.SetFocus(inventoryList.transform.GetChild(0).gameObject, scrollRect, inventoryList.GetComponent<RectTransform>());
             }
             else
             {
                 inventoryMask.SetActive(true);
+                ElementFocus.focus.SetFocus(inventoryTab, scrollRect, inventoryList.GetComponent<RectTransform>());
             }
 
             descriptionMask.SetActive(true);
@@ -202,6 +206,7 @@ namespace Character2D
                 children.Add(child.gameObject);
             }
             children.ForEach(child => Destroy(child));
+            ElementFocus.focus.RemoveFocus();
         }
 
         public void SelectItem(InventoryItem inv)

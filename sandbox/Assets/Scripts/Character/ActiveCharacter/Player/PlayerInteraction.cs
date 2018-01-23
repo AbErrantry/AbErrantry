@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 namespace Character2D
 {
@@ -27,6 +28,8 @@ namespace Character2D
         private string interactKey; //the key for interaction
 
         public ScrollRect scrollRect; //the default y position of the interact list (to scroll back to the top)
+
+        public EventSystem eventSystem;
 
         public bool interactionInput; //whether the character is trying to interact or not
 
@@ -147,6 +150,7 @@ namespace Character2D
 
             interactBar.SetActive(false);
             interactContainer.SetActive(true);
+            ElementFocus.focus.SetFocus(interactList.transform.GetChild(0).gameObject, scrollRect, interactList.GetComponent<RectTransform>());
 
             //move the scrollbar back to the top of the list
             scrollRect.verticalNormalizedPosition = 1.0f;
@@ -229,6 +233,7 @@ namespace Character2D
             children.ForEach(child => Destroy(child));
 
             playerInput.EnableInput();
+            ElementFocus.focus.RemoveFocus();
         }
 
         //collects all items in the player's vicinity
