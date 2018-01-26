@@ -4,6 +4,8 @@ namespace Character2D
 {
     public class PlayerMovement : ActiveCharacterMovement
     {
+        public Animator weaponAnim;
+
         private PlayerInteraction playerInteraction;
         private PlayerAttack playerAttack;
 
@@ -253,6 +255,19 @@ namespace Character2D
             anim.SetFloat("climbSpeed", Mathf.Abs(climbSpeed));
             anim.SetBool("isOnLadder", isOnLadder);
             anim.SetBool("isInteracting", playerInteraction.isInteracting);
+
+            weaponAnim.SetBool("isJumping", isJumping);
+            weaponAnim.SetBool("isGrounded", isGrounded);
+            weaponAnim.SetBool("isRunning", isRunning);
+            weaponAnim.SetBool("isMoving", isMoving);
+            weaponAnim.SetBool("isFalling", isFalling);
+            weaponAnim.SetFloat("mvmtSpeed", Mathf.Abs(mvmtSpeed));
+            weaponAnim.SetBool("isCrouching", isCrouching);
+            weaponAnim.SetBool("isClimbing", isClimbing);
+            weaponAnim.SetBool("isStrafing", isStrafing);
+            weaponAnim.SetFloat("climbSpeed", Mathf.Abs(climbSpeed));
+            weaponAnim.SetBool("isOnLadder", isOnLadder);
+            weaponAnim.SetBool("isInteracting", playerInteraction.isInteracting);
         } 
 
         //checks if the character has enough room to uncrouch

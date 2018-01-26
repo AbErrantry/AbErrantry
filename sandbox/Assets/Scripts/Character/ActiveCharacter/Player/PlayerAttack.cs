@@ -6,6 +6,8 @@ namespace Character2D
 {
     public class PlayerAttack : ActiveCharacterAttack
     {
+        public Animator weaponAnim;
+
         public PlayerInput playerInput;
 
         protected PlayerMovement playerMovement;
@@ -100,6 +102,22 @@ namespace Character2D
         protected override void FinalizeAttack()
         {
             playerInput.EnableInput();
+        }
+
+        //sends boolean values describing character state to the animator
+        protected override void SendToAnimator()
+        {
+            anim.SetBool("isWindingUp", isWindingUp);
+            anim.SetBool("isAttacking", isAttacking);
+            anim.SetBool("isStabAttacking", isStabAttacking);
+            anim.SetBool("isSwingAttacking", isSwingAttacking);
+            anim.SetBool("isPowerAttacking", isPowerAttacking);
+
+            weaponAnim.SetBool("isWindingUp", isWindingUp);
+            weaponAnim.SetBool("isAttacking", isAttacking);
+            weaponAnim.SetBool("isStabAttacking", isStabAttacking);
+            weaponAnim.SetBool("isSwingAttacking", isSwingAttacking);
+            weaponAnim.SetBool("isPowerAttacking", isPowerAttacking);
         }
     }
 }

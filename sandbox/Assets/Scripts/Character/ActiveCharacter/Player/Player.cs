@@ -7,6 +7,7 @@ namespace Character2D
 {
     public class Player : ActiveCharacter
     {
+        public Animator weaponAnim;
         public CinemachineVirtualCamera virtualCamera;
 
         public PlayerMovement playerMovement;
@@ -29,7 +30,8 @@ namespace Character2D
             //take away player input
             playerInput.DisableInput();
             isDying = true;
-            anim.SetBool("isDying", isDying); //death animation 
+            anim.SetBool("isDying", isDying); //death animation
+            weaponAnim.SetBool("isDying", isDying); //death animation 
             //enemies no longer target player
             //screen overlay of death?
         }
@@ -40,6 +42,7 @@ namespace Character2D
             //give player back input
             isDying = false;
             anim.SetBool("isDying", isDying);
+            weaponAnim.SetBool("isDying", isDying);
             Respawn();
             playerInput.EnableInput();
         }

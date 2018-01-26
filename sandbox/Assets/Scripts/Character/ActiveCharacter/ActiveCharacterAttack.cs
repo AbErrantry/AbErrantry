@@ -76,7 +76,7 @@ namespace Character2D
         }
 
         //sends boolean values describing character state to the animator
-        protected void SendToAnimator()
+        protected virtual void SendToAnimator()
         {
             anim.SetBool("isWindingUp", isWindingUp);
             anim.SetBool("isAttacking", isAttacking);
