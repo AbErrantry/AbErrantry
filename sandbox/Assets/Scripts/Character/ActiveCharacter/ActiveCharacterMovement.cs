@@ -30,7 +30,7 @@ namespace Character2D
 			{
 				rb.velocity = new Vector2(0.0f, rb.velocity.y);
 				SendToAnimator();
-			}
+			}            
 		}
 	}
 }

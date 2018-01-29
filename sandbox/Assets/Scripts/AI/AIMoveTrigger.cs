@@ -27,25 +27,5 @@ namespace Character2D
             aiBehavior.AITrack(isInTrigger);
         }
 
-        /*
-        private void LateUpdate()
-        {
-            
-            size = new Vector2(5,1);
-            Vector2 dir = new Vector2(0, this.transform.rotation.y);
-            hits = Physics2D.BoxCastAll(character.position, size, 0f, dir, distance);
-
-   
-                Debug.Log(hits[0].collider.tag);
-            
-        }
-
-        void OnDrawGizmosSelected()
-            {
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawWireCube(character.position, size);
-            }
-            */
-        
     }
 }

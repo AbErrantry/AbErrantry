@@ -2,15 +2,20 @@
 
 namespace Character2D
 {
-    public class BeaconManager : Trigger
+    public class BeaconManager : MonoBehaviour
     {
-        
-        public BehaviorAI aiBehavior;
-        
-        protected override void TriggerAction(bool isInTrigger)
+        public Enemy enemy;
+
+        public void OnTriggerEnter2D(Collider2D collision)
         {
-           // aiBehavior.SwitchBeacon();
+    
+           
+            if (collision.name == enemy.name)
+            {
+                enemy.SwitchBeacon();
+            }
         }
-        
+
+
     }
 }

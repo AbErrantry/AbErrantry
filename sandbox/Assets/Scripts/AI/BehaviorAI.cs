@@ -100,21 +100,5 @@ namespace Character2D
                 aiMovement.jumpInput = true; //send jump input
             }
         }
-
-        public void SwitchBeacon()
-        {
-            if (rightBeacon == false)
-            {
-                currBeacon = rightBeacon;
-                currDirection = 1;
-                aiMovement.mvmtSpeed = 1;
-            }
-            else
-            {
-                currBeacon = leftBeacon;
-                currDirection = aiMovement.mvmtSpeed * -1; //switch direction
-                aiMovement.mvmtSpeed = currDirection;
-            }
-        }
     }
 }
