@@ -8,6 +8,7 @@ namespace Character2D
         public PlayerMovement playerMovement;
         public PlayerInteraction playerInteraction;
         public PlayerAttack playerAttack;
+       // public PlayerPause playerPause;
 
         public BackpackMenu backpackMenu;
 
@@ -35,6 +36,7 @@ namespace Character2D
 
                 playerAttack.attackInputDown = CrossPlatformInputManager.GetButtonDown("Attack"); //send attack input pressed
                 playerAttack.attackInputUp = CrossPlatformInputManager.GetButtonUp("Attack"); //send attack input released
+               // playerPause.pauseInput = CrossPlatformInputManager.GetButtonDown("Pause"); //send pause input
             }
 
             if (CrossPlatformInputManager.GetButtonDown("Backpack"))
