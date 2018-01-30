@@ -9,5 +9,6 @@ using Dialogue2D;
 
 public class QuestData : ScriptableObject 
 {
-	
+	public Dictionary<string, Quest> questDictionary;
+
 }
