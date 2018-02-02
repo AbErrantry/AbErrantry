@@ -26,7 +26,7 @@ public class DialogueData : ScriptableObject
         List<string>directories = new List<string>(Directory.GetDirectories(root));
         foreach(string directory in directories)
         {
-            if(!directory.EndsWith(".meta"))
+            if(directory.EndsWith(".xml"))
             {
                 CharacterDialogue cd = GetCharacterDialogue(directory + "/");
                 dialogueDictionary.Add(cd.name, cd);
@@ -42,7 +42,7 @@ public class DialogueData : ScriptableObject
         chr.name = new DirectoryInfo(path).Name;
         foreach (string conversation in conversations)
         {
-            if(!conversation.EndsWith(".meta"))
+            if(!conversation.EndsWith(".xml"))
             {
                 ConversationDialogue cnv = GetConversationDialogue(conversation);
                 chr.conversation.Add(cnv.id, cnv);

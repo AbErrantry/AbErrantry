@@ -9,6 +9,7 @@ public class GameData : MonoBehaviour
     public CharacterData characterData;
     public ItemData itemData;
     public SaveData saveData;
+    public QuestData questData;
     public ConfigData configData;
 
     private void Awake()
@@ -20,6 +21,7 @@ public class GameData : MonoBehaviour
             characterData = ScriptableObject.CreateInstance<CharacterData>();
             itemData = ScriptableObject.CreateInstance<ItemData>();
             saveData = ScriptableObject.CreateInstance<SaveData>();
+            questData = ScriptableObject.CreateInstance<QuestData>();
             configData = ScriptableObject.CreateInstance<ConfigData>();
         }
         else if(data != this)
