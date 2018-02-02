@@ -1,0 +1,140 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Hello, knight.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>...</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>As you may have already been told, my child has gone missing.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>Do you have any leads as to where they may have gone?</text>
+		<choice id="0">
+			<text>No, I don't.</text>
+			<next>4</next>
+		</choice>
+		<choice id="1">
+			<text>Yes, I do!</text>
+			<next>16</next>
+		</choice>
+	</segment>
+	
+	<segment id="4">
+		<text>...I've run out of options at this point.</text>
+		<next>5</next>
+	</segment>
+	
+	<segment id="5">
+		<text>I need you to find my child.</text>
+		<next>6</next>
+	</segment>
+	
+	<segment id="6">
+		<text>I understand that you are newly recruited, but with all of the attacks recently, you are all that I have.</text>
+		<next>7</next>
+	</segment>
+	
+	<segment id="7">
+		<text>I need you to head through the forest to the town and investigate everyone you meet along the way.</text>
+		<next>8</next>
+	</segment>
+	
+	<segment id="8">
+		<text>Please exercise caution when talking with anyone.</text>
+		<next>9</next>
+	</segment>
+	
+	<segment id="9">
+		<text>With the current climate, there are bound to be individuals that want to misguide or even harm you.</text>
+		<next>10</next>
+	</segment>
+	
+	<segment id="10">
+		<text>For your travels, I will entrust you with one of my finest weapons. Which would you prefer?</text>
+		<choice id="0">
+			<text>The sword.</text>
+			<next>11</next>
+		</choice>
+		<choice id="1">
+			<text>The axe.</text>
+			<next>12</next>
+		</choice>
+		<choice id="2">
+			<text>The spear.</text>
+			<next>13</next>
+		</choice>
+	</segment>
+	
+	<segment id="11">
+		<text>Ah. The sword. An excellent choice for a knight.</text>
+		<action type="GiveItem">
+			<name>Iron Sword</name>
+			<number>1</number>
+		</action>
+		<next>14</next>
+	</segment>
+	
+	<segment id="12">
+		<text>Ah. The axe. A bit nontraditional, but I respect that.</text>
+		<action type="GiveItem">
+			<name>Iron Axe</name>
+			<number>1</number>
+		</action>
+		<next>14</next>
+	</segment>
+	
+	<segment id="13">
+		<text>Ah. The spear. Tried and true.</text>
+		<action type="GiveItem">
+			<name>Iron Spear</name>
+			<number>1</number>
+		</action>
+		<next>14</next>
+	</segment>
+	
+	<segment id="14">
+		<text>Here is some gold as well to help you along your way.</text>
+		<action type="GiveGold">
+			<number>150</number>
+		</action>
+		<next>15</next>
+	</segment>
+	
+	<segment id="15">
+		<text>Please find my child. I'm counting on you.</text>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+	</segment>
+	
+	<segment id="16">
+		<text>Oh! Great news! Where have you seen them?</text>
+		<choice id="1">
+			<text>Actually... I haven't.</text>
+			<next>17</next>
+		</choice>
+		<choice id="2">
+			<text>I was lying, sorry.</text>
+			<next>17</next>
+		</choice>
+	</segment>
+	
+	<segment id="17">
+		<text>...</text>
+		<next>18</next>
+	</segment>
+	
+	<segment id="18">
+		<text>...This is no time for jests.</text>
+		<next>4</next>
+	</segment>
+	
+</dialogue>
