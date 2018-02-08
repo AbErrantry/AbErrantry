@@ -4,7 +4,7 @@ public abstract class Interactable : MonoBehaviour
 {
     public enum Types //enumeration of character types
     {
-        BackDoor, SideDoor, Pickup, NPC, Chest
+        BackDoor, SideDoor, Pickup, NPC, Chest, Sign
     };
 
     public int id;
@@ -24,19 +24,22 @@ public abstract class Interactable : MonoBehaviour
         switch (typeOfInteractable)
         {
             case Types.BackDoor:
-                type = "Enter";
+                type = "enter";
                 break;
             case Types.SideDoor:
-                type = "Open";
+                type = "open";
                 break;
             case Types.Pickup:
-                type = "Pick up";
+                type = "pick up";
                 break;
             case Types.NPC:
-                type = "Talk to";
+                type = "talk to";
                 break;
             case Types.Chest:
-                type = "Open";
+                type = "open";
+                break;
+            case Types.Sign:
+                type = "read";
                 break;
             default:
                 Debug.LogError("Item: " + name + " (named " + gameObject.name + " in hierarchy) " +

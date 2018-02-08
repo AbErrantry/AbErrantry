@@ -13,7 +13,7 @@ public class Collapsible : MonoBehaviour
 	private void Start()
 	{
 		animator = GetComponent<Animator>();
-		collapseDelay = 0.5f;
+		collapseDelay = 1.0f;
 		collapseTime = 5.0f;
 		isCollapsing = false;
 		collapseStarted = false;

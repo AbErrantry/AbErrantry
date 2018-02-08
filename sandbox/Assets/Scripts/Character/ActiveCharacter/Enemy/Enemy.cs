@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Character2D
 {
-	public class Enemy : ActiveCharacter 
+	public class Enemy : Attackable 
 	{
         private float maxSpeed;
         public ActiveCharacterMovement acMove;

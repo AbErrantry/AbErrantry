@@ -174,10 +174,7 @@ namespace Character2D
                     StartCoroutine(InteractDelay(false));
                     break;
                 case Interactable.Types.NPC:
-                    //open talk dialogue
-                    string name = interactable.GetComponent<NPC>().name;
-                    int state = interactable.GetComponent<NPC>().currentDialogueState;
-                    dialogueManager.StartDialogue(name, state);
+                    dialogueManager.StartDialogue(interactable.GetComponent<NPC>().name, interactable.GetComponent<NPC>().currentDialogueState);
                     StartCoroutine(InteractDelay(true));
                     break;
                 case Interactable.Types.BackDoor:
@@ -194,6 +191,10 @@ namespace Character2D
                     chest.OpenChest();
                     character.InstantiateItem(GameData.data.itemData.itemDictionary[chest.itemName], chest.transform.position);
                     StartCoroutine(InteractDelay(false));
+                    break;
+                case Interactable.Types.Sign:
+                    dialogueManager.StartDialogue(interactable.GetComponent<Sign>().name, interactable.GetComponent<Sign>().currentDialogueState);
+                    StartCoroutine(InteractDelay(true));
                     break;
                 default:
                     Debug.LogError("Interact type is unknown. Please add its behavior to CharacterInteraction.");

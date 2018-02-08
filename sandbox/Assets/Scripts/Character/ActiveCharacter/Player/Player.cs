@@ -5,7 +5,7 @@ using Cinemachine;
 
 namespace Character2D
 {
-    public class Player : ActiveCharacter
+    public class Player : Attackable
     {
         public Animator weaponAnim;
         public CinemachineVirtualCamera virtualCamera;
@@ -14,7 +14,6 @@ namespace Character2D
         public PlayerInput playerInput;
 
         public Vector3 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
-        private float maxVitality; //the maximum value of health
 
         //used for initialization
         protected new void Start()
@@ -22,7 +21,6 @@ namespace Character2D
 			base.Start();
             //set from CharacterData
             spawnPoint = transform.position; //todo: set from file
-            maxVitality = vitality; //todo: set from file
         }
 
         protected override void InitializeDeath()
@@ -40,6 +38,7 @@ namespace Character2D
         {
             //enemies target player
             //give player back input
+            //death penalty: 25% of gold?
             isDying = false;
             anim.SetBool("isDying", isDying);
             weaponAnim.SetBool("isDying", isDying);
@@ -50,7 +49,7 @@ namespace Character2D
         private void Respawn()
         {
             ToggleCamera(false);
-            vitality = maxVitality; //TODO: uncomment
+            currentVitality = maxVitality; //TODO: uncomment
             transform.position = spawnPoint;
             Debug.Log("player died. respawning.");
             ToggleCamera(true);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Character2D
 {
-	public class EnemyAttack : ActiveCharacterAttack 
+	public class EnemyAttack : CharacterAttack 
 	{
 		// Use this for initialization
 		protected new void Start() 

@@ -4835,7 +4835,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &650739401
@@ -5631,7 +5631,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 102924207}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8602,7 +8602,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 28.65
+  m_fontSize: 28.7
   m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9525,7 +9525,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 326904299}
   m_HandleRect: {fileID: 326904297}
   m_Direction: 2
@@ -10639,6 +10639,7 @@ GameObject:
   - component: {fileID: 1449687943}
   - component: {fileID: 1449687942}
   - component: {fileID: 1449687941}
+  - component: {fileID: 1449687947}
   - component: {fileID: 1449687939}
   - component: {fileID: 1449687938}
   - component: {fileID: 1449687934}
@@ -10648,6 +10649,7 @@ GameObject:
   - component: {fileID: 1449687935}
   - component: {fileID: 1449687937}
   - component: {fileID: 1449687945}
+  - component: {fileID: 1449687946}
   m_Layer: 8
   m_Name: Knight
   m_TagString: Player
@@ -10676,7 +10678,7 @@ MonoBehaviour:
   journalContainer: {fileID: 2116883005}
   mapContainer: {fileID: 433128092}
   inventoryTab: {fileID: 1875316667}
-  character: {fileID: 1449687934}
+  character: {fileID: 1449687946}
   inventoryItem: {fileID: 1573592345899392, guid: e73d5dcf26a51024eb87f28702992ec6,
     type: 2}
   inventoryList: {fileID: 901599817}
@@ -10713,15 +10715,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b39cc2e05c384744af51d0b9498a319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  vitality: 0
-  strength: 0
-  agility: 0
-  weight: 0
-  isActive: 0
-  interactable: {fileID: 1143663174594602, guid: 671ca7185547e064c8aa497d1fb4dfa4,
-    type: 2}
   isDying: 0
+  canFlinch: 0
+  canKnockBack: 0
+  canTakeDamage: 0
   weaponAnim: {fileID: 1037721954}
   virtualCamera: {fileID: 788260638}
   playerMovement: {fileID: 1449687940}
@@ -10780,7 +10777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionTrigger: {fileID: 1383655448}
-  character: {fileID: 1449687934}
+  character: {fileID: 1449687946}
   interactBar: {fileID: 663959470}
   interactButton: {fileID: 1342810996741320, guid: 4ef403c158af3b44e89c015d25c9e164,
     type: 2}
@@ -10866,7 +10863,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.433}
+  m_Offset: {x: 0, y: -0.37907803}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -10877,7 +10874,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.34, y: 3.54}
+  m_Size: {x: 1.34, y: 3.4321563}
   m_EdgeRadius: 0
 --- !u!50 &1449687942
 Rigidbody2D:
@@ -10990,6 +10987,55 @@ MonoBehaviour:
   xMinRight: 0
   xMaxRight: 0
   textSpeed: 0
+--- !u!114 &1449687946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1449687932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 775b8942f26b8d54ca337d2752d0ad5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  vitality: 0
+  strength: 0
+  agility: 0
+  weight: 0
+  isActive: 0
+  interactable: {fileID: 1143663174594602, guid: 671ca7185547e064c8aa497d1fb4dfa4,
+    type: 2}
+--- !u!60 &1449687947
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1449687932}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 1
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 8.533334, y: 8.533334}
+    newSize: {x: 8.533334, y: 8.533334}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.67, y: -2.19}
+      - {x: -0.45, y: -2.2}
+      - {x: 0.45, y: -2.2}
+      - {x: 0.67, y: -2.19}
+      - {x: 0.67, y: -2}
+      - {x: -0.67, y: -2}
 --- !u!21 &1456259397
 Material:
   serializedVersion: 6
@@ -11741,7 +11787,11 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 1557636014}
     m_ColliderPaths:
-    - - X: -90000000
+    - - X: -80000000
+        Y: -330000000
+      - X: -80000000
+        Y: -470000000
+      - X: -90000000
         Y: -470000000
       - X: -90000000
         Y: -530000000
@@ -11785,10 +11835,6 @@ CompositeCollider2D:
         Y: -465312512
       - X: 500000000
         Y: -330000000
-      - X: -80000000
-        Y: -330000000
-      - X: -80000000
-        Y: -470000000
   m_CompositePaths:
     m_Paths:
     - - {x: 51, y: -57}

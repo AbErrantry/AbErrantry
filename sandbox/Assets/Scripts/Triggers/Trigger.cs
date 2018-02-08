@@ -17,7 +17,7 @@ public abstract class Trigger : MonoBehaviour
     }
 
     //detects when the character is targeting a new object
-    private void OnTriggerEnter2D(Collider2D other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         //if the object is the one specified,
         if (other.tag == objectTag)
@@ -29,7 +29,7 @@ public abstract class Trigger : MonoBehaviour
     }
 
     //detects when the character is no longer targeting an object
-    private void OnTriggerExit2D(Collider2D other)
+    protected virtual void OnTriggerExit2D(Collider2D other)
     {
         //if the object is the one specified,
         if (other.tag == objectTag)

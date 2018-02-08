@@ -1,8 +1,10 @@
-﻿namespace Character2D
+﻿using UnityEngine;
+
+namespace Character2D
 {
     public class StabbingTrigger : Trigger
     {
-        public ActiveCharacterAttack characterAttack; //reference to the character attack script
+        public CharacterAttack characterAttack; //reference to the character attack script
 
         // Use this for initialization
         void Start()
@@ -15,6 +17,34 @@
             else
             {
                 objectTag = "Player"; //set its target as any player
+            }
+            disregardCount = false;
+        }
+
+        //detects when the character is targeting a new object
+        protected override void OnTriggerEnter2D(Collider2D other)
+        {
+            //if the object is the one specified,
+            if (other.tag == objectTag || other.gameObject.layer == LayerMask.NameToLayer("Attackable"))
+            {
+                //set the character to be grounded and add the object to the list
+                currentObjects.Add(other.gameObject);
+                TriggerAction(true);
+            }
+        }
+
+        //detects when the character is no longer targeting an object
+        protected override void OnTriggerExit2D(Collider2D other)
+        {
+            //if the object is the one specified,
+            if (other.tag == objectTag  || other.gameObject.layer == LayerMask.NameToLayer("Attackable"))
+            {
+                //remove the object from the list
+                currentObjects.Remove(other.gameObject);
+                if (currentObjects.Count == 0 || disregardCount)
+                {
+                    TriggerAction(false);
+                }
             }
         }
 

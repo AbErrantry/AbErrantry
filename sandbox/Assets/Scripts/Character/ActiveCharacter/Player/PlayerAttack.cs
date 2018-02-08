@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Character2D
 {
-    public class PlayerAttack : ActiveCharacterAttack
+    public class PlayerAttack : CharacterAttack
     {
         public Animator weaponAnim;
 

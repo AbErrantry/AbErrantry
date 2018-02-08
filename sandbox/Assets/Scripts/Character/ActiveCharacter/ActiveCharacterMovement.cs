@@ -6,15 +6,15 @@ namespace Character2D
 {
 	public class ActiveCharacterMovement : CharacterMovement 
 	{
-		private ActiveCharacterAttack characterAttack;
-		private ActiveCharacter activeCharacter;
+		private CharacterAttack characterAttack;
+		private Attackable attackable;
 
 		// Use this for initialization
 		protected new void Start() 
 		{
 			base.Start();
-			activeCharacter = gameObject.GetComponent<ActiveCharacter>();
-			characterAttack = gameObject.GetComponent<ActiveCharacterAttack>();
+			attackable = gameObject.GetComponent<Attackable>();
+			characterAttack = gameObject.GetComponent<CharacterAttack>();
 		}
 
 		// Update is called once per frame
@@ -26,7 +26,7 @@ namespace Character2D
 		protected new void FixedUpdate()
 		{
 			base.FixedUpdate();
-			if(characterAttack.isAttacking || activeCharacter.isDying)
+			if(characterAttack.isAttacking || attackable.isDying)
 			{
 				rb.velocity = new Vector2(0.0f, rb.velocity.y);
 				SendToAnimator();
