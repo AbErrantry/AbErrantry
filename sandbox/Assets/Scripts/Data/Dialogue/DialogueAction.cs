@@ -2,7 +2,7 @@
 {
 	public enum ActionTypes
 	{
-		None, OpenShopMenu, BecomeHostile, Disappear, RequestGold, RequestItem, GiveItem, 
+		None, OpenShopMenu, BecomeHostile, Disappear, RequestGold, RequestItem, GiveItem, AffectKarma,
 		GiveGold, ProgressDialogue, ProgressQuest, TransportLocation, TransportLevel, TakeGold
 	};
 
