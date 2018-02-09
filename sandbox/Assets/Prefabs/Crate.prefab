@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 4238772914188382}
   - component: {fileID: 61883186604495406}
   - component: {fileID: 114465701487793486}
+  - component: {fileID: 114124143844726266}
   m_Layer: 10
   m_Name: CrateTrigger
   m_TagString: ChildComponent
@@ -131,8 +132,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1626560156153398}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.5, y: 2.5, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 26.493286, y: 1.5789909, z: -0.1282294}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children:
   - {fileID: 4235983500092934}
@@ -378,6 +379,22 @@ MonoBehaviour:
   canKnockBack: 0
   canTakeDamage: 0
   boxMove: {fileID: 114698455211536816}
+--- !u!114 &114124143844726266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1400670971743370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: add60ce2132d07149947261b25b12f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentObjects: []
+  objectTag: 
+  layerTag: 
+  disregardCount: 0
+  boxMove: {fileID: 114698455211536816}
 --- !u!114 &114244886701414512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -436,6 +453,7 @@ MonoBehaviour:
   layerTag: 
   disregardCount: 0
   canMove: 0
+  playerUnder: 0
 --- !u!212 &212793883754316900
 SpriteRenderer:
   m_ObjectHideFlags: 1
