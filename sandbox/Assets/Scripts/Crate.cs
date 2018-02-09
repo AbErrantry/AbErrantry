@@ -6,6 +6,8 @@ namespace Character2D
 {
 	public class Crate : Attackable 
 	{
+		public BoxMove boxMove;
+
 		// Use this for initialization
 		private new void Start () 
 		{
@@ -18,6 +20,10 @@ namespace Character2D
 
 		protected override void InitializeDeath()
 		{
+			boxMove.enabled = false;
+			Destroy (GetComponent<CompositeCollider2D>());
+			GetComponent<BoxCollider2D>().enabled = false;
+			GetComponent<PolygonCollider2D>().enabled = false;
 			anim.Play("DESTROY");
 		}
 
