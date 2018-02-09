@@ -2,7 +2,7 @@
 
 namespace Character2D
 {
-    public class PlayerMovement : ActiveCharacterMovement
+    public class PlayerMovement : CharacterMovement
     {
         public Animator weaponAnim;
 

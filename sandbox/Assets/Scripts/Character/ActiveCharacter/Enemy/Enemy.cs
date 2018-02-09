@@ -8,7 +8,7 @@ namespace Character2D
 	public class Enemy : Attackable 
 	{
         private float maxSpeed;
-        public ActiveCharacterMovement acMove;
+        public CharacterMovement acMove;
         public AIJumpTrigger topJump;
         public AIJumpTrigger botJump;
 
@@ -16,6 +16,9 @@ namespace Character2D
 		protected new void Start()
 		{
 			base.Start();
+            canFlinch = false;
+		    canKnockBack = true;
+		    canTakeDamage = true;
             acMove.mvmtSpeed = 1;
         }
 

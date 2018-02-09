@@ -189,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentObjects: []
   objectTag: 
+  layerTag: 
   disregardCount: 0
   characterAttack: {fileID: 324255821}
 --- !u!61 &280967520
@@ -267,7 +268,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 324255818}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b576f188c9fcf6d41beab1bf01e5cbf6, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c46a9d922e7b4f46b77fa64d18fe39e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   jumpInput: 0
@@ -304,14 +305,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 361e9070e56df74499f4c4ad9fb462cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
-  vitality: 0
-  strength: 0
-  agility: 0
-  weight: 0
-  isActive: 0
-  interactable: {fileID: 0}
   isDying: 0
+  canFlinch: 0
+  canKnockBack: 0
+  canTakeDamage: 0
   acMove: {fileID: 324255820}
   topJump: {fileID: 1809741113}
   botJump: {fileID: 1969097242}
@@ -613,6 +610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentObjects: []
   objectTag: 
+  layerTag: 
   disregardCount: 0
   characterAttack: {fileID: 324255821}
 --- !u!61 &765024659
@@ -876,6 +874,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentObjects: []
   objectTag: 
+  layerTag: 
   disregardCount: 0
   characterMovement: {fileID: 324255820}
 --- !u!61 &1623080365
@@ -971,6 +970,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentObjects: []
   objectTag: 
+  layerTag: 
   disregardCount: 0
   enemy: {fileID: 324255822}
 --- !u!1 &1969097241
@@ -1003,6 +1003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentObjects: []
   objectTag: 
+  layerTag: 
   disregardCount: 0
   enemy: {fileID: 324255822}
 --- !u!61 &1969097243
@@ -1086,6 +1087,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentObjects: []
   objectTag: 
+  layerTag: 
   disregardCount: 0
   characterAttack: {fileID: 324255821}
 --- !u!61 &2000453372

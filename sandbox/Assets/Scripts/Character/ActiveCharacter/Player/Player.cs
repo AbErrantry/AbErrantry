@@ -21,6 +21,9 @@ namespace Character2D
 			base.Start();
             //set from CharacterData
             spawnPoint = transform.position; //todo: set from file
+            canFlinch = false;
+		    canKnockBack = true;
+		    canTakeDamage = true;
         }
 
         protected override void InitializeDeath()
