@@ -29,11 +29,11 @@ public class ScrollingBackground : MonoBehaviour
     {
         prevPos = currPos;
         currPos = cam.transform.position;
-    
         if (cam.velocity.x != 0 && (currPos != prevPos))
         {
              UpdateBackground();
         }
+       
     }
 
     public void UpdateBackground()
