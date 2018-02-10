@@ -10,7 +10,7 @@ namespace Character2D
         {
     
            
-            if (collision.name == enemy.name)
+            if (collision.name == enemy.name && enemy.beacCon.currTarget == this.gameObject)
             {
                 enemy.SwitchBeacon();
             }

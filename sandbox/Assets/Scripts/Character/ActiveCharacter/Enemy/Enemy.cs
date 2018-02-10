@@ -7,11 +7,19 @@ namespace Character2D
 {
 	public class Enemy : Attackable 
 	{
+
+        [System.Serializable]
+        public class BeaconControl
+        {
+            public GameObject currTarget;
+            public GameObject[] beacons;
+            public int beaconNum;
+        }
         private float maxSpeed;
         public CharacterMovement acMove;
         public AIJumpTrigger topJump;
         public AIJumpTrigger botJump;
-
+        public BeaconControl beacCon; 
 		//used for initialization
 		protected new void Start()
 		{
@@ -20,6 +28,8 @@ namespace Character2D
 		    canKnockBack = true;
 		    canTakeDamage = true;
             acMove.mvmtSpeed = 1;
+            beacCon.beaconNum = 0;
+            beacCon.currTarget = beacCon.beacons[beacCon.beaconNum];
         }
 
 		protected override void InitializeDeath()
@@ -49,7 +59,23 @@ namespace Character2D
    
         public void SwitchBeacon()
         {
-            switch(acMove.mvmtSpeed == 1)
+            beacCon.beaconNum++;
+            beacCon.currTarget = beacCon.beacons[beacCon.beaconNum % beacCon.beacons.Length];
+
+            if(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x <0 && acMove.mvmtSpeed == 1)
+            {
+                TurnAround();
+            }
+            else if(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x >0 && acMove.mvmtSpeed == -1)
+            {
+                TurnAround();
+            }
+          
+        }
+
+        public void TurnAround() //every now and then I get a little bit lonely
+        {
+              switch(acMove.mvmtSpeed == 1)
             {
                 case true:
                     acMove.mvmtSpeed = -1;
@@ -59,8 +85,5 @@ namespace Character2D
                     break;
             }
         }
-
-        
     }
-    
 }
