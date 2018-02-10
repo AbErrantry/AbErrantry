@@ -12,6 +12,9 @@ namespace Character2D
 
         protected PlayerMovement playerMovement;
         public bool canAttack;
+
+        protected float attack2Threshold;
+        protected float attack3Threshold;
         
         public bool attackInputDown;
         public bool attackInputUp;
@@ -34,7 +37,14 @@ namespace Character2D
             attackPress = 0.0f;
             attackRelease = 0.0f;
 
+            attack2Threshold = 0.15f;
+            attack3Threshold = 0.60f;
+
             playerMovement = GetComponent<PlayerMovement>();
+
+            SetAttack(0, 5.0f, 0.20f); // Stab attack setup
+            SetAttack(1, 7.0f, 0.30f); // Swing attack setup
+            SetAttack(2, 15.0f, 0.80f); // Power attack setup
         }
 
         //
@@ -76,20 +86,20 @@ namespace Character2D
             {
                 isInitAttack = false;
                 float attackDuration = attackRelease - attackPress;
-                if (attackDuration > swingThreshold)
+                if (attackDuration > attack2Threshold)
                 {
-                    StartCoroutine(SwingAttack());
+                    StartCoroutine(Attack(1));
                 }
                 else
                 {
-                    StartCoroutine(StabAttack());
+                    StartCoroutine(Attack(0));
                 }
             }
             else if(isWindingUp && !playerMovement.isFalling)
             {
-                if(Time.time - attackPress > powerThreshold)
+                if(Time.time - attackPress > attack3Threshold)
                 {
-                    StartCoroutine(PowerAttack());
+                    StartCoroutine(Attack(2));
                 }
             }
         }
@@ -109,15 +119,15 @@ namespace Character2D
         {
             anim.SetBool("isWindingUp", isWindingUp);
             anim.SetBool("isAttacking", isAttacking);
-            anim.SetBool("isStabAttacking", isStabAttacking);
-            anim.SetBool("isSwingAttacking", isSwingAttacking);
-            anim.SetBool("isPowerAttacking", isPowerAttacking);
+            anim.SetBool("isStabAttacking", attackFlags[0]);
+            anim.SetBool("isSwingAttacking", attackFlags[1]);
+            anim.SetBool("isPowerAttacking", attackFlags[2]);
 
             weaponAnim.SetBool("isWindingUp", isWindingUp);
             weaponAnim.SetBool("isAttacking", isAttacking);
-            weaponAnim.SetBool("isStabAttacking", isStabAttacking);
-            weaponAnim.SetBool("isSwingAttacking", isSwingAttacking);
-            weaponAnim.SetBool("isPowerAttacking", isPowerAttacking);
+            weaponAnim.SetBool("isStabAttacking", attackFlags[0]);
+            weaponAnim.SetBool("isSwingAttacking", attackFlags[1]);
+            weaponAnim.SetBool("isPowerAttacking", attackFlags[2]);
         }
     }
 }

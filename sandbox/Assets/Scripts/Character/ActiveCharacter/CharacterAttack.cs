@@ -9,60 +9,30 @@ namespace Character2D
         //character components
         protected Animator anim; //the animator component of the character character
 
-        public bool canHitStab;
-        public bool canHitSwing;
-        public bool canHitPower;
+        public bool canHitAttack;
 
-        public StabbingTrigger stabbingTrigger;
-        public SwingingTrigger swingingTrigger;
-        public PowerTrigger powerTrigger;
+        public AttackTrigger attackTrigger;
 
-        protected float stabAttackDuration;
-        protected float swingAttackDuration;
-        protected float powerAttackDuration;
-
-        protected float stabAttackStrength;
-        protected float swingAttackStrength;
-        protected float powerAttackStrength;
+        protected float[] attackDurations;
+        protected float[] attackStrengths;
+        protected bool[] attackFlags;
 
         protected float attackStart;
 
         public bool isWindingUp;
         public bool isAttacking;
-        protected bool isStabAttacking;
-        protected bool isSwingAttacking;
-        protected bool isPowerAttacking;
-
-        protected float swingThreshold;
-        protected float powerThreshold;
 
         //used for initialization
         protected void Start()
         {
             anim = GetComponent<Animator>();
-
-            canHitStab = false;
-            canHitSwing = false;
-            canHitPower = false;
-
-            stabAttackDuration = 0.20f;
-            swingAttackDuration = 0.30f;
-            powerAttackDuration = 0.80f;
-
-            stabAttackStrength = 5.0f;
-            swingAttackStrength = 7.0f;
-            powerAttackStrength = 15.0f;
-
+            attackDurations = new float[3];
+            attackStrengths = new float[3];
+            attackFlags = new bool[3];
+            canHitAttack = false;
             attackStart = 0.0f;
-
             isWindingUp = false;
-            isAttacking = false;
-            isStabAttacking = false;
-            isSwingAttacking = false;
-            isPowerAttacking = false;
-
-            swingThreshold = 0.15f;
-            powerThreshold = 0.60f;
+            isAttacking = false; 
         }
 
         protected void Update()
@@ -75,88 +45,38 @@ namespace Character2D
 
         }
 
+        public void SetAttack(int index, float strength, float duration)
+        {
+            attackDurations[index] = duration;
+            attackStrengths[index] = strength;
+        }
+
         //sends boolean values describing character state to the animator
         protected virtual void SendToAnimator()
         {
             anim.SetBool("isWindingUp", isWindingUp);
             anim.SetBool("isAttacking", isAttacking);
-            anim.SetBool("isStabAttacking", isStabAttacking);
-            anim.SetBool("isSwingAttacking", isSwingAttacking);
-            anim.SetBool("isPowerAttacking", isPowerAttacking);
+            anim.SetBool("isAttack1", attackFlags[0]);
+            anim.SetBool("isAttack2", attackFlags[1]);
+            anim.SetBool("isAttack3", attackFlags[2]);
         }
 
-        protected IEnumerator StabAttack()
-        {
-            InitializeAttack();
-
-            attackStart = Time.time;
-            isAttacking = true;
-            isStabAttacking = true;
-            SendToAnimator();
-
-            List<GameObject> targetsHit = new List<GameObject>();
-            while(Time.time - attackStart < stabAttackDuration / 3f)
-            {
-                yield return new WaitForFixedUpdate();
-            }
-            while(Time.time - attackStart < stabAttackDuration)
-            {
-                if (canHitStab)
-                {
-                    ApplyDamage(stabbingTrigger.currentObjects, stabAttackStrength, ref targetsHit);
-                }
-                yield return new WaitForFixedUpdate();
-            }
-
-            FinishedAttacking();
-        }
-
-        protected IEnumerator SwingAttack()
-        {
-            InitializeAttack();
-
-            attackStart = Time.time;
-            isAttacking = true;
-            isSwingAttacking = true;
-            SendToAnimator();
-
-            List<GameObject> targetsHit = new List<GameObject>();
-            while(Time.time - attackStart < swingAttackDuration / 3f)
-            {
-                yield return new WaitForFixedUpdate();
-            }
-            while(Time.time - attackStart < swingAttackDuration)
-            {
-                if (canHitSwing)
-                {
-                    ApplyDamage(swingingTrigger.currentObjects, swingAttackStrength, ref targetsHit);
-                }
-                yield return new WaitForFixedUpdate();
-            }
-
-            FinishedAttacking();
-        }
-
-        protected IEnumerator PowerAttack()
+        protected IEnumerator Attack(int index)
         {
             InitializeAttack();
 
             attackStart = Time.time;
             isWindingUp = false;
             isAttacking = true;
-            isPowerAttacking = true;
+            attackFlags[index] = true;
             SendToAnimator();
 
             List<GameObject> targetsHit = new List<GameObject>();
-            while(Time.time - attackStart < powerAttackDuration / 2f)
+            while(Time.time - attackStart < attackDurations[index])
             {
-                yield return new WaitForFixedUpdate();
-            }
-            while(Time.time - attackStart < powerAttackDuration)
-            {
-                if (canHitPower)
+                if (canHitAttack)
                 {
-                    ApplyDamage(powerTrigger.currentObjects, powerAttackStrength, ref targetsHit);
+                    ApplyDamage(attackTrigger.currentObjects, attackStrengths[index], ref targetsHit);
                 }
                 yield return new WaitForFixedUpdate();
             }
@@ -167,9 +87,9 @@ namespace Character2D
         protected void FinishedAttacking()
         {
             isAttacking = false;
-            isStabAttacking = false;
-            isSwingAttacking = false;
-            isPowerAttacking = false;
+            attackFlags[0] = false;
+            attackFlags[1] = false;
+            attackFlags[2] = false;
 			SendToAnimator();
             FinalizeAttack();
         }

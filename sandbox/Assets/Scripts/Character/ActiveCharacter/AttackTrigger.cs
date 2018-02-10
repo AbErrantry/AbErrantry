@@ -2,7 +2,7 @@
 
 namespace Character2D
 {
-    public class StabbingTrigger : Trigger
+    public class AttackTrigger : Trigger
     {
         public CharacterAttack characterAttack; //reference to the character attack script
 
@@ -27,11 +27,11 @@ namespace Character2D
         {
             if (isInTrigger)
             {
-                characterAttack.canHitStab = true;
+                characterAttack.canHitAttack = true;
             }
             else
             {
-                characterAttack.canHitStab = false;
+                characterAttack.canHitAttack = false;
             }
         }
     }
