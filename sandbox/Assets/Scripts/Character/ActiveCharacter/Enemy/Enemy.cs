@@ -16,7 +16,7 @@ namespace Character2D
             public int beaconNum;
         }
         private float maxSpeed;
-        public CharacterMovement acMove;
+        private EnemyMovement enemyMovement;
         public AIJumpTrigger topJump;
         public AIJumpTrigger botJump;
         public BeaconControl beacCon; 
@@ -24,10 +24,10 @@ namespace Character2D
 		protected new void Start()
 		{
 			base.Start();
+            enemyMovement = GetComponent<EnemyMovement>();
             canFlinch = false;
 		    canKnockBack = true;
 		    canTakeDamage = true;
-            acMove.mvmtSpeed = 1;
             beacCon.beaconNum = 0;
             beacCon.currTarget = beacCon.beacons[beacCon.beaconNum];
         }
@@ -41,15 +41,6 @@ namespace Character2D
 			anim.SetBool("isDying", isDying); //death animation 
 		}
 
-        internal void JumpAttempt()
-        {
-            acMove.jumpInput = false;
-            if (topJump.currentObjects.Count == 0 && botJump.currentObjects.Count != 0)
-            {
-                acMove.jumpInput = true; //send jump input
-            }
-        }
-
         public override void FinalizeDeath()
 		{
 			//drop loot
@@ -57,32 +48,20 @@ namespace Character2D
 			Destroy(gameObject);
 		}
    
+        //TODO: change to using fixed update to constantly monitor towards target (for edge cases)
+        //TODO: move to a behavior AI class that will take care of figuring out where the enemy needs to go
         public void SwitchBeacon()
         {
             beacCon.beaconNum++;
             beacCon.currTarget = beacCon.beacons[beacCon.beaconNum % beacCon.beacons.Length];
 
-            if(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x <0 && acMove.mvmtSpeed == 1)
+            if(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x <0 && enemyMovement.isFacingRight)
             {
-                TurnAround();
+                enemyMovement.ChangeDirection();
             }
-            else if(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x >0 && acMove.mvmtSpeed == -1)
+            else if(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x >0 && !enemyMovement.isFacingRight)
             {
-                TurnAround();
-            }
-          
-        }
-
-        public void TurnAround() //every now and then I get a little bit lonely
-        {
-              switch(acMove.mvmtSpeed == 1)
-            {
-                case true:
-                    acMove.mvmtSpeed = -1;
-                    break;
-                case false:
-                    acMove.mvmtSpeed = 1;
-                    break;
+                enemyMovement.ChangeDirection();
             }
         }
     }

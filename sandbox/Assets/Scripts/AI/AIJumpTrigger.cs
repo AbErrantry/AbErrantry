@@ -7,7 +7,7 @@ namespace Character2D
     public class AIJumpTrigger : Trigger
     {
 
-        public Enemy enemy; //reference to the BehaviorAI script on the character
+        public EnemyMovement enemy; //reference to the BehaviorAI script on the character
 
         //fires upon an object entering/exiting the trigger box
         protected override void TriggerAction(bool isInTrigger)

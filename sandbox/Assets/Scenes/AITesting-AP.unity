@@ -298,9 +298,9 @@ GameObject:
   - component: {fileID: 324255825}
   - component: {fileID: 324255824}
   - component: {fileID: 324255823}
-  - component: {fileID: 324255820}
   - component: {fileID: 324255822}
   - component: {fileID: 324255821}
+  - component: {fileID: 324255820}
   m_Layer: 9
   m_Name: Goblin
   m_TagString: Enemy
@@ -336,13 +336,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 324255818}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c46a9d922e7b4f46b77fa64d18fe39e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b32c35ff18077043ba03dd811357950, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   jumpInput: 0
   runInput: 0
   mvmtSpeed: 0
   isFalling: 0
+  isFacingRight: 0
+  topJump: {fileID: 1809741113}
+  botJump: {fileID: 1969097242}
 --- !u!114 &324255821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,7 +380,6 @@ MonoBehaviour:
   canFlinch: 0
   canKnockBack: 0
   canTakeDamage: 0
-  acMove: {fileID: 324255820}
   topJump: {fileID: 1809741113}
   botJump: {fileID: 1969097242}
   beacCon:
@@ -1285,7 +1287,7 @@ MonoBehaviour:
   objectTag: 
   layerTag: 
   disregardCount: 0
-  enemy: {fileID: 324255822}
+  enemy: {fileID: 324255820}
 --- !u!1 &1819049788 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1609887039101846, guid: bfaa03d03c979b0459602605138b360e,
@@ -1328,7 +1330,7 @@ MonoBehaviour:
   objectTag: 
   layerTag: 
   disregardCount: 0
-  enemy: {fileID: 324255822}
+  enemy: {fileID: 324255820}
 --- !u!61 &1969097243
 BoxCollider2D:
   m_ObjectHideFlags: 0

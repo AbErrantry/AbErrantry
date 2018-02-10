@@ -40,7 +40,7 @@ namespace Character2D
 
         //position of the player
         protected float lastPosition; //x position of the character on the previous tick
-        protected bool isFacingRight; //whether the character is facing right or not
+        public bool isFacingRight; //whether the character is facing right or not
 
         //used for initialization
         protected void Start()
