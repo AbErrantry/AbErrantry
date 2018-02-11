@@ -20,10 +20,16 @@ namespace Character2D
         public AIJumpTrigger topJump;
         public AIJumpTrigger botJump;
         public BeaconControl beacCon; 
+        public bool chasingPlayer;
 
         [Range(1.0f, 100.0f)]
         [Tooltip("How often should the AI stop and look around at each beacon, 0% - 100% (0% never, 100% max).")]
         public float stoppingPercentage; //How often should the AI stop and look around
+
+        [Range(5.0f, 15.0f)]
+        [Tooltip("How long(seconds) the AI will follow the player outside of their boxcast")]
+        public float giveUpTime;
+        private float chaseTime; 
 		//used for initialization
 		protected new void Start()
 		{
@@ -32,18 +38,41 @@ namespace Character2D
             canFlinch = false;
 		    canKnockBack = true;
 		    canTakeDamage = true;
+            chasingPlayer = false;
             beacCon.beaconNum = 0;
             beacCon.currTarget = beacCon.beacons[beacCon.beaconNum];
+            chaseTime = giveUpTime;
         }
 
         protected void FixedUpdate()
         {
-            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(3,1),0f,new Vector2(1,0),10);
+            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(10,1),0f,new Vector2(1,0),20);
 
             if(ray.collider.name == "Knight")
-             Debug.Log(ray.collider.name);
-           
+            {
+                chasingPlayer = true;
+                Debug.Log(ray.collider.gameObject.name);
+                beacCon.currTarget = ray.collider.gameObject;
+            }
+            else if(chaseTime <=0)
+            {
+                chasingPlayer = false;
+                if(!enemyMovement.isScanning)
+               { 
+                    StartCoroutine(enemyMovement.StopAndScan());
+                    SwitchBeacon();
+               }
+               chaseTime = giveUpTime;
+            }
+            else if(chasingPlayer)
+            {
+              chaseTime -= Time.deltaTime;      
+            }
              
+           if(chasingPlayer)  
+           {
+                CheckDirection();
+           } 
         }
 
         protected override void InitializeDeath()
@@ -70,7 +99,12 @@ namespace Character2D
             beacCon.currTarget = beacCon.beacons[beacCon.beaconNum % beacCon.beacons.Length];
 
             
+            CheckDirection();
+            ShouldScan();
+        }
 
+        private void CheckDirection()
+        {
             if(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x < 0 && enemyMovement.isFacingRight)
             {
                 enemyMovement.ChangeDirection();
@@ -79,8 +113,6 @@ namespace Character2D
             {
                 enemyMovement.ChangeDirection();
             }
-
-            ShouldScan();
         }
 
         private void ShouldScan()

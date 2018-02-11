@@ -8,7 +8,7 @@ namespace Character2D
 
         public void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.name == enemy.name && enemy.beacCon.currTarget == this.gameObject)
+            if (collision.name == enemy.name && enemy.beacCon.currTarget == this.gameObject && !enemy.chasingPlayer)
             {
                 enemy.SwitchBeacon();
             }
