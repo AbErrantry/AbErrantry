@@ -21,8 +21,8 @@ namespace Character2D
         public AIJumpTrigger botJump;
         public BeaconControl beacCon; 
 
-        [Range(0.0f, 75.0f)]
-        [Tooltip("How often should the AI stop and look around, 0% - 75% (0% never, 75% max).")]
+        [Range(1.0f, 100.0f)]
+        [Tooltip("How often should the AI stop and look around at each beacon, 0% - 100% (0% never, 100% max).")]
         public float stoppingPercentage; //How often should the AI stop and look around
 		//used for initialization
 		protected new void Start()
@@ -34,6 +34,16 @@ namespace Character2D
 		    canTakeDamage = true;
             beacCon.beaconNum = 0;
             beacCon.currTarget = beacCon.beacons[beacCon.beaconNum];
+        }
+
+        protected void FixedUpdate()
+        {
+            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(3,1),0f,new Vector2(1,0),10);
+
+            if(ray.collider.name == "Knight")
+             Debug.Log(ray.collider.name);
+           
+             
         }
 
         protected override void InitializeDeath()
@@ -75,7 +85,7 @@ namespace Character2D
 
         private void ShouldScan()
         {
-            if(UnityEngine.Random.Range(0.0f, 100.0f) <= stoppingPercentage && enemyMovement.isScanning == false)
+            if(UnityEngine.Random.Range(1.0f, 100.0f) <= stoppingPercentage && enemyMovement.isScanning == false)
             {
                 enemyMovement.isScanning = true;
                 StartCoroutine(enemyMovement.StopAndScan());
