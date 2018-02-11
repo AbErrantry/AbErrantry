@@ -5,8 +5,9 @@ using UnityEngine;
 
 namespace Character2D
 {
-    public class Enemy : Attackable
-    {
+	public class Enemy : Attackable 
+	{
+
         [System.Serializable]
         public class BeaconControl
         {
@@ -14,42 +15,43 @@ namespace Character2D
             public GameObject[] beacons;
             public int beaconNum;
         }
-
+        private float maxSpeed;
         private EnemyMovement enemyMovement;
         public AIJumpTrigger topJump;
         public AIJumpTrigger botJump;
-        public BeaconControl beacCon;
+        public BeaconControl beacCon; 
 
-        private float maxSpeed;
-
-        //used for initialization
-        protected new void Start()
-        {
-            base.Start();
+        [Range(0.0f, 75.0f)]
+        [Tooltip("How often should the AI stop and look around, 0% - 75% (0% never, 75% max).")]
+        public float stoppingPercentage; //How often should the AI stop and look around
+		//used for initialization
+		protected new void Start()
+		{
+			base.Start();
             enemyMovement = GetComponent<EnemyMovement>();
             canFlinch = false;
-            canKnockBack = true;
-            canTakeDamage = true;
+		    canKnockBack = true;
+		    canTakeDamage = true;
             beacCon.beaconNum = 0;
             beacCon.currTarget = beacCon.beacons[beacCon.beaconNum];
         }
 
         protected override void InitializeDeath()
-        {
-            //take away enemy input
+		{
+			//take away enemy input
             //enemy no longer targets player
-            //enemy no longer attackable
-            isDying = true;
-            anim.SetBool("isDying", isDying); //death animation
-        }
+			//enemy no longer attackable
+			isDying = true;
+			anim.SetBool("isDying", isDying); //death animation 
+		}
 
         public override void FinalizeDeath()
-        {
-            //drop loot
-            Debug.Log("Enemy died: " + gameObject.name); //TODO: remove debug
-            Destroy(gameObject);
-        }
-
+		{
+			//drop loot
+			Debug.Log("Enemy died: " + gameObject.name); //TODO: remove debug
+			Destroy(gameObject);
+		}
+   
         //TODO: change to using fixed update to constantly monitor towards target (for edge cases)
         //TODO: move to a behavior AI class that will take care of figuring out where the enemy needs to go
         public void SwitchBeacon()
@@ -57,13 +59,26 @@ namespace Character2D
             beacCon.beaconNum++;
             beacCon.currTarget = beacCon.beacons[beacCon.beaconNum % beacCon.beacons.Length];
 
-            if (beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x < 0 && enemyMovement.isFacingRight)
+            
+
+            if(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x < 0 && enemyMovement.isFacingRight)
             {
                 enemyMovement.ChangeDirection();
             }
-            else if (beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x > 0 && !enemyMovement.isFacingRight)
+            else if(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x > 0 && !enemyMovement.isFacingRight)
             {
                 enemyMovement.ChangeDirection();
+            }
+
+            ShouldScan();
+        }
+
+        private void ShouldScan()
+        {
+            if(UnityEngine.Random.Range(0.0f, 100.0f) <= stoppingPercentage && enemyMovement.isScanning == false)
+            {
+                enemyMovement.isScanning = true;
+                StartCoroutine(enemyMovement.StopAndScan());
             }
         }
     }
