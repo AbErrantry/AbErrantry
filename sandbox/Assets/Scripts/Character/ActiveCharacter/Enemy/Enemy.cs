@@ -18,7 +18,7 @@ namespace Character2D
         private float maxSpeed;
         private EnemyMovement enemyMovement;
         public AIJumpTrigger topJump;
-        public AIJumpTrigger botJump;
+        public AIJumpTrigger botJump;   [Header("Beacon System")]
         public BeaconControl beacCon; 
         public bool chasingPlayer;
 
@@ -31,12 +31,25 @@ namespace Character2D
         public float giveUpTime;
         private float chaseTime; 
 
-        public LayerMask layerMask;
+        
+        [Header("AI Scanning Masks")]
+        [Space(5)]
+        [Tooltip("Select the Players layer.")]
+        public LayerMask playerMask;
 
+        [Tooltip("Select the default layer or the layer the world is going to be in.")]
+        public LayerMask defaultMask;
+
+        [Tooltip("Select the Layer that has all the objects that the player can hide behind.")]
+        public LayerMask hideablesMask;
+
+        private LayerMask layers;
+      
 		//used for initialization
 		protected new void Start()
 		{
 			base.Start();
+            layers = playerMask | defaultMask | hideablesMask;
             enemyMovement = GetComponent<EnemyMovement>();
             canFlinch = false;
 		    canKnockBack = true;
@@ -49,7 +62,7 @@ namespace Character2D
 
         protected void FixedUpdate()
         {
-            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(10,1),0f,new Vector2(1,0),20, layerMask.value);
+            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(10,1),0f,new Vector2(1,0),20, layers.value);
 
             if(ray&&ray.collider.name == "Knight")
             {

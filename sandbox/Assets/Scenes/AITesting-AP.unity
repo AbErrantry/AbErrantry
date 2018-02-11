@@ -490,9 +490,15 @@ MonoBehaviour:
   chasingPlayer: 0
   stoppingPercentage: 75
   giveUpTime: 5
-  layerMask:
+  playerMask:
     serializedVersion: 2
     m_Bits: 256
+  defaultMask:
+    serializedVersion: 2
+    m_Bits: 1
+  hideablesMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!251 &324255823
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -1115,7 +1121,13 @@ MonoBehaviour:
   chasingPlayer: 0
   stoppingPercentage: 75
   giveUpTime: 5
-  layerMask:
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  defaultMask:
+    serializedVersion: 2
+    m_Bits: 0
+  hideablesMask:
     serializedVersion: 2
     m_Bits: 0
 --- !u!251 &841596109
