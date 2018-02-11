@@ -1,13 +1,13 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 //commented out 4 lines below to suppress editor warnings.
-public class RoomTrigger : MonoBehaviour {
-
+public class RoomTrigger : MonoBehaviour
+{
     Rigidbody2D _rb2d;
-    //BoxCollider2D _collider;
 
+    //BoxCollider2D _collider;
     void Awake()
     {
         //_collider = gameObject.GetComponent<BoxCollider2D>();
@@ -23,7 +23,6 @@ public class RoomTrigger : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-
         if (other.gameObject.tag == "Player")
         {
             SetNewCameraBounds();

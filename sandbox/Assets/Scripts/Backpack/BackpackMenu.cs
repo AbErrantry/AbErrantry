@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace Character2D
 {
@@ -10,36 +10,35 @@ namespace Character2D
     {
         private PlayerInput playerInput;
         private PlayerInteraction playerInteraction;
-
+        public Animator anim;
+        public CharacterInventory characterInventory;
         public CameraShift cameraShift;
-
         public GameObject backpackContainer;
         private RectTransform backpackTransform;
 
         public float xMinLeft;
         public float xMaxLeft;
-
         public float xMinRight;
         public float xMaxRight;
 
         public GameObject inventoryContainer;
         public GameObject journalContainer;
         public GameObject mapContainer;
-
         public GameObject inventoryTab;
-
-        public Character character;
-
         public GameObject inventoryItem;
         public GameObject inventoryList;
+        public GameObject inventoryMask;
+        public GameObject descriptionMask;
+        public GameObject amountMask;
+        public GameObject confirmMask;
+        public GameObject amountContainer;
+        public GameObject confirmContainer;
 
         public ScrollRect scrollRect;
 
-        public GameObject inventoryMask;
-        public GameObject descriptionMask;
+        public Image itemImage;
 
         public TMP_Text itemText;
-        public Image itemImage;
         public TMP_Text itemType;
         public TMP_Text itemDescription;
         public TMP_Text itemQuantity;
@@ -52,18 +51,9 @@ namespace Character2D
 
         public InventoryItem selectedItem;
 
-        public GameObject amountMask;
-        public GameObject confirmMask;
-
-        public GameObject amountContainer;
-        public GameObject confirmContainer;
-
-        public Animator anim;
-
         public bool isDestroying;
         public bool isAll;
         public bool isOne;
-
         public bool isOpen;
 
         //used for initialization
@@ -71,16 +61,12 @@ namespace Character2D
         {
             playerInput = GetComponent<PlayerInput>();
             playerInteraction = GetComponent<PlayerInteraction>();
-
             backpackContainer.SetActive(false);
             CloseTabs();
             isOpen = false;
-
             backpackTransform = backpackContainer.GetComponent<RectTransform>();
-
             xMinLeft = 0.01f;
             xMaxLeft = 0.75f;
-
             xMinRight = 0.25f;
             xMaxRight = 0.99f;
         }
@@ -90,7 +76,7 @@ namespace Character2D
             if (!isOpen)
             {
                 playerInteraction.CloseContainer();
-                if(cameraShift.ShiftCameraLeft(true))
+                if (cameraShift.ShiftCameraLeft(true))
                 {
                     backpackTransform.anchorMin = new Vector2(xMinLeft, backpackTransform.anchorMin.y);
                     backpackTransform.anchorMax = new Vector2(xMaxLeft, backpackTransform.anchorMax.y);
@@ -100,7 +86,9 @@ namespace Character2D
                     backpackTransform.anchorMin = new Vector2(xMinRight, backpackTransform.anchorMin.y);
                     backpackTransform.anchorMax = new Vector2(xMaxRight, backpackTransform.anchorMax.y);
                 }
+
                 playerInput.DisableInput(false);
+
                 //TODO: move camera to side
                 backpackContainer.SetActive(true);
                 LoadInventoryItems();
@@ -129,7 +117,6 @@ namespace Character2D
         public void OpenInventoryTab()
         {
             CloseTabs();
-            
             inventoryContainer.SetActive(true);
         }
 
@@ -158,22 +145,19 @@ namespace Character2D
 
         private void LoadInventoryItems()
         {
-            foreach (InventoryItem inv in character.items)
+            foreach (InventoryItem inv in characterInventory.items)
             {
                 //TODO: fix comments
                 //instantiate a prefab for the interact button
-                GameObject newButton = Instantiate(inventoryItem) as GameObject;
+                GameObject newButton = Instantiate(inventoryItem)as GameObject;
                 InventoryPrefabReference controller = newButton.GetComponent<InventoryPrefabReference>();
 
-                //set the text for the interactable onscreen 
+                //set the text for the interactable onscreen
                 controller.itemText.text = inv.item.name;
-
                 controller.itemQuantity.text = inv.quantity.ToString();
                 controller.itemPrice.text = inv.item.price.ToString();
                 controller.itemStrength.text = inv.item.strength.ToString();
-
                 controller.itemImage.sprite = inv.item.sprite;
-
                 controller.item = inv; //TODO: may not need. figure that out.
 
                 //put the interactable in the list
@@ -183,7 +167,7 @@ namespace Character2D
                 newButton.transform.localScale = Vector3.one;
             }
 
-            if(character.items.Count > 0)
+            if (characterInventory.items.Count > 0)
             {
                 inventoryMask.SetActive(false);
                 ElementFocus.focus.SetFocus(inventoryList.transform.GetChild(0).gameObject, scrollRect, inventoryList.GetComponent<RectTransform>());
@@ -193,7 +177,6 @@ namespace Character2D
                 inventoryMask.SetActive(true);
                 ElementFocus.focus.SetFocus(inventoryTab, scrollRect, inventoryList.GetComponent<RectTransform>());
             }
-
             descriptionMask.SetActive(true);
         }
 
@@ -220,7 +203,7 @@ namespace Character2D
             itemPrice.text = inv.item.price.ToString();
             selectedItem = inv;
             descriptionMask.SetActive(false);
-            if(inv.item.type == "story")
+            if (inv.item.type == "story")
             {
                 useButton.interactable = false;
                 dropButton.interactable = false;
@@ -260,12 +243,12 @@ namespace Character2D
 
         public void UseItem()
         {
-            if(selectedItem.item.type == "weapon")
+            if (selectedItem.item.type == "weapon")
             {
                 Debug.Log("Equipped " + selectedItem.item.name + ".");
                 //need to also unequip the currently-equipped item and add it back to inventory.
             }
-            else if(selectedItem.item.type == "consumable")
+            else if (selectedItem.item.type == "consumable")
             {
                 Debug.Log("Heal player for " + selectedItem.item.strength + " health points.");
                 anim.Play("large-health");
@@ -274,20 +257,20 @@ namespace Character2D
             {
                 Debug.Log("Should not have gotten here.");
             }
-            if(selectedItem.quantity == 1)
+
+            if (selectedItem.quantity == 1)
             {
                 //move the scrollbar back to the top of the list
                 scrollRect.verticalNormalizedPosition = 1.0f;
             }
-            character.RemoveItem(selectedItem, false, false);
+            characterInventory.RemoveItem(selectedItem, false, false);
             UnloadInventoryItems();
             LoadInventoryItems();
-            
         }
 
         public void DropItem()
         {
-            character.RemoveItem(selectedItem, isAll, true);
+            characterInventory.RemoveItem(selectedItem, isAll, true);
             UnloadInventoryItems();
             LoadInventoryItems();
             HideAmountConfirmContainers();
@@ -297,7 +280,7 @@ namespace Character2D
 
         public void DestroyItem()
         {
-            character.RemoveItem(selectedItem, isAll, false);
+            characterInventory.RemoveItem(selectedItem, isAll, false);
             UnloadInventoryItems();
             LoadInventoryItems();
             HideAmountConfirmContainers();

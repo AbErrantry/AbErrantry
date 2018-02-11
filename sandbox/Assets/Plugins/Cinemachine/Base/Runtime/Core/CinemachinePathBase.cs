@@ -1,7 +1,6 @@
-using UnityEngine;
-using Cinemachine.Utility;
 using System;
-
+using Cinemachine.Utility;
+using UnityEngine;
 namespace Cinemachine
 {
     /// <summary>Abstract base class for a world-space path,
@@ -12,7 +11,6 @@ namespace Cinemachine
         [Tooltip("Path samples per waypoint.  This is used for calculating path distances.")]
         [Range(1, 100)]
         public int m_Resolution = 20;
-
         /// <summary>This class holds the settings that control how the path
         /// will appear in the editor scene view.  The path is not visible in the game view</summary>
         [DocumentationSorting(18.1f, DocumentationSortingAttribute.Level.UserRef)]
@@ -30,16 +28,21 @@ namespace Cinemachine
         /// will appear in the editor scene view.</summary>
         [Tooltip("The settings that control how the path will appear in the editor scene view.")]
         public Appearance m_Appearance = new Appearance();
-
         /// <summary>The minimum value for the path position</summary>
-        public abstract float MinPos { get; }
-
+        public abstract float MinPos
+        {
+            get;
+        }
         /// <summary>The maximum value for the path position</summary>
-        public abstract float MaxPos { get; }
-
+        public abstract float MaxPos
+        {
+            get;
+        }
         /// <summary>True if the path ends are joined to form a continuous loop</summary>
-        public abstract bool Looped { get; }
-
+        public abstract bool Looped
+        {
+            get;
+        }
         /// <summary>Get a normalized path position, taking spins into account if looped</summary>
         /// <param name="pos">Position along the path</param>
         /// <returns>Normalized position, between MinPos and MaxPos</returns>
@@ -56,23 +59,19 @@ namespace Cinemachine
             }
             return Mathf.Clamp(pos, 0, MaxPos);
         }
-
         /// <summary>Get a worldspace position of a point along the path</summary>
         /// <param name="pos">Postion along the path.  Need not be normalized.</param>
         /// <returns>World-space position of the point along at path at pos</returns>
         public abstract Vector3 EvaluatePosition(float pos);
-
         /// <summary>Get the tangent of the curve at a point along the path.</summary>
         /// <param name="pos">Postion along the path.  Need not be normalized.</param>
         /// <returns>World-space direction of the path tangent.
         /// Length of the vector represents the tangent strength</returns>
         public abstract Vector3 EvaluateTangent(float pos);
-
         /// <summary>Get the orientation the curve at a point along the path.</summary>
         /// <param name="pos">Postion along the path.  Need not be normalized.</param>
         /// <returns>World-space orientation of the path</returns>
         public abstract Quaternion EvaluateOrientation(float pos);
-
         /// <summary>Find the closest point on the path to a given worldspace target point.</summary>
         /// <remarks>Performance could be improved by checking the bounding polygon of each segment,
         /// and only entering the best segment(s)</remarks>
@@ -93,7 +92,7 @@ namespace Cinemachine
             float end = MaxPos;
             if (searchRadius >= 0)
             {
-                int r = Mathf.FloorToInt(Mathf.Min(searchRadius, (end - start) / 2f));
+                int r = Mathf.FloorToInt(Mathf.Min(searchRadius, (end - start)/ 2f));
                 start = startSegment - r;
                 end = startSegment + r + 1;
                 if (!Looped)
@@ -106,7 +105,7 @@ namespace Cinemachine
             float stepSize = 1f / stepsPerSegment;
             float bestPos = startSegment;
             float bestDistance = float.MaxValue;
-            int iterations = (stepsPerSegment == 1) ? 1 : 3;
+            int iterations = (stepsPerSegment == 1)? 1 : 3;
             for (int i = 0; i < iterations; ++i)
             {
                 Vector3 v0 = EvaluatePosition(start);
@@ -118,7 +117,7 @@ namespace Cinemachine
                     if (d < bestDistance)
                     {
                         bestDistance = d;
-                        bestPos = f - (1 - t) * stepSize;
+                        bestPos = f - (1 - t)* stepSize;
                     }
                     v0 = v;
                 }
@@ -128,7 +127,6 @@ namespace Cinemachine
             }
             return bestPos;
         }
-
         /// <summary>How to interpret the Path Position</summary>
         public enum PositionUnits
         {
@@ -138,23 +136,20 @@ namespace Cinemachine
             /// setting, and a distance lookup table will be cached internally</summary>
             Distance
         }
-
         /// <summary>Get the minimum value, for the given unity type</summary>
         /// <param name="units">The uniot type</param>
         /// <returns>The minimum allowable value for this path</returns>
         public float MinUnit(PositionUnits units)
-        { 
-            return units == PositionUnits.Distance ? 0 : MinPos; 
+        {
+            return units == PositionUnits.Distance ? 0 : MinPos;
         }
-
         /// <summary>Get the maximum value, for the given unity type</summary>
         /// <param name="units">The uniot type</param>
         /// <returns>The maximum allowable value for this path</returns>
         public float MaxUnit(PositionUnits units)
-        { 
-            return units == PositionUnits.Distance ? PathLength : MaxPos; 
+        {
+            return units == PositionUnits.Distance ? PathLength : MaxPos;
         }
-
         /// <summary>Normalize the unit, so that it lies between MinUmit and MaxUnit</summary>
         /// <param name="pos">The value to be normalized</param>
         /// <param name="units">The unit type</param>
@@ -165,7 +160,6 @@ namespace Cinemachine
                 return NormalizePathDistance(pos);
             return NormalizePos(pos);
         }
-
         /// <summary>Get a worldspace position of a point along the path</summary>
         /// <param name="pos">Postion along the path.  Need not be normalized.</param>
         /// <param name="units">The unit to use when interpreting the value of pos.</param>
@@ -176,7 +170,6 @@ namespace Cinemachine
                 pos = GetPathPositionFromDistance(pos);
             return EvaluatePosition(pos);
         }
-
         /// <summary>Get the tangent of the curve at a point along the path.</summary>
         /// <param name="pos">Postion along the path.  Need not be normalized.</param>
         /// <param name="units">The unit to use when interpreting the value of pos.</param>
@@ -188,7 +181,6 @@ namespace Cinemachine
                 pos = GetPathPositionFromDistance(pos);
             return EvaluateTangent(pos);
         }
-
         /// <summary>Get the orientation the curve at a point along the path.</summary>
         /// <param name="pos">Postion along the path.  Need not be normalized.</param>
         /// <param name="units">The unit to use when interpreting the value of pos.</param>
@@ -199,21 +191,21 @@ namespace Cinemachine
                 pos = GetPathPositionFromDistance(pos);
             return EvaluateOrientation(pos);
         }
-
         /// <summary>When calculating the distance cache, sample the path this many 
         /// times between points</summary>
-        public abstract int DistanceCacheSampleStepsPerSegment { get; }
-
+        public abstract int DistanceCacheSampleStepsPerSegment
+        {
+            get;
+        }
         /// <summary>Call this if the path changes in such a way as to affect distances
         /// or other cached path elements</summary>
-        public virtual void InvalidateDistanceCache() 
-        { 
-            m_DistanceToPos = null; 
-            m_PosToDistance = null; 
+        public virtual void InvalidateDistanceCache()
+        {
+            m_DistanceToPos = null;
+            m_PosToDistance = null;
             m_CachedSampleSteps = 0;
-            m_PathLength = 0; 
+            m_PathLength = 0;
         }
-
         /// <summary>See whether the distance cache is valid.  If it's not valid,
         /// then any call to GetPathLength() or GetPathPositionFromDistance() will
         /// trigger a potentially costly regeneration of the path distance cache</summary>
@@ -221,19 +213,18 @@ namespace Cinemachine
         /// <returns>Whether the cache is valid for this sampling rate</returns>
         public bool DistanceCacheIsValid()
         {
-            return (MaxPos == MinPos)
-                || (m_DistanceToPos != null && m_PosToDistance != null
-                    && m_CachedSampleSteps == DistanceCacheSampleStepsPerSegment 
-                    && m_CachedSampleSteps > 0);
+            return (MaxPos == MinPos)||
+                (m_DistanceToPos != null && m_PosToDistance != null &&
+                    m_CachedSampleSteps == DistanceCacheSampleStepsPerSegment &&
+                    m_CachedSampleSteps > 0);
         }
-
         /// <summary>Get the length of the path in distance units.  
         /// If the distance cache is not valid, then calling this will 
         /// trigger a potentially costly regeneration of the path distance cache</summary>
         /// <returns>The length of the path in distance units, when sampled at this rate</returns>
         public float PathLength
-        { 
-            get 
+        {
+            get
             {
                 if (DistanceCacheSampleStepsPerSegment < 1)
                     return 0;
@@ -242,7 +233,6 @@ namespace Cinemachine
                 return m_PathLength;
             }
         }
-
         /// <summary>Normalize a distance along the path based on the path length.  
         /// If the distance cache is not valid, then calling this will 
         /// trigger a potentially costly regeneration of the path distance cache</summary>
@@ -261,7 +251,6 @@ namespace Cinemachine
             }
             return Mathf.Clamp(distance, 0, length);
         }
-
         /// <summary>Get the path position (in path units) corresponding to this distance along the path.  
         /// If the distance cache is not valid, then calling this will 
         /// trigger a potentially costly regeneration of the path distance cache</summary>
@@ -273,12 +262,11 @@ namespace Cinemachine
             distance = NormalizePathDistance(distance);
             float d = distance / m_cachedDistanceStepSize;
             int i = Mathf.FloorToInt(d);
-            if (i >= m_DistanceToPos.Length-1)
+            if (i >= m_DistanceToPos.Length - 1)
                 return MaxPos;
             float t = d - (float)i;
-            return MinPos + Mathf.Lerp(m_DistanceToPos[i], m_DistanceToPos[i+1], t);
+            return MinPos + Mathf.Lerp(m_DistanceToPos[i], m_DistanceToPos[i + 1], t);
         }
-
         /// <summary>Get the path position (in path units) corresponding to this distance along the path.  
         /// If the distance cache is not valid, then calling this will 
         /// trigger a potentially costly regeneration of the path distance cache</summary>
@@ -290,33 +278,28 @@ namespace Cinemachine
             pos = NormalizePos(pos);
             float d = pos / m_cachedPosStepSize;
             int i = Mathf.FloorToInt(d);
-            if (i >= m_PosToDistance.Length-1)
+            if (i >= m_PosToDistance.Length - 1)
                 return m_PathLength;
             float t = d - (float)i;
-            return Mathf.Lerp(m_PosToDistance[i], m_PosToDistance[i+1], t);
+            return Mathf.Lerp(m_PosToDistance[i], m_PosToDistance[i + 1], t);
         }
-
         private float[] m_DistanceToPos;
         private float[] m_PosToDistance;
         private int m_CachedSampleSteps;
         private float m_PathLength;
         private float m_cachedPosStepSize;
         private float m_cachedDistanceStepSize;
-
         private void ResamplePath(int stepsPerSegment)
         {
             InvalidateDistanceCache();
-
             float minPos = MinPos;
             float maxPos = MaxPos;
             float stepSize = 1f / Mathf.Max(1, stepsPerSegment);
-
             // Sample the positions
-            int numKeys = Mathf.RoundToInt((maxPos - minPos) / stepSize) + 1;
+            int numKeys = Mathf.RoundToInt((maxPos - minPos)/ stepSize)+ 1;
             m_PosToDistance = new float[numKeys];
             m_CachedSampleSteps = stepsPerSegment;
             m_cachedPosStepSize = stepSize;
-
             Vector3 p0 = EvaluatePosition(0);
             m_PosToDistance[0] = 0;
             float pos = minPos;
@@ -329,7 +312,6 @@ namespace Cinemachine
                 p0 = p;
                 m_PosToDistance[i] = m_PathLength;
             }
-
             // Resample the distances
             m_DistanceToPos = new float[numKeys];
             m_DistanceToPos[0] = 0;
@@ -343,11 +325,11 @@ namespace Cinemachine
                 {
                     distance += stepSize;
                     float d = m_PosToDistance[posIndex];
-                    while (d < distance && posIndex < numKeys-1)
-                         d = m_PosToDistance[++posIndex];
-                    float d0 =  m_PosToDistance[posIndex-1];
+                    while (d < distance && posIndex < numKeys - 1)
+                        d = m_PosToDistance[++posIndex];
+                    float d0 = m_PosToDistance[posIndex - 1];
                     float delta = d - d0;
-                    float t = (distance - d0) / delta;
+                    float t = (distance - d0)/ delta;
                     m_DistanceToPos[i] = m_cachedPosStepSize * (t + posIndex - 1);
                 }
             }

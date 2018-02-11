@@ -1,12 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sign : Interactable 
+public class Sign : Interactable
 {
-	public int currentDialogueState;
+    public int currentDialogueState;
 
-	//used for initialization
+    //used for initialization
     private new void Start()
     {
         typeOfInteractable = Types.Sign;

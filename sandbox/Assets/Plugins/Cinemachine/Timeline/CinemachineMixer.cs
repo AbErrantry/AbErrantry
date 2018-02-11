@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Playables;
-
 namespace Cinemachine.Timeline
 {
     public sealed class CinemachineMixer : PlayableBehaviour
@@ -9,18 +8,15 @@ namespace Cinemachine.Timeline
         private CinemachineBrain mBrain;
         private int mBrainOverrideId = -1;
         private bool mPlaying;
-
         public override void OnGraphStop(Playable playable)
         {
             if (mBrain != null)
                 mBrain.ReleaseCameraOverride(mBrainOverrideId); // clean up
             mBrainOverrideId = -1;
         }
-
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
             base.ProcessFrame(playable, info, playerData);
-
             // Get the brain that this track controls.
             // Older versions of timeline sent the gameObject by mistake.
             GameObject go = playerData as GameObject;
@@ -30,7 +26,6 @@ namespace Cinemachine.Timeline
                 mBrain = go.GetComponent<CinemachineBrain>();
             if (mBrain == null)
                 return;
-
             // Find which clips are active.  We can process a maximum of 2.
             // In the case that the weights don't add up to 1, the outgoing weight
             // will be calculated as the inverse of the incoming weight.
@@ -43,9 +38,9 @@ namespace Cinemachine.Timeline
                 CinemachineShotPlayable shot
                     = ((ScriptPlayable<CinemachineShotPlayable>)playable.GetInput(i)).GetBehaviour();
                 float weight = playable.GetInputWeight(i);
-                if (shot != null && shot.VirtualCamera != null
-                    && playable.GetPlayState() == PlayState.Playing
-                    && weight > 0.0001f)
+                if (shot != null && shot.VirtualCamera != null &&
+                    playable.GetPlayState()== PlayState.Playing &&
+                    weight > 0.0001f)
                 {
                     if (activeInputs == 1)
                         camB = camA;
@@ -56,7 +51,6 @@ namespace Cinemachine.Timeline
                         break;
                 }
             }
-
             float deltaTime = info.deltaTime;
             if (!mPlaying)
             {
@@ -68,14 +62,11 @@ namespace Cinemachine.Timeline
                     deltaTime = -1;
                 mLastOverrideFrame = time;
             }
-
             // Override the Cinemachine brain with our results
             mBrainOverrideId = mBrain.SetCameraOverride(
-                    mBrainOverrideId, camB, camA, camWeight, deltaTime);
-
+                mBrainOverrideId, camB, camA, camWeight, deltaTime);
         }
         float mLastOverrideFrame;
-
         public override void PrepareFrame(Playable playable, FrameData info)
         {
             mPlaying = info.evaluationType == FrameData.EvaluationType.Playback;

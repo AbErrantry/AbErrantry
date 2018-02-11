@@ -1,4 +1,4 @@
-﻿namespace Character2D
+namespace Character2D
 {
     public class ClimbingTrigger : Trigger
     {
@@ -13,7 +13,7 @@
         //fires upon an object entering/exiting the trigger box
         protected override void TriggerAction(bool isInTrigger)
         {
-            if(isInTrigger)
+            if (isInTrigger)
             {
                 playerMovement.canClimb = true;
             }

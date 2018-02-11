@@ -1,6 +1,5 @@
-using UnityEngine;
 using System;
-
+using UnityEngine;
 namespace Cinemachine
 {
     /// <summary>
@@ -33,7 +32,6 @@ namespace Cinemachine
             [Tooltip("The frequency of noise for this channel.  Higher magnitudes vibrate faster.")]
             public float Frequency;
         }
-
         /// <summary>
         /// Contains the behaviour of noise for the noise module for all 3 cardinal axes of the camera
         /// </summary>
@@ -51,25 +49,32 @@ namespace Cinemachine
             [Tooltip("Noise definition for Z-axis")]
             public NoiseParams Z;
         }
-
         [SerializeField]
         [Tooltip("These are the noise channels for the virtual camera's position. Convincing noise setups typically mix low, medium and high frequencies together, so start with a size of 3")]
         private TransformNoiseParams[] m_Position = new TransformNoiseParams[0];
-
         /// <summary>
         /// Gets the array of positional noise channels for this <c>NoiseSettings</c>
         /// </summary>
-        public TransformNoiseParams[] PositionNoise { get { return m_Position; } }
-
+        public TransformNoiseParams[] PositionNoise
+        {
+            get
+            {
+                return m_Position;
+            }
+        }
         [SerializeField]
         [Tooltip("These are the noise channels for the virtual camera's orientation. Convincing noise setups typically mix low, medium and high frequencies together, so start with a size of 3")]
         private TransformNoiseParams[] m_Orientation = new TransformNoiseParams[0];
-
         /// <summary>
         /// Gets the array of orientation noise channels for this <c>NoiseSettings</c>
         /// </summary>
-        public TransformNoiseParams[] OrientationNoise { get { return m_Orientation; } }
-
+        public TransformNoiseParams[] OrientationNoise
+        {
+            get
+            {
+                return m_Orientation;
+            }
+        }
         /// <summary>Clones the contents of the other asset into this one</summary>
         public void CopyFrom(NoiseSettings other)
         {

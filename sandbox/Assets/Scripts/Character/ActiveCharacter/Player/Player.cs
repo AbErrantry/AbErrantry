@@ -1,7 +1,7 @@
-﻿using System.Collections;
+using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
 
 namespace Character2D
 {
@@ -9,21 +9,19 @@ namespace Character2D
     {
         public Animator weaponAnim;
         public CinemachineVirtualCamera virtualCamera;
-
         public PlayerMovement playerMovement;
         public PlayerInput playerInput;
-
         public Vector3 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
 
         //used for initialization
         protected new void Start()
         {
-			base.Start();
+            base.Start();
             //set from CharacterData
             spawnPoint = transform.position; //todo: set from file
             canFlinch = false;
-		    canKnockBack = true;
-		    canTakeDamage = true;
+            canKnockBack = true;
+            canTakeDamage = true;
         }
 
         protected override void InitializeDeath()
@@ -32,7 +30,7 @@ namespace Character2D
             playerInput.DisableInput();
             isDying = true;
             anim.SetBool("isDying", isDying); //death animation
-            weaponAnim.SetBool("isDying", isDying); //death animation 
+            weaponAnim.SetBool("isDying", isDying); //death animation
             //enemies no longer target player
             //screen overlay of death?
         }
@@ -64,4 +62,3 @@ namespace Character2D
         }
     }
 }
-

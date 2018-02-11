@@ -1,21 +1,20 @@
-﻿using UnityEngine;
 using Cinemachine;
 using System.Collections;
+using UnityEngine;
 
-public class CameraShift : MonoBehaviour 
+public class CameraShift : MonoBehaviour
 {
     public CinemachineVirtualCamera vcam;
     public Transform player;
-
     private Camera cam;
     private CinemachineFramingTransposer body;
-    
+
     private float shiftedLeftX_75;
     private float shiftedRightX_75;
     private float shiftedLeftX_50;
     private float shiftedRightX_50;
-    private float unshiftedX;
 
+    private float unshiftedX;
     private float shiftedY;
     private float unshiftedY;
 
@@ -40,15 +39,12 @@ public class CameraShift : MonoBehaviour
         body = vcam.GetCinemachineComponent<CinemachineFramingTransposer>();
 
         shiftedY = 0.50f;
-
         shiftedLeftX_75 = 0.875f;
         shiftedLeftX_50 = 0.75f;
-
         shiftedRightX_75 = 0.125f;
         shiftedRightX_50 = 0.25f;
 
         shiftedOrthSize = 2.0f;
-
         unshiftedOrthSize = vcam.m_Lens.OrthographicSize;
 
         unshiftedX = body.m_ScreenX;
@@ -56,6 +52,7 @@ public class CameraShift : MonoBehaviour
 
         xDampingUnshifted = body.m_XDamping;
         yDampingUnshifted = body.m_YDamping;
+
         xDampingShifted = 0.0f;
         yDampingShifted = 0.0f;
 
@@ -72,15 +69,13 @@ public class CameraShift : MonoBehaviour
     {
         bool result;
         Vector3 screenPos = cam.WorldToScreenPoint(player.position);
-        
         body.m_XDamping = xDampingShifted;
         body.m_YDamping = yDampingShifted;
-
         float shiftedX = 0.0f;
 
-        if(screenPos.x <= Screen.width / 2)
+        if (screenPos.x <= Screen.width / 2)
         {
-            if(is75)
+            if (is75)
             {
                 shiftedX = shiftedRightX_75;
             }
@@ -92,7 +87,7 @@ public class CameraShift : MonoBehaviour
         }
         else
         {
-            if(is75)
+            if (is75)
             {
                 shiftedX = shiftedLeftX_75;
             }
@@ -104,8 +99,7 @@ public class CameraShift : MonoBehaviour
         }
 
         StopAllCoroutines();
-        StartCoroutine(CameraLerp(shiftTime, shiftedX, shiftedY, deadZoneHeightShifted, deadZoneWidthShifted ,shiftedOrthSize));
-
+        StartCoroutine(CameraLerp(shiftTime, shiftedX, shiftedY, deadZoneHeightShifted, deadZoneWidthShifted, shiftedOrthSize));
         return result;
     }
 
@@ -113,7 +107,6 @@ public class CameraShift : MonoBehaviour
     {
         body.m_XDamping = xDampingUnshifted;
         body.m_YDamping = yDampingUnshifted;
-
         StopAllCoroutines();
         StartCoroutine(CameraLerp(shiftTime, unshiftedX, unshiftedY, deadZoneHeightUnshifted, deadZoneWidthUnshifted, unshiftedOrthSize));
     }
@@ -121,9 +114,9 @@ public class CameraShift : MonoBehaviour
     private IEnumerator CameraLerp(float lerpTime, float endLocX, float endLocY, float endDeadZoneHeight, float endDeadZoneWidth, float endSize)
     {
         float lerpStart = Time.time;
-        while(Time.time - lerpStart < lerpTime)
+        while (Time.time - lerpStart < lerpTime)
         {
-            float time = (Time.time - lerpStart) / lerpTime;
+            float time = (Time.time - lerpStart)/ lerpTime;
             vcam.m_Lens.OrthographicSize = Mathf.SmoothStep(vcam.m_Lens.OrthographicSize, endSize, time);
             body.m_ScreenX = Mathf.SmoothStep(body.m_ScreenX, endLocX, time);
             body.m_ScreenY = Mathf.SmoothStep(body.m_ScreenY, endLocY, time);

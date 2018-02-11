@@ -1,17 +1,16 @@
 using System.Collections.Generic;
 using UnityEditor;
-
 namespace Cinemachine.Editor
 {
     [CustomEditor(typeof(CinemachineExternalCamera))]
-    internal class CinemachineExternalCameraEditor 
+    internal class CinemachineExternalCameraEditor
         : CinemachineVirtualCameraBaseEditor<CinemachineExternalCamera>
-    {
-        protected override List<string> GetExcludedPropertiesInInspector()
         {
-            List<string> excluded = base.GetExcludedPropertiesInInspector();
-            excluded.Add("Extensions");
-            return excluded;
+            protected override List<string> GetExcludedPropertiesInInspector()
+            {
+                List<string> excluded = base.GetExcludedPropertiesInInspector();
+                excluded.Add("Extensions");
+                return excluded;
+            }
         }
-    }
 }

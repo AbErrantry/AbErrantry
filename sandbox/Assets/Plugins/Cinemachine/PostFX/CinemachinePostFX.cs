@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-
+using UnityEngine;
 // NOTE: If you are getting errors of the sort that say something like:
 //     "The type or namespace name `PostProcessing' does not exist in the namespace"
 // it is because the PostProcessing v1 module has been removed from your project.
@@ -9,7 +8,6 @@
 // or
 //   2 - Go into PlayerSettings/OtherSettings and remove the Scripting Define for UNITY_POST_PROCESSING_STACK_V1
 //
-
 namespace Cinemachine.PostFX
 {
 #if UNITY_POST_PROCESSING_STACK_V1 && !UNITY_POST_PROCESSING_STACK_V2
@@ -39,21 +37,17 @@ namespace Cinemachine.PostFX
     public class CinemachinePostFX : MonoBehaviour
     {
         // Just for the Enabled checkbox
-        void Update() {}
-
+        void Update()
+        { }
         [Tooltip("When this behaviour is on a Unity Camera, this setting is the default Post-Processing profile for the camera, and will be applied whenever it is not overridden by a virtual camera.  When the behaviour is on a virtual camera, then this is the Post-Processing profile that will become active whenever this virtual camera is live")]
         public UnityEngine.PostProcessing.PostProcessingProfile m_Profile;
-
         [Tooltip("If checked, then the Focus Distance will be set to the distance between the camera and the LookAt target.")]
         public bool m_FocusTracksTarget;
-
         [Tooltip("Offset from target distance, to be used with Focus Tracks Target.")]
         public float m_FocusOffset;
-
         // These are used if this behaviour is on a Unity Camera
         CinemachineBrain mBrain;
         UnityEngine.PostProcessing.PostProcessingBehaviour mPostProcessingBehaviour;
-
         void ConnectToBrain()
         {
             // If I am a component on the Unity camera, connect to its brain
@@ -69,13 +63,11 @@ namespace Cinemachine.PostFX
             if (mPostProcessingBehaviour == null && mBrain != null)
                 mPostProcessingBehaviour = gameObject.AddComponent<UnityEngine.PostProcessing.PostProcessingBehaviour>();
         }
-
         void OnDestroy()
         {
             if (mBrain != null)
                 mBrain.m_CameraCutEvent.RemoveListener(OnCameraCut);
         }
-
         // CinemachineBrain callback used when this behaviour is on the Unity Camera
         internal void PostFXHandler(CinemachineBrain brain)
         {
@@ -86,16 +78,15 @@ namespace Cinemachine.PostFX
                 // Look for the vcam's PostFX behaviour
                 CinemachinePostFX postFX = GetEffectivePostFX(vcam);
                 if (postFX == null)
-                    postFX = this;  // vcam does not define a profile - apply the default
+                    postFX = this; // vcam does not define a profile - apply the default
                 if (postFX.m_Profile != null)
                 {
                     // Adjust the focus distance
                     CameraState state = brain.CurrentCameraState;
-                    UnityEngine.PostProcessing.DepthOfFieldModel.Settings dof
-                        = postFX.m_Profile.depthOfField.settings;
+                    UnityEngine.PostProcessing.DepthOfFieldModel.Settings dof = postFX.m_Profile.depthOfField.settings;
                     if (postFX.m_FocusTracksTarget && state.HasLookAt)
-                        dof.focusDistance = (state.FinalPosition - state.ReferenceLookAt).magnitude
-                            + postFX.m_FocusOffset;
+                        dof.focusDistance = (state.FinalPosition - state.ReferenceLookAt).magnitude +
+                        postFX.m_FocusOffset;
                     postFX.m_Profile.depthOfField.settings = dof;
                 }
                 // Apply the profile
@@ -107,7 +98,6 @@ namespace Cinemachine.PostFX
             }
             //UnityEngine.Profiling.Profiler.EndSample();
         }
-
         CinemachinePostFX GetEffectivePostFX(ICinemachineCamera vcam)
         {
             while (vcam != null && vcam.LiveChildOrSelf != vcam)
@@ -124,7 +114,6 @@ namespace Cinemachine.PostFX
             }
             return postFX;
         }
-
         void OnCameraCut(CinemachineBrain brain)
         {
             if (mPostProcessingBehaviour != null)
@@ -133,7 +122,6 @@ namespace Cinemachine.PostFX
                 mPostProcessingBehaviour.ResetTemporalEffects();
             }
         }
-
         static void StaticPostFXHandler(CinemachineBrain brain)
         {
             CinemachinePostFX postFX = brain.PostProcessingComponent as CinemachinePostFX;
@@ -147,7 +135,6 @@ namespace Cinemachine.PostFX
             if (postFX != null)
                 postFX.PostFXHandler(brain);
         }
-
         /// <summary>Internal method called by editor module</summary>
         [RuntimeInitializeOnLoadMethod]
         public static void InitializeModule()

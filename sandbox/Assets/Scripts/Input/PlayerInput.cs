@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
 namespace Character2D
@@ -8,12 +8,10 @@ namespace Character2D
         public PlayerMovement playerMovement;
         public PlayerInteraction playerInteraction;
         public PlayerAttack playerAttack;
-       // public PlayerPause playerPause;
 
+        // public PlayerPause playerPause;
         public BackpackMenu backpackMenu;
-
         public InteractionTrigger interactTrigger;
-
         public bool acceptInput;
 
         //used for initialization
@@ -33,15 +31,14 @@ namespace Character2D
                 playerMovement.mvmtSpeed = CrossPlatformInputManager.GetAxis("Move"); //send movement speed
                 playerMovement.climbSpeedInput = CrossPlatformInputManager.GetAxis("Vertical"); //send movement speed
                 playerInteraction.interactionInput = CrossPlatformInputManager.GetButtonDown("Interact"); //send interaction input
-
                 playerAttack.attackInputDown = CrossPlatformInputManager.GetButtonDown("Attack"); //send attack input pressed
                 playerAttack.attackInputUp = CrossPlatformInputManager.GetButtonUp("Attack"); //send attack input released
-               // playerPause.pauseInput = CrossPlatformInputManager.GetButtonDown("Pause"); //send pause input
+                // playerPause.pauseInput = CrossPlatformInputManager.GetButtonDown("Pause"); //send pause input
             }
 
             if (CrossPlatformInputManager.GetButtonDown("Backpack"))
             {
-                if((!acceptInput && backpackMenu.isOpen) || acceptInput)
+                if ((!acceptInput && backpackMenu.isOpen)|| acceptInput)
                 {
                     backpackMenu.ToggleBackpack();
                 }
@@ -51,12 +48,11 @@ namespace Character2D
         public void DisableInput(bool isInteractList = false)
         {
             acceptInput = false;
-
-            if(!isInteractList)
+            if (!isInteractList)
             {
                 interactTrigger.DisableTrigger();
             }
-            
+
             playerMovement.jumpInput = false;
             playerMovement.crouchInput = false;
             playerMovement.runInput = false;

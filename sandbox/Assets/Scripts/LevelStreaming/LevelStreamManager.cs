@@ -1,17 +1,14 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelStreamManager : MonoBehaviour
 {
     public string sceneName; //the name of the scene to be loaded/unloaded
-
     private bool isLoaded; //whether the scene is loaded or not
     private Scene scene; //an object reference to the scene
-
     private AsyncOperation asyncLoad; //async operation to load the scene
     private AsyncOperation asyncUnload; //async operation to unload the scene
-
     public Character2D.PlayerInput playerInput;
 
     //used for initialization
@@ -27,11 +24,11 @@ public class LevelStreamManager : MonoBehaviour
     //function that fires when another collider enters this trigger
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //if the colliding object is the player, 
+        //if the colliding object is the player,
         if (other.tag == "Player")
         {
             //if the scene is not loaded yet, make the player wait for loading
-            if(!isLoaded)
+            if (!isLoaded)
             {
                 WaitUntilLoaded();
             }
@@ -48,7 +45,7 @@ public class LevelStreamManager : MonoBehaviour
     {
         playerInput.DisableInput(false);
         Debug.LogError("Loading... add UI for loading."); //TODO: add UI popup for loading
-        while(!isLoaded)
+        while (!isLoaded)
         {
             yield return null;
         }

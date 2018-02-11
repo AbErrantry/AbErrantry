@@ -1,7 +1,6 @@
 #if false // GML We disable smoother because people are too tempted to use it.  It won't give good results.
-using UnityEngine;
 using Cinemachine.Utility;
-
+using UnityEngine;
 namespace Cinemachine
 {
     /// <summary>
@@ -20,21 +19,18 @@ namespace Cinemachine
         [Range(0f, 10f)]
         [Tooltip("The strength of the smoothing for position.  Higher numbers smooth more but reduce performance and introduce lag.")]
         public float m_PositionSmoothing = 1;
-
         /// <summary>
         /// The strength of the smoothing for the LookAt target.  This is applied after the vcam cas calculated its state.
         /// </summary>
         [Range(0f, 10f)]
         [Tooltip("The strength of the smoothing for the LookAt target.  Higher numbers smooth more but reduce performance and introduce lag.")]
         public float m_LookAtSmoothing = 1;
-
         /// <summary>
         /// The strength of the smoothing for rotation.  This is applied after the vcam cas calculated its state.
         /// </summary>
         [Range(0f, 10f)]
         [Tooltip("The strength of the smoothing for rotation.  Higher numbers smooth more but reduce performance and introduce lag.")]
         public float m_RotationSmoothing = 1;
-
         protected override void PostPipelineStageCallback(
             CinemachineVirtualCameraBase vcam,
             CinemachineCore.Stage stage, ref CameraState state, float deltaTime)
@@ -46,8 +42,7 @@ namespace Cinemachine
                 {
                     if (deltaTime < 0)
                         extra.mSmoothingFilter = null; // reset the filter
-                    state.PositionCorrection
-                        += ApplySmoothing(vcam, state.CorrectedPosition, extra) - state.CorrectedPosition;
+                    state.PositionCorrection += ApplySmoothing(vcam, state.CorrectedPosition, extra)- state.CorrectedPosition;
                 }
                 if (m_LookAtSmoothing > 0 && state.HasLookAt)
                 {
@@ -63,34 +58,30 @@ namespace Cinemachine
                     VcamExtraState extra = GetExtraState<VcamExtraState>(vcam);
                     if (deltaTime < 0)
                         extra.mSmoothingFilterRotation = null; // reset the filter
-                    Quaternion q = Quaternion.Inverse(state.CorrectedOrientation)
-                        * ApplySmoothing(vcam, state.CorrectedOrientation, state.ReferenceUp, extra);
+                    Quaternion q = Quaternion.Inverse(state.CorrectedOrientation)*
+                        ApplySmoothing(vcam, state.CorrectedOrientation, state.ReferenceUp, extra);
                     state.OrientationCorrection = state.OrientationCorrection * q;
                 }
             }
         }
- 
         class VcamExtraState
         {
             public GaussianWindow1D_Vector3 mSmoothingFilter;
             public GaussianWindow1D_Vector3 mSmoothingFilterLookAt;
             public GaussianWindow1D_CameraRotation mSmoothingFilterRotation;
         };
-
         private Vector3 ApplySmoothing(CinemachineVirtualCameraBase vcam, Vector3 pos, VcamExtraState extra)
         {
             if (extra.mSmoothingFilter == null || extra.mSmoothingFilter.Sigma != m_PositionSmoothing)
                 extra.mSmoothingFilter = new GaussianWindow1D_Vector3(m_PositionSmoothing);
             return extra.mSmoothingFilter.Filter(pos);
         }
-
         private Vector3 ApplySmoothingLookAt(CinemachineVirtualCameraBase vcam, Vector3 pos, VcamExtraState extra)
         {
             if (extra.mSmoothingFilterLookAt == null || extra.mSmoothingFilterLookAt.Sigma != m_LookAtSmoothing)
                 extra.mSmoothingFilterLookAt = new GaussianWindow1D_Vector3(m_LookAtSmoothing);
             return extra.mSmoothingFilterLookAt.Filter(pos);
         }
-
         private Quaternion ApplySmoothing(CinemachineVirtualCameraBase vcam, Quaternion rot, Vector3 up, VcamExtraState extra)
         {
             if (extra.mSmoothingFilterRotation == null || extra.mSmoothingFilterRotation.Sigma != m_RotationSmoothing)

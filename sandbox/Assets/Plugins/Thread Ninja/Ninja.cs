@@ -1,10 +1,8 @@
-using UnityEngine;
-
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-
+using UnityEngine;
 namespace ThreadNinja
 {
     /// <summary>
@@ -20,7 +18,6 @@ namespace ThreadNinja
         /// Yield return it to switch to background thread.
         /// </summary>
         public static readonly object JumpBack;
-
         static Ninja()
         {
             JumpToUnity = new object();

@@ -1,7 +1,6 @@
-using UnityEngine;
 using System;
 using Cinemachine.Utility;
-
+using UnityEngine;
 namespace Cinemachine
 {
     /// <summary>Defines a world-space path, consisting of an array of waypoints,
@@ -19,31 +18,31 @@ namespace Cinemachine
             /// <summary>Position in path-local space</summary>
             [Tooltip("Position in path-local space")]
             public Vector3 position;
-
             /// <summary>Offset from the position, which defines the tangent of the curve at the waypoint.  
             /// The length of the tangent encodes the strength of the bezier handle.  
             /// The same handle is used symmetrically on both sides of the waypoint, to ensure smoothness.</summary>
             [Tooltip("Offset from the position, which defines the tangent of the curve at the waypoint.  The length of the tangent encodes the strength of the bezier handle.  The same handle is used symmetrically on both sides of the waypoint, to ensure smoothness.")]
             public Vector3 tangent;
-
             /// <summary>Defines the roll of the path at this waypoint.  
             /// The other orientation axes are inferred from the tangent and world up.</summary>
             [Tooltip("Defines the roll of the path at this waypoint.  The other orientation axes are inferred from the tangent and world up.")]
             public float roll;
         }
-
         /// <summary>If checked, then the path ends are joined to form a continuous loop</summary>
         [Tooltip("If checked, then the path ends are joined to form a continuous loop.")]
         public bool m_Looped;
-
         /// <summary>The waypoints that define the path.
         /// They will be interpolated using a bezier curve</summary>
         [Tooltip("The waypoints that define the path.  They will be interpolated using a bezier curve.")]
         public Waypoint[] m_Waypoints = new Waypoint[0];
-
         /// <summary>The minimum value for the path position</summary>
-        public override float MinPos { get { return 0; } }
-
+        public override float MinPos
+        {
+            get
+            {
+                return 0;
+            }
+        }
         /// <summary>The maximum value for the path position</summary>
         public override float MaxPos
         {
@@ -56,19 +55,29 @@ namespace Cinemachine
             }
         }
         /// <summary>True if the path ends are joined to form a continuous loop</summary>
-        public override bool Looped { get { return m_Looped; } }
-
+        public override bool Looped
+        {
+            get
+            {
+                return m_Looped;
+            }
+        }
         /// <summary>When calculating the distance cache, sample the path this many 
         /// times between points</summary>
-        public override int DistanceCacheSampleStepsPerSegment { get { return m_Resolution; } }
-
+        public override int DistanceCacheSampleStepsPerSegment
+        {
+            get
+            {
+                return m_Resolution;
+            }
+        }
         /// <summary>Returns normalized position</summary>
         float GetBoundingIndices(float pos, out int indexA, out int indexB)
         {
             pos = NormalizePos(pos);
             int rounded = Mathf.RoundToInt(pos);
-            if (Mathf.Abs(pos - rounded) < UnityVectorExtensions.Epsilon)
-                indexA = indexB = (rounded == m_Waypoints.Length) ? 0 : rounded;
+            if (Mathf.Abs(pos - rounded)< UnityVectorExtensions.Epsilon)
+                indexA = indexB = (rounded == m_Waypoints.Length)? 0 : rounded;
             else
             {
                 indexA = Mathf.FloorToInt(pos);
@@ -83,7 +92,6 @@ namespace Cinemachine
             }
             return pos;
         }
-
         /// <summary>Get a worldspace position of a point along the path</summary>
         /// <param name="pos">Postion along the path.  Need not be normalized.</param>
         /// <returns>World-space position of the point along at path at pos</returns>
@@ -110,7 +118,6 @@ namespace Cinemachine
             }
             return transform.TransformPoint(result);
         }
-
         /// <summary>Get the tangent of the curve at a point along the path.</summary>
         /// <param name="pos">Postion along the path.  Need not be normalized.</param>
         /// <returns>World-space direction of the path tangent.
@@ -137,7 +144,6 @@ namespace Cinemachine
             }
             return transform.TransformDirection(result);
         }
-
         /// <summary>Get the orientation the curve at a point along the path.</summary>
         /// <param name="pos">Postion along the path.  Need not be normalized.</param>
         /// <returns>World-space orientation of the path, as defined by tangent, up, and roll.</returns>
@@ -163,7 +169,6 @@ namespace Cinemachine
                     }
                     roll = Mathf.Lerp(rollA, rollB, pos - indexA);
                 }
-
                 Vector3 fwd = EvaluateTangent(pos);
                 if (!fwd.AlmostZero())
                 {
@@ -174,7 +179,9 @@ namespace Cinemachine
             }
             return result;
         }
-
-        private void OnValidate() { InvalidateDistanceCache(); }
+        private void OnValidate()
+        {
+            InvalidateDistanceCache();
+        }
     }
 }

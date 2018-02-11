@@ -1,10 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 //encapsulates all data objects into a single object
 public class GameData : MonoBehaviour
 {
     public static GameData data;
-
     public DialogueData dialogueData;
     public CharacterData characterData;
     public ItemData itemData;
@@ -14,9 +13,10 @@ public class GameData : MonoBehaviour
 
     private void Awake()
     {
-        if(data == null)
+        if (data == null)
         {
             data = this;
+
             dialogueData = ScriptableObject.CreateInstance<DialogueData>();
             characterData = ScriptableObject.CreateInstance<CharacterData>();
             itemData = ScriptableObject.CreateInstance<ItemData>();
@@ -24,7 +24,7 @@ public class GameData : MonoBehaviour
             questData = ScriptableObject.CreateInstance<QuestData>();
             configData = ScriptableObject.CreateInstance<ConfigData>();
         }
-        else if(data != this)
+        else if (data != this)
         {
             Destroy(gameObject);
         }

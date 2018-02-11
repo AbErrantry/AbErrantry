@@ -1,6 +1,5 @@
 using Cinemachine.Utility;
 using UnityEngine;
-
 namespace Cinemachine
 {
     /// <summary>
@@ -17,37 +16,46 @@ namespace Cinemachine
         [Tooltip("The object that the camera is looking at.  Setting this will improve the quality of the blends to and from this camera")]
         [NoSaveDuringPlay]
         public Transform m_LookAt = null;
-
         private Camera m_Camera;
         private CameraState m_State = CameraState.Default;
-
         /// <summary>Get the CameraState, as we are able to construct one from the Unity Camera</summary>
-        public override CameraState State { get { return m_State; } }
-
-        /// <summary>The object that the camera is looking at</summary>
-        override public Transform LookAt 
+        public override CameraState State
         {
-            get { return m_LookAt; }
-            set { m_LookAt = value; }
+            get
+            {
+                return m_State;
+            }
         }
-
+        /// <summary>The object that the camera is looking at</summary>
+        override public Transform LookAt
+        {
+            get
+            {
+                return m_LookAt;
+            }
+            set
+            {
+                m_LookAt = value;
+            }
+        }
         /// <summary>This vcam defines no targets</summary>
-        override public Transform Follow { get; set; }
-
+        override public Transform Follow
+        {
+            get;
+            set;
+        }
         /// <summary>Construct a CameraState object from the Unity Camera</summary>
         public override void UpdateCameraState(Vector3 worldUp, float deltaTime)
         {
             // Get the state from the camera
             if (m_Camera == null)
                 m_Camera = GetComponent<Camera>();
-
             m_State = CameraState.Default;
             m_State.RawPosition = transform.position;
             m_State.RawOrientation = transform.rotation;
             m_State.ReferenceUp = m_State.RawOrientation * Vector3.up;
             if (m_Camera != null)
                 m_State.Lens = LensSettings.FromCamera(m_Camera);
-
             if (m_LookAt != null)
             {
                 m_State.ReferenceLookAt = m_LookAt.transform.position;

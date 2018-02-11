@@ -1,22 +1,26 @@
 using System;
+using Cinemachine.Utility;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEditor;
 using UnityEngine;
-using Cinemachine.Utility;
-
 namespace Cinemachine.Editor
 {
     [CustomEditor(typeof(CinemachineGroupComposer))]
     internal class CinemachineGroupComposerEditor : CinemachineComposerEditor
     {
         // Specialization
-        private CinemachineGroupComposer MyTarget { get { return target as CinemachineGroupComposer; } }
+        private CinemachineGroupComposer MyTarget
+        {
+            get
+            {
+                return target as CinemachineGroupComposer;
+            }
+        }
         protected string FieldPath<TValue>(Expression<Func<CinemachineGroupComposer, TValue>> expr)
         {
             return ReflectionHelpers.GetFieldPath(expr);
         }
-
         protected override List<string> GetExcludedPropertiesInInspector()
         {
             List<string> excluded = base.GetExcludedPropertiesInInspector();
@@ -54,17 +58,14 @@ namespace Cinemachine.Editor
             }
             return excluded;
         }
-
         public override void OnInspectorGUI()
         {
             if (MyTarget.IsValid && MyTarget.TargetGroup == null)
                 EditorGUILayout.HelpBox(
-                    "The Framing settings will be ignored because the LookAt target is not a kind of CinemachineTargetGroup", 
+                    "The Framing settings will be ignored because the LookAt target is not a kind of CinemachineTargetGroup",
                     MessageType.Info);
-
             base.OnInspectorGUI();
         }
-
         [DrawGizmo(GizmoType.Active | GizmoType.InSelectionHierarchy, typeof(CinemachineGroupComposer))]
         private static void DrawGroupComposerGizmos(CinemachineGroupComposer target, GizmoType selectionType)
         {

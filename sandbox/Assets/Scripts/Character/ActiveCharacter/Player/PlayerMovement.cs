@@ -1,14 +1,11 @@
-﻿using UnityEngine;
-
+using UnityEngine;
 namespace Character2D
 {
     public class PlayerMovement : CharacterMovement
     {
         public Animator weaponAnim;
-
         private PlayerInteraction playerInteraction;
         private PlayerAttack playerAttack;
-
         public ClimbingTriggerTop climbingTriggerTop;
         public UncrouchTrigger uncrouchTrigger;
 
@@ -33,7 +30,6 @@ namespace Character2D
 
         //delays after each action
         protected float crouchDelay; //the amount of time before the character can uncrouch
-
         protected float bonusForce;
 
         //movement speed in each state
@@ -43,26 +39,17 @@ namespace Character2D
         protected new void Start()
         {
             base.Start();
-
             playerInteraction = GetComponent<PlayerInteraction>();
             playerAttack = GetComponent<PlayerAttack>();
-
             crouchInput = false;
-
             canUncrouch = true;
-
             isCrouching = false;
-
             tCrouch = 0.0f;
             isInitCrouch = true;
-
             crouchDelay = 0.75f;
-
             crouchSpeed = 0.50f;
-
             climbSpeedInput = 0.0f;
             climbSpeed = 0.0f;
-
             bonusForce = 500.0f;
         }
 
@@ -76,7 +63,7 @@ namespace Character2D
         protected new void FixedUpdate()
         {
             base.FixedUpdate();
-            if(playerInteraction.isInteracting)
+            if (playerInteraction.isInteracting)
             {
                 rb.velocity = new Vector2(0.0f, rb.velocity.y);
                 SendToAnimator();
@@ -92,43 +79,47 @@ namespace Character2D
                 isJumping = jumpInput;
                 SendToAnimator();
             }
+
             //check if the character can run (or stop running)
             if (!isJumping && !isCrouching && isGrounded && !isOnLadder)
             {
                 isRunning = runInput;
                 SendToAnimator();
             }
+
             //check if the character can crouch (or stop crouching)
             if (!isJumping && isGrounded && !playerAttack.isWindingUp && !isOnLadder)
             {
                 //the character can only crouch when they are not crouching
                 //the character can only uncrouch when they have room to stand up
-                if(CheckIfCanUncrouch() || !isCrouching)
+                if (CheckIfCanUncrouch()|| !isCrouching)
                 {
                     isCrouching = crouchInput;
                     SendToAnimator();
                     //start the crouch timer if this is the first crouch frame
-                    if(isCrouching && isInitCrouch)
+                    if (isCrouching && isInitCrouch)
                     {
                         //started crouching
                         isInitCrouch = false;
                         tCrouch = Time.time;
                     }
-                    if(!isCrouching)
+                    if (!isCrouching)
                     {
                         //stopped crouching
                         isInitCrouch = true;
                     }
                 }
             }
-            if(!isCrouching && canClimb && !isOnLadder && climbingTriggerTop.currentObjects.Count != 0)
+
+            if (!isCrouching && canClimb && !isOnLadder && climbingTriggerTop.currentObjects.Count != 0)
             {
-                if(climbSpeedInput > 0.0f || (climbSpeedInput < 0.0f && !isGrounded))
+                if (climbSpeedInput > 0.0f || (climbSpeedInput < 0.0f && !isGrounded))
                 {
                     isOnLadder = true;
                 }
             }
-            if(!isJumping && isGrounded && !isCrouching && !isOnLadder)
+
+            if (!isJumping && isGrounded && !isCrouching && !isOnLadder)
             {
                 playerAttack.canAttack = true;
             }
@@ -162,7 +153,7 @@ namespace Character2D
             else if (isCrouching)
             {
                 speedMultiplier = crouchSpeed;
-                if(playerInteraction.isInteracting)
+                if (playerInteraction.isInteracting)
                 {
                     tCrouch = Time.time;
                 }
@@ -176,30 +167,30 @@ namespace Character2D
                 speedMultiplier = 1;
             }
 
-            if(isOnLadder)
+            if (isOnLadder)
             {
                 isClimbing = false;
                 isStrafing = false;
                 rb.gravityScale = 0.0f;
                 rb.velocity = Vector2.zero;
-                if(climbSpeedInput > 0.0f || (climbSpeedInput < 0.0f && !isGrounded))
+                if (climbSpeedInput > 0.0f || (climbSpeedInput < 0.0f && !isGrounded))
                 {
                     climbSpeed = climbSpeedInput;
                     isClimbing = true;
                     transform.Translate(Vector3.up * climbSpeedInput / 50f);
                 }
-                else if(Mathf.Abs(mvmtSpeed) > 0.0f && !isGrounded)
+                else if (Mathf.Abs(mvmtSpeed)> 0.0f && !isGrounded)
                 {
                     climbSpeed = 0.0f;
                     isStrafing = true;
-                    transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed) / 75f);
+                    transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed)/ 75f);
                 }
-                else if(isGrounded && climbingTriggerTop.currentObjects.Count != 0)
+                else if (isGrounded && climbingTriggerTop.currentObjects.Count != 0)
                 {
                     climbSpeed = 0.0f;
                     DoneClimbing();
                 }
-                else if(isGrounded && climbingTriggerTop.currentObjects.Count == 0)
+                else if (isGrounded && climbingTriggerTop.currentObjects.Count == 0)
                 {
                     climbSpeed = 1.0f;
                     isClimbing = true;
@@ -213,18 +204,17 @@ namespace Character2D
             else
             {
                 SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed * Time.deltaTime, rb.velocity.y, true);
-            }  
+            }
         }
 
         protected override void SetMovementLogic()
         {
             //TODO: change to 2d movement check
             //boolean expression that sets whether or not the player has moved this tick
-            isMoving = Mathf.Abs(lastPosition - rb.transform.position.x) > 0.001f ? true : false;
+            isMoving = Mathf.Abs(lastPosition - rb.transform.position.x)> 0.001f ? true : false;
 
             //boolean expression that sets whether or not the character is falling on this tick
             isFalling = rb.velocity.y < 0 && !isGrounded ? true : false;
-
             lastPosition = rb.transform.position.x; //set the last position for the next tick
 
             //change the player's direction if they are moving in another direction
@@ -255,7 +245,6 @@ namespace Character2D
             anim.SetFloat("climbSpeed", Mathf.Abs(climbSpeed));
             anim.SetBool("isOnLadder", isOnLadder);
             anim.SetBool("isInteracting", playerInteraction.isInteracting);
-
             weaponAnim.SetBool("isJumping", isJumping);
             weaponAnim.SetBool("isGrounded", isGrounded);
             weaponAnim.SetBool("isRunning", isRunning);
@@ -268,7 +257,7 @@ namespace Character2D
             weaponAnim.SetFloat("climbSpeed", Mathf.Abs(climbSpeed));
             weaponAnim.SetBool("isOnLadder", isOnLadder);
             weaponAnim.SetBool("isInteracting", playerInteraction.isInteracting);
-        } 
+        }
 
         //checks if the character has enough room to uncrouch
         protected bool CheckIfCanUncrouch()
@@ -294,13 +283,13 @@ namespace Character2D
 
         public void MoveBonus(float intensity)
         {
-            if(isFacingRight)
+            if (isFacingRight)
             {
-                rb.AddForce(new Vector2(bonusForce*intensity, 0f));
+                rb.AddForce(new Vector2(bonusForce * intensity, 0f));
             }
             else
             {
-                rb.AddForce(new Vector2(-bonusForce*intensity, 0f));
+                rb.AddForce(new Vector2(-bonusForce * intensity, 0f));
             }
         }
     }

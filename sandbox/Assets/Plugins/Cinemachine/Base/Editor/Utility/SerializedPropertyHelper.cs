@@ -1,7 +1,6 @@
 using System;
 using System.Linq.Expressions;
 using UnityEditor;
-
 namespace Cinemachine.Editor
 {
     public static class SerializedPropertyHelper
@@ -27,7 +26,6 @@ namespace Cinemachine.Editor
             }
             return body.Member.Name;
         }
-
         /// Usage: instead of
         /// <example>
         /// mySerializedObject.FindProperty("m_MyField");
@@ -41,7 +39,6 @@ namespace Cinemachine.Editor
         {
             return obj.FindProperty(PropertyName(exp));
         }
-
         /// Usage: instead of
         /// <example>
         /// mySerializedProperty.FindPropertyRelative("m_MyField");

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Dialogue2D
 {
@@ -8,6 +8,6 @@ namespace Dialogue2D
         public string text; //the text associated with the segment
         public int next; //the id of the next segment
         public List<DialogueChoice> choices; //the set of choices given the segment
-        public List<DialogueAction> actions; //the set of actions taken a result of the segment TODO: implement
+        public List<DialogueAction> actions; //the set of actions taken a result of the segment
     }
 }

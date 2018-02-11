@@ -1,7 +1,7 @@
-﻿using System.Xml.Linq;
-using UnityEngine;
 using System;
 using Dialogue2D;
+using System.Xml.Linq;
+using UnityEngine;
 
 //extension methods to null check XElements from a LINQ query
 public static class XElementExtensionMethods
@@ -37,7 +37,7 @@ public static class XElementExtensionMethods
     {
         if (element != null)
         {
-            if(int.Parse(element.Value) == 0)
+            if (int.Parse(element.Value)== 0)
             {
                 return false;
             }
@@ -134,5 +134,5 @@ public static class XElementExtensionMethods
         {
             return ActionTypes.None;
         }
-    } 
+    }
 }

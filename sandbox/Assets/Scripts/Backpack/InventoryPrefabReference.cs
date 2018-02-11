@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Character2D
 {
@@ -12,7 +12,6 @@ namespace Character2D
         public TMP_Text itemQuantity;
         public TMP_Text itemPrice;
         public TMP_Text itemStrength;
-
         private BackpackMenu backpackMenu;
 
         // Use this for initialization

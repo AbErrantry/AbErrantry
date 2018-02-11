@@ -1,11 +1,9 @@
-using UnityEngine;
-
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
-
+using UnityEngine;
 namespace ThreadNinja
 {
     /// <summary>
@@ -18,8 +16,11 @@ namespace ThreadNinja
         /// <summary>
         /// The current iterator yield return value.
         /// </summary>
-        public object Current { get; private set; }
-
+        public object Current
+        {
+            get;
+            private set;
+        }
         /// <summary>
         /// Runs next iteration.
         /// </summary>
@@ -28,7 +29,6 @@ namespace ThreadNinja
         {
             return OnMoveNext();
         }
-
         public void Reset()
         {
             // Reset method not supported by iterator;
@@ -36,7 +36,6 @@ namespace ThreadNinja
                 "Not support calling Reset() on iterator.");
         }
         #endregion
-
         // inner running state used by state machine;
         private enum RunningState
         {
@@ -49,10 +48,8 @@ namespace ThreadNinja
             Done,
             Error
         }
-
         // routine user want to run;
         private readonly IEnumerator _innerRoutine;
-
         // current running state;
         private RunningState _state;
         // last running state;
@@ -60,7 +57,6 @@ namespace ThreadNinja
         // temporary stores current yield return value
         // until we think Unity coroutine engine is OK to get it;
         private object _pendingCurrent;
-
         /// <summary>
         /// Gets state of the task.
         /// </summary>
@@ -83,19 +79,20 @@ namespace ThreadNinja
                 }
             }
         }
-
         /// <summary>
         /// Gets exception during running.
         /// </summary>
-        public System.Exception Exception { get; private set; }
-
+        public System.Exception Exception
+        {
+            get;
+            private set;
+        }
         public Task(IEnumerator routine)
         {
             _innerRoutine = routine;
             // runs into background first;
             _state = RunningState.Init;
         }
-
         /// <summary>
         /// Cancel the task till next iteration;
         /// </summary>
@@ -106,7 +103,6 @@ namespace ThreadNinja
                 GotoState(RunningState.CancellationRequested);
             }
         }
-
         /// <summary>
         /// A co-routine that waits the task.
         /// </summary>
@@ -115,39 +111,33 @@ namespace ThreadNinja
             while (State == TaskState.Running)
                 yield return null;
         }
-
         // thread safely switch running state;
         private void GotoState(RunningState state)
         {
-            if (_state == state) return;
-
-            lock (this)
+            if (_state == state)return;
+            lock(this)
             {
                 // maintainance the previous state;
                 _previousState = _state;
                 _state = state;
             }
         }
-
         // thread safely save yield returned value;
         private void SetPendingCurrentObject(object current)
         {
-            lock (this)
+            lock(this)
             {
                 _pendingCurrent = current;
             }
         }
-
         // actual MoveNext method, controls running state;
         private bool OnMoveNext()
         {
             // no running for null;
             if (_innerRoutine == null)
                 return false;
-
             // set current to null so that Unity not get same yield value twice;
             Current = null;
-
             // loops until the inner routine yield something to Unity;
             while (true)
             {
@@ -158,23 +148,20 @@ namespace ThreadNinja
                     case RunningState.Init:
                         GotoState(RunningState.ToBackground);
                         break;
-                    // running in background, wait a frame;
+                        // running in background, wait a frame;
                     case RunningState.RunningAsync:
                         return true;
-
-                    // runs on main thread;
+                        // runs on main thread;
                     case RunningState.RunningSync:
                         MoveNextUnity();
                         break;
-
-                    // need switch to background;
+                        // need switch to background;
                     case RunningState.ToBackground:
                         GotoState(RunningState.RunningAsync);
                         // call the thread launcher;
                         MoveNextAsync();
                         return true;
-
-                    // something was yield returned;
+                        // something was yield returned;
                     case RunningState.PendingYield:
                         if (_pendingCurrent == Ninja.JumpBack)
                         {
@@ -191,7 +178,6 @@ namespace ThreadNinja
                             // not from the Ninja, then Unity should get noticed,
                             // Set to Current property to achieve this;
                             Current = _pendingCurrent;
-
                             // yield from background thread, or main thread?
                             if (_previousState == RunningState.RunningAsync)
                             {
@@ -204,13 +190,11 @@ namespace ThreadNinja
                                 // otherwise go back to main thread the next loop;
                                 _pendingCurrent = Ninja.JumpToUnity;
                             }
-
                             // end this iteration and Unity get noticed;
                             return true;
                         }
                         break;
-
-                    // done running, pass false to Unity;
+                        // done running, pass false to Unity;
                     case RunningState.Done:
                     case RunningState.CancellationRequested:
                     default:
@@ -218,21 +202,18 @@ namespace ThreadNinja
                 }
             }
         }
-
         // background thread launcher;
         private void MoveNextAsync()
         {
             ThreadPool.QueueUserWorkItem(
                 new WaitCallback(BackgroundRunner));
         }
-
         // background thread function;
         private void BackgroundRunner(object state)
         {
             // just run the sync version on background thread;
             MoveNextUnity();
         }
-
         // run next iteration on main thread;
         private void MoveNextUnity()
         {
@@ -240,7 +221,6 @@ namespace ThreadNinja
             {
                 // run next part of the user routine;
                 var result = _innerRoutine.MoveNext();
-
                 if (result)
                 {
                     // something has been yield returned, handle it;

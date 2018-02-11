@@ -1,4 +1,3 @@
-﻿
 namespace Cinemachine.PostFX
 {
     /// <summary>Integrates Cinemachine with PostProcessing V1 stack.</summary>
@@ -7,9 +6,9 @@ namespace Cinemachine.PostFX
     class PostFXAutoImport
     {
         [UnityEditor.InitializeOnLoad]
-        class EditorInitialize 
+        class EditorInitialize
         {
-            static EditorInitialize() 
+            static EditorInitialize()
             {
 #if UNITY_POST_PROCESSING_STACK_V2
                 // We have PPv2
@@ -24,12 +23,12 @@ namespace Cinemachine.PostFX
                         UnityEditor.AssetDatabase.ImportAsset(path, UnityEditor.ImportAssetOptions.ForceUpdate);
                     }
                 }
-    #if UNITY_POST_PROCESSING_STACK_V1
+#if UNITY_POST_PROCESSING_STACK_V1
                 // We have PPv1
-                CinemachinePostFX.InitializeModule(); 
-    #endif
+                CinemachinePostFX.InitializeModule();
 #endif
-            } 
+#endif
+            }
         }
     }
 }

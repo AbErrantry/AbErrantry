@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,15 +7,13 @@ namespace Character2D
     public class PlayerAttack : CharacterAttack
     {
         public Animator weaponAnim;
-
         public PlayerInput playerInput;
-
         protected PlayerMovement playerMovement;
-        public bool canAttack;
 
+        public bool canAttack;
         protected float attack2Threshold;
         protected float attack3Threshold;
-        
+
         public bool attackInputDown;
         public bool attackInputUp;
 
@@ -28,20 +26,14 @@ namespace Character2D
         protected new void Start()
         {
             base.Start();
-
             attackInputDown = false;
             attackInputUp = true;
-
             isInitAttack = false;
-
             attackPress = 0.0f;
             attackRelease = 0.0f;
-
             attack2Threshold = 0.15f;
             attack3Threshold = 0.60f;
-
             playerMovement = GetComponent<PlayerMovement>();
-
             SetAttack(0, 5.0f, 0.20f); // Stab attack setup
             SetAttack(1, 7.0f, 0.30f); // Swing attack setup
             SetAttack(2, 15.0f, 0.80f); // Power attack setup
@@ -51,7 +43,6 @@ namespace Character2D
         protected new void Update()
         {
             base.Update();
-
             if (!isAttacking && canAttack)
             {
                 if (attackInputDown && !isWindingUp && !playerMovement.isFalling)
@@ -67,7 +58,7 @@ namespace Character2D
                     isInitAttack = true;
                     SendToAnimator();
                 }
-                else if(playerMovement.isFalling)
+                else if (playerMovement.isFalling)
                 {
                     isWindingUp = false;
                     isInitAttack = false;
@@ -81,8 +72,7 @@ namespace Character2D
         protected new void FixedUpdate()
         {
             base.FixedUpdate();
-
-            if(isInitAttack)
+            if (isInitAttack)
             {
                 isInitAttack = false;
                 float attackDuration = attackRelease - attackPress;
@@ -95,9 +85,9 @@ namespace Character2D
                     StartCoroutine(Attack(0));
                 }
             }
-            else if(isWindingUp && !playerMovement.isFalling)
+            else if (isWindingUp && !playerMovement.isFalling)
             {
-                if(Time.time - attackPress > attack3Threshold)
+                if (Time.time - attackPress > attack3Threshold)
                 {
                     StartCoroutine(Attack(2));
                 }
@@ -122,7 +112,6 @@ namespace Character2D
             anim.SetBool("isStabAttacking", attackFlags[0]);
             anim.SetBool("isSwingAttacking", attackFlags[1]);
             anim.SetBool("isPowerAttacking", attackFlags[2]);
-
             weaponAnim.SetBool("isWindingUp", isWindingUp);
             weaponAnim.SetBool("isAttacking", isAttacking);
             weaponAnim.SetBool("isStabAttacking", attackFlags[0]);

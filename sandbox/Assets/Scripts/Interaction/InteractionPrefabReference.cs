@@ -1,5 +1,5 @@
-﻿using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 namespace Character2D
 {
@@ -7,7 +7,6 @@ namespace Character2D
     {
         public TMP_Text interactText;
         public int indexInList;
-
         private PlayerInteraction playerInteraction; //reference to the interaction manager
 
         //used for initialization
@@ -24,4 +23,3 @@ namespace Character2D
         }
     }
 }
-

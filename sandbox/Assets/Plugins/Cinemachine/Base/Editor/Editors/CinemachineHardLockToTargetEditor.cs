@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-
 namespace Cinemachine.Editor
 {
     [CustomEditor(typeof(CinemachineHardLockToTarget))]

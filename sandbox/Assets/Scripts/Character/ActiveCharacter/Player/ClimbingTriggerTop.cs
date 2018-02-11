@@ -1,4 +1,4 @@
-﻿namespace Character2D
+namespace Character2D
 {
     public class ClimbingTriggerTop : Trigger
     {

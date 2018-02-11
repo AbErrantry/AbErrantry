@@ -1,5 +1,4 @@
 using UnityEngine;
-
 namespace Cinemachine
 {
     /// <summary>
@@ -7,6 +6,5 @@ namespace Cinemachine
     /// </summary>
     [AddComponentMenu("")] // Don't display in add component menu
     public sealed class CinemachinePipeline : MonoBehaviour
-    {
-    }
+    { }
 }

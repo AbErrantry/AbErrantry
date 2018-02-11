@@ -1,8 +1,7 @@
-using UnityEngine;
-using UnityEditor;
 using System;
 using System.Collections.Generic;
-
+using UnityEditor;
+using UnityEngine;
 namespace Cinemachine.Editor
 {
     [CustomEditor(typeof(CinemachineConfiner))]
@@ -21,7 +20,6 @@ namespace Cinemachine.Editor
                 excluded.Add(FieldPath(x => x.m_BoundingShape2D));
             return excluded;
         }
-
         public override void OnInspectorGUI()
         {
             BeginInspector();
@@ -29,20 +27,20 @@ namespace Cinemachine.Editor
             {
                 if (Target.m_BoundingShape2D == null)
                     EditorGUILayout.HelpBox("A Bounding Shape is required.", MessageType.Warning);
-                else if (Target.m_BoundingShape2D.GetType() != typeof(PolygonCollider2D)
-                    && Target.m_BoundingShape2D.GetType() != typeof(CompositeCollider2D))
+                else if (Target.m_BoundingShape2D.GetType()!= typeof(PolygonCollider2D)&&
+                    Target.m_BoundingShape2D.GetType()!= typeof(CompositeCollider2D))
                 {
                     EditorGUILayout.HelpBox(
-                        "Must be a PolygonCollider2D or CompositeCollider2D.", 
+                        "Must be a PolygonCollider2D or CompositeCollider2D.",
                         MessageType.Warning);
                 }
-                else if (Target.m_BoundingShape2D.GetType() == typeof(CompositeCollider2D))
+                else if (Target.m_BoundingShape2D.GetType()== typeof(CompositeCollider2D))
                 {
                     CompositeCollider2D poly = Target.m_BoundingShape2D as CompositeCollider2D;
                     if (poly.geometryType != CompositeCollider2D.GeometryType.Polygons)
                     {
                         EditorGUILayout.HelpBox(
-                            "CompositeCollider2D geometry type must be Polygons", 
+                            "CompositeCollider2D geometry type must be Polygons",
                             MessageType.Warning);
                     }
                 }
@@ -51,33 +49,30 @@ namespace Cinemachine.Editor
             {
                 if (Target.m_BoundingVolume == null)
                     EditorGUILayout.HelpBox("A Bounding Volume is required.", MessageType.Warning);
-                else if (Target.m_BoundingVolume.GetType() != typeof(BoxCollider)
-                    && Target.m_BoundingVolume.GetType() != typeof(SphereCollider)
-                    && Target.m_BoundingVolume.GetType() != typeof(CapsuleCollider))
+                else if (Target.m_BoundingVolume.GetType()!= typeof(BoxCollider)&&
+                    Target.m_BoundingVolume.GetType()!= typeof(SphereCollider)&&
+                    Target.m_BoundingVolume.GetType()!= typeof(CapsuleCollider))
                 {
                     EditorGUILayout.HelpBox(
-                        "Must be a BoxCollider, SphereCollider, or CapsuleCollider.", 
+                        "Must be a BoxCollider, SphereCollider, or CapsuleCollider.",
                         MessageType.Warning);
                 }
             }
             DrawRemainingPropertiesInInspector();
         }
-
         [DrawGizmo(GizmoType.Active | GizmoType.Selected, typeof(CinemachineConfiner))]
         private static void DrawColliderGizmos(CinemachineConfiner confiner, GizmoType type)
         {
-            CinemachineVirtualCameraBase vcam = (confiner != null) ? confiner.VirtualCamera : null;
+            CinemachineVirtualCameraBase vcam = (confiner != null)? confiner.VirtualCamera : null;
             if (vcam != null && confiner.IsValid)
             {
                 Matrix4x4 oldMatrix = Gizmos.matrix;
                 Color oldColor = Gizmos.color;
                 Gizmos.color = Color.yellow;
-
                 if (confiner.m_ConfineMode == CinemachineConfiner.Mode.Confine3D)
                 {
                     Transform t = confiner.m_BoundingVolume.transform;
                     Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
-
                     Type colliderType = confiner.m_BoundingVolume.GetType();
                     if (colliderType == typeof(BoxCollider))
                     {
@@ -95,9 +90,15 @@ namespace Cinemachine.Editor
                         Vector3 size = Vector3.one * c.radius * 2;
                         switch (c.direction)
                         {
-                            case 0: size.x = c.height; break;
-                            case 1: size.y = c.height; break;
-                            case 2: size.z = c.height; break;
+                            case 0:
+                                size.x = c.height;
+                                break;
+                            case 1:
+                                size.y = c.height;
+                                break;
+                            case 2:
+                                size.z = c.height;
+                                break;
                         }
                         Gizmos.DrawWireCube(c.center, size);
                     }
@@ -114,11 +115,10 @@ namespace Cinemachine.Editor
                         Gizmos.DrawWireCube(t.position, bounds.extents * 2);
                     }
                 }
-                else 
+                else
                 {
                     Transform t = confiner.m_BoundingShape2D.transform;
                     Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
-
                     Type colliderType = confiner.m_BoundingShape2D.GetType();
                     if (colliderType == typeof(PolygonCollider2D))
                     {
@@ -141,14 +141,13 @@ namespace Cinemachine.Editor
                 Gizmos.matrix = oldMatrix;
             }
         }
-
         static void DrawPath(Vector2[] path, int numPoints)
         {
             if (numPoints < 0)
                 numPoints = path.Length;
             if (numPoints > 0)
             {
-                Vector2 v0 = path[numPoints-1];
+                Vector2 v0 = path[numPoints - 1];
                 for (int j = 0; j < numPoints; ++j)
                 {
                     Vector2 v = path[j];

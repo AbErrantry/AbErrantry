@@ -1,5 +1,5 @@
-﻿using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 namespace Character2D
 {
@@ -14,7 +14,6 @@ namespace Character2D
         {
             objectTag = "Interactable"; //overrides the tag from "World"
             disregardCount = true; //don't consider the object count for onTriggerExit in Trigger
-
             boxCollider = GetComponent<BoxCollider2D>();
             colliderSizeX = boxCollider.size.x;
         }
@@ -33,7 +32,7 @@ namespace Character2D
         public void EnableTrigger()
         {
             boxCollider.enabled = true;
-            if(boxCollider.isActiveAndEnabled)
+            if (boxCollider.isActiveAndEnabled)
             {
                 StartCoroutine(WiggleCollider());
             }

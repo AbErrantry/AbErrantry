@@ -1,38 +1,34 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using System.Collections;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Character2D
 {
     public class PlayerInteraction : MonoBehaviour
     {
         public InteractionTrigger interactionTrigger;
-
         private PlayerInput playerInput;
         private Dialogue2D.DialogueManager dialogueManager;
-
-        public Character character;
+        public CharacterInventory characterInventory;
 
         public GameObject interactBar; //reference to the interact popup bar that asks for input to interact
         public GameObject interactButton; //reference to the interact button prefab
         public GameObject interactList; //reference to the interact list which contains interact button prefabs
         public GameObject interactContainer; //reference to the interact container which contains the interact list
 
-        public TMP_Text interactBarText; //the text displayed on the interact bar
+        public ScrollRect scrollRect; //the default y position of the interact list (to scroll back to the top)
+        public EventSystem eventSystem;
 
+        public TMP_Text interactBarText; //the text displayed on the interact bar
         public Button collectAllButton;
 
         private string interactKey; //the key for interaction
 
-        public ScrollRect scrollRect; //the default y position of the interact list (to scroll back to the top)
-
-        public EventSystem eventSystem;
-
         public bool interactionInput; //whether the character is trying to interact or not
-
         public bool isInteracting;
         public float interactTime;
 
@@ -40,17 +36,12 @@ namespace Character2D
         {
             playerInput = GetComponent<PlayerInput>();
             dialogueManager = GetComponent<Dialogue2D.DialogueManager>();
-
-            isInteracting = false; 
-
+            isInteracting = false;
             interactionInput = false;
-
             interactBar.SetActive(false);
             interactContainer.SetActive(false);
-
             //TODO: set default interactBarKey
             interactKey = "Q";
-
             interactTime = 0.5f;
         }
 
@@ -77,7 +68,7 @@ namespace Character2D
             else if (interactionTrigger.currentObjects.Count == 1)
             {
                 interactBar.SetActive(true);
-                SetInteractBarText(interactionTrigger.currentObjects[0].GetComponent<Interactable>().type, 
+                SetInteractBarText(interactionTrigger.currentObjects[0].GetComponent<Interactable>().type,
                     interactionTrigger.currentObjects[0].GetComponent<Interactable>().name, false);
             }
             //if there exists more than one interactable, display a generic popup
@@ -112,19 +103,17 @@ namespace Character2D
         public void ShowList()
         {
             playerInput.DisableInput(true);
-
             int numberOfItems = 0;
             //iterate through the list of interactables spawning buttons on screen in a list
             for (int i = 0; i < interactionTrigger.currentObjects.Count; i++)
             {
                 //instantiate a prefab for the interact button
-                GameObject newButton = Instantiate(interactButton) as GameObject;
+                GameObject newButton = Instantiate(interactButton)as GameObject;
                 InteractionPrefabReference temp = newButton.GetComponent<InteractionPrefabReference>();
 
-                //set the text for the interactable onscreen 
-                temp.interactText.text = interactionTrigger.currentObjects[i].GetComponent<Interactable>().type 
-                    + " " + interactionTrigger.currentObjects[i].GetComponent<Interactable>().name;
-
+                //set the text for the interactable onscreen
+                temp.interactText.text = interactionTrigger.currentObjects[i].GetComponent<Interactable>().type +
+                    " " + interactionTrigger.currentObjects[i].GetComponent<Interactable>().name;
                 temp.indexInList = i;
 
                 //put the interactable in the list
@@ -133,13 +122,13 @@ namespace Character2D
                 //for some reason Unity does not use full scale for the instantiated object by default
                 newButton.transform.localScale = Vector3.one;
 
-                if(interactionTrigger.currentObjects[i].GetComponent<Interactable>().typeOfInteractable == Interactable.Types.Pickup)
+                if (interactionTrigger.currentObjects[i].GetComponent<Interactable>().typeOfInteractable == Interactable.Types.Pickup)
                 {
                     numberOfItems++;
                 }
             }
 
-            if(numberOfItems > 0)
+            if (numberOfItems > 0)
             {
                 collectAllButton.interactable = true;
             }
@@ -166,10 +155,11 @@ namespace Character2D
         {
             GameObject interactable = interactionTrigger.currentObjects[index];
             CloseContainer();
-            switch(interactable.GetComponent<Interactable>().typeOfInteractable)
+
+            switch (interactable.GetComponent<Interactable>().typeOfInteractable)
             {
                 case Interactable.Types.Pickup:
-                    character.AddItem(interactable.GetComponent<Interactable>().name);
+                    characterInventory.AddItem(interactable.GetComponent<Interactable>().name);
                     StartCoroutine(interactable.GetComponent<Pickup>().Collect(gameObject));
                     StartCoroutine(InteractDelay(false));
                     break;
@@ -189,7 +179,7 @@ namespace Character2D
                 case Interactable.Types.Chest:
                     Chest chest = interactable.GetComponent<Chest>();
                     chest.OpenChest();
-                    character.InstantiateItem(GameData.data.itemData.itemDictionary[chest.itemName], chest.transform.position);
+                    characterInventory.InstantiateItem(GameData.data.itemData.itemDictionary[chest.itemName], chest.transform.position);
                     StartCoroutine(InteractDelay(false));
                     break;
                 case Interactable.Types.Sign:
@@ -208,7 +198,7 @@ namespace Character2D
             isInteracting = true;
             yield return new WaitForSeconds(interactTime);
             isInteracting = false;
-            if(!isExtended)
+            if (!isExtended)
             {
                 playerInput.EnableInput();
             }
@@ -221,10 +211,8 @@ namespace Character2D
             //TODO: if changed above, change here too
             interactContainer.SetActive(false);
             Time.timeScale = 1;
-
             //display the interact popup
             DisplayText();
-
             //delete ui elements from the list for the next iteration
             var children = new List<GameObject>();
             foreach (Transform child in interactList.transform)
@@ -232,7 +220,6 @@ namespace Character2D
                 children.Add(child.gameObject);
             }
             children.ForEach(child => Destroy(child));
-
             playerInput.EnableInput();
             ElementFocus.focus.RemoveFocus();
         }
@@ -245,7 +232,7 @@ namespace Character2D
                 Interactable io = interactionTrigger.currentObjects[i].GetComponent<Interactable>();
                 if (io.typeOfInteractable == Interactable.Types.Pickup)
                 {
-                    character.AddItem(io.name);
+                    characterInventory.AddItem(io.name);
                     StartCoroutine(interactionTrigger.currentObjects[i].GetComponent<Pickup>().Collect(gameObject));
                 }
             }
@@ -265,7 +252,7 @@ namespace Character2D
             string press = "<color=black>Press ";
             string key = "<color=red>" + interactKey;
             string type = "<color=black> to " + interactType;
-            if(isMultiple)
+            if (isMultiple)
             {
                 interactBarText.text = press + key + type;
             }
@@ -275,6 +262,6 @@ namespace Character2D
                 string item = "<color=red> " + interactItem;
                 interactBarText.text = press + key + type + item;
             }
-        }  
+        }
     }
 }

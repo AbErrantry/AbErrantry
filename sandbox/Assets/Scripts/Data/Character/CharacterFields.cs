@@ -1,4 +1,4 @@
-﻿public class CharacterFields
+public class CharacterFields
 {
     public string type;
     public float vitality;

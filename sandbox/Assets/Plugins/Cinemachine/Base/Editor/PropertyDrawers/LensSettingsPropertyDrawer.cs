@@ -1,16 +1,14 @@
-using UnityEngine;
-using UnityEditor;
 using System.Reflection;
-
+using UnityEditor;
+using UnityEngine;
 namespace Cinemachine.Editor
 {
     [CustomPropertyDrawer(typeof(LensSettingsPropertyAttribute))]
-    public sealed  class LensSettingsPropertyDrawer : PropertyDrawer
+    public sealed class LensSettingsPropertyDrawer : PropertyDrawer
     {
         const int vSpace = 2;
         bool mExpanded = true;
         LensSettings def = new LensSettings(); // to access name strings
-
         public override void OnGUI(Rect rect, SerializedProperty property, GUIContent label)
         {
             float height = EditorGUIUtility.singleLineHeight;
@@ -23,23 +21,21 @@ namespace Cinemachine.Editor
                     "Orthographic", BindingFlags.NonPublic | BindingFlags.Instance);
                 if (pi != null)
                     ortho = bool.Equals(true, pi.GetValue(GetPropertyValue(property), null));
-
                 ++EditorGUI.indentLevel;
                 rect.y += height + vSpace;
                 if (ortho)
-                    EditorGUI.PropertyField(rect, property.FindPropertyRelative(() => def.OrthographicSize));
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative(()=> def.OrthographicSize));
                 else
-                    EditorGUI.PropertyField(rect, property.FindPropertyRelative(() => def.FieldOfView));
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative(()=> def.FieldOfView));
                 rect.y += height + vSpace;
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative(() => def.NearClipPlane));
+                EditorGUI.PropertyField(rect, property.FindPropertyRelative(()=> def.NearClipPlane));
                 rect.y += height + vSpace;
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative(() => def.FarClipPlane));
+                EditorGUI.PropertyField(rect, property.FindPropertyRelative(()=> def.FarClipPlane));
                 rect.y += height + vSpace;
-                EditorGUI.PropertyField(rect, property.FindPropertyRelative(() => def.Dutch));
+                EditorGUI.PropertyField(rect, property.FindPropertyRelative(()=> def.Dutch));
                 --EditorGUI.indentLevel;
             }
         }
-
         object GetPropertyValue(SerializedProperty property)
         {
             var targetObject = property.serializedObject.targetObject;
@@ -49,7 +45,6 @@ namespace Cinemachine.Editor
                 return field.GetValue(targetObject);
             return null;
         }
-
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             float height = EditorGUIUtility.singleLineHeight + vSpace;

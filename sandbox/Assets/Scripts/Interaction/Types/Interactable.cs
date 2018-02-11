@@ -1,11 +1,17 @@
-﻿using UnityEngine;
+using System;
+using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
     public enum Types //enumeration of character types
     {
-        BackDoor, SideDoor, Pickup, NPC, Chest, Sign
-    };
+        BackDoor,
+        SideDoor,
+        Pickup,
+        NPC,
+        Chest,
+        Sign
+    }
 
     public int id;
     public new string name;
@@ -14,7 +20,7 @@ public abstract class Interactable : MonoBehaviour
 
     protected void Start()
     {
-        //set name 
+        //set name
         SetType();
         SetID();
     }
@@ -53,7 +59,6 @@ public abstract class Interactable : MonoBehaviour
         //on scene load, instantiate objects in scene with instance ID that was set previously
         //if object is newly instantiated,
         id = GetInstanceID();
-
         //if object is being instantiated from file
         //id = id in file.
     }

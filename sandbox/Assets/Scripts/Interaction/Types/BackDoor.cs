@@ -1,11 +1,15 @@
-﻿using UnityEngine;
+using System;
 using System.Collections;
+using UnityEngine;
 
 public class BackDoor : Interactable
 {
     public GameObject doorPair;
     private Animator anim;
     private float openTime;
+
+    public static event Action<int, bool, bool> OnBackDoorStateChanged;
+
     private new void Start()
     {
         typeOfInteractable = Types.BackDoor;
@@ -19,11 +23,11 @@ public class BackDoor : Interactable
         float startTime;
         startTime = Time.time;
         anim.SetBool("isOpen", true);
-
         yield return new WaitForSeconds(openTime);
-
         anim.SetBool("isOpen", false);
-        if(isFirst)
+        OnBackDoorStateChanged(id, false, false);
+
+        if (isFirst)
         {
             character.GetComponent<Character2D.Player>().ToggleCamera(false);
             character.transform.position = doorPair.transform.position;

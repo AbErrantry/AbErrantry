@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
-
 namespace Cinemachine.Timeline
 {
     [Serializable]
@@ -23,7 +22,6 @@ namespace Cinemachine.Timeline
                 if (vcam != null)
                     c.displayName = vcam.Name;
             }
-
             var mixer = ScriptPlayable<CinemachineMixer>.Create(graph);
             mixer.SetInputCount(inputCount);
             return mixer;

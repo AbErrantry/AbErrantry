@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,17 +8,15 @@ namespace Character2D
     {
         //character components
         protected Animator anim; //the animator component of the character character
+        public AttackTrigger attackTrigger;
 
         public bool canHitAttack;
-
-        public AttackTrigger attackTrigger;
 
         protected float[] attackDurations;
         protected float[] attackStrengths;
         protected bool[] attackFlags;
 
         protected float attackStart;
-
         public bool isWindingUp;
         public bool isAttacking;
 
@@ -32,18 +30,14 @@ namespace Character2D
             canHitAttack = false;
             attackStart = 0.0f;
             isWindingUp = false;
-            isAttacking = false; 
+            isAttacking = false;
         }
 
         protected void Update()
-        {
-
-        }
+        { }
 
         protected void FixedUpdate()
-        {
-
-        }
+        { }
 
         public void SetAttack(int index, float strength, float duration)
         {
@@ -64,15 +58,13 @@ namespace Character2D
         protected IEnumerator Attack(int index)
         {
             InitializeAttack();
-
             attackStart = Time.time;
             isWindingUp = false;
             isAttacking = true;
             attackFlags[index] = true;
             SendToAnimator();
-
             List<GameObject> targetsHit = new List<GameObject>();
-            while(Time.time - attackStart < attackDurations[index])
+            while (Time.time - attackStart < attackDurations[index])
             {
                 if (canHitAttack)
                 {
@@ -80,7 +72,6 @@ namespace Character2D
                 }
                 yield return new WaitForFixedUpdate();
             }
-            
             FinishedAttacking();
         }
 
@@ -90,19 +81,18 @@ namespace Character2D
             attackFlags[0] = false;
             attackFlags[1] = false;
             attackFlags[2] = false;
-			SendToAnimator();
+            SendToAnimator();
             FinalizeAttack();
         }
 
         //applies damage to each character in the attack range
         protected void ApplyDamage(List<GameObject> targets, float damage, ref List<GameObject> targetsHit)
         {
-            for(int i = targets.Count - 1; i >= 0; i--)
+            for (int i = targets.Count - 1; i >= 0; i--)
             {
-                if(!targetsHit.Contains(targets[i]))
+                if (!targetsHit.Contains(targets[i]))
                 {
                     targetsHit.Add(targets[i]);
-
                     //TODO: ensure that only active characters are in the triggers
                     targets[i].GetComponent<Attackable>().TakeDamage(gameObject, damage);
                 }

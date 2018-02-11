@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Character2D
 {
@@ -8,7 +8,7 @@ namespace Character2D
         protected Animator anim; //the animator component of the character character
         protected Rigidbody2D rb; //rigidbocdy component of the character character
         private CharacterAttack characterAttack;
-		private Attackable attackable;
+        private Attackable attackable;
 
         //external input
         public bool jumpInput; //jump input from character
@@ -47,16 +47,14 @@ namespace Character2D
         {
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
-
             attackable = gameObject.GetComponent<Attackable>();
-			characterAttack = gameObject.GetComponent<CharacterAttack>();
+            characterAttack = gameObject.GetComponent<CharacterAttack>();
 
             jumpInput = false;
             runInput = false;
             mvmtSpeed = 0f;
 
             isGrounded = true;
-
             isJumping = false;
             isRunning = false;
             isMoving = false;
@@ -68,10 +66,9 @@ namespace Character2D
             isInitJump = true;
             jumpForce = 500.0f;
             tJump = 0.0f;
-
             jumpDelay = 0.05f;
-
             jumpSpeed = 0.80f;
+
             runSpeed = 2.0f;
 
             lastPosition = 0.0f;
@@ -89,10 +86,10 @@ namespace Character2D
         {
             Move();
             SetMovementLogic();
-            if(characterAttack.isAttacking || attackable.isDying)
-			{
-				rb.velocity = new Vector2(0.0f, rb.velocity.y);
-			}
+            if (characterAttack.isAttacking || attackable.isDying)
+            {
+                rb.velocity = new Vector2(0.0f, rb.velocity.y);
+            }
             SendToAnimator();
         }
 
@@ -105,6 +102,7 @@ namespace Character2D
                 isJumping = jumpInput;
                 SendToAnimator();
             }
+
             //check if the character can run (or stop running)
             if (!isJumping && isGrounded)
             {
@@ -137,6 +135,7 @@ namespace Character2D
                 {
                     speedMultiplier = jumpSpeed;
                 }
+
                 //if this is the first jump frame, add the jump force
                 if (isInitJump)
                 {
@@ -157,12 +156,13 @@ namespace Character2D
 
         protected void SmoothMove(float x, float y, bool z)
         {
-            if(Mathf.Abs(Mathf.Abs(rb.velocity.x) - Mathf.Abs(x)) > 0.25)
+            if (Mathf.Abs(Mathf.Abs(rb.velocity.x)- Mathf.Abs(x))> 0.25)
             {
-                x = ((8.0f * rb.velocity.x) + (2.0f * x))/(10.0f);
+                x = ((8.0f * rb.velocity.x)+ (2.0f * x))/ (10.0f);
             }
+
             rb.velocity = new Vector2(x, y);
-            if(z)
+            if (z)
             {
                 //Debug.Log(rb.velocity.ToString());
             }
@@ -172,11 +172,10 @@ namespace Character2D
         protected virtual void SetMovementLogic()
         {
             //boolean expression that sets whether or not the player has moved this tick
-            isMoving = Mathf.Abs(lastPosition - rb.transform.position.x) > 0.0001f ? true : false;
+            isMoving = Mathf.Abs(lastPosition - rb.transform.position.x)> 0.0001f ? true : false;
 
             //boolean expression that sets whether or not the character is falling on this tick
             isFalling = rb.velocity.y < 0 && !isGrounded ? true : false;
-
             lastPosition = rb.transform.position.x; //set the last position for the next tick
 
             //change the player's direction if they are moving in another direction

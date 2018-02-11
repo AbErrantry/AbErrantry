@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +6,8 @@ public class Pickup : Interactable
 {
     private float collectTime;
 
-	//used for initialization
-	private new void Start ()
+    //used for initialization
+    private new void Start()
     {
         typeOfInteractable = Types.Pickup;
         base.Start();
@@ -18,11 +18,11 @@ public class Pickup : Interactable
     {
         float collectStart = Time.time;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        while(Time.time - collectStart < collectTime)
+
+        while (Time.time - collectStart < collectTime)
         {
             transform.localScale = transform.localScale * 0.95f;
-
-            transform.position = Vector3.Lerp(transform.position, player.transform.position, (Time.time - collectStart) / collectTime);
+            transform.position = Vector3.Lerp(transform.position, player.transform.position, (Time.time - collectStart)/ collectTime);
             yield return new WaitForFixedUpdate();
         }
         Destroy(gameObject);

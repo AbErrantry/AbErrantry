@@ -1,7 +1,5 @@
-﻿using UnityEngine;
 using System;
-
-
+using UnityEngine;
 namespace TMPro
 {
     /// <summary>
@@ -19,7 +17,6 @@ namespace TMPro
                 pos += 1;
                 return ch;
             }
-
             return (char)0;
         }
     }

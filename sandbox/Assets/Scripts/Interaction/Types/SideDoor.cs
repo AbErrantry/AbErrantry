@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class SideDoor : Interactable
 {
     private Animator anim;
     public bool isOpen;
+
+    public static event Action<int, bool, bool> OnSideDoorStateChanged;
 
     private new void Start()
     {
@@ -17,17 +20,19 @@ public class SideDoor : Interactable
 
     public void ToggleState()
     {
-        if(!isOpen)
+        if (!isOpen)
         {
             isOpen = true;
             type = "close";
             anim.SetBool("isOpen", true);
+            OnSideDoorStateChanged(id, isOpen, false);
         }
         else
         {
             isOpen = false;
             type = "open";
             anim.SetBool("isOpen", false);
+            OnSideDoorStateChanged(id, isOpen, false);
         }
     }
 }

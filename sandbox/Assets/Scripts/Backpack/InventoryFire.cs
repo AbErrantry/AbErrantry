@@ -1,5 +1,5 @@
-﻿using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 namespace Character2D
 {

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Trigger : MonoBehaviour
@@ -7,7 +7,6 @@ public abstract class Trigger : MonoBehaviour
     public string objectTag; //tag of the object to detect
     public string layerTag; //layer of the object to detect
     public bool disregardCount; //whether the count should be disregarded on exit or not
-
     protected abstract void TriggerAction(bool isInTrigger);
 
     //used for initialization

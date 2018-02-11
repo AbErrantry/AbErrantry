@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using UnityEngine;
 
 public class CharacterData : ScriptableObject
 {
@@ -17,20 +17,19 @@ public class CharacterData : ScriptableObject
     //gets each character type into memory from the database
     private void GetCharacters()
     {
-        string characterDatabase = "CharacterDatabase.xml";
+        string characterDatabase = Application.dataPath + "/Data/CharacterDatabase.xml";
         List<CharacterFields> characterList = new List<CharacterFields>();
 
         //parse XML with LINQ
         XDocument XDoc = XDocument.Load(characterDatabase);
-        characterList = (from character in XDoc.Root.Elements("character")
-                    select new CharacterFields
-                    {
-                        type = character.AttributeValueNull_String("type"),
-                        vitality = character.Element("vitality").ElementValueNull_Float(),
-                        strength = character.Element("strength").ElementValueNull_Float(),
-                        agility = character.Element("agility").ElementValueNull_Float(),
-                        weight = character.Element("weight").ElementValueNull_Float(),
-                    }).OrderBy(x => x.type).ToList();
+        characterList = (from character in XDoc.Root.Elements("character")select new CharacterFields
+        {
+            type = character.AttributeValueNull_String("type"),
+                vitality = character.Element("vitality").ElementValueNull_Float(),
+                strength = character.Element("strength").ElementValueNull_Float(),
+                agility = character.Element("agility").ElementValueNull_Float(),
+                weight = character.Element("weight").ElementValueNull_Float(),
+        }).OrderBy(x => x.type).ToList();
 
         foreach (CharacterFields character in characterList)
         {

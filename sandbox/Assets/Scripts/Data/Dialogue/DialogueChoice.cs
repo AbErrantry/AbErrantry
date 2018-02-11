@@ -1,4 +1,4 @@
-﻿namespace Dialogue2D
+namespace Dialogue2D
 {
     public class DialogueChoice
     {
