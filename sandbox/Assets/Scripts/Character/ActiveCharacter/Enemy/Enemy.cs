@@ -30,6 +30,9 @@ namespace Character2D
         [Tooltip("How long(seconds) the AI will follow the player outside of their boxcast")]
         public float giveUpTime;
         private float chaseTime; 
+
+        public LayerMask layerMask;
+
 		//used for initialization
 		protected new void Start()
 		{
@@ -46,9 +49,9 @@ namespace Character2D
 
         protected void FixedUpdate()
         {
-            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(10,1),0f,new Vector2(1,0),20);
+            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(10,1),0f,new Vector2(1,0),20, layerMask.value);
 
-            if(ray.collider.name == "Knight")
+            if(ray&&ray.collider.name == "Knight")
             {
                 chasingPlayer = true;
                 Debug.Log(ray.collider.gameObject.name);
