@@ -67,6 +67,11 @@ public class CameraShift : MonoBehaviour
         shiftTime = 3.0f;
     }
 
+    public void SetUnshiftedOrthSize(float size)
+    {
+        unshiftedOrthSize = size;
+    }
+
     //left is true, right is false
     public bool ShiftCameraLeft(bool is75)
     {
@@ -130,9 +135,9 @@ public class CameraShift : MonoBehaviour
     }
 
     public void OrthoZoom(float orthoShiftTime, float endValue)
-	{
+    {
         StopAllCoroutines();
         StartCoroutine(CameraLerp(orthoShiftTime, unshiftedX, unshiftedY, deadZoneHeightUnshifted, deadZoneWidthUnshifted, endValue));
-	}	
+    }
 
 }
