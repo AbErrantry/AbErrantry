@@ -22,7 +22,7 @@ namespace Character2D
         public BeaconControl beacCon; 
         public bool chasingPlayer;
 
-        [Range(1.0f, 100.0f)]
+        [Range(0.0f, 100.0f)]
         [Tooltip("How often should the AI stop and look around at each beacon, 0% - 100% (0% never, 100% max).")]
         public float stoppingPercentage; //How often should the AI stop and look around
 
