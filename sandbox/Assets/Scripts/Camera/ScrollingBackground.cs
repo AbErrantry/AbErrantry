@@ -52,7 +52,11 @@ public class ScrollingBackground : MonoBehaviour
     {
         prevGrouping = currGrouping;
         currGrouping = grouping;
+
+        if(prevGrouping != null)
+        {
         prevGrouping.SetActive(false);
+        }
         currGrouping.SetActive(true); //new background is running
         Backgrounds = new MeshRenderer[newSize]; //reinitializes the items
         BackgroundSpeed = new float[newSize];
