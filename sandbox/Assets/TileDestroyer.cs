@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+namespace Character2D
+{
 public class TileDestroyer : MonoBehaviour {
 
+    public EnemyAttack enemy;
     public GameObject tilemapGameObject;
-	public LayerMask attackables;
     Tilemap tilemap;
  
     void Start()
@@ -19,8 +21,6 @@ public class TileDestroyer : MonoBehaviour {
  
     void OnCollisionStay2D(Collision2D collision)
     {
-        
-
         if (tilemap != null && tilemapGameObject == collision.gameObject)
         {
            StartCoroutine(BreakEm(collision));
@@ -28,6 +28,7 @@ public class TileDestroyer : MonoBehaviour {
 		else
 		{
 			Destroy(collision.gameObject);
+            //StartCoroutine(enemy.Attack());
 		}
     }
 
@@ -48,7 +49,7 @@ public class TileDestroyer : MonoBehaviour {
                 hitPosition.y = hit.point.y - 0.01f * hit.normal.y;
                 tilemap.SetTile(tilemap.WorldToCell(hitPosition), null);
             }
-
 			yield return null;
 	}
+}
 }
