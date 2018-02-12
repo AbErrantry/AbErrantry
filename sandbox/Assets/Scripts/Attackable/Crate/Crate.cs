@@ -31,5 +31,10 @@ namespace Character2D
         {
             Destroy(gameObject);
         }
+
+        public void DestroyCrate()
+        {
+            InitializeDeath();
+        }
     }
 }

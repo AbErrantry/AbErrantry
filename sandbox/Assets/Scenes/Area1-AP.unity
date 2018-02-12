@@ -165,6 +165,11 @@ Prefab:
       propertyPath: m_Name
       value: SideDoor (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 114750434083989972, guid: 903627ac32f97b549aad5e057a96740d,
+        type: 2}
+      propertyPath: id
+      value: 100008
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 903627ac32f97b549aad5e057a96740d, type: 2}
   m_IsPrefabParent: 0
@@ -459,7 +464,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4564303592444316, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 212793883754316900, guid: 620f0e77205ee534a965d39c81a9ada5,
         type: 2}
@@ -840,9 +845,33 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2db2835519386ae41a6d7d17650105c1, type: 2}
+    - target: {fileID: 114951992614014066, guid: 64d6f1373d400cf4fb19a1a8e530df58,
+        type: 2}
+      propertyPath: id
+      value: 100009
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 64d6f1373d400cf4fb19a1a8e530df58, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &118127286 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1081391908656954, guid: 64d6f1373d400cf4fb19a1a8e530df58,
+    type: 2}
+  m_PrefabInternal: {fileID: 118127285}
+--- !u!114 &118127287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 118127286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed519cd5d05769140aff2adde42afc25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 1738047393}
+  - {fileID: 807645397}
 --- !u!1 &122157016
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,6 +1070,42 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1397335670}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &282976988 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1626560156153398, guid: 620f0e77205ee534a965d39c81a9ada5,
+    type: 2}
+  m_PrefabInternal: {fileID: 1124010592}
+--- !u!1 &332385749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 332385750}
+  m_Layer: 13
+  m_Name: Buttons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &332385750
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 332385749}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1738047391}
+  - {fileID: 807645396}
+  - {fileID: 1895153663}
+  m_Father: {fileID: 1695796013}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &375079909
 GameObject:
@@ -1331,6 +1396,68 @@ Tilemap:
   m_TileRefreshArray:
   - serializedVersion: 1
     m_DirtyIndex: 0
+--- !u!1001 &430647220
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 332385750}
+    m_Modifications:
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -2.188
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1986718802706160, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_Name
+      value: CrateGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 114011054589436214, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+        type: 2}
+      propertyPath: isHoldButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212622502606544264, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c1e3974018cdd504d9b47e6b8eb0bb0b,
+        type: 3}
+    - target: {fileID: 212622502606544264, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+        type: 2}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+  m_IsPrefabParent: 0
 --- !u!4 &434350148 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4564303592444316, guid: 620f0e77205ee534a965d39c81a9ada5,
@@ -1374,6 +1501,11 @@ Transform:
   m_Father: {fileID: 1695796013}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &582741176 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1626560156153398, guid: 620f0e77205ee534a965d39c81a9ada5,
+    type: 2}
+  m_PrefabInternal: {fileID: 860870059}
 --- !u!1001 &594924042
 Prefab:
   m_ObjectHideFlags: 0
@@ -1442,6 +1574,11 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2db2835519386ae41a6d7d17650105c1, type: 2}
+    - target: {fileID: 114776165813555040, guid: 3a8adcf69852cb44f8c12c21e9eec583,
+        type: 2}
+      propertyPath: id
+      value: 100005
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
   m_IsPrefabParent: 0
@@ -1482,7 +1619,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4299158236021248, guid: d5d60b4a2caaa1949b77d0cff2afc21b, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 212271941694031178, guid: d5d60b4a2caaa1949b77d0cff2afc21b,
         type: 2}
@@ -1608,7 +1745,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c434155ea59f05e4396b7d0dea86d52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Small Health Potion
 --- !u!61 &735920765
 BoxCollider2D:
@@ -1746,6 +1882,68 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0c3acd00699c0e1408ff12cf46f07f0a, type: 2}
   m_IsPrefabParent: 0
+--- !u!1001 &778127694
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 332385750}
+    m_Modifications:
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -2.188
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1986718802706160, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_Name
+      value: ChestButton2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114011054589436214, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+        type: 2}
+      propertyPath: isHoldButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212622502606544264, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c1e3974018cdd504d9b47e6b8eb0bb0b,
+        type: 3}
+    - target: {fileID: 212622502606544264, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+        type: 2}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &795167005 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1932706693787498, guid: 3a8adcf69852cb44f8c12c21e9eec583,
@@ -1756,6 +1954,17 @@ Transform:
   m_PrefabParentObject: {fileID: 4265596594925118, guid: 3a8adcf69852cb44f8c12c21e9eec583,
     type: 2}
   m_PrefabInternal: {fileID: 2102721275}
+--- !u!4 &807645396 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+    type: 2}
+  m_PrefabInternal: {fileID: 778127694}
+--- !u!114 &807645397 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114011054589436214, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+    type: 2}
+  m_PrefabInternal: {fileID: 778127694}
+  m_Script: {fileID: 11500000, guid: 8b9b8dae0cfcd354d8a86c743f5a3aac, type: 3}
 --- !u!1 &812171880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1838,11 +2047,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4564303592444316, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 3.04
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4564303592444316, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.41
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4564303592444316, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1866,7 +2075,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4564303592444316, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1626560156153398, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_Name
@@ -1955,7 +2164,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4564303592444316, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1626560156153398, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_Name
@@ -2012,7 +2221,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c434155ea59f05e4396b7d0dea86d52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Medium Health Potion
 --- !u!61 &890295981
 BoxCollider2D:
@@ -2297,6 +2505,11 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2db2835519386ae41a6d7d17650105c1, type: 2}
+    - target: {fileID: 114750434083989972, guid: 903627ac32f97b549aad5e057a96740d,
+        type: 2}
+      propertyPath: id
+      value: 100006
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 903627ac32f97b549aad5e057a96740d, type: 2}
   m_IsPrefabParent: 0
@@ -2339,7 +2552,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abb919c86b919024886f70fbef89f112, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Sign
   currentDialogueState: 0
 --- !u!212 &1050241744
@@ -2540,7 +2752,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c434155ea59f05e4396b7d0dea86d52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Steel Sword
 --- !u!61 &1103399591
 BoxCollider2D:
@@ -2640,11 +2851,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4564303592444316, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4564303592444316, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4564303592444316, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2668,7 +2879,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4564303592444316, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1626560156153398, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
       propertyPath: m_Name
@@ -2735,7 +2946,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c434155ea59f05e4396b7d0dea86d52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Medium Health Potion
 --- !u!61 &1130884635
 BoxCollider2D:
@@ -2869,7 +3079,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c434155ea59f05e4396b7d0dea86d52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Small Health Potion
 --- !u!61 &1135444648
 BoxCollider2D:
@@ -3013,6 +3222,11 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2db2835519386ae41a6d7d17650105c1, type: 2}
+    - target: {fileID: 114776165813555040, guid: 3a8adcf69852cb44f8c12c21e9eec583,
+        type: 2}
+      propertyPath: id
+      value: 100002
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
   m_IsPrefabParent: 0
@@ -3168,7 +3382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c434155ea59f05e4396b7d0dea86d52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Large Health Potion
 --- !u!61 &1310719647
 BoxCollider2D:
@@ -3360,6 +3573,11 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2db2835519386ae41a6d7d17650105c1, type: 2}
+    - target: {fileID: 114776165813555040, guid: 3a8adcf69852cb44f8c12c21e9eec583,
+        type: 2}
+      propertyPath: id
+      value: 100004
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
   m_IsPrefabParent: 0
@@ -3454,6 +3672,11 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114776165813555040, guid: 3a8adcf69852cb44f8c12c21e9eec583,
+        type: 2}
+      propertyPath: id
+      value: 100001
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
   m_IsPrefabParent: 0
@@ -3482,10 +3705,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children:
+  - {fileID: 185804008}
   - {fileID: 434350148}
   - {fileID: 987453736}
   - {fileID: 1255864197}
-  - {fileID: 185804008}
   m_Father: {fileID: 1695796013}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3575,7 +3798,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe05e340540ffdb4a8521ad518944ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: General
   currentDialogueState: 0
 --- !u!61 &1455656564
@@ -3675,8 +3897,70 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 1695796013}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1458923176
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 332385750}
+    m_Modifications:
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -2.188
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1986718802706160, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+      propertyPath: m_Name
+      value: ChestButton1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114011054589436214, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+        type: 2}
+      propertyPath: isHoldButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212622502606544264, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c1e3974018cdd504d9b47e6b8eb0bb0b,
+        type: 3}
+    - target: {fileID: 212622502606544264, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+        type: 2}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 4cacab34bd6e9b44bab83b938a82d09d, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1463181738
 GameObject:
   m_ObjectHideFlags: 0
@@ -3720,7 +4004,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c434155ea59f05e4396b7d0dea86d52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Small Health Potion
 --- !u!61 &1463181741
 BoxCollider2D:
@@ -28218,7 +28501,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c434155ea59f05e4396b7d0dea86d52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Small Health Potion
 --- !u!61 &1679838725
 BoxCollider2D:
@@ -28340,11 +28622,23 @@ Transform:
   - {fileID: 1313320100}
   - {fileID: 516022225}
   - {fileID: 1397335670}
+  - {fileID: 332385750}
   - {fileID: 127613084}
   - {fileID: 1455656567}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1738047391 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1458923176}
+--- !u!114 &1738047393 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114011054589436214, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1458923176}
+  m_Script: {fileID: 11500000, guid: 8b9b8dae0cfcd354d8a86c743f5a3aac, type: 3}
 --- !u!1 &1751137204
 GameObject:
   m_ObjectHideFlags: 0
@@ -28423,6 +28717,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4265596594925118, guid: 3a8adcf69852cb44f8c12c21e9eec583,
     type: 2}
   m_PrefabInternal: {fileID: 1408694474}
+--- !u!1 &1760798279 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1626560156153398, guid: 620f0e77205ee534a965d39c81a9ada5,
+    type: 2}
+  m_PrefabInternal: {fileID: 88287240}
 --- !u!1 &1863164595
 GameObject:
   m_ObjectHideFlags: 0
@@ -28466,7 +28765,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c434155ea59f05e4396b7d0dea86d52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Large Health Potion
 --- !u!61 &1863164598
 BoxCollider2D:
@@ -28609,6 +28907,11 @@ Prefab:
       propertyPath: m_Name
       value: SideDoor (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114750434083989972, guid: 903627ac32f97b549aad5e057a96740d,
+        type: 2}
+      propertyPath: id
+      value: 100007
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 903627ac32f97b549aad5e057a96740d, type: 2}
   m_IsPrefabParent: 0
@@ -28728,7 +29031,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c434155ea59f05e4396b7d0dea86d52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Medium Health Potion
 --- !u!61 &1890784636
 BoxCollider2D:
@@ -28819,6 +29121,34 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &1895153662 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1986718802706160, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+    type: 2}
+  m_PrefabInternal: {fileID: 430647220}
+--- !u!4 &1895153663 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4673361712858922, guid: 4cacab34bd6e9b44bab83b938a82d09d,
+    type: 2}
+  m_PrefabInternal: {fileID: 430647220}
+--- !u!114 &1895153664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1895153662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96cfed689a5a3914d945a1d44b2778b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crates:
+  - {fileID: 1760798279}
+  - {fileID: 582741176}
+  - {fileID: 282976988}
+  - {fileID: 2126250331}
+  crate: {fileID: 1626560156153398, guid: 620f0e77205ee534a965d39c81a9ada5, type: 2}
+  material: {fileID: 2100000, guid: 2db2835519386ae41a6d7d17650105c1, type: 2}
 --- !u!1 &1901241159
 GameObject:
   m_ObjectHideFlags: 0
@@ -29357,6 +29687,16 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2db2835519386ae41a6d7d17650105c1, type: 2}
+    - target: {fileID: 114776165813555040, guid: 3a8adcf69852cb44f8c12c21e9eec583,
+        type: 2}
+      propertyPath: id
+      value: 100003
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2126250331 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1626560156153398, guid: 620f0e77205ee534a965d39c81a9ada5,
+    type: 2}
+  m_PrefabInternal: {fileID: 843293670}

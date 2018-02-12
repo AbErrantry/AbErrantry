@@ -2,30 +2,33 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class BackDoor : Interactable
+public class BackDoor : Openable
 {
     public GameObject doorPair;
-    private Animator anim;
     private float openTime;
-
-    public static event Action<int, bool, bool> OnBackDoorStateChanged;
 
     private new void Start()
     {
         typeOfInteractable = Types.BackDoor;
         base.Start();
-        anim = GetComponent<Animator>();
         openTime = 0.25f;
+    }
+
+    public new void ToggleState()
+    {
+        //toggle on unlock
+        base.ToggleState();
     }
 
     public IEnumerator EnterDoor(GameObject character, bool isFirst)
     {
         float startTime;
         startTime = Time.time;
-        anim.SetBool("isOpen", true);
+        isOpen = true;
+        anim.SetBool("isOpen", isOpen);
         yield return new WaitForSeconds(openTime);
-        anim.SetBool("isOpen", false);
-        OnBackDoorStateChanged(id, false, false);
+        isOpen = false;
+        anim.SetBool("isOpen", isOpen);
 
         if (isFirst)
         {
@@ -34,5 +37,18 @@ public class BackDoor : Interactable
             character.GetComponent<Character2D.Player>().ToggleCamera(true);
             yield return StartCoroutine(doorPair.GetComponent<BackDoor>().EnterDoor(character, false));
         }
+        else
+        {
+            isLocked = false; //checkpoint unlocked
+            anim.SetBool("isLocked", isLocked);
+            ToggleState();
+        }
+    }
+
+    public void LockDoor()
+    {
+        isLocked = true;
+        anim.SetBool("isLocked", isLocked);
+        ToggleState();
     }
 }

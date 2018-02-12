@@ -461,7 +461,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe05e340540ffdb4a8521ad518944ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 1
   name: King
   currentDialogueState: 0
 --- !u!95 &340308201
@@ -1475,8 +1474,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66ace2c946bd757469683c8c0494cfb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Castle
+  unlockActionType: 0
+  unlockAction: {fileID: 0}
+  id: 100011
+  isOpen: 0
+  isLocked: 0
   doorPair: {fileID: 679125345}
 --- !u!61 &1078285442
 BoxCollider2D:
@@ -11522,6 +11525,11 @@ Prefab:
       propertyPath: doorPair
       value: 
       objectReference: {fileID: 1078285440}
+    - target: {fileID: 114832247746805370, guid: e513ee40234f6324fa354f0ff677c5ad,
+        type: 2}
+      propertyPath: id
+      value: 100010
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e513ee40234f6324fa354f0ff677c5ad, type: 2}
   m_IsPrefabParent: 0

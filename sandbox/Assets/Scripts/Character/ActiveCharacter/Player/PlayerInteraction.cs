@@ -169,18 +169,39 @@ namespace Character2D
                     break;
                 case Interactable.Types.BackDoor:
                     //toggle item open/closed based on current state
-                    StartCoroutine(interactable.GetComponent<BackDoor>().EnterDoor(gameObject, true));
-                    StartCoroutine(InteractDelay(false));
+                    if (!interactable.GetComponent<Openable>().isLocked)
+                    {
+                        StartCoroutine(interactable.GetComponent<BackDoor>().EnterDoor(gameObject, true));
+                        StartCoroutine(InteractDelay(false));
+                    }
+                    else
+                    {
+                        interactable.GetComponent<Openable>().TryUnlock();
+                    }
                     break;
                 case Interactable.Types.SideDoor:
-                    interactable.GetComponent<SideDoor>().ToggleState();
-                    StartCoroutine(InteractDelay(false));
+                    if (!interactable.GetComponent<Openable>().isLocked)
+                    {
+                        interactable.GetComponent<SideDoor>().ToggleState();
+                        StartCoroutine(InteractDelay(false));
+                    }
+                    else
+                    {
+                        interactable.GetComponent<Openable>().TryUnlock();
+                    }
                     break;
                 case Interactable.Types.Chest:
-                    Chest chest = interactable.GetComponent<Chest>();
-                    chest.OpenChest();
-                    characterInventory.InstantiateItem(GameData.data.itemData.itemDictionary[chest.itemName], chest.transform.position);
-                    StartCoroutine(InteractDelay(false));
+                    if (!interactable.GetComponent<Openable>().isLocked)
+                    {
+                        Chest chest = interactable.GetComponent<Chest>();
+                        chest.ToggleState();
+                        characterInventory.InstantiateItem(GameData.data.itemData.itemDictionary[chest.itemName], chest.transform.position);
+                        StartCoroutine(InteractDelay(false));
+                    }
+                    else
+                    {
+                        interactable.GetComponent<Openable>().TryUnlock();
+                    }
                     break;
                 case Interactable.Types.Sign:
                     dialogueManager.StartDialogue(interactable.GetComponent<Sign>().name, interactable.GetComponent<Sign>().currentDialogueState);

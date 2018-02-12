@@ -13,7 +13,6 @@ public abstract class Interactable : MonoBehaviour
         Sign
     }
 
-    public int id;
     public new string name;
     [System.NonSerialized] public string type;
     [System.NonSerialized] public Types typeOfInteractable;
@@ -22,7 +21,6 @@ public abstract class Interactable : MonoBehaviour
     {
         //set name
         SetType();
-        SetID();
     }
 
     public void SetType()
@@ -52,14 +50,5 @@ public abstract class Interactable : MonoBehaviour
                     "has an undefined type. Please set it in the InteractableObject script.");
                 break;
         }
-    }
-
-    private void SetID()
-    {
-        //on scene load, instantiate objects in scene with instance ID that was set previously
-        //if object is newly instantiated,
-        id = GetInstanceID();
-        //if object is being instantiated from file
-        //id = id in file.
     }
 }

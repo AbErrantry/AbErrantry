@@ -1,3 +1,4 @@
+using System;
 using Mono.Data.Sqlite;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,6 @@ public class SaveData : ScriptableObject
 
     private SqliteConnection conn;
     private SqliteCommand cmd;
-    private SqliteDataReader reader;
 
     //default constructor
     private void OnEnable()
@@ -36,52 +36,66 @@ public class SaveData : ScriptableObject
         conn.Open();
 
         cmd = conn.CreateCommand();
-        string sqlQuery = "SELECT value,name, randomSequence " + "FROM PlaceSequence";
-        cmd.CommandText = sqlQuery;
-
-        reader = cmd.ExecuteReader();
     }
 
     private void CloseConnection()
     {
-        reader.Close();
-        reader = null;
-        cmd.Dispose();
-        cmd = null;
         conn.Close();
         conn = null;
     }
 
-    private void ReadData(string query)
-    {
-        cmd.CommandText = query;
-    }
-
-    private void WriteData(string query)
-    {
-
-    }
-
     private void SubscribeToEvents()
     {
-        SideDoor.OnSideDoorStateChanged += WriteOpenableStateChange;
-        Chest.OnChestStateChanged += WriteOpenableStateChange;
-        BackDoor.OnBackDoorStateChanged += WriteOpenableStateChange;
+        Openable.OnOpenableStateChanged += WriteOpenableStateChange;
     }
 
     private void UnsubscribeFromEvents()
     {
-        SideDoor.OnSideDoorStateChanged -= WriteOpenableStateChange;
-        Chest.OnChestStateChanged -= WriteOpenableStateChange;
-        BackDoor.OnBackDoorStateChanged -= WriteOpenableStateChange;
+        Openable.OnOpenableStateChanged -= WriteOpenableStateChange;
     }
 
     private void WriteOpenableStateChange(int id, bool isOpened, bool isLocked)
     {
-        //check to see if openable record exists in openable table
-        //if it does, update the opened and locked values for the selected id
-        //otherwise, add a record with the id, opened, and locked values.
-        Debug.Log("The openable of id " + id + " is opened=" + isOpened + ", locked=" + isLocked);
+        cmd.CommandText = "UPDATE Openables SET isOpened = @isOpened, isLocked = @isLocked WHERE id = @id";
+        cmd.Parameters.Add("@isOpened", DbType.Boolean).Value = isOpened;
+        cmd.Parameters.Add("@isLocked", DbType.Boolean).Value = isLocked;
+        cmd.Parameters.Add("@id", DbType.Int32).Value = id;
+        cmd.ExecuteNonQuery();
+    }
+
+    public bool[] ReadOpenableState(int id, string name)
+    {
+        cmd.CommandText = "SELECT isOpened, isLocked FROM Openables WHERE id = @id";
+        cmd.Parameters.Add("@id", DbType.Int32).Value = id;
+        SqliteDataReader reader = cmd.ExecuteReader();
+        bool[] result = new bool[2];
+        try
+        {
+            if (id == 0)
+            {
+                throw new Exception("the id of openable (" + name + ") has not been set in the editor.");
+            }
+            if (reader.Read())
+            {
+                result[0] = reader.GetBoolean(0);
+                result[1] = reader.GetBoolean(1);
+                //Debug.Log(id + ", isOpen=" + result[0] + ", isLocked=" + result[1]);
+            }
+            else
+            {
+                throw new Exception("the id (" + id + ") of openable (" + name + ") does not exist in the Openables table.");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+        finally
+        {
+            reader.Close();
+            reader = null;
+        }
+        return result;
     }
 
     private void WritePlayerItemChange(List<InventoryItem> items, bool add)
