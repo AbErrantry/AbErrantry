@@ -21,18 +21,6 @@ public class BackgroundSwitch : MonoBehaviour
         UpdateScrolling(1); //Need to change the 1 to the level they are on.
     }
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.C))//Debuggin need to remove
-        {
-            UpdateScrolling(2);
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            UpdateScrolling(1);
-        } //
-    }
-
     public void UpdateScrolling(int element)//element aka level
     {
         element--; //makes it work for the array, going to change this

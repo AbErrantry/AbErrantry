@@ -52,7 +52,7 @@ public class LevelStreamManager : MonoBehaviour
                 isLoading = false;
                 Debug.Log("Scene " + sceneName + " was loaded.");
             }
-            else if(!IsLoaded() && !isLoading)
+            else if (!IsLoaded()&& !isLoading)
             {
                 Debug.LogError("got here.");
                 LoadScene();
@@ -70,7 +70,7 @@ public class LevelStreamManager : MonoBehaviour
     private IEnumerator WaitUntilLoaded()
     {
 
-        playerInput.DisableInput(false);
+        playerInput.DisableInput();
         playerInput.ToggleLoadingContainer(true);
         while (!IsLoaded())
         {
@@ -111,7 +111,7 @@ public class LevelStreamManager : MonoBehaviour
     //function that starts the coroutine to load a scene
     public void LoadScene()
     {
-        if (!IsLoaded()&& !isLoading)
+        if (!IsLoaded())
         {
             StartCoroutine(LoadSceneAsync());
         }
@@ -155,7 +155,7 @@ public class LevelStreamManager : MonoBehaviour
     }
 
     private IEnumerator WaitForLoad()
-    { 
+    {
         while (!IsLoaded())
         {
             yield return new WaitForFixedUpdate();;
