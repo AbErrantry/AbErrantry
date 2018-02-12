@@ -52,6 +52,12 @@ public class LevelStreamManager : MonoBehaviour
                 isLoading = false;
                 Debug.Log("Scene " + sceneName + " was loaded.");
             }
+            else if(!IsLoaded() && !isLoading)
+            {
+                Debug.LogError("got here.");
+                LoadScene();
+                StartCoroutine(WaitUntilLoaded());
+            }
         }
     }
 
@@ -63,12 +69,12 @@ public class LevelStreamManager : MonoBehaviour
 
     private IEnumerator WaitUntilLoaded()
     {
+
         playerInput.DisableInput(false);
         playerInput.ToggleLoadingContainer(true);
-        Debug.LogError("Loading... add UI for loading."); //TODO: add UI popup for loading
         while (!IsLoaded())
         {
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
         playerInput.ToggleLoadingContainer(false);
         playerInput.EnableInput();
@@ -77,23 +83,28 @@ public class LevelStreamManager : MonoBehaviour
     //coroutine that loads a scene asynchronously and additively
     private IEnumerator LoadSceneAsync()
     {
+        isLoading = true;
+        Debug.Log(sceneName + " is being loaded.");
         asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         asyncLoad.allowSceneActivation = true; //scene will be activated automatically
         while (!asyncLoad.isDone)
         {
-            yield return asyncLoad;
+            yield return new WaitForFixedUpdate();
         }
+        Debug.Log(sceneName + " was loaded.");
         scenes.Add(sceneName);
     }
 
     //coroutine that unloads a scene asynchronously
     private IEnumerator UnloadSceneAsync()
     {
+        Debug.Log(sceneName + " is being unloaded.");
         asyncUnload = SceneManager.UnloadSceneAsync(sceneName);
         while (!asyncUnload.isDone)
         {
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
+        Debug.Log(sceneName + " was unloaded.");
         scenes.Remove(sceneName);
     }
 
@@ -102,8 +113,6 @@ public class LevelStreamManager : MonoBehaviour
     {
         if (!IsLoaded()&& !isLoading)
         {
-            isLoading = true;
-            StopAllCoroutines();
             StartCoroutine(LoadSceneAsync());
         }
     }
@@ -113,7 +122,6 @@ public class LevelStreamManager : MonoBehaviour
     {
         if (IsLoaded())
         {
-            StopAllCoroutines();
             StartCoroutine(UnloadSceneAsync());
         }
     }
@@ -140,17 +148,17 @@ public class LevelStreamManager : MonoBehaviour
     {
         while (IsLoaded())
         {
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
         LoadScene();
         StartCoroutine(WaitForLoad());
     }
 
     private IEnumerator WaitForLoad()
-    {
+    { 
         while (!IsLoaded())
         {
-            yield return null;
+            yield return new WaitForFixedUpdate();;
         }
         OnRefreshComplete();
     }

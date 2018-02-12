@@ -25,6 +25,7 @@ public abstract class Trigger : MonoBehaviour
         {
             //set the character to be grounded and add the object to the list
             currentObjects.Add(other.gameObject);
+            NullCheck();
             TriggerAction(true);
         }
     }
@@ -37,10 +38,16 @@ public abstract class Trigger : MonoBehaviour
         {
             //remove the object from the list
             currentObjects.Remove(other.gameObject);
+            NullCheck();
             if (currentObjects.Count == 0 || disregardCount)
             {
                 TriggerAction(false);
             }
         }
+    }
+
+    protected void NullCheck()
+    {
+        currentObjects.RemoveAll(item => item == null);
     }
 }
