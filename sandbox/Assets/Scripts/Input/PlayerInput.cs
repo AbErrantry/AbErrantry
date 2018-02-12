@@ -14,6 +14,8 @@ namespace Character2D
         public InteractionTrigger interactTrigger;
         public bool acceptInput;
 
+        public GameObject loadingContainer;
+
         //used for initialization
         private void Start()
         {
@@ -67,6 +69,11 @@ namespace Character2D
         {
             acceptInput = true;
             interactTrigger.EnableTrigger();
+        }
+
+        public void ToggleLoadingContainer(bool toggle)
+        {
+            loadingContainer.SetActive(toggle);
         }
     }
 }

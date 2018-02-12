@@ -1,24 +1,39 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelStreamManager : MonoBehaviour
 {
+    public static List<string> scenes;
+
+    public event Action OnRefreshComplete;
+
     public string sceneName; //the name of the scene to be loaded/unloaded
-    private bool isLoaded; //whether the scene is loaded or not
+
     private Scene scene; //an object reference to the scene
     private AsyncOperation asyncLoad; //async operation to load the scene
     private AsyncOperation asyncUnload; //async operation to unload the scene
     public Character2D.PlayerInput playerInput;
 
+    private bool isLoading;
+
     //used for initialization
     private void Start()
     {
+        scenes = new List<string>()
+        {
+            "Area1-AP",
+            "Persistent-SC"
+        };
+
+        Application.backgroundLoadingPriority = ThreadPriority.Low;
+
         //find and set the scene using its name
         scene = SceneManager.GetSceneByName(sceneName);
 
-        //initialize whether the scene is loaded using the Scene member function
-        isLoaded = scene.isLoaded;
+        isLoading = false;
     }
 
     //function that fires when another collider enters this trigger
@@ -28,9 +43,14 @@ public class LevelStreamManager : MonoBehaviour
         if (other.tag == "Player")
         {
             //if the scene is not loaded yet, make the player wait for loading
-            if (!isLoaded)
+            if (!IsLoaded()&& isLoading)
             {
-                WaitUntilLoaded();
+                StartCoroutine(WaitUntilLoaded());
+            }
+            else if (IsLoaded()&& isLoading)
+            {
+                isLoading = false;
+                Debug.Log("Scene " + sceneName + " was loaded.");
             }
         }
     }
@@ -44,11 +64,13 @@ public class LevelStreamManager : MonoBehaviour
     private IEnumerator WaitUntilLoaded()
     {
         playerInput.DisableInput(false);
+        playerInput.ToggleLoadingContainer(true);
         Debug.LogError("Loading... add UI for loading."); //TODO: add UI popup for loading
-        while (!isLoaded)
+        while (!IsLoaded())
         {
             yield return null;
         }
+        playerInput.ToggleLoadingContainer(false);
         playerInput.EnableInput();
     }
 
@@ -61,7 +83,7 @@ public class LevelStreamManager : MonoBehaviour
         {
             yield return asyncLoad;
         }
-        isLoaded = true;
+        scenes.Add(sceneName);
     }
 
     //coroutine that unloads a scene asynchronously
@@ -72,14 +94,15 @@ public class LevelStreamManager : MonoBehaviour
         {
             yield return null;
         }
-        isLoaded = false;
+        scenes.Remove(sceneName);
     }
 
     //function that starts the coroutine to load a scene
     public void LoadScene()
     {
-        if (!isLoaded)
+        if (!IsLoaded()&& !isLoading)
         {
+            isLoading = true;
             StopAllCoroutines();
             StartCoroutine(LoadSceneAsync());
         }
@@ -88,10 +111,48 @@ public class LevelStreamManager : MonoBehaviour
     //function that starts the coroutine to unload a scene
     public void UnloadScene()
     {
-        if (isLoaded)
+        if (IsLoaded())
         {
             StopAllCoroutines();
             StartCoroutine(UnloadSceneAsync());
         }
     }
+
+    public bool IsLoaded()
+    {
+        if (scenes.Contains(sceneName))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void RefreshLevels()
+    {
+        UnloadScene();
+        StartCoroutine(WaitForUnload());
+    }
+
+    private IEnumerator WaitForUnload()
+    {
+        while (IsLoaded())
+        {
+            yield return null;
+        }
+        LoadScene();
+        StartCoroutine(WaitForLoad());
+    }
+
+    private IEnumerator WaitForLoad()
+    {
+        while (!IsLoaded())
+        {
+            yield return null;
+        }
+        OnRefreshComplete();
+    }
+
 }

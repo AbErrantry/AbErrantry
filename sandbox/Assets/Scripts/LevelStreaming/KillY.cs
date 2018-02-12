@@ -5,6 +5,7 @@ using UnityEngine;
 public class KillY : MonoBehaviour
 {
     public float yLoc;
+    public Character2D.Player player;
 
     private void Start()
     {
@@ -13,7 +14,14 @@ public class KillY : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("destroyed " + other.name.ToString());
-        Destroy(other.gameObject);
+        if (other.transform.root.tag == "Player")
+        {
+            player.TakeDamage(gameObject, 250.0f);
+        }
+        else
+        {
+            Debug.Log("destroyed " + other.name.ToString());
+            Destroy(other.gameObject);
+        }
     }
 }

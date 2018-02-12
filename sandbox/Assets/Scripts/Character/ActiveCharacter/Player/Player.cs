@@ -12,7 +12,9 @@ namespace Character2D
         public CinemachineVirtualCamera virtualCamera;
         public PlayerMovement playerMovement;
         public PlayerInput playerInput;
-        public Vector3 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
+
+        public Vector2 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
+        public SpawnManager spawnManager;
 
         public Slider slider;
 
@@ -52,8 +54,8 @@ namespace Character2D
             isDying = false;
             anim.SetBool("isDying", isDying);
             weaponAnim.SetBool("isDying", isDying);
-            Respawn();
             playerInput.EnableInput();
+            Respawn();
         }
 
         private void Respawn()
@@ -61,13 +63,24 @@ namespace Character2D
             ToggleCamera(false);
             currentVitality = maxVitality;
             slider.value = 1;
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             transform.position = spawnPoint;
+            if (spawnManager != null)
+            {
+                spawnManager.RefreshLevels();
+            }
             ToggleCamera(true);
         }
 
         public void ToggleCamera(bool isActive)
         {
             virtualCamera.enabled = isActive;
+        }
+
+        public void SetSpawn(Vector2 loc, SpawnManager mgr)
+        {
+            spawnPoint = loc;
+            spawnManager = mgr;
         }
     }
 }

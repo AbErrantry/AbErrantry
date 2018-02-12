@@ -59,5 +59,10 @@ namespace Character2D
             yield return new WaitForSeconds(attackDurations[index] * 2.0f);
             StartCoroutine(Attack(index));
         }
+
+        public void PlayAttack()
+        {
+            anim.Play("POWER");
+        }
     }
 }
