@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Character2D
 {
-	public class Enemy : Attackable 
-	{
+    public class Enemy : Attackable
+    {
 
         [System.Serializable]
         public class BeaconControl
@@ -18,8 +18,9 @@ namespace Character2D
         private float maxSpeed;
         private EnemyMovement enemyMovement;
         public AIJumpTrigger topJump;
-        public AIJumpTrigger botJump;   [Header("Beacon System")]
-        public BeaconControl beacCon; 
+        public AIJumpTrigger botJump;
+        [Header("Beacon System")]
+        public BeaconControl beacCon;
         public bool chasingPlayer;
 
         [Range(0.0f, 100.0f)]
@@ -29,9 +30,8 @@ namespace Character2D
         [Range(5.0f, 15.0f)]
         [Tooltip("How long(seconds) the AI will follow the player outside of their boxcast")]
         public float giveUpTime;
-        private float chaseTime; 
+        private float chaseTime;
 
-        
         [Header("AI Scanning Masks")]
         [Space(5)]
         [Tooltip("Select the Players layer.")]
@@ -44,16 +44,16 @@ namespace Character2D
         public LayerMask hideablesMask;
 
         private LayerMask layers;
-      
-		//used for initialization
-		protected new void Start()
-		{
-			base.Start();
+
+        //used for initialization
+        protected new void Start()
+        {
+            base.Start();
             layers = playerMask | defaultMask | hideablesMask;
             enemyMovement = GetComponent<EnemyMovement>();
             canFlinch = false;
-		    canKnockBack = true;
-		    canTakeDamage = true;
+            canKnockBack = true;
+            canTakeDamage = true;
             chasingPlayer = false;
             beacCon.beaconNum = 0;
             beacCon.currTarget = beacCon.beacons[beacCon.beaconNum];
@@ -62,51 +62,51 @@ namespace Character2D
 
         protected void FixedUpdate()
         {
-            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(10,1),0f,new Vector2(1,0),20, layers.value);
+            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(10, 1), 0f, new Vector2(1, 0), 20, layers.value);
 
-            if(ray&&ray.collider.name == "Knight")
+            if (ray && ray.collider.name == "Knight")
             {
                 chasingPlayer = true;
-                Debug.Log(ray.collider.gameObject.name);
+                //Debug.Log(ray.collider.gameObject.name);
                 beacCon.currTarget = ray.collider.gameObject;
             }
-            else if(chaseTime <=0)
+            else if (chaseTime <= 0)
             {
                 chasingPlayer = false;
-                if(!enemyMovement.isScanning)
-               { 
+                if (!enemyMovement.isScanning)
+                {
                     StartCoroutine(enemyMovement.StopAndScan());
                     SwitchBeacon();
-               }
-               chaseTime = giveUpTime;
+                }
+                chaseTime = giveUpTime;
             }
-            else if(chasingPlayer)
+            else if (chasingPlayer)
             {
-              chaseTime -= Time.deltaTime;      
+                chaseTime -= Time.deltaTime;
             }
-             
-           if(chasingPlayer)  
-           {
+
+            if (chasingPlayer)
+            {
                 CheckDirection();
-           } 
+            }
         }
 
         protected override void InitializeDeath()
-		{
-			//take away enemy input
+        {
+            //take away enemy input
             //enemy no longer targets player
-			//enemy no longer attackable
-			isDying = true;
-			anim.SetBool("isDying", isDying); //death animation 
-		}
+            //enemy no longer attackable
+            isDying = true;
+            anim.SetBool("isDying", isDying); //death animation
+        }
 
         public override void FinalizeDeath()
-		{
-			//drop loot
-			Debug.Log("Enemy died: " + gameObject.name); //TODO: remove debug
-			Destroy(gameObject);
-		}
-   
+        {
+            //drop loot
+            Debug.Log("Enemy died: " + gameObject.name); //TODO: remove debug
+            Destroy(gameObject);
+        }
+
         //TODO: change to using fixed update to constantly monitor towards target (for edge cases)
         //TODO: move to a behavior AI class that will take care of figuring out where the enemy needs to go
         public void SwitchBeacon()
@@ -114,18 +114,17 @@ namespace Character2D
             beacCon.beaconNum++;
             beacCon.currTarget = beacCon.beacons[beacCon.beaconNum % beacCon.beacons.Length];
 
-            
             CheckDirection();
             ShouldScan();
         }
 
         private void CheckDirection()
         {
-            if(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x < 0 && enemyMovement.isFacingRight)
+            if (beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x < 0 && enemyMovement.isFacingRight)
             {
                 enemyMovement.ChangeDirection();
             }
-            else if(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x > 0 && !enemyMovement.isFacingRight)
+            else if (beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x > 0 && !enemyMovement.isFacingRight)
             {
                 enemyMovement.ChangeDirection();
             }
@@ -133,7 +132,7 @@ namespace Character2D
 
         private void ShouldScan()
         {
-            if(UnityEngine.Random.Range(1.0f, 100.0f) <= stoppingPercentage && enemyMovement.isScanning == false)
+            if (UnityEngine.Random.Range(1.0f, 100.0f)<= stoppingPercentage && enemyMovement.isScanning == false)
             {
                 enemyMovement.isScanning = true;
                 StartCoroutine(enemyMovement.StopAndScan());

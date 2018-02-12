@@ -6,6 +6,7 @@ namespace Character2D
 {
     public class EnemyMovement : CharacterMovement
     {
+        public EnemyAttack enemyAttack;
         public AIJumpTrigger topJump;
         public AIJumpTrigger botJump;
         public bool isScanning;
@@ -30,13 +31,15 @@ namespace Character2D
         private new void FixedUpdate()
         {
             base.FixedUpdate();
+            if (enemyAttack.isWindingUp)
+            {
+                rb.velocity = new Vector2(0.0f, rb.velocity.y);
+            }
         }
 
         public void JumpAttempt()
         {
             jumpInput = false;
-
-            
 
             if (topJump.currentObjects.Count == 0 && botJump.currentObjects.Count != 0)
             {
@@ -83,7 +86,7 @@ namespace Character2D
             yield return new WaitForSeconds(stopAndScanTime);
             isScanning = false;
             mvmtSpeed = originalFace; //set the original facing
-            
+
             yield return null;
         }
     }

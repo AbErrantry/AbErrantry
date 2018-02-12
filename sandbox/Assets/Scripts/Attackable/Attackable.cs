@@ -22,7 +22,7 @@ namespace Character2D
         //used for initialization
         protected void Start()
         {
-            maxVitality = currentVitality = 100f; //TODO: remove
+            maxVitality = currentVitality = 50f; //TODO: remove
             isDying = false;
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
@@ -30,24 +30,27 @@ namespace Character2D
         }
 
         //applies damage to the player
-        public void TakeDamage(GameObject attacker, float damage)
+        public virtual void TakeDamage(GameObject attacker, float damage)
         {
-            if (canFlinch)
+            if (!isDying)
             {
-                Flinch();
-            }
-
-            if (canKnockBack)
-            {
-                KnockBack(attacker.transform.position, damage);
-            }
-
-            if (canTakeDamage)
-            {
-                currentVitality = currentVitality - damage;
-                if (currentVitality <= 0f)
+                if (canFlinch)
                 {
-                    Die();
+                    Flinch();
+                }
+
+                if (canKnockBack)
+                {
+                    KnockBack(attacker.transform.position, damage);
+                }
+
+                if (canTakeDamage)
+                {
+                    currentVitality = currentVitality - damage;
+                    if (currentVitality <= 0f)
+                    {
+                        Die();
+                    }
                 }
             }
         }

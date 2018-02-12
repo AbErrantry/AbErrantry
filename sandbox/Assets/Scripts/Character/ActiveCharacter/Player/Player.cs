@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Character2D
 {
@@ -13,6 +14,8 @@ namespace Character2D
         public PlayerInput playerInput;
         public Vector3 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
 
+        public Slider slider;
+
         //used for initialization
         protected new void Start()
         {
@@ -22,6 +25,12 @@ namespace Character2D
             canFlinch = false;
             canKnockBack = true;
             canTakeDamage = true;
+        }
+
+        public override void TakeDamage(GameObject attacker, float damage)
+        {
+            base.TakeDamage(attacker, damage);
+            slider.value = currentVitality / maxVitality;
         }
 
         protected override void InitializeDeath()
@@ -50,9 +59,9 @@ namespace Character2D
         private void Respawn()
         {
             ToggleCamera(false);
-            currentVitality = maxVitality; //TODO: uncomment
+            currentVitality = maxVitality;
+            slider.value = 1;
             transform.position = spawnPoint;
-            Debug.Log("player died. respawning.");
             ToggleCamera(true);
         }
 
