@@ -33,6 +33,9 @@ public class CameraShift : MonoBehaviour
 
     private float shiftTime;
 
+    [Tooltip("How many seconds should the orthographic zoom take, (1s min, 5s max)")]
+    [Range(1.0f, 5.0f)]
+    public float zoomTime;
     private void Start()
     {
         cam = GetComponent<Camera>();
@@ -125,4 +128,11 @@ public class CameraShift : MonoBehaviour
             yield return null;
         }
     }
+
+    public void OrthoZoom(float orthoShiftTime, float endValue)
+	{
+        StopAllCoroutines();
+        StartCoroutine(CameraLerp(orthoShiftTime, unshiftedX, unshiftedY, deadZoneHeightUnshifted, deadZoneWidthUnshifted, endValue));
+	}	
+
 }
