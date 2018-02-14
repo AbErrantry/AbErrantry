@@ -36,10 +36,13 @@ public abstract class Openable : Interactable
 
 	public void Unlock()
 	{
-		isLocked = false;
-		Debug.Log("Unlocked");
-		anim.SetBool("isLocked", isLocked);
-		ToggleState();
+		if (isLocked)
+		{
+			isLocked = false;
+			Debug.Log("Unlocked");
+			anim.SetBool("isLocked", isLocked);
+			ToggleState();
+		}
 	}
 
 	public void TryUnlock()

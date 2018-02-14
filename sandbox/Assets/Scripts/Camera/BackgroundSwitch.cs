@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BackgroundSwitch : MonoBehaviour
 {
+    public static BackgroundSwitch instance; // Singleton
+
     [System.Serializable]
     public class Backgrounds
     {
@@ -16,12 +18,24 @@ public class BackgroundSwitch : MonoBehaviour
     public Backgrounds[] background;
     public int newSize;
 
-    public void Start()
+    private void Awake()
     {
-        UpdateScrolling(1); //Need to change the 1 to the level they are on.
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
     }
 
-    public void UpdateScrolling(int element)//element aka level
+    public void Start()
+    {
+        UpdateScrolling(1); //TODO: Need to change the 1 to the level they are on.
+    }
+
+    public void UpdateScrolling(int element) //element aka level
     {
         element--; //makes it work for the array, going to change this
         newSize = background[element].backImages.Length;

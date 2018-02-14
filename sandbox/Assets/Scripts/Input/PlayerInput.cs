@@ -5,6 +5,8 @@ namespace Character2D
 {
     public class PlayerInput : MonoBehaviour
     {
+        public static PlayerInput instance;
+
         public PlayerMovement playerMovement;
         public PlayerInteraction playerInteraction;
         public PlayerAttack playerAttack;
@@ -15,6 +17,18 @@ namespace Character2D
         public bool acceptInput;
 
         public GameObject loadingContainer;
+
+        private void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else if (instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
 
         //used for initialization
         private void Start()
@@ -40,7 +54,7 @@ namespace Character2D
 
             if (CrossPlatformInputManager.GetButtonDown("Backpack"))
             {
-                if ((!acceptInput && backpackMenu.isOpen)|| acceptInput)
+                if ((!acceptInput && backpackMenu.isOpen) || acceptInput)
                 {
                     backpackMenu.ToggleBackpack();
                 }

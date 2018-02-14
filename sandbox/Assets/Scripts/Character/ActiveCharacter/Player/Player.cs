@@ -8,6 +8,8 @@ namespace Character2D
 {
     public class Player : Attackable
     {
+        public static Player instance;
+
         public Animator weaponAnim;
         public CinemachineVirtualCamera virtualCamera;
         public PlayerMovement playerMovement;
@@ -18,10 +20,27 @@ namespace Character2D
 
         public Slider slider;
 
+        private void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else if (instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         //used for initialization
         protected new void Start()
         {
             base.Start();
+
+            //TODO: remove temp AssetBundle loading
+            string path = Application.dataPath + "/AssetBundles/default";
+            AssetBundle.LoadFromFile(path);
+
             //set from CharacterData
             spawnPoint = transform.position; //todo: set from file
             canFlinch = false;

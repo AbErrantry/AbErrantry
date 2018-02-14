@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-	public Player player;
-	public PlayerInput playerInput;
-
 	public LevelStreamManager leftLevel;
 	public LevelStreamManager rightLevel;
 
@@ -22,23 +19,24 @@ public class SpawnManager : MonoBehaviour
 
 	private void OnDisable()
 	{
-
+		leftLevel.OnRefreshComplete -= LeftLevelFinished;
+		rightLevel.OnRefreshComplete -= RightLevelFinished;
 	}
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.tag == "Player")
 		{
-			player.SetSpawn(transform.position, this);
+			Player.instance.SetSpawn(transform.position, this);
 		}
 	}
 
 	public void RefreshLevels()
 	{
-		playerInput.DisableInput(false);
-		playerInput.ToggleLoadingContainer(true);
-		leftLevel.RefreshLevels();
-		rightLevel.RefreshLevels();
+		PlayerInput.instance.DisableInput(false);
+		PlayerInput.instance.ToggleLoadingContainer(true);
+		leftLevel.RefreshLevel();
+		rightLevel.RefreshLevel();
 	}
 
 	private void LeftLevelFinished()
@@ -61,7 +59,7 @@ public class SpawnManager : MonoBehaviour
 
 	private void RefreshFinished()
 	{
-		playerInput.ToggleLoadingContainer(false);
-		playerInput.EnableInput();
+		PlayerInput.instance.ToggleLoadingContainer(false);
+		PlayerInput.instance.EnableInput();
 	}
 }

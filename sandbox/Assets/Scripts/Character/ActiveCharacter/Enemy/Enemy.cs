@@ -45,6 +45,16 @@ namespace Character2D
 
         private LayerMask layers;
 
+        void OnBecameVisible()
+        {
+            enabled = true;
+        }
+
+        void OnBecameInvisible()
+        {
+            enabled = false;
+        }
+
         //used for initialization
         protected new void Start()
         {
@@ -58,6 +68,8 @@ namespace Character2D
             beacCon.beaconNum = 0;
             beacCon.currTarget = beacCon.beacons[beacCon.beaconNum];
             chaseTime = giveUpTime;
+
+            enabled = false;
         }
 
         protected void FixedUpdate()
@@ -132,7 +144,7 @@ namespace Character2D
 
         private void ShouldScan()
         {
-            if (UnityEngine.Random.Range(1.0f, 100.0f)<= stoppingPercentage && enemyMovement.isScanning == false)
+            if (UnityEngine.Random.Range(1.0f, 100.0f) <= stoppingPercentage && enemyMovement.isScanning == false)
             {
                 enemyMovement.isScanning = true;
                 StartCoroutine(enemyMovement.StopAndScan());

@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class LevelActivator : MonoBehaviour
 {
+    public LevelInfo levelInfo;
     public LevelStreamManager manager; //reference to the LevelStreamManager component for this level
+    private int backgroundID;
 
-    public BackgroundSwitch backgroundSwitch;
-    public int backgroundID;
+    private void Start()
+    {
+        backgroundID = levelInfo.backgroundID;
+    }
 
     //function that fires when another collider enters this trigger
     private void OnTriggerEnter2D(Collider2D other)
@@ -16,7 +20,7 @@ public class LevelActivator : MonoBehaviour
         if (other.tag == "Player")
         {
             manager.MakeActive();
-            backgroundSwitch.UpdateScrolling(backgroundID);
+            BackgroundSwitch.instance.UpdateScrolling(backgroundID);
         }
     }
 }

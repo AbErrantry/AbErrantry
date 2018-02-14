@@ -78,7 +78,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: d8650f7659498a04e9737313d444cde7, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -96,8 +96,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66ace2c946bd757469683c8c0494cfb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   name: Door
+  unlockActionType: 0
+  id: 0
+  isOpen: 0
+  isLocked: 0
   doorPair: {fileID: 0}
 --- !u!212 &212280780786456774
 SpriteRenderer:

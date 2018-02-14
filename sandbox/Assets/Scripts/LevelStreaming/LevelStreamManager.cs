@@ -1,114 +1,107 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Character2D;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelStreamManager : MonoBehaviour
 {
-    public static List<string> scenes;
+    private static List<string> scenes; // Global list of the active scenes.
 
-    public event Action OnRefreshComplete;
+    public event Action OnRefreshComplete; // Event that fires when this scene completed refresing.
 
-    public string sceneName; //the name of the scene to be loaded/unloaded
+    public LevelInfo levelInfo;
 
-    private Scene scene; //an object reference to the scene
-    private AsyncOperation asyncLoad; //async operation to load the scene
-    private AsyncOperation asyncUnload; //async operation to unload the scene
-    public Character2D.PlayerInput playerInput;
+    private string sceneName; // The name of the scene set in the hierarchy.
+    private Scene scene; // An object reference to the scene
+    private AsyncOperation asyncLoad; // Async operation to load the scene
+    private AsyncOperation asyncUnload; // Async operation to unload the scene
+    private bool isLoading; // Whether the scene is loading or not.
 
-    private bool isLoading;
-
-    //used for initialization
+    // Used for initialization.
     private void Start()
     {
+        //TODO: set only the persistent scene as the active scene from the main menu.
+        //       this is a temporary fix for testing since we never technically load into Area1-AP.
         scenes = new List<string>()
         {
             "Area1-AP",
             "Persistent-SC"
         };
 
+        sceneName = levelInfo.name;
+
         Application.backgroundLoadingPriority = ThreadPriority.Low;
 
         //find and set the scene using its name
         scene = SceneManager.GetSceneByName(sceneName);
-
         isLoading = false;
     }
 
-    //function that fires when another collider enters this trigger
+    // Fires when another collider enters this trigger
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //if the colliding object is the player,
+        // If the colliding object is the player, check to see where they are at with loading.
         if (other.tag == "Player")
         {
-            //if the scene is not loaded yet, make the player wait for loading
-            if (!IsLoaded()&& isLoading)
+            if (!IsLoaded() && isLoading) // Scene is still loading. Make the player wait.
             {
                 StartCoroutine(WaitUntilLoaded());
             }
-            else if (IsLoaded()&& isLoading)
+            else if (IsLoaded() && isLoading) // Scene is loaded.
             {
                 isLoading = false;
-                Debug.Log("Scene " + sceneName + " was loaded.");
             }
-            else if (!IsLoaded()&& !isLoading)
+            else if (!IsLoaded() && !isLoading) // Scene has not even started loading for some reason.
             {
-                Debug.LogError("got here.");
+                Debug.LogError("Got to LevelStreamManager for " + sceneName +
+                    " without level being loaded or beginning to be loaded.");
                 LoadScene();
                 StartCoroutine(WaitUntilLoaded());
             }
         }
     }
 
+    // Makes the current scene the active scene for things like object instantiation.
     public void MakeActive()
     {
         scene = SceneManager.GetSceneByName(sceneName);
         SceneManager.SetActiveScene(scene);
     }
 
+    // Coroutine that disables player input until the level is loaded.
     private IEnumerator WaitUntilLoaded()
     {
-
-        playerInput.DisableInput();
-        playerInput.ToggleLoadingContainer(true);
+        PlayerInput.instance.DisableInput();
+        PlayerInput.instance.ToggleLoadingContainer(true);
         while (!IsLoaded())
         {
             yield return new WaitForFixedUpdate();
         }
-        playerInput.ToggleLoadingContainer(false);
-        playerInput.EnableInput();
+        isLoading = false;
+        PlayerInput.instance.ToggleLoadingContainer(false);
+        PlayerInput.instance.EnableInput();
     }
 
-    //coroutine that loads a scene asynchronously and additively
+    // Coroutine that loads the level asynchronously.
     private IEnumerator LoadSceneAsync()
     {
         isLoading = true;
-        Debug.Log(sceneName + " is being loaded.");
         asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        asyncLoad.allowSceneActivation = true; //scene will be activated automatically
-        while (!asyncLoad.isDone)
-        {
-            yield return new WaitForFixedUpdate();
-        }
-        Debug.Log(sceneName + " was loaded.");
+        yield return asyncLoad;
         scenes.Add(sceneName);
     }
 
-    //coroutine that unloads a scene asynchronously
+    // Coroutine that unloads the level asynchronously.
     private IEnumerator UnloadSceneAsync()
     {
-        Debug.Log(sceneName + " is being unloaded.");
         asyncUnload = SceneManager.UnloadSceneAsync(sceneName);
-        while (!asyncUnload.isDone)
-        {
-            yield return new WaitForFixedUpdate();
-        }
-        Debug.Log(sceneName + " was unloaded.");
+        yield return asyncUnload;
         scenes.Remove(sceneName);
     }
 
-    //function that starts the coroutine to load a scene
+    // Invokes the loading of the level if not already loaded.
     public void LoadScene()
     {
         if (!IsLoaded())
@@ -117,7 +110,7 @@ public class LevelStreamManager : MonoBehaviour
         }
     }
 
-    //function that starts the coroutine to unload a scene
+    // Invokes the loading of the level if still loaded.
     public void UnloadScene()
     {
         if (IsLoaded())
@@ -126,7 +119,8 @@ public class LevelStreamManager : MonoBehaviour
         }
     }
 
-    public bool IsLoaded()
+    // Checks to see if the level is loaded or not.
+    private bool IsLoaded()
     {
         if (scenes.Contains(sceneName))
         {
@@ -138,29 +132,31 @@ public class LevelStreamManager : MonoBehaviour
         }
     }
 
-    public void RefreshLevels()
+    // Begins the process of unloading and loading the level.
+    public void RefreshLevel()
     {
         UnloadScene();
-        StartCoroutine(WaitForUnload());
+        StartCoroutine(WaitForRefreshUnload());
     }
 
-    private IEnumerator WaitForUnload()
+    // Coroutine that waits until the level is unloaded to reload it.
+    private IEnumerator WaitForRefreshUnload()
     {
         while (IsLoaded())
         {
             yield return new WaitForFixedUpdate();
         }
         LoadScene();
-        StartCoroutine(WaitForLoad());
+        StartCoroutine(WaitForRefreshLoad());
     }
 
-    private IEnumerator WaitForLoad()
+    // Coroutine that reloads the level then triggers the refresh completion event.
+    private IEnumerator WaitForRefreshLoad()
     {
         while (!IsLoaded())
         {
-            yield return new WaitForFixedUpdate();;
+            yield return new WaitForFixedUpdate();
         }
         OnRefreshComplete();
     }
-
 }

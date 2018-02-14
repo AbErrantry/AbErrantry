@@ -10,7 +10,7 @@ namespace Character2D
         public GameObject interactable;
         public List<InventoryItem> items; //items held by the character
 
-        public static event Action<int, bool, string[], Vector2> OnLooseItemChanged; //todo: set loose items
+        //public static event Action<int, bool, string[], Vector2> OnLooseItemChanged; //todo: set loose items
 
         //used for initialization
         protected void Start()
@@ -79,7 +79,7 @@ namespace Character2D
         {
             //TODO: fix comments
             //instantiate a prefab for the interact button
-            GameObject newItem = Instantiate(interactable)as GameObject;
+            GameObject newItem = Instantiate(interactable) as GameObject;
             Pickup pu = newItem.GetComponent<Pickup>();
             SpriteRenderer sr = newItem.GetComponent<SpriteRenderer>();
             BoxCollider2D bc = newItem.GetComponent<BoxCollider2D>();
