@@ -6,7 +6,7 @@ namespace Character2D
     {
         //character components
         protected Animator anim; //the animator component of the character character
-        protected Rigidbody2D rb; //rigidbocdy component of the character character
+        protected Rigidbody2D rb; //rigidbody component of the character character
         private CharacterAttack characterAttack;
         private Attackable attackable;
 
