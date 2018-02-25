@@ -22,7 +22,10 @@ public sealed class HealthSystem : ReactiveSystem<GameEntity>
     {
         foreach (var entity in entities)
         {
-            UnityEngine.Debug.Log("Health: " + entity.health.Value);
+            if (entity.health.Value <= 0)
+            {
+                entity.isDestroyed = true;
+            }
         }
     }
 }

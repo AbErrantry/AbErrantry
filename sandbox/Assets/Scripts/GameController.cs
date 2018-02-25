@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    private RootSystems _systems;
+    private GameSystems _systems;
 
     // Use this for initialization
     private void Start()
 	{
 	    var contexts = Contexts.sharedInstance;
 
-        _systems = new RootSystems(contexts);
+        _systems = new GameSystems(contexts);
 
 	    _systems.Initialize();
     }
