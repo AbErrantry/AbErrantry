@@ -160,7 +160,7 @@ namespace Character2D
             {
                 case Interactable.Types.Pickup:
                     characterInventory.AddItem(interactable.GetComponent<Interactable>().name);
-                    StartCoroutine(interactable.GetComponent<Pickup>().Collect(gameObject));
+                    interactable.GetComponent<Pickup>().StartCollectRoutine(gameObject);
                     StartCoroutine(InteractDelay(false));
                     break;
                 case Interactable.Types.NPC:
@@ -171,7 +171,7 @@ namespace Character2D
                     //toggle item open/closed based on current state
                     if (!interactable.GetComponent<Openable>().isLocked)
                     {
-                        StartCoroutine(interactable.GetComponent<BackDoor>().EnterDoor(gameObject, true));
+                        interactable.GetComponent<BackDoor>().StartEnterDoorRoutine(gameObject, true);
                         StartCoroutine(InteractDelay(false));
                     }
                     else
@@ -254,7 +254,7 @@ namespace Character2D
                 if (io.typeOfInteractable == Interactable.Types.Pickup)
                 {
                     characterInventory.AddItem(io.name);
-                    StartCoroutine(interactionTrigger.currentObjects[i].GetComponent<Pickup>().Collect(gameObject));
+                    interactionTrigger.currentObjects[i].GetComponent<Pickup>().StartCollectRoutine(gameObject);
                 }
             }
             CloseContainer();

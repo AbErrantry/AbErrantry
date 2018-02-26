@@ -7,46 +7,41 @@ namespace Character2D
 {
     public class CharacterInventory : MonoBehaviour
     {
-        public GameObject interactable;
-        public List<InventoryItem> items; //items held by the character
+        public GameObject PickupPrefab;
+        public List<InventoryItem> Items; //items held by the character
 
         //public static event Action<int, bool, string[], Vector2> OnLooseItemChanged; //todo: set loose items
 
         //used for initialization
         protected void Start()
         {
-            items = new List<InventoryItem>();
+            Items = new List<InventoryItem>();
         }
 
-        public void AddItem(string name)
+        public void AddItem(string itemName)
         {
-            bool isFound = false;
-            foreach (InventoryItem item in items)
+            foreach (var item in Items)
             {
-                if (item.item == GameData.data.itemData.itemDictionary[name])
-                {
-                    item.quantity++;
-                    isFound = true;
-                    break;
-                }
+                if (item.item != GameData.data.itemData.itemDictionary[itemName]) continue;
+                item.quantity++;
+                return;
             }
 
-            if (!isFound)
+            var itemToAdd = new InventoryItem
             {
-                InventoryItem itemToAdd = new InventoryItem();
-                itemToAdd.item = GameData.data.itemData.itemDictionary[name];
-                itemToAdd.quantity = 1;
-                items.Add(itemToAdd);
-            }
+                item = GameData.data.itemData.itemDictionary[itemName],
+                quantity = 1
+            };
+            Items.Add(itemToAdd);
         }
 
         public void RemoveItem(InventoryItem itemToRemove, bool removeAll, bool drop)
         {
-            int amountToDrop = 0;
+            var amountToDrop = 0;
             if (removeAll)
             {
                 amountToDrop = itemToRemove.quantity;
-                items.Remove(itemToRemove);
+                Items.Remove(itemToRemove);
             }
             else
             {
@@ -54,46 +49,36 @@ namespace Character2D
                 itemToRemove.quantity--;
                 if (itemToRemove.quantity <= 0)
                 {
-                    items.Remove(itemToRemove);
+                    Items.Remove(itemToRemove);
                 }
             }
 
-            if (drop)
+            if (!drop) return;
+            
+            for (var i = 0; i < amountToDrop; i++)
             {
-                for (int i = 0; i < amountToDrop; i++)
-                {
-                    InstantiateItem(itemToRemove.item, transform.position);
-                }
-            }
-        }
-
-        private void PrintItems()
-        {
-            foreach (InventoryItem inv in items)
-            {
-                Debug.Log("Item: " + inv.item.name + " | " + inv.quantity);
+                InstantiateItem(itemToRemove.item, transform.position);
             }
         }
 
         public void InstantiateItem(Item item, Vector3 pos)
         {
-            //TODO: fix comments
-            //instantiate a prefab for the interact button
-            GameObject newItem = Instantiate(interactable) as GameObject;
-            Pickup pu = newItem.GetComponent<Pickup>();
-            SpriteRenderer sr = newItem.GetComponent<SpriteRenderer>();
-            BoxCollider2D bc = newItem.GetComponent<BoxCollider2D>();
+            //instantiate a prefab for the pickup
+            var newPickup = Instantiate(PickupPrefab) as GameObject;
+            var pickup = newPickup.GetComponent<Pickup>();
+            var rend = newPickup.GetComponent<SpriteRenderer>();
+            var collider = newPickup.GetComponent<BoxCollider2D>();
 
-            //set the text for the interactable onscreen
-            pu.name = item.name;
-            pu.typeOfInteractable = Interactable.Types.Pickup;
-            pu.SetType();
-            sr.sprite = item.sprite;
-            newItem.transform.position = pos;
-            bc.size = sr.bounds.size;
+            //set the properties for the pickup
+            pickup.name = item.name;
+            pickup.typeOfInteractable = Interactable.Types.Pickup;
+            pickup.SetType();
+            rend.sprite = item.sprite;
+            newPickup.transform.position = pos;
+            collider.size = rend.bounds.size;
 
             //for some reason Unity does not use full scale for the instantiated object by default
-            newItem.transform.localScale = Vector3.one;
+            newPickup.transform.localScale = Vector3.one;
         }
     }
 }

@@ -448,7 +448,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 19.9
+  m_fontSize: 18
   m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -466,7 +466,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_enableKerning: 1
@@ -712,7 +712,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 50.85
+  m_fontSize: 28.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1432,7 +1432,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000076293945}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1071006021
@@ -1637,13 +1637,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cebe3fb4ecb3faf44a783997a2581909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameData: {fileID: 0}
+  cameraShift: {fileID: 0}
   nameText: {fileID: 689170928}
   dialogueText: {fileID: 779479472}
   choiceButton: {fileID: 1545965220402194, guid: aee6f59001f0cda4a97c8aae92685dfd,
     type: 2}
   choiceList: {fileID: 1071006019}
   dialogueAnimator: {fileID: 1682936318}
+  dialogueTransform: {fileID: 0}
+  dialogueContainer: {fileID: 0}
+  scrollRect: {fileID: 0}
+  xMinLeft: 0
+  xMaxLeft: 0
+  xMinRight: 0
+  xMaxRight: 0
   textSpeed: 0
 --- !u!4 &1325485169
 Transform:
@@ -1975,7 +1982,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 735159671}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

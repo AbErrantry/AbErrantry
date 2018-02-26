@@ -172,7 +172,7 @@ namespace Character2D
         protected virtual void SetMovementLogic()
         {
             //boolean expression that sets whether or not the player has moved this tick
-            isMoving = Mathf.Abs(lastPosition - rb.transform.position.x)> 0.0001f ? true : false;
+            isMoving = Mathf.Abs(lastPosition - rb.transform.position.x)> 0.001f ? true : false;
 
             //boolean expression that sets whether or not the character is falling on this tick
             isFalling = rb.velocity.y < 0 && !isGrounded ? true : false;

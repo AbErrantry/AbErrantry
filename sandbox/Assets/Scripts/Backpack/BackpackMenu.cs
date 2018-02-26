@@ -145,7 +145,7 @@ namespace Character2D
 
         private void LoadInventoryItems()
         {
-            foreach (InventoryItem inv in characterInventory.items)
+            foreach (InventoryItem inv in characterInventory.Items)
             {
                 //TODO: fix comments
                 //instantiate a prefab for the interact button
@@ -167,7 +167,7 @@ namespace Character2D
                 newButton.transform.localScale = Vector3.one;
             }
 
-            if (characterInventory.items.Count > 0)
+            if (characterInventory.Items.Count > 0)
             {
                 inventoryMask.SetActive(false);
                 ElementFocus.focus.SetFocus(inventoryList.transform.GetChild(0).gameObject, scrollRect, inventoryList.GetComponent<RectTransform>());

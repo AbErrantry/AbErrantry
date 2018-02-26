@@ -20,10 +20,13 @@ public class BackDoor : Openable
         base.ToggleState();
     }
 
-    public IEnumerator EnterDoor(GameObject character, bool isFirst)
+    public void StartEnterDoorRoutine(GameObject character, bool isFirst)
     {
-        float startTime;
-        startTime = Time.time;
+        StartCoroutine(EnterDoor(character, isFirst));
+    }
+
+    private IEnumerator EnterDoor(GameObject character, bool isFirst)
+    {
         isOpen = true;
         anim.SetBool("isOpen", isOpen);
         yield return new WaitForSeconds(openTime);
@@ -35,11 +38,12 @@ public class BackDoor : Openable
             character.GetComponent<Character2D.Player>().ToggleCamera(false);
             character.transform.position = doorPair.transform.position;
             character.GetComponent<Character2D.Player>().ToggleCamera(true);
-            yield return StartCoroutine(doorPair.GetComponent<BackDoor>().EnterDoor(character, false));
+            doorPair.GetComponent<BackDoor>().StartEnterDoorRoutine(character, false);
+            yield return null;
         }
         else
         {
-            isLocked = false; //checkpoint unlocked
+            isLocked = false; //checkpoint unlocked TODO: move to checkpoint class
             anim.SetBool("isLocked", isLocked);
             ToggleState();
         }

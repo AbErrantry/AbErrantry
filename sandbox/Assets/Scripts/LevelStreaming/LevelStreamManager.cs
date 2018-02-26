@@ -26,7 +26,6 @@ public class LevelStreamManager : MonoBehaviour
         //       this is a temporary fix for testing since we never technically load into Area1-AP.
         scenes = new List<string>()
         {
-            "Area1-AP",
             "Persistent-SC"
         };
 

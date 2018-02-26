@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
 
 namespace Character2D
 {
@@ -41,18 +40,18 @@ namespace Character2D
         {
             if (acceptInput)
             {
-                playerMovement.jumpInput = CrossPlatformInputManager.GetButtonDown("Jump"); //send jump input pressed
-                playerMovement.crouchInput = CrossPlatformInputManager.GetButton("Crouch"); //send crouch input
-                playerMovement.runInput = CrossPlatformInputManager.GetButton("Run"); //send run input
-                playerMovement.mvmtSpeed = CrossPlatformInputManager.GetAxis("Move"); //send movement speed
-                playerMovement.climbSpeedInput = CrossPlatformInputManager.GetAxis("Vertical"); //send movement speed
-                playerInteraction.interactionInput = CrossPlatformInputManager.GetButtonDown("Interact"); //send interaction input
-                playerAttack.attackInputDown = CrossPlatformInputManager.GetButtonDown("Attack"); //send attack input pressed
-                playerAttack.attackInputUp = CrossPlatformInputManager.GetButtonUp("Attack"); //send attack input released
+                playerMovement.jumpInput = Input.GetButtonDown("Jump"); //send jump input pressed
+                playerMovement.crouchInput = Input.GetButton("Crouch"); //send crouch input
+                playerMovement.runInput = Input.GetButton("Run"); //send run input
+                playerMovement.mvmtSpeed = Input.GetAxis("Move"); //send movement speed
+                playerMovement.climbSpeedInput = Input.GetAxis("Vertical"); //send movement speed
+                playerInteraction.interactionInput = Input.GetButtonDown("Interact"); //send interaction input
+                playerAttack.attackInputDown = Input.GetButtonDown("Attack"); //send attack input pressed
+                playerAttack.attackInputUp = Input.GetButtonUp("Attack"); //send attack input released
                 // playerPause.pauseInput = CrossPlatformInputManager.GetButtonDown("Pause"); //send pause input
             }
 
-            if (CrossPlatformInputManager.GetButtonDown("Backpack"))
+            if (Input.GetButtonDown("Backpack"))
             {
                 if ((!acceptInput && backpackMenu.isOpen) || acceptInput)
                 {

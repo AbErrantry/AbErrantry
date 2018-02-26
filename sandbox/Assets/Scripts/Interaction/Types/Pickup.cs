@@ -14,7 +14,12 @@ public class Pickup : Interactable
         collectTime = 1.0f;
     }
 
-    public IEnumerator Collect(GameObject player)
+    public void StartCollectRoutine(GameObject player)
+    {
+        StartCoroutine(Collect(player));
+    }
+
+    private IEnumerator Collect(GameObject player)
     {
         float collectStart = Time.time;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
