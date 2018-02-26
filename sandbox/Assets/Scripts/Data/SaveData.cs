@@ -1,8 +1,8 @@
 using System;
-using Mono.Data.Sqlite;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using Mono.Data.Sqlite;
 using UnityEngine;
 
 public class SaveData : ScriptableObject
@@ -17,7 +17,7 @@ public class SaveData : ScriptableObject
     private void OnEnable()
     {
         file = "TestDatabase.db"; //TODO: get database file to load and set it into file
-        path = "URI=file:" + Application.dataPath + "/Data/Save/" + file;
+        path = "URI=file:" + Application.streamingAssetsPath + "/Save/" + file;
 
         SubscribeToEvents();
         OpenConnection();

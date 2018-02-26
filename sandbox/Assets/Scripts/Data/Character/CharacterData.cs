@@ -17,12 +17,12 @@ public class CharacterData : ScriptableObject
     //gets each character type into memory from the database
     private void GetCharacters()
     {
-        string characterDatabase = Application.dataPath + "/Data/CharacterDatabase.xml";
+        string characterDatabase = Application.streamingAssetsPath + "/CharacterDatabase.xml";
         List<CharacterFields> characterList = new List<CharacterFields>();
 
         //parse XML with LINQ
         XDocument XDoc = XDocument.Load(characterDatabase);
-        characterList = (from character in XDoc.Root.Elements("character")select new CharacterFields
+        characterList = (from character in XDoc.Root.Elements("character") select new CharacterFields
         {
             type = character.AttributeValueNull_String("type"),
                 vitality = character.Element("vitality").ElementValueNull_Float(),

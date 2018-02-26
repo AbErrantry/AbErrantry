@@ -18,12 +18,12 @@ public class ItemData : ScriptableObject
     //gets each item into memory from the database
     private void GetItems()
     {
-        string itemDatabase = Application.dataPath + "/Data/ItemDatabase.xml";
+        string itemDatabase = Application.streamingAssetsPath + "/ItemDatabase.xml";
         List<Item> itemList = new List<Item>();
 
         //parse XML with LINQ
         XDocument XDoc = XDocument.Load(itemDatabase);
-        itemList = (from item in XDoc.Root.Elements("item")select new Item
+        itemList = (from item in XDoc.Root.Elements("item") select new Item
         {
             name = item.AttributeValueNull_String("name"),
                 description = item.Element("description").ElementValueNull_String(),

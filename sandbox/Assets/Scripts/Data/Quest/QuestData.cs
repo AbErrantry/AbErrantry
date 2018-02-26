@@ -1,9 +1,9 @@
-using Dialogue2D;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Dialogue2D;
 using UnityEngine;
 using UnityEngine.UI;
 public class QuestData : ScriptableObject
@@ -14,7 +14,7 @@ public class QuestData : ScriptableObject
     private void OnEnable()
     {
         questDictionary = new Dictionary<string, Quest>();
-        root = Application.dataPath + "/Data/Quests/";
+        root = Application.streamingAssetsPath + "/Quests/";
         GetAllQuests();
         PrintQuests(); //uncomment for debug
     }

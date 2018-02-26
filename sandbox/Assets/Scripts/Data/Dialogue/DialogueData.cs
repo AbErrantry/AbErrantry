@@ -1,9 +1,9 @@
-using Dialogue2D;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Dialogue2D;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +16,7 @@ public class DialogueData : ScriptableObject
     private void OnEnable()
     {
         dialogueDictionary = new Dictionary<string, CharacterDialogue>();
-        root = Application.dataPath + "/Data/Dialogue/";
+        root = Application.streamingAssetsPath + "/Dialogue/";
         GetAllDialogue();
         //PrintDialogue(); //uncomment for debug
     }
@@ -57,7 +57,7 @@ public class DialogueData : ScriptableObject
         //parse XML with LINQ
         List<DialogueSegment> segments = new List<DialogueSegment>();
         XDocument XDoc = XDocument.Load(conv);
-        segments = (from segment in XDoc.Root.Elements("segment")select new DialogueSegment
+        segments = (from segment in XDoc.Root.Elements("segment") select new DialogueSegment
         {
             id = segment.AttributeValueNull_Integer("id"),
                 text = segment.Element("text").ElementValueNull_String(),

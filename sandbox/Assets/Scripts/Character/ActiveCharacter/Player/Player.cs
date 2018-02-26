@@ -1,6 +1,7 @@
-using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,7 @@ namespace Character2D
         public Vector2 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
         public SpawnManager spawnManager;
 
-        public Slider slider;
+        public TMP_Text healthText;
 
         private void Awake()
         {
@@ -36,9 +37,10 @@ namespace Character2D
         protected new void Start()
         {
             base.Start();
+            healthText.text = currentVitality + "/" + maxVitality;
 
             //TODO: remove temp AssetBundle loading
-            string path = Application.dataPath + "/AssetBundles/default";
+            string path = Application.streamingAssetsPath + "/AssetBundles/default";
             AssetBundle.LoadFromFile(path);
 
             //set from CharacterData
@@ -51,7 +53,7 @@ namespace Character2D
         public override void TakeDamage(GameObject attacker, float damage)
         {
             base.TakeDamage(attacker, damage);
-            slider.value = currentVitality / maxVitality;
+            healthText.text = currentVitality + "/" + maxVitality;
         }
 
         protected override void InitializeDeath()
@@ -81,7 +83,7 @@ namespace Character2D
         {
             ToggleCamera(false);
             currentVitality = maxVitality;
-            slider.value = 1;
+            healthText.text = currentVitality + "/" + maxVitality;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             transform.position = spawnPoint;
             if (spawnManager != null)
