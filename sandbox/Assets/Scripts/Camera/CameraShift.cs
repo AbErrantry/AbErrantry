@@ -1,11 +1,16 @@
-using Cinemachine;
 using System.Collections;
+using Cinemachine;
 using UnityEngine;
 
 public class CameraShift : MonoBehaviour
 {
+    public static CameraShift instance;
+
     public CinemachineVirtualCamera vcam;
+
     public Transform player;
+    public Transform target;
+
     private Camera cam;
     private CinemachineFramingTransposer body;
 
@@ -31,11 +36,20 @@ public class CameraShift : MonoBehaviour
     private float deadZoneWidthShifted;
     private float deadZoneHeightShifted;
 
-    private float shiftTime;
+    private float shiftTimePerUnit;
 
-    [Tooltip("How many seconds should the orthographic zoom take, (1s min, 5s max)")]
-    [Range(1.0f, 5.0f)]
-    public float zoomTime;
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
         cam = GetComponent<Camera>();
@@ -64,7 +78,7 @@ public class CameraShift : MonoBehaviour
         deadZoneHeightShifted = 0.0f;
         deadZoneWidthShifted = 0.0f;
 
-        shiftTime = 3.0f;
+        shiftTimePerUnit = 1.0f;
     }
 
     public void SetUnshiftedOrthSize(float size)
@@ -107,7 +121,7 @@ public class CameraShift : MonoBehaviour
         }
 
         StopAllCoroutines();
-        StartCoroutine(CameraLerp(shiftTime, shiftedX, shiftedY, deadZoneHeightShifted, deadZoneWidthShifted, shiftedOrthSize));
+        StartCoroutine(CameraLerp(shiftTimePerUnit, shiftedX, shiftedY, deadZoneHeightShifted, deadZoneWidthShifted, shiftedOrthSize));
         return result;
     }
 
@@ -116,15 +130,16 @@ public class CameraShift : MonoBehaviour
         body.m_XDamping = xDampingUnshifted;
         body.m_YDamping = yDampingUnshifted;
         StopAllCoroutines();
-        StartCoroutine(CameraLerp(shiftTime, unshiftedX, unshiftedY, deadZoneHeightUnshifted, deadZoneWidthUnshifted, unshiftedOrthSize));
+        StartCoroutine(CameraLerp(shiftTimePerUnit, unshiftedX, unshiftedY, deadZoneHeightUnshifted, deadZoneWidthUnshifted, unshiftedOrthSize, player.transform));
     }
 
-    private IEnumerator CameraLerp(float lerpTime, float endLocX, float endLocY, float endDeadZoneHeight, float endDeadZoneWidth, float endSize)
+    private IEnumerator CameraLerp(float lerpTimePerUnit, float endLocX, float endLocY, float endDeadZoneHeight, float endDeadZoneWidth, float endSize, Transform target = null)
     {
         float lerpStart = Time.time;
+        float lerpTime = lerpTimePerUnit * (Mathf.Abs(vcam.m_Lens.OrthographicSize - endSize));
         while (Time.time - lerpStart < lerpTime)
         {
-            float time = (Time.time - lerpStart)/ lerpTime;
+            float time = (Time.time - lerpStart) / lerpTime;
             vcam.m_Lens.OrthographicSize = Mathf.SmoothStep(vcam.m_Lens.OrthographicSize, endSize, time);
             body.m_ScreenX = Mathf.SmoothStep(body.m_ScreenX, endLocX, time);
             body.m_ScreenY = Mathf.SmoothStep(body.m_ScreenY, endLocY, time);
@@ -134,10 +149,23 @@ public class CameraShift : MonoBehaviour
         }
     }
 
-    public void OrthoZoom(float orthoShiftTime, float endValue)
+    public void OrthoZoom(float endValue)
     {
         StopAllCoroutines();
-        StartCoroutine(CameraLerp(orthoShiftTime, unshiftedX, unshiftedY, deadZoneHeightUnshifted, deadZoneWidthUnshifted, endValue));
+        StartCoroutine(CameraLerp(shiftTimePerUnit, unshiftedX, unshiftedY, deadZoneHeightUnshifted, deadZoneWidthUnshifted, endValue));
     }
 
+    public void ToggleDamping(bool on)
+    {
+        if (on)
+        {
+            body.m_XDamping = xDampingUnshifted;
+            body.m_YDamping = yDampingUnshifted;
+        }
+        else
+        {
+            body.m_XDamping = xDampingShifted;
+            body.m_YDamping = yDampingShifted;
+        }
+    }
 }

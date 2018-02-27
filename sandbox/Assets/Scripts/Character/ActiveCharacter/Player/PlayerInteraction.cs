@@ -13,7 +13,7 @@ namespace Character2D
         public InteractionTrigger interactionTrigger;
         private PlayerInput playerInput;
         private Dialogue2D.DialogueManager dialogueManager;
-        public CharacterInventory characterInventory;
+        private PlayerInventory playerInventory;
 
         public GameObject interactBar; //reference to the interact popup bar that asks for input to interact
         public GameObject interactButton; //reference to the interact button prefab
@@ -35,7 +35,9 @@ namespace Character2D
         void Start()
         {
             playerInput = GetComponent<PlayerInput>();
+            playerInventory = GetComponent<PlayerInventory>();
             dialogueManager = GetComponent<Dialogue2D.DialogueManager>();
+
             isInteracting = false;
             interactionInput = false;
             interactBar.SetActive(false);
@@ -108,7 +110,7 @@ namespace Character2D
             for (int i = 0; i < interactionTrigger.currentObjects.Count; i++)
             {
                 //instantiate a prefab for the interact button
-                GameObject newButton = Instantiate(interactButton)as GameObject;
+                GameObject newButton = Instantiate(interactButton) as GameObject;
                 InteractionPrefabReference temp = newButton.GetComponent<InteractionPrefabReference>();
 
                 //set the text for the interactable onscreen
@@ -154,18 +156,18 @@ namespace Character2D
         public void Interact(int index)
         {
             GameObject interactable = interactionTrigger.currentObjects[index];
-            CloseContainer();
+            CloseContainer(false);
 
             switch (interactable.GetComponent<Interactable>().typeOfInteractable)
             {
                 case Interactable.Types.Pickup:
-                    characterInventory.AddItem(interactable.GetComponent<Interactable>().name);
+                    playerInventory.CollectPickup(interactable.GetComponent<Pickup>());
                     interactable.GetComponent<Pickup>().StartCollectRoutine(gameObject);
                     StartCoroutine(InteractDelay(false));
                     break;
                 case Interactable.Types.NPC:
-                    dialogueManager.StartDialogue(interactable.GetComponent<NPC>().name, interactable.GetComponent<NPC>().currentDialogueState);
                     StartCoroutine(InteractDelay(true));
+                    dialogueManager.StartDialogue(interactable.GetComponent<NPC>().name, interactable.GetComponent<NPC>().currentDialogueState, interactable.gameObject);
                     break;
                 case Interactable.Types.BackDoor:
                     //toggle item open/closed based on current state
@@ -195,7 +197,7 @@ namespace Character2D
                     {
                         Chest chest = interactable.GetComponent<Chest>();
                         chest.ToggleState();
-                        characterInventory.InstantiateItem(GameData.data.itemData.itemDictionary[chest.itemName], chest.transform.position);
+                        playerInventory.InstantiateItem(GameData.data.itemData.itemDictionary[chest.itemName], chest.transform.position);
                         StartCoroutine(InteractDelay(false));
                     }
                     else
@@ -204,8 +206,8 @@ namespace Character2D
                     }
                     break;
                 case Interactable.Types.Sign:
-                    dialogueManager.StartDialogue(interactable.GetComponent<Sign>().name, interactable.GetComponent<Sign>().currentDialogueState);
                     StartCoroutine(InteractDelay(true));
+                    dialogueManager.StartDialogue(interactable.GetComponent<Sign>().name, interactable.GetComponent<Sign>().currentDialogueState, interactable.gameObject);
                     break;
                 default:
                     Debug.LogError("Interact type is unknown. Please add its behavior to CharacterInteraction.");
@@ -226,7 +228,7 @@ namespace Character2D
         }
 
         //cleans up the screen after an interactable is chosen
-        public void CloseContainer()
+        public void CloseContainer(bool closedOnOwn = true)
         {
             //unpause time and hide the container
             //TODO: if changed above, change here too
@@ -241,7 +243,7 @@ namespace Character2D
                 children.Add(child.gameObject);
             }
             children.ForEach(child => Destroy(child));
-            playerInput.EnableInput();
+            playerInput.EnableInput(closedOnOwn);
             ElementFocus.focus.RemoveFocus();
         }
 
@@ -253,7 +255,8 @@ namespace Character2D
                 Interactable io = interactionTrigger.currentObjects[i].GetComponent<Interactable>();
                 if (io.typeOfInteractable == Interactable.Types.Pickup)
                 {
-                    characterInventory.AddItem(io.name);
+                    var pick = io.gameObject.GetComponent<Pickup>();
+                    playerInventory.CollectPickup(pick);
                     interactionTrigger.currentObjects[i].GetComponent<Pickup>().StartCollectRoutine(gameObject);
                 }
             }
@@ -270,9 +273,9 @@ namespace Character2D
 
         private void SetInteractBarText(string interactType, string interactItem, bool isMultiple)
         {
-            string press = "<color=black>Press ";
+            string press = "<color=white>Press ";
             string key = "<color=red>" + interactKey;
-            string type = "<color=black> to " + interactType;
+            string type = "<color=white> to " + interactType;
             if (isMultiple)
             {
                 interactBarText.text = press + key + type;

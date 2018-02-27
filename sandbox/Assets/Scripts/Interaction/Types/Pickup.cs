@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pickup : Interactable
 {
     private float collectTime;
+    public int id;
 
     //used for initialization
     private new void Start()
@@ -27,9 +28,15 @@ public class Pickup : Interactable
         while (Time.time - collectStart < collectTime)
         {
             transform.localScale = transform.localScale * 0.95f;
-            transform.position = Vector3.Lerp(transform.position, player.transform.position, (Time.time - collectStart)/ collectTime);
+            transform.position = Vector3.Lerp(transform.position, player.transform.position, (Time.time - collectStart) / collectTime);
             yield return new WaitForFixedUpdate();
         }
         Destroy(gameObject);
     }
+
+    public void GenerateID()
+    {
+        id = Mathf.RoundToInt(Random.Range(System.Int32.MinValue, System.Int32.MaxValue));
+    }
+
 }

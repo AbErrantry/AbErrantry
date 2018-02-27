@@ -11,7 +11,10 @@ namespace Dialogue2D
     public class DialogueManager : MonoBehaviour
     {
         private Character2D.PlayerInput playerInput;
+        private Character2D.PlayerMovement playerMovement;
+
         public CameraShift cameraShift;
+        public FollowTarget followTarget;
 
         public TMP_Text nameText;
         public TMP_Text dialogueText;
@@ -23,6 +26,8 @@ namespace Dialogue2D
         private List<DialogueSegment> dialogueSegments;
         private DialogueSegment currentSegment;
         public ScrollRect scrollRect;
+
+        private GameObject character;
 
         public float xMinLeft;
         public float xMaxLeft;
@@ -36,20 +41,25 @@ namespace Dialogue2D
         {
             dialogueSegments = new List<DialogueSegment>();
             currentSegment = new DialogueSegment();
+
             playerInput = GetComponent<Character2D.PlayerInput>();
+            playerMovement = GetComponent<Character2D.PlayerMovement>();
+
             dialogueContainer.SetActive(false);
 
-            textSpeed = 2.0f;
-            xMinLeft = 0.01f;
+            textSpeed = 1.0f;
+            xMinLeft = 0.007f;
             xMaxLeft = 0.50f;
             xMinRight = 0.50f;
-            xMaxRight = 0.99f;
+            xMaxRight = 0.993f;
         }
 
         //finishes the dialogue
         private void EndDialogue()
         {
-            playerInput.EnableInput();
+            followTarget.SetTarget(playerMovement.gameObject.transform);
+            playerMovement.StopCoroutine();
+            playerInput.EnableInput(true);
             dialogueAnimator.SetBool("IsOpen", false);
             cameraShift.ResetCamera();
             FlushChoices();
@@ -155,7 +165,7 @@ namespace Dialogue2D
                         //add a fade to black and back to let the character disappear
                         break;
                     default:
-                        Debug.LogError(nameText.text + " has an action of type " + action.type.ToString()+ " which is undefined.");
+                        Debug.LogError(nameText.text + " has an action of type " + action.type.ToString() + " which is undefined.");
                         break;
                 }
             }
@@ -177,7 +187,7 @@ namespace Dialogue2D
         {
             //TODO: fix comments
             //instantiate a prefab for the interact button
-            GameObject newButton = Instantiate(choiceButton)as GameObject;
+            GameObject newButton = Instantiate(choiceButton) as GameObject;
             DialoguePrefabReference controller = newButton.GetComponent<DialoguePrefabReference>();
 
             //set the text for the choice onscreen
@@ -226,8 +236,28 @@ namespace Dialogue2D
         }
 
         //starts a dialogue once the character triggers it
-        public void StartDialogue(string charName, int convName)
+        public void StartDialogue(string charName, int convName, GameObject conversingCharacter)
         {
+            character = conversingCharacter;
+            playerMovement.StartAutoMoveRoutine(character);
+
+            followTarget.SetTarget(character.transform);
+
+            if (character.transform.position.x < transform.position.x)
+            {
+                if (character.gameObject.GetComponent<NPC>() != null)
+                {
+                    character.gameObject.GetComponent<NPC>().FaceRight(true);
+                }
+            }
+            else
+            {
+                if (character.gameObject.GetComponent<NPC>() != null)
+                {
+                    character.gameObject.GetComponent<NPC>().FaceRight(false);
+                }
+            }
+
             dialogueContainer.SetActive(true);
             dialogueAnimator.SetBool("IsOpen", true);
             dialogueSegments.Clear();

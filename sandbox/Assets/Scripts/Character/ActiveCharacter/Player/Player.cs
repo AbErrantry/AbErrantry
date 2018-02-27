@@ -13,8 +13,7 @@ namespace Character2D
 
         public Animator weaponAnim;
         public CinemachineVirtualCamera virtualCamera;
-        public PlayerMovement playerMovement;
-        public PlayerInput playerInput;
+        private PlayerInput playerInput;
 
         public Vector2 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
         public SpawnManager spawnManager;
@@ -37,6 +36,7 @@ namespace Character2D
         protected new void Start()
         {
             base.Start();
+            playerInput = GetComponent<PlayerInput>();
             healthText.text = currentVitality + "/" + maxVitality;
 
             //TODO: remove temp AssetBundle loading
@@ -53,12 +53,17 @@ namespace Character2D
         public override void TakeDamage(GameObject attacker, float damage)
         {
             base.TakeDamage(attacker, damage);
+            if (currentVitality < 0)
+            {
+                currentVitality = 0;
+            }
             healthText.text = currentVitality + "/" + maxVitality;
         }
 
         protected override void InitializeDeath()
         {
             //take away player input
+            ToggleCamera(false);
             playerInput.DisableInput();
             isDying = true;
             anim.SetBool("isDying", isDying); //death animation
@@ -81,7 +86,6 @@ namespace Character2D
 
         private void Respawn()
         {
-            ToggleCamera(false);
             currentVitality = maxVitality;
             healthText.text = currentVitality + "/" + maxVitality;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
@@ -90,11 +94,12 @@ namespace Character2D
             {
                 spawnManager.RefreshLevels();
             }
-            ToggleCamera(true);
+            StartCoroutine(CameraToggleDelay());
         }
 
         public void ToggleCamera(bool isActive)
         {
+            CameraShift.instance.ToggleDamping(isActive);
             virtualCamera.enabled = isActive;
         }
 
@@ -102,6 +107,12 @@ namespace Character2D
         {
             spawnPoint = loc;
             spawnManager = mgr;
+        }
+
+        private IEnumerator CameraToggleDelay()
+        {
+            yield return new WaitForSecondsRealtime(0.2f);
+            ToggleCamera(true);
         }
     }
 }

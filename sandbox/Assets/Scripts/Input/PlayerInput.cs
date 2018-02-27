@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Character2D
@@ -6,12 +7,12 @@ namespace Character2D
     {
         public static PlayerInput instance;
 
-        public PlayerMovement playerMovement;
-        public PlayerInteraction playerInteraction;
-        public PlayerAttack playerAttack;
+        private PlayerMovement playerMovement;
+        private PlayerInteraction playerInteraction;
+        private PlayerAttack playerAttack;
 
         // public PlayerPause playerPause;
-        public BackpackMenu backpackMenu;
+        private BackpackMenu backpackMenu;
         public InteractionTrigger interactTrigger;
         public bool acceptInput;
 
@@ -33,6 +34,10 @@ namespace Character2D
         private void Start()
         {
             acceptInput = true; //to be used for menu navigation
+            playerMovement = GetComponent<PlayerMovement>();
+            playerInteraction = GetComponent<PlayerInteraction>();
+            playerAttack = GetComponent<PlayerAttack>();
+            backpackMenu = GetComponent<BackpackMenu>();
         }
 
         // Update is called once per frame
@@ -48,7 +53,7 @@ namespace Character2D
                 playerInteraction.interactionInput = Input.GetButtonDown("Interact"); //send interaction input
                 playerAttack.attackInputDown = Input.GetButtonDown("Attack"); //send attack input pressed
                 playerAttack.attackInputUp = Input.GetButtonUp("Attack"); //send attack input released
-                // playerPause.pauseInput = CrossPlatformInputManager.GetButtonDown("Pause"); //send pause input
+                // playerPause.pauseInput = Input.GetButtonDown("Pause"); //send pause input
             }
 
             if (Input.GetButtonDown("Backpack"))
@@ -78,8 +83,24 @@ namespace Character2D
             playerAttack.attackInputUp = false;
         }
 
-        public void EnableInput()
+        public void EnableInput(bool menu = false)
         {
+            if (menu)
+            {
+                //have to wait for the end of the frame
+                StartCoroutine(EnableInputRoutine());
+            }
+            else
+            {
+                acceptInput = true;
+                interactTrigger.EnableTrigger();
+            }
+
+        }
+
+        private IEnumerator EnableInputRoutine()
+        {
+            yield return new WaitForEndOfFrame();
             acceptInput = true;
             interactTrigger.EnableTrigger();
         }

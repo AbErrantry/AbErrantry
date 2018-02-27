@@ -19,6 +19,8 @@ public class LevelStreamManager : MonoBehaviour
     private AsyncOperation asyncUnload; // Async operation to unload the scene
     private bool isLoading; // Whether the scene is loading or not.
 
+    private PlayerInventory playerInventory;
+
     // Used for initialization.
     private void Start()
     {
@@ -36,6 +38,8 @@ public class LevelStreamManager : MonoBehaviour
         //find and set the scene using its name
         scene = SceneManager.GetSceneByName(sceneName);
         isLoading = false;
+
+        playerInventory = PlayerInput.instance.gameObject.GetComponent<PlayerInventory>();
     }
 
     // Fires when another collider enters this trigger
@@ -89,7 +93,26 @@ public class LevelStreamManager : MonoBehaviour
         isLoading = true;
         asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         yield return asyncLoad;
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+        LoadItems();
+        LoadCharacters();
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(scenes[0]));
         scenes.Add(sceneName);
+    }
+
+    private void LoadItems()
+    {
+        var levelItems = new List<LevelItemTuple>();
+        levelItems = GameData.data.saveData.ReadLooseItems(sceneName);
+        foreach (LevelItemTuple item in levelItems)
+        {
+            playerInventory.InstantiateItem(GameData.data.itemData.itemDictionary[item.name], new Vector3(item.xLoc, item.yLoc, 0.0f), false, item.id);
+        }
+    }
+
+    private void LoadCharacters()
+    {
+
     }
 
     // Coroutine that unloads the level asynchronously.

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 namespace Character2D
 {
@@ -35,6 +36,8 @@ namespace Character2D
         //movement speed in each state
         protected float crouchSpeed; //how much crouching decreases the movement speed
 
+        protected bool movementOverride;
+
         //used for initialization
         protected new void Start()
         {
@@ -51,6 +54,7 @@ namespace Character2D
             climbSpeedInput = 0.0f;
             climbSpeed = 0.0f;
             bonusForce = 500.0f;
+            movementOverride = false;
         }
 
         //called once per frame (for input)
@@ -92,7 +96,7 @@ namespace Character2D
             {
                 //the character can only crouch when they are not crouching
                 //the character can only uncrouch when they have room to stand up
-                if (CheckIfCanUncrouch()|| !isCrouching)
+                if (CheckIfCanUncrouch() || !isCrouching)
                 {
                     isCrouching = crouchInput;
                     SendToAnimator();
@@ -179,11 +183,11 @@ namespace Character2D
                     isClimbing = true;
                     transform.Translate(Vector3.up * climbSpeedInput / 50f);
                 }
-                else if (Mathf.Abs(mvmtSpeed)> 0.0f && !isGrounded)
+                else if (Mathf.Abs(mvmtSpeed) > 0.0f && !isGrounded)
                 {
                     climbSpeed = 0.0f;
                     isStrafing = true;
-                    transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed)/ 75f);
+                    transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed) / 75f);
                 }
                 else if (isGrounded && climbingTriggerTop.currentObjects.Count != 0)
                 {
@@ -211,7 +215,7 @@ namespace Character2D
         {
             //TODO: change to 2d movement check
             //boolean expression that sets whether or not the player has moved this tick
-            isMoving = Mathf.Abs(lastPosition - rb.transform.position.x)> 0.001f ? true : false;
+            isMoving = Mathf.Abs(lastPosition - rb.transform.position.x) > 0.001f ? true : false;
 
             //boolean expression that sets whether or not the character is falling on this tick
             isFalling = rb.velocity.y < 0 && !isGrounded ? true : false;
@@ -291,6 +295,47 @@ namespace Character2D
             {
                 rb.AddForce(new Vector2(-bonusForce * intensity, 0f));
             }
+        }
+
+        public void StartAutoMoveRoutine(GameObject target)
+        {
+            StartCoroutine(MoveAwayAndFaceTarget(target));
+        }
+
+        private IEnumerator MoveAwayAndFaceTarget(GameObject target)
+        {
+            while (playerInteraction.isInteracting)
+            {
+                yield return null;
+            }
+            movementOverride = true;
+            if (target.transform.position.x < transform.position.x)
+            {
+                mvmtSpeed = 1;
+                while (transform.position.x - target.transform.position.x < 1.5f)
+                {
+                    yield return null;
+                }
+                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+                isFacingRight = false;
+            }
+            else
+            {
+                mvmtSpeed = -1;
+                while (target.transform.position.x - transform.position.x < 1.5f)
+                {
+                    yield return null;
+                }
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                isFacingRight = true;
+            }
+            movementOverride = false;
+            mvmtSpeed = 0;
+        }
+
+        public void StopCoroutine()
+        {
+            StopAllCoroutines();
         }
     }
 }

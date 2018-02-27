@@ -10,16 +10,17 @@ namespace Character2D
     {
         private PlayerInput playerInput;
         private PlayerInteraction playerInteraction;
+        private PlayerInventory playerInventory;
+
         public Animator anim;
-        public CharacterInventory characterInventory;
         public CameraShift cameraShift;
         public GameObject backpackContainer;
         private RectTransform backpackTransform;
 
-        public float xMinLeft;
-        public float xMaxLeft;
-        public float xMinRight;
-        public float xMaxRight;
+        private float xMinLeft;
+        private float xMaxLeft;
+        private float xMinRight;
+        private float xMaxRight;
 
         public GameObject inventoryContainer;
         public GameObject journalContainer;
@@ -61,21 +62,22 @@ namespace Character2D
         {
             playerInput = GetComponent<PlayerInput>();
             playerInteraction = GetComponent<PlayerInteraction>();
+            playerInventory = GetComponent<PlayerInventory>();
             backpackContainer.SetActive(false);
             CloseTabs();
             isOpen = false;
             backpackTransform = backpackContainer.GetComponent<RectTransform>();
-            xMinLeft = 0.01f;
+            xMinLeft = 0.007f;
             xMaxLeft = 0.75f;
             xMinRight = 0.25f;
-            xMaxRight = 0.99f;
+            xMaxRight = 0.993f;
         }
 
         public void ToggleBackpack()
         {
             if (!isOpen)
             {
-                playerInteraction.CloseContainer();
+                playerInteraction.CloseContainer(false);
                 if (cameraShift.ShiftCameraLeft(true))
                 {
                     backpackTransform.anchorMin = new Vector2(xMinLeft, backpackTransform.anchorMin.y);
@@ -135,7 +137,7 @@ namespace Character2D
         public void CloseBackpackMenu()
         {
             cameraShift.ResetCamera();
-            playerInput.EnableInput();
+            playerInput.EnableInput(true);
             CloseTabs();
             UnloadInventoryItems();
             backpackContainer.SetActive(false);
@@ -145,11 +147,11 @@ namespace Character2D
 
         private void LoadInventoryItems()
         {
-            foreach (InventoryItem inv in characterInventory.Items)
+            foreach (InventoryItem inv in playerInventory.Items)
             {
                 //TODO: fix comments
                 //instantiate a prefab for the interact button
-                GameObject newButton = Instantiate(inventoryItem)as GameObject;
+                GameObject newButton = Instantiate(inventoryItem) as GameObject;
                 InventoryPrefabReference controller = newButton.GetComponent<InventoryPrefabReference>();
 
                 //set the text for the interactable onscreen
@@ -167,7 +169,7 @@ namespace Character2D
                 newButton.transform.localScale = Vector3.one;
             }
 
-            if (characterInventory.Items.Count > 0)
+            if (playerInventory.Items.Count > 0)
             {
                 inventoryMask.SetActive(false);
                 ElementFocus.focus.SetFocus(inventoryList.transform.GetChild(0).gameObject, scrollRect, inventoryList.GetComponent<RectTransform>());
@@ -263,14 +265,14 @@ namespace Character2D
                 //move the scrollbar back to the top of the list
                 scrollRect.verticalNormalizedPosition = 1.0f;
             }
-            characterInventory.RemoveItem(selectedItem, false, false);
+            playerInventory.RemoveItem(selectedItem, false, false);
             UnloadInventoryItems();
             LoadInventoryItems();
         }
 
         public void DropItem()
         {
-            characterInventory.RemoveItem(selectedItem, isAll, true);
+            playerInventory.RemoveItem(selectedItem, isAll, true);
             UnloadInventoryItems();
             LoadInventoryItems();
             HideAmountConfirmContainers();
@@ -280,7 +282,7 @@ namespace Character2D
 
         public void DestroyItem()
         {
-            characterInventory.RemoveItem(selectedItem, isAll, false);
+            playerInventory.RemoveItem(selectedItem, isAll, false);
             UnloadInventoryItems();
             LoadInventoryItems();
             HideAmountConfirmContainers();
