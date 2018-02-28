@@ -93,12 +93,13 @@ namespace Character2D
 
                 //TODO: move camera to side
                 backpackContainer.SetActive(true);
-                LoadInventoryItems();
-                OpenInventoryTab();
-                isOpen = true;
 
                 //move the scrollbar back to the top of the list
                 scrollRect.verticalNormalizedPosition = 1.0f;
+
+                LoadInventoryItems();
+                OpenInventoryTab();
+                isOpen = true;
             }
             else
             {
@@ -141,6 +142,7 @@ namespace Character2D
             CloseTabs();
             UnloadInventoryItems();
             backpackContainer.SetActive(false);
+            ElementFocus.focus.RemoveFocus();
             isOpen = false;
             Time.timeScale = 1.0f;
         }
@@ -191,7 +193,6 @@ namespace Character2D
                 children.Add(child.gameObject);
             }
             children.ForEach(child => Destroy(child));
-            ElementFocus.focus.RemoveFocus();
         }
 
         public void SelectItem(InventoryItem inv)

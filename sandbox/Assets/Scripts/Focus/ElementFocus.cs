@@ -27,7 +27,7 @@ public class ElementFocus : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (selectedItem != null && eventSystem.currentSelectedGameObject != null)
         {
@@ -40,11 +40,22 @@ public class ElementFocus : MonoBehaviour
                 }
             }
         }
+        else if (eventSystem.currentSelectedGameObject == null && Selectable.allSelectables.Count > 0)
+        {
+            foreach (Selectable selectableUI in Selectable.allSelectables)
+            {
+                if (selectableUI.interactable)
+                {
+                    StartCoroutine(HighlightFocus(selectableUI.gameObject));
+                    break;
+                }
+            }
+        }
     }
 
     public void SetFocus(GameObject itemToFocus, ScrollRect itemScrollRect, RectTransform itemContentPanel)
     {
-        eventSystem.SetSelectedGameObject(itemToFocus);
+        StartCoroutine(HighlightFocus(itemToFocus));
         selectedItem = itemToFocus.GetComponent<RectTransform>();
         scrollRect = itemScrollRect;
         contentPanel = itemContentPanel;
@@ -53,12 +64,20 @@ public class ElementFocus : MonoBehaviour
     public void RemoveFocus()
     {
         selectedItem = null;
+        eventSystem.SetSelectedGameObject(null);
     }
 
     public void SnapToItem()
     {
         int itemIndex = selectedItem.transform.GetSiblingIndex();
         int itemCount = scrollRect.content.transform.childCount - 1;
-        scrollRect.verticalNormalizedPosition = (float)(itemCount - itemIndex)/ itemCount;
+        scrollRect.verticalNormalizedPosition = (float) (itemCount - itemIndex) / itemCount;
+    }
+
+    private IEnumerator HighlightFocus(GameObject itemToFocus)
+    {
+        eventSystem.SetSelectedGameObject(null);
+        yield return new WaitForEndOfFrame();
+        eventSystem.SetSelectedGameObject(itemToFocus);
     }
 }

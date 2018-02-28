@@ -20,7 +20,11 @@ namespace Dialogue2D
         public TMP_Text dialogueText;
         public GameObject choiceButton;
         public GameObject choiceList;
+
         public Animator dialogueAnimator;
+        public Animator choiceAnimator;
+        public Animator continueAnimator;
+
         public RectTransform dialogueTransform;
         public GameObject dialogueContainer;
         private List<DialogueSegment> dialogueSegments;
@@ -69,6 +73,7 @@ namespace Dialogue2D
         //submits the choice picked by the user to get the next segment
         public void SubmitChoice(int InChoice)
         {
+            choiceAnimator.SetBool("isOpen", false);
             currentSegment.next = InChoice;
             DoActions();
             GetNextSegment();
@@ -89,10 +94,19 @@ namespace Dialogue2D
                 {
                     CreateChoiceButton(choice.text, choice.next);
                 }
+                choiceAnimator.SetBool("isOpen", true);
             }
             else
             {
-                CreateChoiceButton("Continue", currentSegment.next);
+                continueAnimator.SetBool("isActive", true);
+            }
+        }
+
+        public void FocusOnChoice()
+        {
+            foreach (Transform child in choiceList.transform)
+            {
+                child.GetComponent<Button>().interactable = true;
             }
             ElementFocus.focus.SetFocus(choiceList.transform.GetChild(0).gameObject, scrollRect, choiceList.GetComponent<RectTransform>());
         }
@@ -204,6 +218,7 @@ namespace Dialogue2D
         //gets the next segment in dialogue
         public void GetNextSegment()
         {
+            continueAnimator.SetBool("isActive", false);
             if (currentSegment.next == -1)
             {
                 EndDialogue();

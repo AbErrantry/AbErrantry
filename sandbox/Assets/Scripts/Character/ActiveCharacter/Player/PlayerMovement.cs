@@ -181,13 +181,13 @@ namespace Character2D
                 {
                     climbSpeed = climbSpeedInput;
                     isClimbing = true;
-                    transform.Translate(Vector3.up * climbSpeedInput / 50f);
+                    transform.Translate(Vector3.up * climbSpeedInput / 25f);
                 }
                 else if (Mathf.Abs(mvmtSpeed) > 0.0f && !isGrounded)
                 {
                     climbSpeed = 0.0f;
                     isStrafing = true;
-                    transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed) / 75f);
+                    transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed) / 25f);
                 }
                 else if (isGrounded && climbingTriggerTop.currentObjects.Count != 0)
                 {
@@ -198,7 +198,7 @@ namespace Character2D
                 {
                     climbSpeed = 1.0f;
                     isClimbing = true;
-                    transform.Translate(Vector3.up / 50f);
+                    transform.Translate(Vector3.up / 25f);
                 }
                 else
                 {
