@@ -68,7 +68,10 @@ namespace Dialogue2D
             StartCoroutine(WaitForClose());
             cameraShift.ResetCamera();
             ElementFocus.focus.RemoveFocus();
-            FlushChoices();
+            if (currentSegment.choices.Count > 0)
+            {
+                FlushChoices();
+            }
         }
 
         private IEnumerator WaitForClose()
@@ -88,6 +91,10 @@ namespace Dialogue2D
         {
             choiceAnimator.SetBool("isOpen", false);
             currentSegment.next = InChoice;
+            if (currentSegment.choices.Count > 0)
+            {
+                FlushChoices();
+            }
             DoActions();
             GetNextSegment();
         }
@@ -95,12 +102,13 @@ namespace Dialogue2D
         private void DisplaySegment()
         {
             StopAllCoroutines();
-            FlushChoices();
+            character.GetComponent<Animator>().SetBool("isTalking", true);
             StartCoroutine(TypeSentence(currentSegment.text));
         }
 
         private void DisplayChoices()
         {
+            character.GetComponent<Animator>().SetBool("isTalking", false);
             if (currentSegment.choices.Count > 0)
             {
                 foreach (DialogueChoice choice in currentSegment.choices)

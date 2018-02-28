@@ -12,8 +12,7 @@ public class ElementFocus : MonoBehaviour
     private ScrollRect scrollRect;
     private RectTransform contentPanel;
 
-    // Use this for initialization
-    private void Start()
+    private void Awake()
     {
         if (focus == null)
         {
@@ -35,6 +34,7 @@ public class ElementFocus : MonoBehaviour
             {
                 if (eventSystem.currentSelectedGameObject.transform.parent.gameObject == contentPanel.gameObject)
                 {
+                    StopAllCoroutines();
                     selectedItem = eventSystem.currentSelectedGameObject.GetComponent<RectTransform>();
                     SnapToItem();
                 }
@@ -44,6 +44,7 @@ public class ElementFocus : MonoBehaviour
         {
             if (selectedItem != null)
             {
+                StopAllCoroutines();
                 StartCoroutine(HighlightFocus(selectedItem.gameObject));
             }
             else
@@ -52,16 +53,22 @@ public class ElementFocus : MonoBehaviour
                 {
                     if (selectableUI.interactable)
                     {
+                        StopAllCoroutines();
                         StartCoroutine(HighlightFocus(selectableUI.gameObject));
                         break;
                     }
                 }
             }
         }
+        else if (eventSystem.currentSelectedGameObject != null && !eventSystem.currentSelectedGameObject.activeInHierarchy)
+        {
+            RemoveFocus();
+        }
     }
 
     public void SetMenuFocus(GameObject itemToFocus, ScrollRect itemScrollRect, RectTransform itemContentPanel)
     {
+        StopAllCoroutines();
         StartCoroutine(HighlightFocus(itemToFocus));
         selectedItem = itemToFocus.GetComponent<RectTransform>();
         scrollRect = itemScrollRect;
@@ -70,12 +77,14 @@ public class ElementFocus : MonoBehaviour
 
     public void SetItemFocus(GameObject itemToFocus)
     {
+        StopAllCoroutines();
         StartCoroutine(HighlightFocus(itemToFocus));
         selectedItem = itemToFocus.GetComponent<RectTransform>();
     }
 
     public void RemoveFocus()
     {
+        StopAllCoroutines();
         selectedItem = null;
         eventSystem.SetSelectedGameObject(null);
     }
