@@ -65,8 +65,21 @@ namespace Dialogue2D
             playerMovement.StopCoroutine();
             playerInput.EnableInput(true);
             dialogueAnimator.SetBool("IsOpen", false);
+            StartCoroutine(WaitForClose());
             cameraShift.ResetCamera();
+            ElementFocus.focus.RemoveFocus();
             FlushChoices();
+        }
+
+        private IEnumerator WaitForClose()
+        {
+            yield return new WaitForSeconds(0.5f);
+            dialogueContainer.SetActive(false);
+        }
+
+        private void StopCoroutine()
+        {
+            StopAllCoroutines();
             dialogueContainer.SetActive(false);
         }
 
@@ -253,7 +266,15 @@ namespace Dialogue2D
         //starts a dialogue once the character triggers it
         public void StartDialogue(string charName, int convName, GameObject conversingCharacter)
         {
+            StopCoroutine();
             character = conversingCharacter;
+            nameText.text = charName;
+
+            dialogueContainer.SetActive(true);
+            dialogueAnimator.SetBool("IsOpen", true);
+            dialogueSegments.Clear();
+            dialogueSegments = GameData.data.dialogueData.dialogueDictionary[charName].conversation[convName].segments.Values.ToList();
+
             playerMovement.StartAutoMoveRoutine(character);
 
             followTarget.SetTarget(character.transform);
@@ -273,11 +294,6 @@ namespace Dialogue2D
                 }
             }
 
-            dialogueContainer.SetActive(true);
-            dialogueAnimator.SetBool("IsOpen", true);
-            dialogueSegments.Clear();
-            dialogueSegments = GameData.data.dialogueData.dialogueDictionary[charName].conversation[convName].segments.Values.ToList();
-
             if (cameraShift.ShiftCameraLeft(false))
             {
                 dialogueTransform.anchorMin = new Vector2(xMinLeft, dialogueTransform.anchorMin.y);
@@ -289,7 +305,6 @@ namespace Dialogue2D
                 dialogueTransform.anchorMax = new Vector2(xMaxRight, dialogueTransform.anchorMax.y);
             }
 
-            nameText.text = charName;
             if (dialogueSegments.Count > 0)
             {
                 currentSegment = dialogueSegments.First();

@@ -20,6 +20,8 @@ namespace Character2D
         public GameObject interactList; //reference to the interact list which contains interact button prefabs
         public GameObject interactContainer; //reference to the interact container which contains the interact list
 
+        private RectTransform interactTransform;
+
         public ScrollRect scrollRect; //the default y position of the interact list (to scroll back to the top)
         public EventSystem eventSystem;
 
@@ -32,11 +34,25 @@ namespace Character2D
         public bool isInteracting;
         public float interactTime;
 
+        private float xMinLeft;
+        private float xMaxLeft;
+        private float xMinRight;
+        private float xMaxRight;
+
+        public bool isOpen;
+
         void Start()
         {
             playerInput = GetComponent<PlayerInput>();
             playerInventory = GetComponent<PlayerInventory>();
             dialogueManager = GetComponent<Dialogue2D.DialogueManager>();
+
+            interactTransform = interactContainer.GetComponent<RectTransform>();
+
+            xMinLeft = 0.007f;
+            xMaxLeft = 0.50f;
+            xMinRight = 0.50f;
+            xMaxRight = 0.993f;
 
             isInteracting = false;
             interactionInput = false;
@@ -104,6 +120,8 @@ namespace Character2D
         //shows the list of interactables that the player can select to interact with
         public void ShowList()
         {
+            StopCoroutine();
+
             playerInput.DisableInput(true);
             int numberOfItems = 0;
             //iterate through the list of interactables spawning buttons on screen in a list
@@ -139,17 +157,27 @@ namespace Character2D
                 collectAllButton.interactable = false;
             }
 
+            isOpen = true;
+
             interactBar.SetActive(false);
             interactContainer.SetActive(true);
             ElementFocus.focus.SetMenuFocus(interactList.transform.GetChild(0).gameObject, scrollRect, interactList.GetComponent<RectTransform>());
 
+            if (CameraShift.instance.ShiftCameraLeft(false))
+            {
+                interactTransform.anchorMin = new Vector2(xMinLeft, interactTransform.anchorMin.y);
+                interactTransform.anchorMax = new Vector2(xMaxLeft, interactTransform.anchorMax.y);
+            }
+            else
+            {
+                interactTransform.anchorMin = new Vector2(xMinRight, interactTransform.anchorMin.y);
+                interactTransform.anchorMax = new Vector2(xMaxRight, interactTransform.anchorMax.y);
+            }
+
+            interactContainer.GetComponent<Animator>().SetBool("IsOpen", true);
+
             //move the scrollbar back to the top of the list
             scrollRect.verticalNormalizedPosition = 1.0f;
-
-            //pause game time (in part to prevent user input)
-            //TODO: decide if we want to keep time paused here or just disable user action/motion input
-            Time.timeScale = 0;
-            Cursor.visible = true;
         }
 
         //performs the interaction with the selected item
@@ -230,21 +258,40 @@ namespace Character2D
         //cleans up the screen after an interactable is chosen
         public void CloseContainer(bool closedOnOwn = true)
         {
-            //unpause time and hide the container
-            //TODO: if changed above, change here too
-            interactContainer.SetActive(false);
-            Time.timeScale = 1;
-            //display the interact popup
-            DisplayText();
-            //delete ui elements from the list for the next iteration
-            var children = new List<GameObject>();
-            foreach (Transform child in interactList.transform)
+            if (isOpen)
             {
-                children.Add(child.gameObject);
+                interactContainer.GetComponent<Animator>().SetBool("IsOpen", false);
+                StartCoroutine(WaitForClose());
+
+                CameraShift.instance.ResetCamera();
+
+                //display the interact popup
+                DisplayText();
+
+                //delete ui elements from the list for the next iteration
+                var children = new List<GameObject>();
+                foreach (Transform child in interactList.transform)
+                {
+                    children.Add(child.gameObject);
+                }
+                children.ForEach(child => Destroy(child));
+                playerInput.EnableInput(closedOnOwn);
+                ElementFocus.focus.RemoveFocus();
             }
-            children.ForEach(child => Destroy(child));
-            playerInput.EnableInput(closedOnOwn);
-            ElementFocus.focus.RemoveFocus();
+        }
+
+        private IEnumerator WaitForClose()
+        {
+            yield return new WaitForSeconds(0.5f);
+            interactContainer.SetActive(false);
+            isOpen = false;
+        }
+
+        private void StopCoroutine()
+        {
+            StopAllCoroutines();
+            interactContainer.SetActive(false);
+            isOpen = false;
         }
 
         //collects all items in the player's vicinity

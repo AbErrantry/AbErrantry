@@ -9,7 +9,6 @@ namespace Character2D
     public class BackpackMenu : MonoBehaviour
     {
         private PlayerInput playerInput;
-        private PlayerInteraction playerInteraction;
         private PlayerInventory playerInventory;
 
         public Animator anim;
@@ -75,7 +74,6 @@ namespace Character2D
         private void Start()
         {
             playerInput = GetComponent<PlayerInput>();
-            playerInteraction = GetComponent<PlayerInteraction>();
             playerInventory = GetComponent<PlayerInventory>();
             backpackContainer.SetActive(false);
             CloseTabs();
@@ -98,7 +96,7 @@ namespace Character2D
         {
             if (!isOpen)
             {
-                playerInteraction.CloseContainer(false);
+                StopCoroutine();
                 if (cameraShift.ShiftCameraLeft(true))
                 {
                     backpackTransform.anchorMin = new Vector2(xMinLeft, backpackTransform.anchorMin.y);
@@ -114,6 +112,7 @@ namespace Character2D
 
                 //TODO: move camera to side
                 backpackContainer.SetActive(true);
+                backpackContainer.GetComponent<Animator>().SetBool("IsOpen", true);
 
                 //move the scrollbar back to the top of the list
                 scrollRect.verticalNormalizedPosition = 1.0f;
@@ -129,6 +128,33 @@ namespace Character2D
                 CloseBackpackMenu();
                 isOpen = false;
             }
+        }
+
+        public void CloseBackpackMenu()
+        {
+            cameraShift.ResetCamera();
+            playerInput.EnableInput(true);
+            StartCoroutine(WaitForClose());
+            ElementFocus.focus.RemoveFocus();
+            backpackContainer.GetComponent<Animator>().SetBool("IsOpen", false);
+        }
+
+        private IEnumerator WaitForClose()
+        {
+            yield return new WaitForSeconds(0.5f);
+            backpackContainer.SetActive(false);
+            isOpen = false;
+            CloseTabs();
+            UnloadInventoryItems();
+        }
+
+        private void StopCoroutine()
+        {
+            StopAllCoroutines();
+            backpackContainer.SetActive(false);
+            isOpen = false;
+            CloseTabs();
+            UnloadInventoryItems();
         }
 
         private void CloseTabs()
@@ -173,18 +199,6 @@ namespace Character2D
             mapTab.GetComponent<Button>().navigation = automaticNav;
         }
 
-        public void CloseBackpackMenu()
-        {
-            cameraShift.ResetCamera();
-            playerInput.EnableInput(true);
-            CloseTabs();
-            UnloadInventoryItems();
-            backpackContainer.SetActive(false);
-            ElementFocus.focus.RemoveFocus();
-            isOpen = false;
-            Time.timeScale = 1.0f;
-        }
-
         private void LoadInventoryItems(bool initOpen = false)
         {
             foreach (InventoryItem inv in playerInventory.Items)
@@ -225,6 +239,17 @@ namespace Character2D
 
         public void FocusOnInventoryMenu()
         {
+            StartCoroutine(FocusOnInventoryMenuRoutine());
+        }
+
+        public void FocusOnInventoryItem()
+        {
+            StartCoroutine(FocusOnInventoryItemRoutine());
+        }
+
+        public IEnumerator FocusOnInventoryMenuRoutine()
+        {
+            yield return new WaitForEndOfFrame();
             if (playerInventory.Items.Count > 0)
             {
                 inventoryMask.SetActive(false);
@@ -236,11 +261,6 @@ namespace Character2D
                 ElementFocus.focus.SetMenuFocus(inventoryTab, scrollRect, inventoryList.GetComponent<RectTransform>());
             }
             MaskDescription();
-        }
-
-        public void FocusOnInventoryItem()
-        {
-            StartCoroutine(FocusOnInventoryItemRoutine());
         }
 
         public IEnumerator FocusOnInventoryItemRoutine()

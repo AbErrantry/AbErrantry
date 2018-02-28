@@ -12,8 +12,6 @@ public class ElementFocus : MonoBehaviour
     private ScrollRect scrollRect;
     private RectTransform contentPanel;
 
-    private bool settingFocus;
-
     // Use this for initialization
     private void Start()
     {
@@ -27,7 +25,6 @@ public class ElementFocus : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        settingFocus = false;
     }
 
     private void FixedUpdate()
@@ -43,11 +40,10 @@ public class ElementFocus : MonoBehaviour
                 }
             }
         }
-        else if (eventSystem.currentSelectedGameObject == null && Selectable.allSelectables.Count > 0 && !settingFocus)
+        else if (eventSystem.currentSelectedGameObject == null && Selectable.allSelectables.Count > 0)
         {
             if (selectedItem != null)
             {
-                settingFocus = true;
                 StartCoroutine(HighlightFocus(selectedItem.gameObject));
             }
             else
@@ -56,7 +52,6 @@ public class ElementFocus : MonoBehaviour
                 {
                     if (selectableUI.interactable)
                     {
-                        settingFocus = true;
                         StartCoroutine(HighlightFocus(selectableUI.gameObject));
                         break;
                     }
@@ -67,7 +62,6 @@ public class ElementFocus : MonoBehaviour
 
     public void SetMenuFocus(GameObject itemToFocus, ScrollRect itemScrollRect, RectTransform itemContentPanel)
     {
-        settingFocus = true;
         StartCoroutine(HighlightFocus(itemToFocus));
         selectedItem = itemToFocus.GetComponent<RectTransform>();
         scrollRect = itemScrollRect;
@@ -76,7 +70,6 @@ public class ElementFocus : MonoBehaviour
 
     public void SetItemFocus(GameObject itemToFocus)
     {
-        settingFocus = true;
         StartCoroutine(HighlightFocus(itemToFocus));
         selectedItem = itemToFocus.GetComponent<RectTransform>();
     }
@@ -99,6 +92,5 @@ public class ElementFocus : MonoBehaviour
         eventSystem.SetSelectedGameObject(null);
         yield return new WaitForEndOfFrame();
         eventSystem.SetSelectedGameObject(itemToFocus);
-        settingFocus = false;
     }
 }

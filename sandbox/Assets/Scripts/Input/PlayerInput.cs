@@ -55,12 +55,14 @@ namespace Character2D
                 playerAttack.attackInputUp = Input.GetButtonUp("Attack"); //send attack input released
                 // playerPause.pauseInput = Input.GetButtonDown("Pause"); //send pause input
             }
-
-            if (Input.GetButtonDown("Backpack"))
+            if (!playerInteraction.isOpen)
             {
-                if ((!acceptInput && backpackMenu.isOpen) || acceptInput)
+                if (Input.GetButtonDown("Backpack"))
                 {
-                    backpackMenu.ToggleBackpack();
+                    if ((!acceptInput && backpackMenu.isOpen) || acceptInput)
+                    {
+                        backpackMenu.ToggleBackpack();
+                    }
                 }
             }
         }

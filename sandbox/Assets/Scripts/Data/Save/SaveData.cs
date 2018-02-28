@@ -122,7 +122,7 @@ public class SaveData : ScriptableObject
                     cmd.Parameters.Add("@name", DbType.String).Value = item.name;
                     cmd.Parameters.Add("@quantity", DbType.Int32).Value = item.quantity;
                     cmd.ExecuteNonQuery();
-                    Debug.Log("Updated item " + item.name + " in PlayerItems to quantity " + item.quantity);
+                    //Debug.Log("Updated item " + item.name + " in PlayerItems to quantity " + item.quantity);
                 }
                 else
                 {
@@ -130,7 +130,7 @@ public class SaveData : ScriptableObject
                     cmd.CommandText = "DELETE FROM PlayerItems WHERE name = @name";
                     cmd.Parameters.Add("@name", DbType.String).Value = item.name;
                     cmd.ExecuteNonQuery();
-                    Debug.Log("Removed item " + item.name + " from PlayerItems");
+                    //Debug.Log("Removed item " + item.name + " from PlayerItems");
                 }
             }
             else
@@ -144,7 +144,7 @@ public class SaveData : ScriptableObject
                     cmd.Parameters.Add("@name", DbType.String).Value = item.name;
                     cmd.Parameters.Add("@quantity", DbType.Int32).Value = item.quantity;
                     cmd.ExecuteNonQuery();
-                    Debug.Log("Added item " + item.name + " to PlayerItems with quantity " + item.quantity);
+                    //Debug.Log("Added item " + item.name + " to PlayerItems with quantity " + item.quantity);
                 }
                 else
                 {
@@ -250,7 +250,7 @@ public class SaveData : ScriptableObject
             cmd.CommandText = "DELETE FROM LooseItems WHERE id = @id";
             cmd.Parameters.Add("@id", DbType.Int32).Value = item.id;
             cmd.ExecuteNonQuery();
-            Debug.Log("Removed item " + item.id + " from level " + level);
+            //Debug.Log("Removed item " + item.id + " from level " + level);
         }
     }
 
@@ -289,7 +289,7 @@ public class SaveData : ScriptableObject
                 item.xLoc = reader.GetFloat(reader.GetOrdinal("xLoc"));
                 item.yLoc = reader.GetFloat(reader.GetOrdinal("yLoc"));
                 itemsInLevel.Add(item);
-                Debug.Log(level + ", id=" + item.id + ", name=" + item.name + ", xLoc=" + item.xLoc + ", yLoc=" + item.yLoc);
+                //Debug.Log(level + ", id=" + item.id + ", name=" + item.name + ", xLoc=" + item.xLoc + ", yLoc=" + item.yLoc);
             }
         }
         catch (Exception e)
