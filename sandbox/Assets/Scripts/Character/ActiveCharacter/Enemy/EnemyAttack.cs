@@ -7,15 +7,17 @@ namespace Character2D
     public class EnemyAttack : CharacterAttack
     {
         public bool canAttack;
+        [SerializeField] public List<Attack> attackList;
 
         // Use this for initialization
         protected new void Start()
         {
             base.Start();
             //TODO: set from file
-            SetAttack(0, 5.0f, 0.20f); // Stab attack setup
-            SetAttack(1, 7.0f, 0.30f); // Swing attack setup
-            SetAttack(2, 15.0f, 0.80f); // Power attack setup
+            for (int i = 0; i < attackList.Count; i++)
+            {
+                SetAttack(i, attackList[i].power, attackList[i].duration);
+            }
         }
 
         // Update is called once per frame
@@ -37,17 +39,24 @@ namespace Character2D
         {
             int attackIndex = 0;
             float randomValue = Random.Range(0.0f, 100.0f);
-            if (randomValue < 50.0f)
+            if (randomValue > 80.0f && attackList.Count >= 3)
             {
-                attackIndex = 0;
+                attackIndex = 2;
             }
-            else if (randomValue < 80.0f)
+            else if (randomValue > 50.0f && attackList.Count >= 2)
             {
                 attackIndex = 1;
             }
             else
             {
-                attackIndex = 2;
+                if (attackList.Count >= 1)
+                {
+                    attackIndex = 0;
+                }
+                else
+                {
+                    Debug.LogError("Enemy " + gameObject.name + " does not have any registered attacks.");
+                }
             }
             StartCoroutine(WindUpDelay(attackIndex));
         }

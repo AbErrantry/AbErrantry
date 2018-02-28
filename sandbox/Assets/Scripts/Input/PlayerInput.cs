@@ -77,7 +77,7 @@ namespace Character2D
             playerMovement.crouchInput = false;
             playerMovement.runInput = false;
             playerMovement.mvmtSpeed = 0.0f;
-            playerMovement.climbSpeed = 0.0f;
+            playerMovement.climbSpeedInput = 0.0f;
             playerInteraction.interactionInput = false;
             playerAttack.attackInputDown = false;
             playerAttack.attackInputUp = false;

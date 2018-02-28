@@ -141,7 +141,7 @@ namespace Character2D
 
             interactBar.SetActive(false);
             interactContainer.SetActive(true);
-            ElementFocus.focus.SetFocus(interactList.transform.GetChild(0).gameObject, scrollRect, interactList.GetComponent<RectTransform>());
+            ElementFocus.focus.SetMenuFocus(interactList.transform.GetChild(0).gameObject, scrollRect, interactList.GetComponent<RectTransform>());
 
             //move the scrollbar back to the top of the list
             scrollRect.verticalNormalizedPosition = 1.0f;

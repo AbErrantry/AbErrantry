@@ -12,6 +12,8 @@ public class ElementFocus : MonoBehaviour
     private ScrollRect scrollRect;
     private RectTransform contentPanel;
 
+    private bool settingFocus;
+
     // Use this for initialization
     private void Start()
     {
@@ -25,6 +27,7 @@ public class ElementFocus : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        settingFocus = false;
     }
 
     private void FixedUpdate()
@@ -40,25 +43,42 @@ public class ElementFocus : MonoBehaviour
                 }
             }
         }
-        else if (eventSystem.currentSelectedGameObject == null && Selectable.allSelectables.Count > 0)
+        else if (eventSystem.currentSelectedGameObject == null && Selectable.allSelectables.Count > 0 && !settingFocus)
         {
-            foreach (Selectable selectableUI in Selectable.allSelectables)
+            if (selectedItem != null)
             {
-                if (selectableUI.interactable)
+                settingFocus = true;
+                StartCoroutine(HighlightFocus(selectedItem.gameObject));
+            }
+            else
+            {
+                foreach (Selectable selectableUI in Selectable.allSelectables)
                 {
-                    StartCoroutine(HighlightFocus(selectableUI.gameObject));
-                    break;
+                    if (selectableUI.interactable)
+                    {
+                        settingFocus = true;
+                        StartCoroutine(HighlightFocus(selectableUI.gameObject));
+                        break;
+                    }
                 }
             }
         }
     }
 
-    public void SetFocus(GameObject itemToFocus, ScrollRect itemScrollRect, RectTransform itemContentPanel)
+    public void SetMenuFocus(GameObject itemToFocus, ScrollRect itemScrollRect, RectTransform itemContentPanel)
     {
+        settingFocus = true;
         StartCoroutine(HighlightFocus(itemToFocus));
         selectedItem = itemToFocus.GetComponent<RectTransform>();
         scrollRect = itemScrollRect;
         contentPanel = itemContentPanel;
+    }
+
+    public void SetItemFocus(GameObject itemToFocus)
+    {
+        settingFocus = true;
+        StartCoroutine(HighlightFocus(itemToFocus));
+        selectedItem = itemToFocus.GetComponent<RectTransform>();
     }
 
     public void RemoveFocus()
@@ -79,5 +99,6 @@ public class ElementFocus : MonoBehaviour
         eventSystem.SetSelectedGameObject(null);
         yield return new WaitForEndOfFrame();
         eventSystem.SetSelectedGameObject(itemToFocus);
+        settingFocus = false;
     }
 }

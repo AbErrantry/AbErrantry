@@ -25,7 +25,11 @@ namespace Character2D
         public GameObject inventoryContainer;
         public GameObject journalContainer;
         public GameObject mapContainer;
+
         public GameObject inventoryTab;
+        public GameObject journalTab;
+        public GameObject mapTab;
+
         public GameObject inventoryItem;
         public GameObject inventoryList;
         public GameObject inventoryMask;
@@ -49,6 +53,10 @@ namespace Character2D
         public Button useButton;
         public Button dropButton;
         public Button destroyButton;
+        public Button cancelButton;
+
+        public Button amountCancelButton;
+        public Button confirmNoButton;
 
         public InventoryItem selectedItem;
 
@@ -56,6 +64,12 @@ namespace Character2D
         public bool isAll;
         public bool isOne;
         public bool isOpen;
+
+        public Sprite currentTabSprite;
+        public Sprite nonCurrentTabSprite;
+
+        private Navigation automaticNav;
+        private Navigation horizontalNav;
 
         //used for initialization
         private void Start()
@@ -67,10 +81,17 @@ namespace Character2D
             CloseTabs();
             isOpen = false;
             backpackTransform = backpackContainer.GetComponent<RectTransform>();
+
             xMinLeft = 0.007f;
             xMaxLeft = 0.75f;
             xMinRight = 0.25f;
             xMaxRight = 0.993f;
+
+            automaticNav = new Navigation();
+            horizontalNav = new Navigation();
+
+            automaticNav.mode = Navigation.Mode.Automatic;
+            horizontalNav.mode = Navigation.Mode.Horizontal;
         }
 
         public void ToggleBackpack()
@@ -97,8 +118,9 @@ namespace Character2D
                 //move the scrollbar back to the top of the list
                 scrollRect.verticalNormalizedPosition = 1.0f;
 
-                LoadInventoryItems();
+                LoadInventoryItems(initOpen: true);
                 OpenInventoryTab();
+
                 isOpen = true;
             }
             else
@@ -112,7 +134,16 @@ namespace Character2D
         private void CloseTabs()
         {
             inventoryContainer.SetActive(false);
-            HideAmountConfirmContainers();
+
+            inventoryTab.GetComponent<Image>().sprite = nonCurrentTabSprite;
+            journalTab.GetComponent<Image>().sprite = nonCurrentTabSprite;
+            mapTab.GetComponent<Image>().sprite = nonCurrentTabSprite;
+
+            inventoryTab.GetComponent<Button>().navigation = horizontalNav;
+            journalTab.GetComponent<Button>().navigation = horizontalNav;
+            mapTab.GetComponent<Button>().navigation = horizontalNav;
+
+            HideAmountConfirmContainers(false);
             journalContainer.SetActive(false);
             mapContainer.SetActive(false);
         }
@@ -121,18 +152,25 @@ namespace Character2D
         {
             CloseTabs();
             inventoryContainer.SetActive(true);
+            inventoryTab.GetComponent<Image>().sprite = currentTabSprite;
+            inventoryTab.GetComponent<Button>().navigation = automaticNav;
+            FocusOnInventoryMenu();
         }
 
         public void OpenJournalTab()
         {
             CloseTabs();
             journalContainer.SetActive(true);
+            journalTab.GetComponent<Image>().sprite = currentTabSprite;
+            journalTab.GetComponent<Button>().navigation = automaticNav;
         }
 
         public void OpenMapTab()
         {
             CloseTabs();
             mapContainer.SetActive(true);
+            mapTab.GetComponent<Image>().sprite = currentTabSprite;
+            mapTab.GetComponent<Button>().navigation = automaticNav;
         }
 
         public void CloseBackpackMenu()
@@ -147,7 +185,7 @@ namespace Character2D
             Time.timeScale = 1.0f;
         }
 
-        private void LoadInventoryItems()
+        private void LoadInventoryItems(bool initOpen = false)
         {
             foreach (InventoryItem inv in playerInventory.Items)
             {
@@ -170,18 +208,55 @@ namespace Character2D
                 //for some reason Unity does not use full scale for the instantiated object by default
                 newButton.transform.localScale = Vector3.one;
             }
+            if (!initOpen)
+            {
+                FocusOnInventoryItem();
+            }
+        }
 
+        private void MaskDescription()
+        {
+            useButton.interactable = false;
+            dropButton.interactable = false;
+            destroyButton.interactable = false;
+            cancelButton.interactable = false;
+            descriptionMask.SetActive(true);
+        }
+
+        public void FocusOnInventoryMenu()
+        {
             if (playerInventory.Items.Count > 0)
             {
                 inventoryMask.SetActive(false);
-                ElementFocus.focus.SetFocus(inventoryList.transform.GetChild(0).gameObject, scrollRect, inventoryList.GetComponent<RectTransform>());
+                ElementFocus.focus.SetMenuFocus(inventoryList.transform.GetChild(0).gameObject, scrollRect, inventoryList.GetComponent<RectTransform>());
             }
             else
             {
                 inventoryMask.SetActive(true);
-                ElementFocus.focus.SetFocus(inventoryTab, scrollRect, inventoryList.GetComponent<RectTransform>());
+                ElementFocus.focus.SetMenuFocus(inventoryTab, scrollRect, inventoryList.GetComponent<RectTransform>());
             }
-            descriptionMask.SetActive(true);
+            MaskDescription();
+        }
+
+        public void FocusOnInventoryItem()
+        {
+            StartCoroutine(FocusOnInventoryItemRoutine());
+        }
+
+        public IEnumerator FocusOnInventoryItemRoutine()
+        {
+            yield return new WaitForEndOfFrame();
+            if (playerInventory.Items.Count > 0)
+            {
+                inventoryMask.SetActive(false);
+                ElementFocus.focus.SetItemFocus(inventoryList.transform.GetChild(0).gameObject);
+            }
+            else
+            {
+                inventoryMask.SetActive(true);
+                ElementFocus.focus.SetItemFocus(inventoryTab);
+            }
+            MaskDescription();
         }
 
         //delete ui elements from the list for the next iteration
@@ -206,21 +281,17 @@ namespace Character2D
             itemPrice.text = inv.item.price.ToString();
             selectedItem = inv;
             descriptionMask.SetActive(false);
-            if (inv.item.type == "story")
-            {
-                useButton.interactable = false;
-                dropButton.interactable = false;
-                destroyButton.interactable = false;
-            }
-            else
+            if (inv.item.type != "story")
             {
                 useButton.interactable = true;
                 dropButton.interactable = true;
                 destroyButton.interactable = true;
             }
+            cancelButton.interactable = true;
+            ElementFocus.focus.SetItemFocus(cancelButton.gameObject);
         }
 
-        public void HideAmountConfirmContainers()
+        public void HideAmountConfirmContainers(bool isInMenu = true)
         {
             amountMask.SetActive(false);
             amountContainer.SetActive(false);
@@ -229,6 +300,10 @@ namespace Character2D
             isDestroying = false;
             isAll = false;
             isOne = false;
+            if (isInMenu)
+            {
+                FocusOnInventoryMenu();
+            }
         }
 
         public void ShowAmountContainer(bool destroying)
@@ -236,12 +311,14 @@ namespace Character2D
             isDestroying = destroying;
             amountMask.SetActive(true);
             amountContainer.SetActive(true);
+            ElementFocus.focus.SetItemFocus(amountCancelButton.gameObject);
         }
 
         public void ShowConfirmContainer()
         {
             confirmMask.SetActive(true);
             confirmContainer.SetActive(true);
+            ElementFocus.focus.SetItemFocus(confirmNoButton.gameObject);
         }
 
         public void UseItem()
@@ -263,7 +340,7 @@ namespace Character2D
 
             if (selectedItem.quantity == 1)
             {
-                //move the scrollbar back to the top of the list
+                //move the scrollbar back to the top of the list since the item ran out
                 scrollRect.verticalNormalizedPosition = 1.0f;
             }
             playerInventory.RemoveItem(selectedItem, false, false);

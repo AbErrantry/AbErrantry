@@ -108,7 +108,7 @@ namespace Dialogue2D
             {
                 child.GetComponent<Button>().interactable = true;
             }
-            ElementFocus.focus.SetFocus(choiceList.transform.GetChild(0).gameObject, scrollRect, choiceList.GetComponent<RectTransform>());
+            ElementFocus.focus.SetMenuFocus(choiceList.transform.GetChild(0).gameObject, scrollRect, choiceList.GetComponent<RectTransform>());
         }
 
         private void DoActions()
