@@ -7,9 +7,14 @@ namespace Character2D
     {
         public static PlayerInput instance;
 
+        private Animator anim;
+        public Animator weaponAnim;
+
         private PlayerMovement playerMovement;
         private PlayerInteraction playerInteraction;
         private PlayerAttack playerAttack;
+
+        private Dialogue2D.DialogueManager dialogueManager;
 
         // public PlayerPause playerPause;
         private BackpackMenu backpackMenu;
@@ -17,6 +22,12 @@ namespace Character2D
         public bool acceptInput;
 
         public GameObject loadingContainer;
+
+        public bool isAsleep;
+        public bool awakeInvoked;
+
+        private float timeToSleep;
+        private float sleepTimer;
 
         private void Awake()
         {
@@ -38,6 +49,14 @@ namespace Character2D
             playerInteraction = GetComponent<PlayerInteraction>();
             playerAttack = GetComponent<PlayerAttack>();
             backpackMenu = GetComponent<BackpackMenu>();
+            dialogueManager = GetComponent<Dialogue2D.DialogueManager>();
+            anim = GetComponent<Animator>();
+
+            sleepTimer = Time.time;
+            timeToSleep = 30.0f;
+
+            isAsleep = false;
+            awakeInvoked = false;
         }
 
         // Update is called once per frame
@@ -48,22 +67,86 @@ namespace Character2D
                 playerMovement.jumpInput = Input.GetButtonDown("Jump"); //send jump input pressed
                 playerMovement.crouchInput = Input.GetButton("Crouch"); //send crouch input
                 playerMovement.runInput = Input.GetButton("Run"); //send run input
-                playerMovement.mvmtSpeed = Input.GetAxis("Move"); //send movement speed
-                playerMovement.climbSpeedInput = Input.GetAxis("Vertical"); //send movement speed
+                playerMovement.mvmtSpeed = Input.GetAxisRaw("Move"); //send movement speed
+                playerMovement.climbSpeedInput = Input.GetAxisRaw("Vertical"); //send climb speed
                 playerInteraction.interactionInput = Input.GetButtonDown("Interact"); //send interaction input
                 playerAttack.attackInputDown = Input.GetButtonDown("Attack"); //send attack input pressed
                 playerAttack.attackInputUp = Input.GetButtonUp("Attack"); //send attack input released
-                // playerPause.pauseInput = Input.GetButtonDown("Pause"); //send pause input
+                //playerPause.pauseInput = Input.GetButtonDown("Pause");
             }
-            if (!playerInteraction.isOpen)
+
+            if (Input.GetButtonDown("Jump") != false)
             {
-                if (Input.GetButtonDown("Backpack"))
+                sleepTimer = Time.time;
+            }
+            if (Input.GetButton("Crouch") != false)
+            {
+                sleepTimer = Time.time;
+            }
+            if (Input.GetButton("Run") != false)
+            {
+                sleepTimer = Time.time;
+            }
+            if (Input.GetAxisRaw("Move") != 0.0f)
+            {
+                sleepTimer = Time.time;
+            }
+            if (Input.GetAxisRaw("Vertical") != 0.0f)
+            {
+                sleepTimer = Time.time;
+            }
+            if (Input.GetButtonDown("Interact") != false)
+            {
+                sleepTimer = Time.time;
+            }
+            if (Input.GetButtonDown("Attack") != false)
+            {
+                sleepTimer = Time.time;
+            }
+            if (Input.GetButtonUp("Attack") != false)
+            {
+                sleepTimer = Time.time;
+            }
+            //if (Input.GetButtonDown("Pause") != false)
+            //{
+            //    sleepTimer = Time.time;
+            //}
+
+            if (Input.GetButtonDown("Backpack"))
+            {
+                sleepTimer = Time.time;
+                if ((!acceptInput && backpackMenu.isOpen) || acceptInput)
                 {
-                    if ((!acceptInput && backpackMenu.isOpen) || acceptInput)
-                    {
-                        backpackMenu.ToggleBackpack();
-                    }
+                    backpackMenu.ToggleBackpack();
                 }
+            }
+            else if (Input.GetButtonDown("Interact"))
+            {
+                sleepTimer = Time.time;
+                if ((!acceptInput && playerInteraction.isOpen) || acceptInput)
+                {
+                    playerInteraction.CloseContainer();
+                }
+            }
+
+            if (playerMovement.isClimbing || playerMovement.isCrouching)
+            {
+                sleepTimer = Time.time;
+            }
+
+            if (Time.time - sleepTimer > timeToSleep && !isAsleep)
+            {
+                isAsleep = true;
+                DisableInput();
+                weaponAnim.SetBool("isSleeping", true);
+                anim.SetBool("isSleeping", true);
+            }
+            else if (Time.time - sleepTimer < timeToSleep && isAsleep && !awakeInvoked)
+            {
+                awakeInvoked = true;
+                EnableInput();
+                weaponAnim.SetBool("isSleeping", false);
+                anim.SetBool("isSleeping", false);
             }
         }
 
@@ -87,10 +170,25 @@ namespace Character2D
 
         public void EnableInput(bool menu = false)
         {
-            if (menu)
+            if (menu && !isAsleep)
             {
                 //have to wait for the end of the frame
                 StartCoroutine(EnableInputRoutine());
+            }
+            else if (menu && isAsleep)
+            {
+                StartCoroutine(WakeUp(false));
+            }
+            else if (isAsleep)
+            {
+                if (backpackMenu.isOpen || playerInteraction.isOpen || dialogueManager.isOpen)
+                {
+                    StartCoroutine(WakeUp(true));
+                }
+                else
+                {
+                    StartCoroutine(WakeUp(false));
+                }
             }
             else
             {
@@ -105,6 +203,18 @@ namespace Character2D
             yield return new WaitForEndOfFrame();
             acceptInput = true;
             interactTrigger.EnableTrigger();
+        }
+
+        private IEnumerator WakeUp(bool menu)
+        {
+            yield return new WaitForSecondsRealtime(2.0f);
+            isAsleep = false;
+            awakeInvoked = false;
+            if (!menu)
+            {
+                acceptInput = true;
+                interactTrigger.EnableTrigger();
+            }
         }
 
         public void ToggleLoadingContainer(bool toggle)

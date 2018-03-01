@@ -62,6 +62,18 @@ namespace Character2D
 
         protected override void InitializeDeath()
         {
+            if (GetComponent<BackpackMenu>().isOpen)
+            {
+                GetComponent<BackpackMenu>().CloseBackpackMenu();
+            }
+            if (GetComponent<Dialogue2D.DialogueManager>().isOpen)
+            {
+                GetComponent<Dialogue2D.DialogueManager>().EndDialogue();
+            }
+            if (GetComponent<PlayerInteraction>().isOpen)
+            {
+                GetComponent<PlayerInteraction>().CloseContainer();
+            }
             //take away player input
             ToggleCamera(false);
             playerInput.DisableInput();

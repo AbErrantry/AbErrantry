@@ -20,7 +20,7 @@ namespace Character2D
         public bool canClimb;
 
         //booleans that drive the character states
-        protected bool isCrouching; //whether the character is crouching or not
+        public bool isCrouching; //whether the character is crouching or not
         public bool isOnLadder;
         public bool isClimbing;
         public bool isStrafing;

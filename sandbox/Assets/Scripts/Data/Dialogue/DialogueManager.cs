@@ -40,6 +40,8 @@ namespace Dialogue2D
 
         public float textSpeed;
 
+        public bool isOpen;
+
         //used for initialization
         private void Start()
         {
@@ -59,7 +61,7 @@ namespace Dialogue2D
         }
 
         //finishes the dialogue
-        private void EndDialogue()
+        public void EndDialogue()
         {
             followTarget.SetTarget(playerMovement.gameObject.transform);
             playerMovement.StopCoroutine();
@@ -78,12 +80,14 @@ namespace Dialogue2D
         {
             yield return new WaitForSeconds(0.5f);
             dialogueContainer.SetActive(false);
+            isOpen = false;
         }
 
         private void StopCoroutine()
         {
             StopAllCoroutines();
             dialogueContainer.SetActive(false);
+            isOpen = false;
         }
 
         //submits the choice picked by the user to get the next segment
@@ -275,6 +279,7 @@ namespace Dialogue2D
         public void StartDialogue(string charName, int convName, GameObject conversingCharacter)
         {
             StopCoroutine();
+            isOpen = true;
             character = conversingCharacter;
             nameText.text = charName;
 
@@ -286,6 +291,8 @@ namespace Dialogue2D
             playerMovement.StartAutoMoveRoutine(character);
 
             followTarget.SetTarget(character.transform);
+
+            character.GetComponent<Animator>().SetTrigger("isGreeting");
 
             if (character.transform.position.x < transform.position.x)
             {

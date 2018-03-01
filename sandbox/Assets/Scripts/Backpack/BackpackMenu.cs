@@ -58,6 +58,7 @@ namespace Character2D
         public Button confirmNoButton;
 
         public InventoryItem selectedItem;
+        private int selectedItemIndex;
 
         public bool isDestroying;
         public bool isAll;
@@ -90,6 +91,8 @@ namespace Character2D
 
             automaticNav.mode = Navigation.Mode.Automatic;
             horizontalNav.mode = Navigation.Mode.Horizontal;
+
+            selectedItemIndex = 0;
         }
 
         public void ToggleBackpack()
@@ -269,7 +272,7 @@ namespace Character2D
             if (playerInventory.Items.Count > 0)
             {
                 inventoryMask.SetActive(false);
-                ElementFocus.focus.SetItemFocus(inventoryList.transform.GetChild(0).gameObject);
+                ElementFocus.focus.SetItemFocus(inventoryList.transform.GetChild(selectedItemIndex).gameObject);
             }
             else
             {
@@ -307,6 +310,13 @@ namespace Character2D
                 dropButton.interactable = true;
                 destroyButton.interactable = true;
             }
+            for (int index = 0; index < inventoryList.transform.childCount; index++)
+            {
+                if (inventoryList.transform.GetChild(index).GetComponent<InventoryPrefabReference>().itemText.text == inv.item.name)
+                {
+                    selectedItemIndex = index;
+                }
+            }
             cancelButton.interactable = true;
             ElementFocus.focus.SetItemFocus(cancelButton.gameObject);
         }
@@ -322,7 +332,7 @@ namespace Character2D
             isOne = false;
             if (isInMenu)
             {
-                FocusOnInventoryMenu();
+                FocusOnInventoryItem();
             }
         }
 
@@ -362,6 +372,7 @@ namespace Character2D
             {
                 //move the scrollbar back to the top of the list since the item ran out
                 scrollRect.verticalNormalizedPosition = 1.0f;
+                selectedItemIndex = 0;
             }
             playerInventory.RemoveItem(selectedItem, false, false);
             UnloadInventoryItems();
@@ -370,22 +381,30 @@ namespace Character2D
 
         public void DropItem()
         {
+            if (selectedItem.quantity == 1 || isAll)
+            {
+                //move the scrollbar back to the top of the list since the item ran out
+                scrollRect.verticalNormalizedPosition = 1.0f;
+                selectedItemIndex = 0;
+            }
             playerInventory.RemoveItem(selectedItem, isAll, true);
             UnloadInventoryItems();
             LoadInventoryItems();
             HideAmountConfirmContainers();
-            //move the scrollbar back to the top of the list
-            scrollRect.verticalNormalizedPosition = 1.0f;
         }
 
         public void DestroyItem()
         {
+            if (selectedItem.quantity == 1 || isAll)
+            {
+                //move the scrollbar back to the top of the list since the item ran out
+                scrollRect.verticalNormalizedPosition = 1.0f;
+                selectedItemIndex = 0;
+            }
             playerInventory.RemoveItem(selectedItem, isAll, false);
             UnloadInventoryItems();
             LoadInventoryItems();
             HideAmountConfirmContainers();
-            //move the scrollbar back to the top of the list
-            scrollRect.verticalNormalizedPosition = 1.0f;
         }
 
         public void SetAmount(bool all)
