@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoxMove : Trigger
+public class BoxMove : Trigger<Character2D.Player>
 {
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
@@ -13,8 +13,6 @@ public class BoxMove : Trigger
     {
         rb = transform.parent.GetComponent<Rigidbody2D>();
         boxCollider = transform.parent.GetComponent<BoxCollider2D>();
-        objectTag = "Player";
-        layerTag = "None";
         canMove = true;
         playerUnder = false;
     }
@@ -40,6 +38,7 @@ public class BoxMove : Trigger
         if (inMove)
         {
             canMove = true;
+            TriggerAction(currentObjects.Count > 0);
         }
         else
         {

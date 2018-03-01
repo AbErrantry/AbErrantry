@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Character2D
 {
-    public class AIJumpTrigger : Trigger
+    public class AIJumpTrigger : Trigger<Standable>
     {
         public EnemyMovement enemy; //reference to the BehaviorAI script on the character
 

@@ -4,14 +4,9 @@ using UnityEngine;
 
 namespace Character2D
 {
-	public class AttackSensingTrigger : Trigger
+	public class AttackSensingTrigger : Trigger<Player>
 	{
 		public EnemyAttack enemyAttack;
-		// Use this for initialization
-		void Start()
-		{
-			objectTag = "Player";
-		}
 
 		protected override void TriggerAction(bool isInTrigger)
 		{

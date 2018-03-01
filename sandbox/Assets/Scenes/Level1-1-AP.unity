@@ -202,6 +202,8 @@ GameObject:
   - component: {fileID: 38199322}
   - component: {fileID: 38199321}
   - component: {fileID: 38199320}
+  - component: {fileID: 38199326}
+  - component: {fileID: 38199325}
   m_Layer: 0
   m_Name: Level1-Ground
   m_TagString: World
@@ -63310,6 +63312,28 @@ Tilemap:
     m_DirtyIndex: 0
   - serializedVersion: 1
     m_DirtyIndex: 0
+--- !u!114 &38199325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 38199318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ecba361a7cb8db49b26eeaafcb98c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &38199326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 38199318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96aa6fbf443a93047b11a6fc5e7860cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &45107623 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4564303592444316, guid: 620f0e77205ee534a965d39c81a9ada5,
@@ -66636,6 +66660,7 @@ GameObject:
   - component: {fileID: 534012644}
   - component: {fileID: 534012643}
   - component: {fileID: 534012642}
+  - component: {fileID: 534012647}
   m_Layer: 0
   m_Name: Level1-Ladders
   m_TagString: Ladder
@@ -67756,6 +67781,17 @@ Tilemap:
   m_TileRefreshArray:
   - serializedVersion: 1
     m_DirtyIndex: 0
+--- !u!114 &534012647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 534012640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290af728d916122469c0ee871e5e3301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &538182724
 GameObject:
   m_ObjectHideFlags: 0
@@ -75826,6 +75862,7 @@ GameObject:
   - component: {fileID: 2028374509}
   - component: {fileID: 2028374508}
   - component: {fileID: 2028374507}
+  - component: {fileID: 2028374513}
   m_Layer: 0
   m_Name: Level1-Platforms
   m_TagString: World
@@ -76109,6 +76146,17 @@ Tilemap:
   m_TileRefreshArray:
   - serializedVersion: 1
     m_DirtyIndex: 0
+--- !u!114 &2028374513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2028374505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96aa6fbf443a93047b11a6fc5e7860cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2038891270
 Prefab:
   m_ObjectHideFlags: 0

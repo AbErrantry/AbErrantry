@@ -2,15 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerUnderBox : Trigger
+public class PlayerUnderBox : Trigger<Character2D.Player>
 {
     public BoxMove boxMove;
-
-    private void Start()
-    {
-        objectTag = "Player";
-        layerTag = "None";
-    }
 
     //fires upon an object entering/exiting the trigger box
     protected override void TriggerAction(bool isInTrigger)

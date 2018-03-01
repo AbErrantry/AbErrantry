@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Character2D
 {
-    public class UncrouchTrigger : Trigger
+    public class UncrouchTrigger : Trigger<Blockable>
     {
         public PlayerMovement playerMovement; //reference to the character movement script
 

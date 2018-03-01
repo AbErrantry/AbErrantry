@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldButton : Trigger
+public class WorldButton : Trigger<Character2D.Attackable>
 {
 	public event Action OnButtonPressed;
 
@@ -17,8 +17,6 @@ public class WorldButton : Trigger
 	{
 		anim = GetComponent<Animator>();
 		isPressed = false;
-		objectTag = "World";
-		layerTag = "Player";
 	}
 
 	protected override void TriggerAction(bool isInTrigger)

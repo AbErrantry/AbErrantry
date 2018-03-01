@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 251617771024711566}
   - component: {fileID: 61755201522307818}
   - component: {fileID: 66509812927764760}
+  - component: {fileID: 114901429493638344}
   m_Layer: 13
   m_Name: Crate
   m_TagString: World
@@ -389,8 +390,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   boxMove: {fileID: 114698455211536816}
 --- !u!114 &114244886701414512
@@ -405,8 +404,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   boxMove: {fileID: 114698455211536816}
 --- !u!114 &114698455211536816
@@ -421,11 +418,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   canMove: 0
   playerUnder: 0
+--- !u!114 &114901429493638344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1626560156153398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96aa6fbf443a93047b11a6fc5e7860cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212793883754316900
 SpriteRenderer:
   m_ObjectHideFlags: 1

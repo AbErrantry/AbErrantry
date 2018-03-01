@@ -155,8 +155,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   characterMovement: {fileID: 841596106}
 --- !u!61 &15668153
@@ -394,6 +392,7 @@ MonoBehaviour:
   isWindingUp: 0
   isAttacking: 0
   canAttack: 0
+  attackList: []
 --- !u!114 &324255822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,8 +599,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   characterAttack: {fileID: 841596107}
 --- !u!61 &340581714
@@ -875,8 +872,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   characterAttack: {fileID: 324255821}
 --- !u!61 &652708976
@@ -1032,6 +1027,7 @@ MonoBehaviour:
   isWindingUp: 0
   isAttacking: 0
   canAttack: 0
+  attackList: []
 --- !u!114 &841596108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1481,8 +1477,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   characterMovement: {fileID: 324255820}
 --- !u!61 &1623080365
@@ -1552,8 +1546,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   enemyAttack: {fileID: 841596107}
 --- !u!61 &1650994405
@@ -1610,8 +1602,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   enemy: {fileID: 841596106}
 --- !u!61 &1756112869
@@ -1782,8 +1772,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   enemy: {fileID: 324255820}
 --- !u!1 &1819049788 stripped
@@ -1825,8 +1813,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   enemy: {fileID: 324255820}
 --- !u!61 &1969097243
@@ -1934,8 +1920,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   enemy: {fileID: 841596106}
 --- !u!1 &2040435955
@@ -1951,6 +1935,8 @@ GameObject:
   - component: {fileID: 2040435959}
   - component: {fileID: 2040435958}
   - component: {fileID: 2040435957}
+  - component: {fileID: 2040435963}
+  - component: {fileID: 2040435962}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: World
@@ -6358,6 +6344,28 @@ Tilemap:
     m_DirtyIndex: 0
   - serializedVersion: 1
     m_DirtyIndex: 0
+--- !u!114 &2040435962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2040435955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ecba361a7cb8db49b26eeaafcb98c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2040435963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2040435955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96aa6fbf443a93047b11a6fc5e7860cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2051468647
 GameObject:
   m_ObjectHideFlags: 0
@@ -6400,8 +6408,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   enemyAttack: {fileID: 324255821}
 --- !u!61 &2051468650

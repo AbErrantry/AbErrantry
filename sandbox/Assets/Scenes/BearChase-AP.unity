@@ -2083,6 +2083,7 @@ GameObject:
   - component: {fileID: 820685596}
   - component: {fileID: 820685595}
   - component: {fileID: 820685594}
+  - component: {fileID: 820685600}
   m_Layer: 16
   m_Name: BearChase-Platforms
   m_TagString: World
@@ -2461,6 +2462,17 @@ Tilemap:
   m_TileRefreshArray:
   - serializedVersion: 1
     m_DirtyIndex: 0
+--- !u!114 &820685600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 820685592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96aa6fbf443a93047b11a6fc5e7860cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &821157537 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4665879193320114, guid: 54b60f415cd559c4c9cd5b6d7258c2e3,
@@ -2550,6 +2562,8 @@ GameObject:
   - component: {fileID: 866128504}
   - component: {fileID: 866128503}
   - component: {fileID: 866128502}
+  - component: {fileID: 866128508}
+  - component: {fileID: 866128507}
   m_Layer: 0
   m_Name: BearChase-Ground
   m_TagString: World
@@ -79359,6 +79373,28 @@ Tilemap:
     m_DirtyIndex: 0
   - serializedVersion: 1
     m_DirtyIndex: 0
+--- !u!114 &866128507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 866128500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ecba361a7cb8db49b26eeaafcb98c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &866128508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 866128500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96aa6fbf443a93047b11a6fc5e7860cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &875539200
 Prefab:
   m_ObjectHideFlags: 0
@@ -82814,6 +82850,7 @@ GameObject:
   - component: {fileID: 2088563780}
   - component: {fileID: 2088563779}
   - component: {fileID: 2088563778}
+  - component: {fileID: 2088563777}
   m_Layer: 0
   m_Name: BearChase-Ladders
   m_TagString: Ladder
@@ -82834,6 +82871,17 @@ Transform:
   m_Father: {fileID: 597799204}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2088563777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2088563775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290af728d916122469c0ee871e5e3301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &2088563778
 Rigidbody2D:
   serializedVersion: 4

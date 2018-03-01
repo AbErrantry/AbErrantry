@@ -1134,6 +1134,7 @@ GameObject:
   - component: {fileID: 884380689}
   - component: {fileID: 884380688}
   - component: {fileID: 884380687}
+  - component: {fileID: 884380693}
   m_Layer: 0
   m_Name: Castle-Platforms
   m_TagString: World
@@ -1301,6 +1302,17 @@ Tilemap:
     e32: 0
     e33: 1
   m_TileRefreshArray: []
+--- !u!114 &884380693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 884380685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96aa6fbf443a93047b11a6fc5e7860cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &997873779
 Prefab:
   m_ObjectHideFlags: 0
@@ -1883,6 +1895,7 @@ GameObject:
   - component: {fileID: 1379736398}
   - component: {fileID: 1379736397}
   - component: {fileID: 1379736396}
+  - component: {fileID: 1379736401}
   m_Layer: 0
   m_Name: Castle-Ladders
   m_TagString: Ladder
@@ -2032,6 +2045,17 @@ Tilemap:
     e32: 0
     e33: 1
   m_TileRefreshArray: []
+--- !u!114 &1379736401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1379736394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290af728d916122469c0ee871e5e3301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1450630661
 GameObject:
   m_ObjectHideFlags: 0
@@ -2191,6 +2215,8 @@ GameObject:
   - component: {fileID: 1727219422}
   - component: {fileID: 1727219421}
   - component: {fileID: 1727219420}
+  - component: {fileID: 1727219426}
+  - component: {fileID: 1727219425}
   m_Layer: 0
   m_Name: Castle-Ground
   m_TagString: World
@@ -11881,6 +11907,28 @@ Tilemap:
     m_DirtyIndex: 0
   - serializedVersion: 1
     m_DirtyIndex: 0
+--- !u!114 &1727219425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1727219418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ecba361a7cb8db49b26eeaafcb98c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1727219426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1727219418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96aa6fbf443a93047b11a6fc5e7860cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1772872325
 GameObject:
   m_ObjectHideFlags: 0

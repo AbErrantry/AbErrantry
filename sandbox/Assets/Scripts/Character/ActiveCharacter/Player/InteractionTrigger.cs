@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Character2D
 {
-    public class InteractionTrigger : Trigger
+    public class InteractionTrigger : Trigger<Interactable>
     {
         public PlayerInteraction playerInteraction;
         private BoxCollider2D boxCollider;
@@ -12,7 +12,6 @@ namespace Character2D
         //used for initialization
         void Start()
         {
-            objectTag = "Interactable"; //overrides the tag from "World"
             disregardCount = true; //don't consider the object count for onTriggerExit in Trigger
             boxCollider = GetComponent<BoxCollider2D>();
             colliderSizeX = boxCollider.size.x;

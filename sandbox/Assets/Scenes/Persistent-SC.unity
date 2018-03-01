@@ -783,8 +783,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   characterMovement: {fileID: 1449687940}
 --- !u!61 &35765075
@@ -1226,7 +1224,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 166000314}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.334999, y: -24.54, z: -10}
+  m_LocalPosition: {x: 13.732459, y: -24.555, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1224786957}
@@ -3276,8 +3274,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   playerMovement: {fileID: 1449687940}
 --- !u!61 &395107165
@@ -4364,8 +4360,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: Ladder
-  layerTag: 
   disregardCount: 0
   playerMovement: {fileID: 1449687940}
 --- !u!61 &527941475
@@ -5016,7 +5010,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &650739401
@@ -5985,7 +5979,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 788260637}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.334999, y: -24.54, z: -10}
+  m_LocalPosition: {x: 13.732459, y: -24.555, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1903665856}
@@ -6068,7 +6062,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 102924207}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6336,7 +6330,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &834075411
@@ -7067,8 +7061,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   playerMovement: {fileID: 1449687940}
 --- !u!61 &933242871
@@ -7332,7 +7324,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 36
+  m_fontSize: 42.6
   m_fontSizeBase: 56.8
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8321,8 +8313,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   characterAttack: {fileID: 1449687935}
 --- !u!1 &1071459799
@@ -9110,6 +9100,7 @@ GameObject:
   - component: {fileID: 1192283373}
   - component: {fileID: 1192283372}
   - component: {fileID: 1192283371}
+  - component: {fileID: 1192283376}
   m_Layer: 0
   m_Name: Persistent-Ladders
   m_TagString: Ladder
@@ -9259,6 +9250,17 @@ Tilemap:
     e32: 0
     e33: 1
   m_TileRefreshArray: []
+--- !u!114 &1192283376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1192283369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290af728d916122469c0ee871e5e3301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1202152203
 GameObject:
   m_ObjectHideFlags: 0
@@ -9612,7 +9614,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 62.4
+  m_fontSize: 65.5
   m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9707,7 +9709,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1235935074}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.335, y: -24.54, z: 0}
+  m_LocalPosition: {x: 13.73246, y: -24.555, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 332006786}
@@ -10627,7 +10629,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 326904297}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11090,8 +11092,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   playerInteraction: {fileID: 1449687937}
 --- !u!61 &1383655449
@@ -11133,6 +11133,7 @@ GameObject:
   - component: {fileID: 1384033401}
   - component: {fileID: 1384033400}
   - component: {fileID: 1384033399}
+  - component: {fileID: 1384033405}
   m_Layer: 0
   m_Name: Persistent-Platforms
   m_TagString: World
@@ -11300,6 +11301,17 @@ Tilemap:
     e32: 0
     e33: 1
   m_TileRefreshArray: []
+--- !u!114 &1384033405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1384033397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96aa6fbf443a93047b11a6fc5e7860cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1395177628
 GameObject:
   m_ObjectHideFlags: 0
@@ -11860,7 +11872,6 @@ GameObject:
   - component: {fileID: 1449687941}
   - component: {fileID: 1449687947}
   - component: {fileID: 1449687948}
-  - component: {fileID: 1449687938}
   - component: {fileID: 1449687939}
   - component: {fileID: 1449687934}
   - component: {fileID: 1449687936}
@@ -12008,24 +12019,6 @@ MonoBehaviour:
   isInteracting: 0
   interactTime: 0
   isOpen: 0
---- !u!251 &1449687938
-PlatformEffector2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1449687932}
-  m_Enabled: 0
-  m_UseColliderMask: 1
-  m_ColliderMask:
-    serializedVersion: 2
-    m_Bits: 4294964479
-  m_RotationalOffset: 0
-  m_UseOneWay: 0
-  m_UseOneWayGrouping: 0
-  m_SurfaceArc: 180
-  m_UseSideFriction: 0
-  m_UseSideBounce: 0
-  m_SideArc: 1
 --- !u!95 &1449687939
 Animator:
   serializedVersion: 3
@@ -12178,7 +12171,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26.67, y: -49.08}
+  m_AnchoredPosition: {x: 27.46492, y: -49.11}
   m_SizeDelta: {x: 10.93, y: 9.772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1449687945
@@ -13191,6 +13184,8 @@ GameObject:
   - component: {fileID: 1557636014}
   - component: {fileID: 1557636013}
   - component: {fileID: 1557636012}
+  - component: {fileID: 1557636018}
+  - component: {fileID: 1557636017}
   m_Layer: 0
   m_Name: Persistent-Ground
   m_TagString: World
@@ -44385,6 +44380,28 @@ Tilemap:
     m_DirtyIndex: 0
   - serializedVersion: 1
     m_DirtyIndex: 0
+--- !u!114 &1557636017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1557636010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ecba361a7cb8db49b26eeaafcb98c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1557636018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1557636010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96aa6fbf443a93047b11a6fc5e7860cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1574448060
 GameObject:
   m_ObjectHideFlags: 0
@@ -45984,7 +46001,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 38.3
+  m_fontSize: 45.3
   m_fontSizeBase: 56.8
   m_fontWeight: 400
   m_enableAutoSizing: 1

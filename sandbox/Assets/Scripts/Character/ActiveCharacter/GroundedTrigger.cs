@@ -1,6 +1,6 @@
 namespace Character2D
 {
-    public class GroundedTrigger : Trigger
+    public class GroundedTrigger : Trigger<Standable>
     {
         public CharacterMovement characterMovement; //reference to the character movement script
 

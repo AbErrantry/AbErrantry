@@ -1,19 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Trigger : MonoBehaviour
+public abstract class Trigger<T> : MonoBehaviour
 {
     [SerializeField] public List<GameObject> currentObjects; //list of objects that are in the trigger
-    public string objectTag; //tag of the object to detect
-    public string layerTag; //layer of the object to detect
+
     public bool disregardCount; //whether the count should be disregarded on exit or not
+
     protected abstract void TriggerAction(bool isInTrigger);
 
     //used for initialization
     private void Start()
     {
-        objectTag = "World";
-        layerTag = "None";
         disregardCount = false;
     }
 
@@ -21,7 +19,7 @@ public abstract class Trigger : MonoBehaviour
     protected void OnTriggerEnter2D(Collider2D other)
     {
         //if the object is the one specified,
-        if (other.tag == objectTag || other.gameObject.layer == LayerMask.NameToLayer(layerTag))
+        if (other.gameObject.GetComponent<T>() != null)
         {
             //set the character to be grounded and add the object to the list
             currentObjects.Add(other.gameObject);
@@ -34,7 +32,7 @@ public abstract class Trigger : MonoBehaviour
     protected void OnTriggerExit2D(Collider2D other)
     {
         //if the object is the one specified,
-        if (other.tag == objectTag || other.gameObject.layer == LayerMask.NameToLayer(layerTag))
+        if (other.gameObject.GetComponent<T>() != null)
         {
             //remove the object from the list
             currentObjects.Remove(other.gameObject);
