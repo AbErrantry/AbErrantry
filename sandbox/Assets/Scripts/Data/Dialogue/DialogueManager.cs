@@ -142,6 +142,10 @@ namespace Dialogue2D
             {
                 switch (action.type)
                 {
+					case ActionTypes.AffectKarma:
+                        Debug.Log("Karma affected by " + action.number + " points.");
+                        //call function to set new karma value.
+                        break;
                     case ActionTypes.BecomeHostile:
                         Debug.Log(nameText.text + " became hostile.");
                         //call function to make character hostile

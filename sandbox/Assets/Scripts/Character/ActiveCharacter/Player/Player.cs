@@ -48,6 +48,7 @@ namespace Character2D
         protected new void Start()
         {
             base.Start();
+
             playerInput = GetComponent<PlayerInput>();
             travelMenu = GetComponent<TravelMenu>();
 
