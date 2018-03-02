@@ -277,6 +277,8 @@ namespace Character2D
                 children.ForEach(child => Destroy(child));
                 playerInput.EnableInput(closedOnOwn);
                 ElementFocus.focus.RemoveFocus();
+
+                isOpen = false;
             }
         }
 
@@ -284,14 +286,12 @@ namespace Character2D
         {
             yield return new WaitForSeconds(0.5f);
             interactContainer.SetActive(false);
-            isOpen = false;
         }
 
         private void StopCoroutine()
         {
             StopAllCoroutines();
             interactContainer.SetActive(false);
-            isOpen = false;
         }
 
         //collects all items in the player's vicinity

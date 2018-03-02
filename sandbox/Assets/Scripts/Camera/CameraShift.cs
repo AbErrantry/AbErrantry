@@ -137,6 +137,10 @@ public class CameraShift : MonoBehaviour
     {
         float lerpStart = Time.time;
         float lerpTime = lerpTimePerUnit * (Mathf.Abs(vcam.m_Lens.OrthographicSize - endSize));
+        if (lerpTime < 0.5f)
+        {
+            lerpTime = 0.5f;
+        }
         while (Time.time - lerpStart < lerpTime)
         {
             float time = (Time.time - lerpStart) / lerpTime;

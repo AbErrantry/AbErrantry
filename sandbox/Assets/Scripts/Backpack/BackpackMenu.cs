@@ -146,7 +146,6 @@ namespace Character2D
         {
             yield return new WaitForSeconds(0.5f);
             backpackContainer.SetActive(false);
-            isOpen = false;
             CloseTabs();
             UnloadInventoryItems();
         }
@@ -155,7 +154,6 @@ namespace Character2D
         {
             StopAllCoroutines();
             backpackContainer.SetActive(false);
-            isOpen = false;
             CloseTabs();
             UnloadInventoryItems();
         }
