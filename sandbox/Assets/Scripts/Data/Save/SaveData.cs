@@ -50,6 +50,7 @@ public class SaveData : ScriptableObject
         Openable.OnOpenableStateChanged += WriteOpenableStateChange;
         PlayerInventory.OnLooseItemChanged += WriteLooseItem;
         PlayerInventory.OnInventoryItemChanged += WritePlayerItemChange;
+        Player.OnPlayerInfoChanged += WritePlayerInfoChange;
     }
 
     private void UnsubscribeFromEvents()
@@ -186,9 +187,60 @@ public class SaveData : ScriptableObject
         return itemsInInventory;
     }
 
-    private void WritePlayerInfo(float health, float gold, Vector2 checkpoint, string[] equipped)
+    private void WritePlayerInfoChange(PlayerInfoTuple playerInfo)
     {
-        //update the record in the playerinfo table with each of the five parameters
+        //update the record in the PlayerInfo table with the updated player information
+        cmd.CommandText = "UPDATE PlayerInfo SET maxHealth = @maxHealth, currentHealth = @currentHealth, " +
+            "currentQuest = @currentQuest, gold = @gold, checkpointName = @checkpointName, " +
+            "equippedArmor = @equippedArmor, equippedWeapon = @equippedWeapon";
+        cmd.Parameters.Add("@maxHealth", DbType.Int32).Value = playerInfo.maxHealth;
+        cmd.Parameters.Add("@currentHealth", DbType.Int32).Value = playerInfo.currentHealth;
+        cmd.Parameters.Add("@currentQuest", DbType.String).Value = playerInfo.currentQuest;
+        cmd.Parameters.Add("@gold", DbType.Int32).Value = playerInfo.gold;
+        cmd.Parameters.Add("@checkpointName", DbType.String).Value = playerInfo.checkpointName;
+        cmd.Parameters.Add("@equippedArmor", DbType.String).Value = playerInfo.equippedArmor;
+        cmd.Parameters.Add("@equippedWeapon", DbType.String).Value = playerInfo.equippedWeapon;
+        cmd.ExecuteNonQuery();
+    }
+
+    public PlayerInfoTuple ReadPlayerInfo()
+    {
+        var playerInfo = new PlayerInfoTuple();
+        cmd.CommandText = "SELECT maxHealth, currentHealth, currentQuest, gold, " +
+            "checkPointName, equippedArmor, equippedWeapon FROM PlayerInfo";
+        SqliteDataReader reader = cmd.ExecuteReader();
+        try
+        {
+            if (reader.Read())
+            {
+                playerInfo.maxHealth = reader.GetInt32(reader.GetOrdinal("maxHealth"));
+                playerInfo.currentHealth = reader.GetInt32(reader.GetOrdinal("currentHealth"));
+                playerInfo.currentQuest = reader.GetString(reader.GetOrdinal("currentQuest"));
+                playerInfo.gold = reader.GetInt32(reader.GetOrdinal("gold"));
+                playerInfo.checkpointName = reader.GetString(reader.GetOrdinal("checkPointName"));
+                playerInfo.equippedArmor = reader.GetString(reader.GetOrdinal("equippedArmor"));
+                playerInfo.equippedWeapon = reader.GetString(reader.GetOrdinal("equippedWeapon"));
+                Debug.Log("maxHealth=" + playerInfo.maxHealth + ", currentHealth=" + playerInfo.currentHealth +
+                    ", currentQuest=" + playerInfo.currentQuest + ", gold=" + playerInfo.gold +
+                    ", checkpointName=" + playerInfo.checkpointName + ", equippedArmor=" + playerInfo.equippedArmor +
+                    ", equippedWeapon=" + playerInfo.equippedWeapon);
+            }
+            else
+            {
+                //no record exists within the table
+                throw new Exception("No record exists within the PlayerInfo table.");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+        finally
+        {
+            reader.Close();
+            reader = null;
+        }
+        return playerInfo;
     }
 
     private void WriteUnlockedLocation(int id)

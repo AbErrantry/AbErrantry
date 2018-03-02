@@ -1500,7 +1500,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 166000314}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.732459, y: -24.555, z: -10}
+  m_LocalPosition: {x: 13.369999, y: -24.555, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1224786957}
@@ -5785,6 +5785,21 @@ Prefab:
       propertyPath: backgroundID
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114414765160128868, guid: 04d3594a8bac3614c9dbf02ad3a8bf73,
+        type: 2}
+      propertyPath: displayName
+      value: Plains
+      objectReference: {fileID: 0}
+    - target: {fileID: 114102490996085518, guid: 04d3594a8bac3614c9dbf02ad3a8bf73,
+        type: 2}
+      propertyPath: displayName
+      value: Valley Outskirts
+      objectReference: {fileID: 0}
+    - target: {fileID: 114216417259064176, guid: 04d3594a8bac3614c9dbf02ad3a8bf73,
+        type: 2}
+      propertyPath: displayName
+      value: Valley
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04d3594a8bac3614c9dbf02ad3a8bf73, type: 2}
   m_IsPrefabParent: 0
@@ -6046,6 +6061,21 @@ Prefab:
       propertyPath: backgroundID
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114414765160128868, guid: 04d3594a8bac3614c9dbf02ad3a8bf73,
+        type: 2}
+      propertyPath: displayName
+      value: Castle
+      objectReference: {fileID: 0}
+    - target: {fileID: 114216417259064176, guid: 04d3594a8bac3614c9dbf02ad3a8bf73,
+        type: 2}
+      propertyPath: displayName
+      value: Plains
+      objectReference: {fileID: 0}
+    - target: {fileID: 114102490996085518, guid: 04d3594a8bac3614c9dbf02ad3a8bf73,
+        type: 2}
+      propertyPath: displayName
+      value: Castle Outskirts
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04d3594a8bac3614c9dbf02ad3a8bf73, type: 2}
   m_IsPrefabParent: 0
@@ -6203,6 +6233,21 @@ Prefab:
       propertyPath: backgroundID
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114102490996085518, guid: 04d3594a8bac3614c9dbf02ad3a8bf73,
+        type: 2}
+      propertyPath: displayName
+      value: Castle Hall
+      objectReference: {fileID: 0}
+    - target: {fileID: 114216417259064176, guid: 04d3594a8bac3614c9dbf02ad3a8bf73,
+        type: 2}
+      propertyPath: displayName
+      value: Castle
+      objectReference: {fileID: 0}
+    - target: {fileID: 114414765160128868, guid: 04d3594a8bac3614c9dbf02ad3a8bf73,
+        type: 2}
+      propertyPath: displayName
+      value: Training Grounds
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04d3594a8bac3614c9dbf02ad3a8bf73, type: 2}
   m_IsPrefabParent: 0
@@ -6356,7 +6401,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 788260637}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.732459, y: -24.555, z: -10}
+  m_LocalPosition: {x: 13.369999, y: -24.555, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1903665856}
@@ -10240,7 +10285,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1235935074}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.73246, y: -24.555, z: 0}
+  m_LocalPosition: {x: 13.37, y: -24.555, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 332006786}
@@ -12485,11 +12530,18 @@ MonoBehaviour:
   canFlinch: 0
   canKnockBack: 0
   canTakeDamage: 0
+  gold: 0
+  currentQuest: 
+  equippedArmor: 
+  equippedWeapon: 
   weaponAnim: {fileID: 1037721954}
   virtualCamera: {fileID: 788260638}
   spawnPoint: {x: 0, y: 0}
   spawnManager: {fileID: 0}
   healthText: {fileID: 1375578354}
+  goldText: {fileID: 664553527}
+  locationText: {fileID: 958263848}
+  questText: {fileID: 1832996863}
 --- !u!114 &1449687935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12720,7 +12772,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 27.46492, y: -49.11}
+  m_AnchoredPosition: {x: 26.74, y: -49.11}
   m_SizeDelta: {x: 10.93, y: 9.772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1449687945

@@ -10,8 +10,8 @@ namespace Character2D
         protected SpriteRenderer sr;
         protected Animator anim;
 
-        protected float maxVitality;
-        protected float currentVitality;
+        protected int maxVitality;
+        protected int currentVitality;
 
         public bool isDying;
 
@@ -22,7 +22,7 @@ namespace Character2D
         //used for initialization
         protected void Start()
         {
-            maxVitality = currentVitality = 50f; //TODO: remove
+            maxVitality = currentVitality = 50; //TODO: remove
             isDying = false;
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
@@ -30,7 +30,7 @@ namespace Character2D
         }
 
         //applies damage to the player
-        public virtual void TakeDamage(GameObject attacker, float damage)
+        public virtual void TakeDamage(GameObject attacker, int damage)
         {
             if (!isDying)
             {

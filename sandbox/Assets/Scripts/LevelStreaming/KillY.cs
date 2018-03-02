@@ -16,7 +16,7 @@ public class KillY : MonoBehaviour
     {
         if (other.transform.root.tag == "Player")
         {
-            player.TakeDamage(gameObject, 250.0f);
+            player.Kill();
         }
         else
         {

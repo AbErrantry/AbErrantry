@@ -5,8 +5,14 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+	public static Dictionary<string, SpawnManager> managerDictionary;
+
+	public string managerName;
+	public string managerDisplayName;
+
 	public LevelStreamManager leftLevel;
 	public LevelStreamManager rightLevel;
+	public LevelStreamManager persistentLevel;
 
 	private bool leftLevelCompleted;
 	private bool rightLevelCompleted;
@@ -23,6 +29,21 @@ public class SpawnManager : MonoBehaviour
 		rightLevel.OnRefreshComplete -= RightLevelFinished;
 	}
 
+	private void Start()
+	{
+		if (managerDictionary == null)
+		{
+			managerDictionary = new Dictionary<string, SpawnManager>();
+		}
+		managerName = leftLevel.sceneName + "|" + rightLevel.sceneName;
+		managerDictionary.Add(managerName, this);
+	}
+
+	public static SpawnManager SetSpawnManager(string name)
+	{
+		return managerDictionary[name];
+	}
+
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.tag == "Player")
@@ -33,6 +54,8 @@ public class SpawnManager : MonoBehaviour
 
 	public void RefreshLevels()
 	{
+		leftLevelCompleted = false;
+		rightLevelCompleted = false;
 		leftLevel.RefreshLevel();
 		rightLevel.RefreshLevel();
 	}

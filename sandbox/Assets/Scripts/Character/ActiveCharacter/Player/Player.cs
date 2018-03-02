@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
@@ -10,6 +11,12 @@ namespace Character2D
     public class Player : Attackable
     {
         public static Player instance;
+        public static Action<PlayerInfoTuple> OnPlayerInfoChanged;
+
+        public int gold;
+        public string currentQuest;
+        public string equippedArmor;
+        public string equippedWeapon;
 
         public Animator weaponAnim;
 
@@ -21,6 +28,9 @@ namespace Character2D
         public SpawnManager spawnManager;
 
         public TMP_Text healthText;
+        public TMP_Text goldText;
+        public TMP_Text locationText;
+        public TMP_Text questText;
 
         private void Awake()
         {
@@ -52,9 +62,68 @@ namespace Character2D
             canFlinch = false;
             canKnockBack = true;
             canTakeDamage = true;
+
+            SetPlayerInfo();
         }
 
-        public override void TakeDamage(GameObject attacker, float damage)
+        public void AffectGold(int delta)
+        {
+            gold += delta;
+            InvokePlayerInfoChange();
+        }
+
+        private void SetPlayerInfo()
+        {
+            PlayerInfoTuple playerInfo = GameData.data.saveData.ReadPlayerInfo();
+            maxVitality = playerInfo.maxHealth;
+            currentVitality = playerInfo.currentHealth;
+            currentQuest = playerInfo.currentQuest;
+            gold = playerInfo.gold;
+            spawnManager = SpawnManager.SetSpawnManager(playerInfo.checkpointName);
+            spawnPoint = spawnManager.gameObject.transform.position;
+            SetArmor(playerInfo.equippedArmor, isLoad : true);
+            SetWeapon(playerInfo.equippedWeapon, isLoad : true);
+            TakeDamage(gameObject, 0);
+
+            transform.position = spawnPoint;
+
+            goldText.text = gold.ToString();
+            questText.text = currentQuest.ToString();
+            locationText.text = spawnManager.persistentLevel.levelInfo.displayName;
+        }
+
+        public void SetArmor(string name, bool isLoad = false)
+        {
+            equippedArmor = name;
+            if (!isLoad)
+            {
+                InvokePlayerInfoChange();
+            }
+        }
+
+        public void SetWeapon(string name, bool isLoad = false)
+        {
+            equippedWeapon = name;
+            if (!isLoad)
+            {
+                InvokePlayerInfoChange();
+            }
+        }
+
+        public void InvokePlayerInfoChange()
+        {
+            PlayerInfoTuple playerInfo = new PlayerInfoTuple();
+            playerInfo.maxHealth = maxVitality;
+            playerInfo.currentHealth = currentVitality;
+            playerInfo.currentQuest = currentQuest;
+            playerInfo.gold = gold;
+            playerInfo.checkpointName = spawnManager.managerName;
+            playerInfo.equippedArmor = equippedArmor;
+            playerInfo.equippedWeapon = equippedWeapon;
+            OnPlayerInfoChanged(playerInfo);
+        }
+
+        public override void TakeDamage(GameObject attacker, int damage)
         {
             base.TakeDamage(attacker, damage);
             if (currentVitality < 0)
@@ -62,6 +131,13 @@ namespace Character2D
                 currentVitality = 0;
             }
             healthText.text = currentVitality + "/" + maxVitality;
+            InvokePlayerInfoChange();
+        }
+
+        public void Kill()
+        {
+            currentVitality = 0;
+            TakeDamage(gameObject, 0);
         }
 
         protected override void InitializeDeath()
@@ -110,6 +186,7 @@ namespace Character2D
             weaponAnim.SetBool("isDying", isDying);
             currentVitality = maxVitality;
             healthText.text = currentVitality + "/" + maxVitality;
+            locationText.text = spawnManager.persistentLevel.levelInfo.displayName;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             transform.position = spawnPoint;
             if (spawnManager != null)
@@ -117,6 +194,7 @@ namespace Character2D
                 spawnManager.RefreshLevels();
             }
             StartCoroutine(CameraToggleDelay());
+            InvokePlayerInfoChange();
         }
 
         public void ToggleCamera(bool isActive)
@@ -127,8 +205,12 @@ namespace Character2D
 
         public void SetSpawn(Vector2 loc, SpawnManager mgr)
         {
-            spawnPoint = loc;
-            spawnManager = mgr;
+            if (mgr != spawnManager)
+            {
+                spawnPoint = loc;
+                spawnManager = mgr;
+                InvokePlayerInfoChange();
+            }
         }
 
         private IEnumerator CameraToggleDelay()

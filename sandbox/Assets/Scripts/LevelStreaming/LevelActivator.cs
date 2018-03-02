@@ -17,10 +17,11 @@ public class LevelActivator : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         //if the colliding object is the player,
-        if (other.tag == "Player")
+        if (other.gameObject.GetComponent<Character2D.Player>() != null)
         {
             manager.MakeActive();
             BackgroundSwitch.instance.UpdateScrolling(backgroundID);
+            Character2D.Player.instance.locationText.text = levelInfo.displayName;
         }
     }
 }

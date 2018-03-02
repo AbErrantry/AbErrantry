@@ -45,7 +45,7 @@ namespace Character2D
             else if (collision.gameObject.tag == "Player")
             {
                 Physics2D.IgnoreCollision(collision.collider, this.gameObject.GetComponent<Collider2D>());
-                collision.gameObject.GetComponent<Player>().TakeDamage(gameObject, 100.0f);
+                collision.gameObject.GetComponent<Player>().Kill();
                 enemyAttack.PlayAttack();
             }
             else if (collision.gameObject.layer == LayerMask.NameToLayer("Platform"))

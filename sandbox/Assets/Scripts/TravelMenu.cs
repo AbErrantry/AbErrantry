@@ -37,6 +37,7 @@ public class TravelMenu : MonoBehaviour
 		yield return new WaitForSeconds(1.0f); //wait for travel/death screen to fade out completely
 		container.SetActive(false);
 		isTravelling = false;
+		ElementFocus.focus.RemoveFocus();
 	}
 
 	public void Open(string text)

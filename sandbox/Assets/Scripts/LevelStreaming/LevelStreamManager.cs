@@ -13,7 +13,7 @@ public class LevelStreamManager : MonoBehaviour
 
     public LevelInfo levelInfo;
 
-    private string sceneName; // The name of the scene set in the hierarchy.
+    public string sceneName; // The name of the scene set in the hierarchy.
     private Scene scene; // An object reference to the scene
     private AsyncOperation asyncLoad; // Async operation to load the scene
     private AsyncOperation asyncUnload; // Async operation to unload the scene
@@ -26,10 +26,13 @@ public class LevelStreamManager : MonoBehaviour
     {
         //TODO: set only the persistent scene as the active scene from the main menu.
         //       this is a temporary fix for testing since we never technically load into Area1-AP.
-        scenes = new List<string>()
+        if (scenes == null)
         {
+            scenes = new List<string>()
+            {
             "Persistent-SC"
-        };
+            };
+        }
 
         sceneName = levelInfo.name;
 

@@ -94,7 +94,7 @@ namespace Character2D
                 {
                     targetsHit.Add(targets[i]);
                     //TODO: ensure that only active characters are in the triggers
-                    targets[i].GetComponent<Attackable>().TakeDamage(gameObject, damage);
+                    targets[i].GetComponent<Attackable>().TakeDamage(gameObject, Mathf.RoundToInt(damage));
                 }
             }
         }
