@@ -12,8 +12,10 @@ namespace Character2D
         public static Player instance;
 
         public Animator weaponAnim;
+
         public CinemachineVirtualCamera virtualCamera;
         private PlayerInput playerInput;
+        private TravelMenu travelMenu;
 
         public Vector2 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
         public SpawnManager spawnManager;
@@ -37,6 +39,8 @@ namespace Character2D
         {
             base.Start();
             playerInput = GetComponent<PlayerInput>();
+            travelMenu = GetComponent<TravelMenu>();
+
             healthText.text = currentVitality + "/" + maxVitality;
 
             //TODO: remove temp AssetBundle loading
@@ -77,11 +81,18 @@ namespace Character2D
             //take away player input
             ToggleCamera(false);
             playerInput.DisableInput();
+
             isDying = true;
-            anim.SetBool("isDying", isDying); //death animation
-            weaponAnim.SetBool("isDying", isDying); //death animation
+            anim.SetBool("isDying", isDying);
+            weaponAnim.SetBool("isDying", isDying);
             //enemies no longer target player
-            //screen overlay of death?
+            StartCoroutine(TravelMenuDelay());
+        }
+
+        private IEnumerator TravelMenuDelay()
+        {
+            yield return new WaitForSeconds(2.0f);
+            travelMenu.Open("You died");
         }
 
         public override void FinalizeDeath()
@@ -89,15 +100,14 @@ namespace Character2D
             //enemies target player
             //give player back input
             //death penalty: 25% of gold?
+            playerInput.InvokeSleep();
+        }
+
+        public void Respawn()
+        {
             isDying = false;
             anim.SetBool("isDying", isDying);
             weaponAnim.SetBool("isDying", isDying);
-            playerInput.EnableInput();
-            Respawn();
-        }
-
-        private void Respawn()
-        {
             currentVitality = maxVitality;
             healthText.text = currentVitality + "/" + maxVitality;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;

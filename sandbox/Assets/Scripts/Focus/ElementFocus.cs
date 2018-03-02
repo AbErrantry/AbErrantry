@@ -32,11 +32,14 @@ public class ElementFocus : MonoBehaviour
         {
             if (selectedItem.gameObject != eventSystem.currentSelectedGameObject)
             {
-                if (eventSystem.currentSelectedGameObject.transform.parent.gameObject == contentPanel.gameObject)
+                if (eventSystem.currentSelectedGameObject.transform.parent.gameObject != null && contentPanel != null)
                 {
-                    StopAllCoroutines();
-                    selectedItem = eventSystem.currentSelectedGameObject.GetComponent<RectTransform>();
-                    SnapToItem();
+                    if (eventSystem.currentSelectedGameObject.transform.parent.gameObject == contentPanel.gameObject)
+                    {
+                        StopAllCoroutines();
+                        selectedItem = eventSystem.currentSelectedGameObject.GetComponent<RectTransform>();
+                        SnapToItem();
+                    }
                 }
             }
         }

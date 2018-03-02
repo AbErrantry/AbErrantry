@@ -1,6 +1,6 @@
-﻿using Character2D;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Character2D;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -33,8 +33,6 @@ public class SpawnManager : MonoBehaviour
 
 	public void RefreshLevels()
 	{
-		PlayerInput.instance.DisableInput(false);
-		PlayerInput.instance.ToggleLoadingContainer(true);
 		leftLevel.RefreshLevel();
 		rightLevel.RefreshLevel();
 	}
@@ -59,7 +57,6 @@ public class SpawnManager : MonoBehaviour
 
 	private void RefreshFinished()
 	{
-		PlayerInput.instance.ToggleLoadingContainer(false);
-		PlayerInput.instance.EnableInput();
+		PlayerInput.instance.EnableSpawn();
 	}
 }

@@ -14,6 +14,8 @@ namespace Character2D
         private PlayerInteraction playerInteraction;
         private PlayerAttack playerAttack;
 
+        private TravelMenu travelMenu;
+
         private Dialogue2D.DialogueManager dialogueManager;
 
         // public PlayerPause playerPause;
@@ -49,6 +51,7 @@ namespace Character2D
             playerInteraction = GetComponent<PlayerInteraction>();
             playerAttack = GetComponent<PlayerAttack>();
             backpackMenu = GetComponent<BackpackMenu>();
+            travelMenu = GetComponent<TravelMenu>();
             dialogueManager = GetComponent<Dialogue2D.DialogueManager>();
             anim = GetComponent<Animator>();
 
@@ -136,18 +139,35 @@ namespace Character2D
 
             if (Time.time - sleepTimer > timeToSleep && !isAsleep)
             {
-                isAsleep = true;
-                DisableInput();
-                weaponAnim.SetBool("isSleeping", true);
-                anim.SetBool("isSleeping", true);
+                InvokeSleep();
             }
             else if (Time.time - sleepTimer < timeToSleep && isAsleep && !awakeInvoked)
             {
-                awakeInvoked = true;
-                EnableInput();
-                weaponAnim.SetBool("isSleeping", false);
-                anim.SetBool("isSleeping", false);
+                if (travelMenu.isTravelling)
+                {
+                    sleepTimer = Time.time - timeToSleep - 1.0f;
+                }
+                else
+                {
+                    InvokeAwake();
+                }
             }
+        }
+
+        public void InvokeSleep()
+        {
+            isAsleep = true;
+            DisableInput();
+            weaponAnim.SetBool("isSleeping", true);
+            anim.SetBool("isSleeping", true);
+        }
+
+        public void InvokeAwake()
+        {
+            awakeInvoked = true;
+            EnableInput();
+            weaponAnim.SetBool("isSleeping", false);
+            anim.SetBool("isSleeping", false);
         }
 
         public void DisableInput(bool isInteractList = false)
@@ -220,6 +240,11 @@ namespace Character2D
         public void ToggleLoadingContainer(bool toggle)
         {
             loadingContainer.SetActive(toggle);
+        }
+
+        public void EnableSpawn()
+        {
+            travelMenu.EnableButtons();
         }
     }
 }
