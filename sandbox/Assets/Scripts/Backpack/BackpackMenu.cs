@@ -202,7 +202,7 @@ namespace Character2D
 
         private void LoadInventoryItems(bool initOpen = false)
         {
-            foreach (InventoryItem inv in playerInventory.Items)
+            foreach (InventoryItem inv in playerInventory.items)
             {
                 //TODO: fix comments
                 //instantiate a prefab for the interact button
@@ -251,7 +251,7 @@ namespace Character2D
         public IEnumerator FocusOnInventoryMenuRoutine()
         {
             yield return new WaitForEndOfFrame();
-            if (playerInventory.Items.Count > 0)
+            if (playerInventory.items.Count > 0)
             {
                 inventoryMask.SetActive(false);
                 ElementFocus.focus.SetMenuFocus(inventoryList.transform.GetChild(0).gameObject, scrollRect, inventoryList.GetComponent<RectTransform>());
@@ -267,7 +267,7 @@ namespace Character2D
         public IEnumerator FocusOnInventoryItemRoutine()
         {
             yield return new WaitForEndOfFrame();
-            if (playerInventory.Items.Count > 0)
+            if (playerInventory.items.Count > 0)
             {
                 inventoryMask.SetActive(false);
                 ElementFocus.focus.SetItemFocus(inventoryList.transform.GetChild(selectedItemIndex).gameObject);

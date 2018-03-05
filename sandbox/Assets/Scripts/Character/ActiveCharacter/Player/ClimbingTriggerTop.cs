@@ -7,7 +7,7 @@ namespace Character2D
         //fires upon an object entering/exiting the trigger box
         protected override void TriggerAction(bool isInTrigger)
         {
-            //nothing
+            //nothing, just using this to keep the list of Climbables ;)
         }
     }
 }

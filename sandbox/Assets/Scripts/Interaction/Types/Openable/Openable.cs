@@ -10,6 +10,7 @@ public abstract class Openable : Interactable
 	protected Animator anim;
 
 	public static event Action<int, bool, bool> OnOpenableStateChanged;
+	public event Action OnDoorOpened;
 
 	public int id;
 	public bool isOpen;
@@ -32,6 +33,13 @@ public abstract class Openable : Interactable
 	protected void ToggleState()
 	{
 		OnOpenableStateChanged(id, isOpen, isLocked);
+		if (isOpen)
+		{
+			if (OnDoorOpened != null)
+			{
+				OnDoorOpened();
+			}
+		}
 	}
 
 	public void Unlock()
@@ -49,11 +57,11 @@ public abstract class Openable : Interactable
 	{
 		if (unlockActionType == UnlockAction.Types.HaveKey)
 		{
-
+			GetComponent<HaveKeyUnlockAction>().TryKey();
 		}
 		else
 		{
-			Debug.Log("Locked.");
+			Debug.Log("Locked."); //TODO: replace with locked eventSystem
 		}
 	}
 }

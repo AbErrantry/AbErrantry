@@ -22,8 +22,6 @@ public class Platform : MonoBehaviour
 
 	public List<GameObject> children;
 
-	private Rigidbody2D rb;
-
 	private Vector3 velocity;
 	private Vector3 lastPosition;
 
@@ -31,8 +29,6 @@ public class Platform : MonoBehaviour
 	{
 		velocity = new Vector3();
 		lastPosition = transform.position;
-
-		rb = GetComponent<Rigidbody2D>();
 
 		transform.position = startLoc;
 		moveToEnd = true;

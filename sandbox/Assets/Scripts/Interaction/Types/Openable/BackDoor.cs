@@ -44,7 +44,7 @@ public class BackDoor : Openable
         }
         else
         {
-            isLocked = false; //checkpoint unlocked TODO: move to checkpoint class
+            isLocked = false; //checkpoint unlocked. Pseudo-UnlockAction. Unlocks door pair.
             anim.SetBool("isLocked", isLocked);
             ToggleState();
         }

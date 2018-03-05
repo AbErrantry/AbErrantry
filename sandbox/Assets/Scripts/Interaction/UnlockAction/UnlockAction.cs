@@ -6,11 +6,10 @@ public abstract class UnlockAction : MonoBehaviour
 {
     public enum Types
     {
+        None,
         ButtonsDown,
-        DestroyGameObjects,
-        HaveKey,
-        CheckPoint,
-        None
+        DestroyAttackables,
+        HaveKey
     }
 
     protected Openable openable;

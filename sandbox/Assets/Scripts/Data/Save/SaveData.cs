@@ -35,7 +35,6 @@ public class SaveData : ScriptableObject
     {
         conn = new SqliteConnection(path);
         conn.Open();
-
         cmd = conn.CreateCommand();
     }
 
@@ -58,6 +57,7 @@ public class SaveData : ScriptableObject
         Openable.OnOpenableStateChanged -= WriteOpenableStateChange;
         PlayerInventory.OnLooseItemChanged -= WriteLooseItem;
         PlayerInventory.OnInventoryItemChanged -= WritePlayerItemChange;
+        Player.OnPlayerInfoChanged -= WritePlayerInfoChange;
     }
 
     private void WriteOpenableStateChange(int id, bool isOpened, bool isLocked)

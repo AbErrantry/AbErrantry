@@ -8,8 +8,8 @@ namespace Character2D
 {
     public class PlayerInventory : MonoBehaviour
     {
-        public GameObject PickupPrefab;
-        public List<InventoryItem> Items; //items held by the character
+        public GameObject pickupPrefab;
+        public List<InventoryItem> items; //items held by the character
 
         public static event Action<LevelItemTuple, bool, string> OnLooseItemChanged; //todo: set loose items
         public static event Action<ItemTuple> OnInventoryItemChanged; //todo: set loose items
@@ -17,7 +17,7 @@ namespace Character2D
         //used for initialization
         protected void Start()
         {
-            Items = new List<InventoryItem>();
+            items = new List<InventoryItem>();
             InitializeInventory();
         }
 
@@ -41,7 +41,7 @@ namespace Character2D
             itemTuple.name = itemName;
             itemTuple.quantity = 0;
 
-            foreach (var item in Items)
+            foreach (var item in items)
             {
                 if (item.item == GameData.data.itemData.itemDictionary[itemName])
                 {
@@ -60,7 +60,7 @@ namespace Character2D
                     quantity = 1
                 };
                 itemTuple.quantity = itemToAdd.quantity;
-                Items.Add(itemToAdd);
+                items.Add(itemToAdd);
             }
 
             if (!init)
@@ -85,7 +85,7 @@ namespace Character2D
             {
                 amountToDrop = itemToRemove.quantity;
                 amountLeft = 0;
-                Items.Remove(itemToRemove);
+                items.Remove(itemToRemove);
             }
             else
             {
@@ -94,7 +94,7 @@ namespace Character2D
                 amountLeft = itemToRemove.quantity;
                 if (itemToRemove.quantity <= 0)
                 {
-                    Items.Remove(itemToRemove);
+                    items.Remove(itemToRemove);
                 }
             }
 
@@ -114,7 +114,7 @@ namespace Character2D
         public void InstantiateItem(Item item, Vector3 pos, bool write = true, int id = 0)
         {
             //instantiate a prefab for the pickup
-            var newPickup = Instantiate(PickupPrefab) as GameObject;
+            var newPickup = Instantiate(pickupPrefab) as GameObject;
             var pickup = newPickup.GetComponent<Pickup>();
             var rend = newPickup.GetComponent<SpriteRenderer>();
             var collider = newPickup.GetComponent<BoxCollider2D>();
@@ -148,6 +148,27 @@ namespace Character2D
             {
                 pickup.id = id;
             }
+        }
+
+        public bool CheckForItem(string itemName, int amount)
+        {
+            foreach (InventoryItem item in items)
+            {
+                if (item.item.name == itemName)
+                {
+                    if (item.quantity >= amount)
+                    {
+                        for (int i = 0; i < amount; i++)
+                        {
+                            RemoveItem(item, false, false);
+                        }
+                        return true;
+                    }
+                }
+            }
+            //does not have enough of the necessary item
+            //TODO: put event in event log: not enough of <itemName>: need <amount>
+            return false;
         }
     }
 }

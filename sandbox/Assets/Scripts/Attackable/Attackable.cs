@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ namespace Character2D
         protected Rigidbody2D rb;
         protected SpriteRenderer sr;
         protected Animator anim;
+
+        public event Action<Attackable> OnAttackableDestroyed;
 
         protected int maxVitality;
         protected int currentVitality;
@@ -27,6 +30,14 @@ namespace Character2D
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
             anim = GetComponent<Animator>();
+        }
+
+        private void OnDestroy()
+        {
+            if (OnAttackableDestroyed != null)
+            {
+                OnAttackableDestroyed(this);
+            }
         }
 
         //applies damage to the player
