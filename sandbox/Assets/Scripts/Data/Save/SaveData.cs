@@ -6,6 +6,7 @@ using Character2D;
 using Mono.Data.Sqlite;
 using UnityEngine;
 
+//TODO: wrap writes in try-catch blocks just to be safe.
 public class SaveData : ScriptableObject
 {
     private string path;
@@ -60,21 +61,22 @@ public class SaveData : ScriptableObject
         Player.OnPlayerInfoChanged -= WritePlayerInfoChange;
     }
 
-    private void WriteOpenableStateChange(int id, bool isOpened, bool isLocked)
+    private void WriteOpenableStateChange(int id, OpenableTuple tuple)
     {
         cmd.CommandText = "UPDATE Openables SET isOpened = @isOpened, isLocked = @isLocked WHERE id = @id";
-        cmd.Parameters.Add("@isOpened", DbType.Boolean).Value = isOpened;
-        cmd.Parameters.Add("@isLocked", DbType.Boolean).Value = isLocked;
+        cmd.Parameters.Add("@isOpened", DbType.Boolean).Value = tuple.isOpen;
+        cmd.Parameters.Add("@isLocked", DbType.Boolean).Value = tuple.isLocked;
         cmd.Parameters.Add("@id", DbType.Int32).Value = id;
         cmd.ExecuteNonQuery();
     }
 
-    public bool[] ReadOpenableState(int id, string name)
+    //TODO: convert bool array to openable tuple.
+    public OpenableTuple ReadOpenableState(int id, string name)
     {
         cmd.CommandText = "SELECT isOpened, isLocked FROM Openables WHERE id = @id";
         cmd.Parameters.Add("@id", DbType.Int32).Value = id;
         SqliteDataReader reader = cmd.ExecuteReader();
-        bool[] result = new bool[2];
+        OpenableTuple tuple = new OpenableTuple();
         try
         {
             if (id == 0)
@@ -83,9 +85,9 @@ public class SaveData : ScriptableObject
             }
             if (reader.Read())
             {
-                result[0] = reader.GetBoolean(0);
-                result[1] = reader.GetBoolean(1);
-                //Debug.Log(id + ", isOpen=" + result[0] + ", isLocked=" + result[1]);
+                tuple.isOpen = reader.GetBoolean(reader.GetOrdinal("isOpened"));
+                tuple.isLocked = reader.GetBoolean(reader.GetOrdinal("isUnlocked"));
+                Debug.Log(id + ", isOpen=" + tuple.isOpen + ", isLocked=" + tuple.isLocked);
             }
             else
             {
@@ -101,7 +103,7 @@ public class SaveData : ScriptableObject
             reader.Close();
             reader = null;
         }
-        return result;
+        return tuple;
     }
 
     private void WritePlayerItemChange(ItemTuple item)
@@ -243,19 +245,106 @@ public class SaveData : ScriptableObject
         return playerInfo;
     }
 
-    private void WriteUnlockedLocation(int id)
+    private void WriteUnlockedCheckpoint(string name)
     {
-        //update the record in the location table with the fact that it has been visited
+        //update the record in the checkpoint table with the fact that it has been unlocked.
+        cmd.CommandText = "UPDATE Checkpoints SET isUnlocked = @true WHERE name = @name";
+        cmd.Parameters.Add("@isUnlocked", DbType.Boolean).Value = true;
+        cmd.ExecuteNonQuery();
+        Debug.Log("Updated checkpoint " + name + " in Checkpoints to be unlocked.");
     }
 
-    private void WriteCharacterLocation(string name, int level, Vector2 loc)
+    public bool GetCheckpointUnlocked(string name)
     {
-        //update the record in the characterinfo table with the specified name with each of the three parameters
+        //get whether a selected checkpoint is unlocked.
+        cmd.CommandText = "SELECT isUnlocked FROM Checkpoints WHERE name = @name";
+        cmd.Parameters.Add("@name", DbType.String).Value = name;
+        SqliteDataReader reader = cmd.ExecuteReader();
+        try
+        {
+            if (name == null)
+            {
+                throw new Exception("A checkpoint name has not been set in the editor.");
+            }
+            if (reader.Read())
+            {
+                bool result = reader.GetBoolean(reader.GetOrdinal("isUnlocked"));
+                Debug.Log("Checkpoint=" + name + ", isUnlocked=" + result);
+                return result;
+            }
+            else
+            {
+                throw new Exception("The id of checkpoint (" + name + ") does not exist in the Checkpoints table.");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+        finally
+        {
+            reader.Close();
+            reader = null;
+        }
+        return false;
     }
 
-    private void WriteCharacterState(string name, bool isHostile, int conversation, int gold)
+    //TODO: finish
+    private void WriteCharacterInfo(CharacterInfoTuple tuple)
     {
-        //update the record in the characterstate table with the specified name with each of the three parameters
+        //update the record in the characterinfo table with the specified name with each of the tuple elements
+        //update the record in the PlayerInfo table with the updated player information
+        cmd.CommandText = "UPDATE CharacterInfo SET maxHealth = @maxHealth, currentHealth = @currentHealth, " +
+            "currentQuest = @currentQuest, gold = @gold, checkpointName = @checkpointName, " +
+            "equippedArmor = @equippedArmor, equippedWeapon = @equippedWeapon, WHERE name = @name";
+        cmd.Parameters.Add("@maxHealth", DbType.Int32).Value = playerInfo.maxHealth;
+        cmd.Parameters.Add("@currentHealth", DbType.Int32).Value = playerInfo.currentHealth;
+        cmd.Parameters.Add("@currentQuest", DbType.String).Value = playerInfo.currentQuest;
+        cmd.Parameters.Add("@gold", DbType.Int32).Value = playerInfo.gold;
+        cmd.Parameters.Add("@checkpointName", DbType.String).Value = playerInfo.checkpointName;
+        cmd.Parameters.Add("@equippedArmor", DbType.String).Value = playerInfo.equippedArmor;
+        cmd.Parameters.Add("@equippedWeapon", DbType.String).Value = playerInfo.equippedWeapon;
+        cmd.ExecuteNonQuery();
+    }
+
+    public List<CharacterInfoTuple> ReadCharacterInfo(string level)
+    {
+        //get the info for a given character
+        List<CharacterInfoTuple> tuples = new List<CharacterInfoTuple>();
+        cmd.CommandText = "SELECT name, xLoc, yLoc, conversation, gold FROM CharacterInfo WHERE level = @level";
+        cmd.Parameters.Add("@name", DbType.String).Value = name;
+        SqliteDataReader reader = cmd.ExecuteReader();
+        try
+        {
+            if (level == null)
+            {
+                throw new Exception("A level name has not been set in the editor in LevelLoaders.");
+            }
+            while (reader.Read())
+            {
+                CharacterInfoTuple tuple = new CharacterInfoTuple();
+                tuple.name = reader.GetString(reader.GetOrdinal("name"));
+                tuple.level = level;
+                tuple.xLoc = reader.GetFloat(reader.GetOrdinal("xLoc"));
+                tuple.yLoc = reader.GetFloat(reader.GetOrdinal("yLoc"));
+                tuple.conversation = reader.GetInt32(reader.GetOrdinal("conversation"));
+                tuple.gold = reader.GetInt32(reader.GetOrdinal("gold"));
+                Debug.Log("Character: name=" + tuple.name + ", level=" + tuple.level  + 
+                    ", xLoc=" + tuple.xLoc  + ", yLoc=" + tuple.yLoc + 
+                    ", conversation=" + tuple.conversation  + ", gold=" + tuple.gold);
+                tuples.Add(tuple);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+        finally
+        {
+            reader.Close();
+            reader = null;
+        }
+        return tuples;
     }
 
     private void WriteCharacterInventory(string name, List<InventoryItem> items, bool buy)

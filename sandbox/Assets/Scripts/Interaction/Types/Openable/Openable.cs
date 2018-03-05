@@ -9,7 +9,7 @@ public abstract class Openable : Interactable
 
 	protected Animator anim;
 
-	public static event Action<int, bool, bool> OnOpenableStateChanged;
+	public static event Action<int, OpenableTuple> OnOpenableStateChanged;
 	public event Action OnDoorOpened;
 
 	public int id;
@@ -22,9 +22,9 @@ public abstract class Openable : Interactable
 		base.Start();
 		anim = GetComponent<Animator>();
 
-		bool[] temp = GameData.data.saveData.ReadOpenableState(id, gameObject.name);
-		isOpen = temp[0];
-		isLocked = temp[1];
+		OpenableTuple tuple = GameData.data.saveData.ReadOpenableState(id, gameObject.name);
+		isOpen = tuple.isOpen;
+		isLocked = tuple.isLocked;
 
 		anim.SetBool("isOpen", isOpen);
 		anim.SetBool("isLocked", isLocked);
@@ -32,7 +32,10 @@ public abstract class Openable : Interactable
 
 	protected void ToggleState()
 	{
-		OnOpenableStateChanged(id, isOpen, isLocked);
+		OpenableTuple tuple = new OpenableTuple();
+		tuple.isOpen = isOpen;
+		tuple.isLocked = isLocked;
+		OnOpenableStateChanged(id, tuple);
 		if (isOpen)
 		{
 			if (OnDoorOpened != null)
