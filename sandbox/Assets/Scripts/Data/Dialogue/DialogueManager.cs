@@ -106,13 +106,19 @@ namespace Dialogue2D
         private void DisplaySegment()
         {
             StopAllCoroutines();
-            character.GetComponent<Animator>().SetBool("isTalking", true);
+            if(character.GetComponent<Animator>() != null)
+            {
+                character.GetComponent<Animator>().SetBool("isTalking", true);
+            }
             StartCoroutine(TypeSentence(currentSegment.text));
         }
 
         private void DisplayChoices()
         {
-            character.GetComponent<Animator>().SetBool("isTalking", false);
+            if(character.GetComponent<Animator>() != null)
+            {
+                character.GetComponent<Animator>().SetBool("isTalking", false);
+            }
             if (currentSegment.choices.Count > 0)
             {
                 foreach (DialogueChoice choice in currentSegment.choices)
@@ -296,8 +302,11 @@ namespace Dialogue2D
 
             followTarget.SetTarget(character.transform);
 
-            character.GetComponent<Animator>().SetTrigger("isGreeting");
-
+            if(character.GetComponent<Animator>() != null)
+            {
+                character.GetComponent<Animator>().SetTrigger("isGreeting");
+            }
+            
             if (character.transform.position.x < transform.position.x)
             {
                 if (character.gameObject.GetComponent<NPC>() != null)
