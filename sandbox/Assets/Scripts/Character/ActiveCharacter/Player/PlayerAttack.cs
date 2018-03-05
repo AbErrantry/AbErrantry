@@ -98,9 +98,10 @@ namespace Character2D
             }
         }
 
-        protected override void InitializeAttack()
+        protected override void InitializeAttack(int index)
         {
             playerInput.DisableInput(false);
+            rb.velocity = new Vector2(0.0f, 0.0f);
         }
 
         protected override void FinalizeAttack()

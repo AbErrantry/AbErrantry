@@ -135,12 +135,6 @@ namespace Character2D
             InvokePlayerInfoChange();
         }
 
-        public void Kill()
-        {
-            currentVitality = 0;
-            TakeDamage(gameObject, 0);
-        }
-
         protected override void InitializeDeath()
         {
             if (GetComponent<BackpackMenu>().isOpen)

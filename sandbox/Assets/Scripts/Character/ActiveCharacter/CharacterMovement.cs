@@ -82,10 +82,6 @@ namespace Character2D
             Move();
             SetMovementLogic();
             SendToAnimator();
-            if (characterAttack.isAttacking || attackable.isDying)
-            {
-                rb.velocity = new Vector2(0.0f, rb.velocity.y);
-            }
         }
 
         //handles character input
@@ -147,7 +143,10 @@ namespace Character2D
             {
                 speedMultiplier = 1;
             }
-            rb.velocity = new Vector2(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y);
+            if (!characterAttack.isAttacking && !attackable.isDying)
+            {
+                rb.velocity = new Vector2(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y);
+            }
         }
 
         //sets the logic for values related to character movement

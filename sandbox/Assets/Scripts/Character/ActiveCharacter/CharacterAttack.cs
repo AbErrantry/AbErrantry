@@ -9,6 +9,7 @@ namespace Character2D
         //character components
         protected Animator anim; //the animator component of the character character
         public AttackTrigger attackTrigger;
+        protected Rigidbody2D rb;
 
         public bool canHitAttack;
 
@@ -24,6 +25,7 @@ namespace Character2D
         protected void Start()
         {
             anim = GetComponent<Animator>();
+            rb = GetComponent<Rigidbody2D>();
             attackDurations = new float[3];
             attackStrengths = new float[3];
             attackFlags = new bool[3];
@@ -57,7 +59,7 @@ namespace Character2D
 
         protected IEnumerator Attack(int index)
         {
-            InitializeAttack();
+            InitializeAttack(index);
             attackStart = Time.time;
             isWindingUp = false;
             isAttacking = true;
@@ -99,9 +101,10 @@ namespace Character2D
             }
         }
 
-        protected virtual void InitializeAttack()
+        protected virtual void InitializeAttack(int index)
         {
             //put things that happen before an attack here
+            rb.velocity = new Vector2(0.0f, 0.0f);
         }
 
         protected virtual void FinalizeAttack()

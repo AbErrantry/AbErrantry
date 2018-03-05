@@ -203,7 +203,7 @@ namespace Character2D
                     climbSpeed = 0.0f;
                 }
             }
-            else if (!isSliding && !isRolling)
+            else if (!isSliding && !isRolling && !playerAttack.isAttacking && !Player.instance.isDying)
             {
                 rb.velocity = new Vector2(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y);
             }

@@ -55,6 +55,12 @@ namespace Character2D
             }
         }
 
+        public void Kill()
+        {
+            currentVitality = 0;
+            TakeDamage(gameObject, 0);
+        }
+
         protected void KnockBack(Vector3 attackerLocation, float intensity)
         {
             Vector3 force;

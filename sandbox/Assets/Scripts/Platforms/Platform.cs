@@ -99,7 +99,7 @@ public class Platform : MonoBehaviour
 		{
 			if (obj.GetComponent<Character2D.CharacterMovement>())
 			{
-				if (!obj.GetComponent<Character2D.CharacterMovement>().isJumping)
+				if (!obj.GetComponent<Character2D.CharacterMovement>().isJumping && !obj.GetComponent<Character2D.CharacterAttack>().isAttacking)
 				{
 					obj.GetComponent<Rigidbody2D>().velocity = new Vector2(obj.GetComponent<Rigidbody2D>().velocity.x + velocity.x, velocity.y);
 				}

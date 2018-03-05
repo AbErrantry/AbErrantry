@@ -5,7 +5,6 @@ using UnityEngine;
 public class KillY : MonoBehaviour
 {
     public float yLoc;
-    public Character2D.Player player;
 
     private void Start()
     {
@@ -14,9 +13,9 @@ public class KillY : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.transform.root.tag == "Player")
+        if (other.gameObject.GetComponent<Character2D.Attackable>() != null)
         {
-            player.Kill();
+            other.gameObject.GetComponent<Character2D.Attackable>().Kill();
         }
         else
         {

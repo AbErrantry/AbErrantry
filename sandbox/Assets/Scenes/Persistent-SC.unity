@@ -12652,6 +12652,7 @@ MonoBehaviour:
   jumpInput: 0
   runInput: 0
   mvmtSpeed: 0
+  isJumping: 0
   isFalling: 0
   isFacingRight: 0
   weaponAnim: {fileID: 1037721954}
@@ -12666,6 +12667,8 @@ MonoBehaviour:
   isOnLadder: 0
   isClimbing: 0
   isStrafing: 0
+  isRolling: 0
+  isSliding: 0
 --- !u!61 &1449687941
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12915,7 +12918,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1449687932}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74783ffd524f7ee4ab1a5689e96364df, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c1a8470e347c8f41bc1659bbbc9c094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1450630661
@@ -45782,7 +45785,7 @@ GameObject:
   - component: {fileID: 1646421378}
   - component: {fileID: 1646421377}
   - component: {fileID: 1646421376}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Kill-Y
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45826,7 +45829,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yLoc: -100
-  player: {fileID: 1449687934}
 --- !u!4 &1646421378
 Transform:
   m_ObjectHideFlags: 0

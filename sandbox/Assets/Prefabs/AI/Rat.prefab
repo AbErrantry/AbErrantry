@@ -443,7 +443,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 22100000, guid: b5f553167815b6a44a7d34e4745aab63, type: 2}
-  m_CullingMode: 2
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -479,8 +479,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   enemyAttack: {fileID: 114731782901656214}
 --- !u!114 &114096176845876846
@@ -530,8 +528,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   characterMovement: {fileID: 114343140074912900}
 --- !u!114 &114325448439452548
@@ -546,8 +542,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   enemy: {fileID: 114343140074912900}
 --- !u!114 &114343140074912900
@@ -564,6 +558,7 @@ MonoBehaviour:
   jumpInput: 0
   runInput: 0
   mvmtSpeed: 0
+  isJumping: 0
   isFalling: 0
   isFacingRight: 0
   enemyAttack: {fileID: 114731782901656214}
@@ -583,8 +578,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   enemy: {fileID: 114343140074912900}
 --- !u!114 &114731782901656214
@@ -618,8 +611,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   characterAttack: {fileID: 114731782901656214}
 --- !u!212 &212248431011539468
