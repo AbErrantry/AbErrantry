@@ -26,7 +26,7 @@ public class CrateGenerator : MonoBehaviour
 		worldButton.OnButtonPressed += RespawnCrates;
 	}
 
-	private void OnDisable()
+	private void OnDestroy()
 	{
 		worldButton.OnButtonPressed -= RespawnCrates;
 	}
@@ -47,7 +47,7 @@ public class CrateGenerator : MonoBehaviour
 		}
 		foreach (Vector2 crateLocation in initialCrateLocations)
 		{
-			GameObject newCrate = Instantiate(crate, crateLocation, Quaternion.identity)as GameObject;
+			GameObject newCrate = Instantiate(crate, crateLocation, Quaternion.identity) as GameObject;
 			newCrate.GetComponent<SpriteRenderer>().material = material;
 			crates.Add(newCrate);
 		}

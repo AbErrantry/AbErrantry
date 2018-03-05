@@ -25,12 +25,6 @@ namespace Character2D
         private new void Update()
         {
             base.Update();
-        }
-
-        // Update is called once per tick
-        private new void FixedUpdate()
-        {
-            base.FixedUpdate();
             if (enemyAttack.isWindingUp)
             {
                 rb.velocity = new Vector2(0.0f, rb.velocity.y);

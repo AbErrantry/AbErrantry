@@ -227,7 +227,7 @@ namespace Character2D
 
         private IEnumerator WakeUp(bool menu)
         {
-            yield return new WaitForSecondsRealtime(2.0f);
+            yield return new WaitForSeconds(2.0f);
             isAsleep = false;
             awakeInvoked = false;
             if (!menu)

@@ -38,7 +38,7 @@ public class BackDoor : Openable
             character.GetComponent<Character2D.Player>().ToggleCamera(false);
             character.transform.position = doorPair.transform.position;
             doorPair.GetComponent<BackDoor>().StartEnterDoorRoutine(character, false);
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSeconds(0.1f);
             character.GetComponent<Character2D.Player>().ToggleCamera(true);
             yield return null;
         }

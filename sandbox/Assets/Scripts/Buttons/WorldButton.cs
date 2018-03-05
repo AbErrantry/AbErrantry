@@ -6,6 +6,7 @@ using UnityEngine;
 public class WorldButton : Trigger<Character2D.Attackable>
 {
 	public event Action OnButtonPressed;
+	public event Action OnButtonReleased;
 
 	private Animator anim;
 
@@ -26,12 +27,19 @@ public class WorldButton : Trigger<Character2D.Attackable>
 			if (!isPressed)
 			{
 				isPressed = true;
-				OnButtonPressed();
+				if (OnButtonPressed != null)
+				{
+					OnButtonPressed();
+				}
 			}
 		}
 		else if (isHoldButton)
 		{
 			isPressed = false;
+			if (OnButtonReleased != null)
+			{
+				OnButtonReleased();
+			}
 		}
 		anim.SetBool("isPressed", isPressed);
 	}

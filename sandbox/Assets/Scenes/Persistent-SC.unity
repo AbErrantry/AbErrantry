@@ -1500,7 +1500,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 166000314}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.369999, y: -24.555, z: -10}
+  m_LocalPosition: {x: 26.6, y: -24.1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1224786957}
@@ -3176,7 +3176,7 @@ Transform:
   - {fileID: 1235935075}
   - {fileID: 1743041718}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &338929927
 GameObject:
@@ -6401,7 +6401,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 788260637}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.369999, y: -24.555, z: -10}
+  m_LocalPosition: {x: 26.6, y: -24.1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1903665856}
@@ -7900,7 +7900,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &985250205
 Transform:
   m_ObjectHideFlags: 0
@@ -10285,7 +10285,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1235935074}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.37, y: -24.555, z: 0}
+  m_LocalPosition: {x: 26.6, y: -24.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 332006786}
@@ -12458,6 +12458,7 @@ GameObject:
   - component: {fileID: 1449687945}
   - component: {fileID: 1449687946}
   - component: {fileID: 1449687938}
+  - component: {fileID: 1449687949}
   m_Layer: 8
   m_Name: Knight
   m_TagString: Player
@@ -12760,7 +12761,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1449687932}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3761715, y: 0.3761715, z: 0.3761715}
   m_Children:
@@ -12768,11 +12769,11 @@ RectTransform:
   - {fileID: 1037721953}
   - {fileID: 159818353}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26.74, y: -49.11}
+  m_AnchoredPosition: {x: 53.2, y: -48.2}
   m_SizeDelta: {x: 10.93, y: 9.772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1449687945
@@ -12867,6 +12868,16 @@ CompositeCollider2D:
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
+  - m_Collider: {fileID: 1449687941}
+    m_ColliderPaths:
+    - - X: 2520349
+        Y: 5029413
+      - X: -2520349
+        Y: 5029413
+      - X: -2520349
+        Y: -7881380
+      - X: 2520349
+        Y: -7881380
   - m_Collider: {fileID: 1449687947}
     m_ColliderPaths:
     - - X: -2520349
@@ -12885,16 +12896,6 @@ CompositeCollider2D:
         Y: -7523430
       - X: -2520349
         Y: -7523430
-  - m_Collider: {fileID: 1449687941}
-    m_ColliderPaths:
-    - - X: 2520349
-        Y: 5029413
-      - X: -2520349
-        Y: 5029413
-      - X: -2520349
-        Y: -7881380
-      - X: 2520349
-        Y: -7881380
   m_CompositePaths:
     m_Paths:
     - - {x: -0.2520349, y: 0.5029413}
@@ -12906,6 +12907,17 @@ CompositeCollider2D:
       - {x: 0.2520349, y: -0.8238156}
       - {x: 0.2520349, y: 0.5029413}
   m_VertexDistance: 0.0005
+--- !u!114 &1449687949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1449687932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74783ffd524f7ee4ab1a5689e96364df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1450630661
 GameObject:
   m_ObjectHideFlags: 0
@@ -45261,7 +45273,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1598478921
 Transform:
   m_ObjectHideFlags: 0

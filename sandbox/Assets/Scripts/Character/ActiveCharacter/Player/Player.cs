@@ -216,7 +216,7 @@ namespace Character2D
 
         private IEnumerator CameraToggleDelay()
         {
-            yield return new WaitForSecondsRealtime(0.2f);
+            yield return new WaitForSeconds(0.2f);
             ToggleCamera(true);
         }
     }

@@ -17,7 +17,7 @@ namespace Character2D
 
         //booleans that drive the character states
         protected bool isGrounded; //whether the character is on the ground or not
-        protected bool isJumping; //whether the character is jumping or not
+        public bool isJumping; //whether the character is jumping or not
         protected bool isRunning; //whether the character is running or not
         protected bool isMoving; //whether the character is moving or not
         public bool isFalling; //whether the character is falling or not
@@ -61,7 +61,7 @@ namespace Character2D
             isFalling = false;
 
             speedMultiplier = 1;
-            maxSpeed = 150f;
+            maxSpeed = 3.0f;
 
             isInitJump = true;
             jumpForce = 500.0f;
@@ -79,18 +79,13 @@ namespace Character2D
         protected void Update()
         {
             HandleInput();
-        }
-
-        //called once per game tick (for physics)
-        protected void FixedUpdate()
-        {
             Move();
             SetMovementLogic();
+            SendToAnimator();
             if (characterAttack.isAttacking || attackable.isDying)
             {
                 rb.velocity = new Vector2(0.0f, rb.velocity.y);
             }
-            SendToAnimator();
         }
 
         //handles character input
@@ -139,6 +134,7 @@ namespace Character2D
                 //if this is the first jump frame, add the jump force
                 if (isInitJump)
                 {
+                    rb.velocity = new Vector2(rb.velocity.x, 0.0f);
                     rb.AddForce(new Vector2(0f, jumpForce));
                     isInitJump = false;
                 }
@@ -151,28 +147,20 @@ namespace Character2D
             {
                 speedMultiplier = 1;
             }
-            SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed * Time.deltaTime, rb.velocity.y, false);
-        }
-
-        protected void SmoothMove(float x, float y, bool z)
-        {
-            if (Mathf.Abs(Mathf.Abs(rb.velocity.x)- Mathf.Abs(x))> 0.25)
-            {
-                x = ((8.0f * rb.velocity.x)+ (2.0f * x))/ (10.0f);
-            }
-
-            rb.velocity = new Vector2(x, y);
-            if (z)
-            {
-                //Debug.Log(rb.velocity.ToString());
-            }
+            rb.velocity = new Vector2(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y);
         }
 
         //sets the logic for values related to character movement
         protected virtual void SetMovementLogic()
         {
-            //boolean expression that sets whether or not the player has moved this tick
-            isMoving = Mathf.Abs(lastPosition - rb.transform.position.x)> 0.001f ? true : false;
+            if (Mathf.Abs(lastPosition - rb.transform.position.x) > 0.001f && mvmtSpeed != 0)
+            {
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
 
             //boolean expression that sets whether or not the character is falling on this tick
             isFalling = rb.velocity.y < 0 && !isGrounded ? true : false;

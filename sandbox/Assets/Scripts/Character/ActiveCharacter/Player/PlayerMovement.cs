@@ -25,6 +25,9 @@ namespace Character2D
         public bool isClimbing;
         public bool isStrafing;
 
+        public bool isRolling;
+        public bool isSliding;
+
         //values that affect the character's ability to crouch/uncrouch
         protected float tCrouch; //time since the last crouch
         protected bool isInitCrouch; //initial frame of a crouch (to apply crouch logic)
@@ -53,7 +56,7 @@ namespace Character2D
             crouchSpeed = 0.50f;
             climbSpeedInput = 0.0f;
             climbSpeed = 0.0f;
-            bonusForce = 500.0f;
+            bonusForce = 250.0f;
             movementOverride = false;
         }
 
@@ -61,12 +64,6 @@ namespace Character2D
         protected new void Update()
         {
             base.Update();
-        }
-
-        //called once per game tick (for physics)
-        protected new void FixedUpdate()
-        {
-            base.FixedUpdate();
             if (playerInteraction.isInteracting)
             {
                 rb.velocity = new Vector2(0.0f, rb.velocity.y);
@@ -149,6 +146,7 @@ namespace Character2D
                 //if this is the first jump frame, add the jump force
                 if (isInitJump)
                 {
+                    rb.velocity = new Vector2(rb.velocity.x, 0.0f);
                     rb.AddForce(new Vector2(0f, jumpForce));
                     isInitJump = false;
                     isOnLadder = false;
@@ -181,13 +179,13 @@ namespace Character2D
                 {
                     climbSpeed = climbSpeedInput;
                     isClimbing = true;
-                    transform.Translate(Vector3.up * climbSpeedInput / 25f);
+                    transform.Translate(Vector3.up * climbSpeedInput * Time.deltaTime * 2.0f);
                 }
                 else if (Mathf.Abs(mvmtSpeed) > 0.0f && !isGrounded)
                 {
                     climbSpeed = 0.0f;
                     isStrafing = true;
-                    transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed) / 25f);
+                    transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed) * Time.deltaTime * 2.0f);
                 }
                 else if (isGrounded && climbingTriggerTop.currentObjects.Count != 0)
                 {
@@ -198,24 +196,29 @@ namespace Character2D
                 {
                     climbSpeed = 1.0f;
                     isClimbing = true;
-                    transform.Translate(Vector3.up / 25f);
+                    transform.Translate(Vector3.up * Time.deltaTime * 2.0f);
                 }
                 else
                 {
                     climbSpeed = 0.0f;
                 }
             }
-            else
+            else if (!isSliding && !isRolling)
             {
-                SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed * Time.deltaTime, rb.velocity.y, true);
+                rb.velocity = new Vector2(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y);
             }
         }
 
         protected override void SetMovementLogic()
         {
-            //TODO: change to 2d movement check
-            //boolean expression that sets whether or not the player has moved this tick
-            isMoving = Mathf.Abs(lastPosition - rb.transform.position.x) > 0.001f ? true : false;
+            if (Mathf.Abs(lastPosition - rb.transform.position.x) > 0.001f && mvmtSpeed != 0)
+            {
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
 
             //boolean expression that sets whether or not the character is falling on this tick
             isFalling = rb.velocity.y < 0 && !isGrounded ? true : false;
@@ -336,6 +339,8 @@ namespace Character2D
         public void StopCoroutine()
         {
             StopAllCoroutines();
+            isRolling = false;
+            isSliding = false;
         }
     }
 }
