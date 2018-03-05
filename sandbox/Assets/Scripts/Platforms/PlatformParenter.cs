@@ -14,6 +14,10 @@ public class PlatformParenter : MonoBehaviour
 		if (other.gameObject.GetComponent<Character2D.Attackable>() != null)
 		{
 			platform.children.Add(other.gameObject);
+			if (other.gameObject.GetComponent<Character2D.CharacterMovement>())
+			{
+				other.gameObject.GetComponent<Character2D.CharacterMovement>().isOnPlatform = true;
+			}
 		}
 	}
 
@@ -22,6 +26,10 @@ public class PlatformParenter : MonoBehaviour
 		if (other.gameObject.GetComponent<Character2D.Attackable>() != null)
 		{
 			platform.children.Remove(other.gameObject);
+			if (other.gameObject.GetComponent<Character2D.CharacterMovement>())
+			{
+				other.gameObject.GetComponent<Character2D.CharacterMovement>().isOnPlatform = false;
+			}
 		}
 	}
 }

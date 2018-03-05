@@ -221,7 +221,7 @@ namespace Character2D
             }
 
             //boolean expression that sets whether or not the character is falling on this tick
-            isFalling = rb.velocity.y < 0 && !isGrounded ? true : false;
+            isFalling = rb.velocity.y < 0 && !isGrounded && !isOnPlatform ? true : false;
             lastPosition = rb.transform.position.x; //set the last position for the next tick
 
             //change the player's direction if they are moving in another direction

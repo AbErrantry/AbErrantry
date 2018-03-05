@@ -12,6 +12,13 @@ public class BackDoor : Openable
         typeOfInteractable = Types.BackDoor;
         base.Start();
         openTime = 0.25f;
+
+        if (isOpen)
+        {
+            isOpen = false;
+            anim.SetBool("isOpen", isOpen);
+            ToggleState();
+        }
     }
 
     public new void ToggleState()

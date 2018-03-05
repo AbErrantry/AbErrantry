@@ -42,6 +42,8 @@ namespace Character2D
         protected float lastPosition; //x position of the character on the previous tick
         public bool isFacingRight; //whether the character is facing right or not
 
+        public bool isOnPlatform;
+
         //used for initialization
         protected void Start()
         {
@@ -49,6 +51,8 @@ namespace Character2D
             rb = GetComponent<Rigidbody2D>();
             attackable = gameObject.GetComponent<Attackable>();
             characterAttack = gameObject.GetComponent<CharacterAttack>();
+
+            isOnPlatform = false;
 
             jumpInput = false;
             runInput = false;
@@ -162,7 +166,7 @@ namespace Character2D
             }
 
             //boolean expression that sets whether or not the character is falling on this tick
-            isFalling = rb.velocity.y < 0 && !isGrounded ? true : false;
+            isFalling = rb.velocity.y < 0 && !isGrounded && !isOnPlatform ? true : false;
             lastPosition = rb.transform.position.x; //set the last position for the next tick
 
             //change the player's direction if they are moving in another direction

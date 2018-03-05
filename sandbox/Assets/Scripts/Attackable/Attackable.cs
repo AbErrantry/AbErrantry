@@ -32,14 +32,6 @@ namespace Character2D
             anim = GetComponent<Animator>();
         }
 
-        private void OnDestroy()
-        {
-            if (OnAttackableDestroyed != null)
-            {
-                OnAttackableDestroyed(this);
-            }
-        }
-
         //applies damage to the player
         public virtual void TakeDamage(GameObject attacker, int damage)
         {
@@ -94,6 +86,10 @@ namespace Character2D
         protected void Die()
         {
             InitializeDeath();
+            if (OnAttackableDestroyed != null)
+            {
+                OnAttackableDestroyed(this);
+            }
         }
 
         protected abstract void InitializeDeath();
