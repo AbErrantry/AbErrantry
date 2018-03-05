@@ -72,6 +72,9 @@
         </relationship>
     </object>
     <object class="EventMixerMaster" id="{5d1031b0-7530-4a9b-b63c-b4764f410332}">
+        <property name="pitch">
+            <value>-12</value>
+        </property>
         <relationship name="effectChain">
             <destination>{93e51dfc-8874-4640-8659-fd36918553fb}</destination>
         </relationship>
@@ -90,7 +93,10 @@
     <object class="MixerBusPanner" id="{ac2fa88c-53a6-45cf-bb1b-f7833886e1d0}"/>
     <object class="SingleSound" id="{9b564c68-a7b3-4d56-9264-4c1d2e079934}">
         <property name="length">
-            <value>0.3041496598639456</value>
+            <value>0.18414965986394549</value>
+        </property>
+        <property name="timelockedOffset">
+            <value>0.12</value>
         </property>
         <relationship name="audioFile">
             <destination>{8755081a-dff4-4f1c-99a2-3227152be231}</destination>
@@ -126,11 +132,8 @@
     <object class="MixerBusPanner" id="{de9d4536-401c-447f-9b13-dfa12ac68650}"/>
     <object class="MixerBusFader" id="{1d6a1910-02e1-4f6a-8773-5f1b95605d76}"/>
     <object class="PitchShifterEffect" id="{829d2bca-4821-4451-af76-ecaa7a506360}">
-        <property name="pitch">
-            <value>1.00000012</value>
-        </property>
         <property name="fftSize">
-            <value>340</value>
+            <value>256</value>
         </property>
         <property name="overlap">
             <value>1</value>
