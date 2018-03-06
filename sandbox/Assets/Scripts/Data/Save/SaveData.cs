@@ -6,7 +6,6 @@ using Character2D;
 using Mono.Data.Sqlite;
 using UnityEngine;
 
-//TODO: wrap writes in try-catch blocks just to be safe.
 public class SaveData : ScriptableObject
 {
     private string path;
@@ -15,7 +14,7 @@ public class SaveData : ScriptableObject
     private SqliteConnection conn;
     private SqliteCommand cmd;
 
-    //default constructor
+    // default constructor
     private void OnEnable()
     {
         file = "TestDatabase.db"; //TODO: get database file to load and set it into file
@@ -25,7 +24,7 @@ public class SaveData : ScriptableObject
         OpenConnection();
     }
 
-    //default destructor
+    // default destructor
     private void OnDestroy()
     {
         CloseConnection();
@@ -49,16 +48,21 @@ public class SaveData : ScriptableObject
     {
         Openable.OnOpenableStateChanged += WriteOpenableStateChange;
         PlayerInventory.OnLooseItemChanged += WriteLooseItem;
-        PlayerInventory.OnInventoryItemChanged += WritePlayerItemChange;
-        Player.OnPlayerInfoChanged += WritePlayerInfoChange;
+        PlayerInventory.OnInventoryItemChanged += WritePlayerItem;
+        Player.OnPlayerInfoChanged += WritePlayerInfo;
+        //WriteUnlockedCheckpoint
+        //WriteCharacterInfo
+        //WriteCharacterItem
+        //WriteQuestStep
+        //WriteBossDefeated
     }
 
     private void UnsubscribeFromEvents()
     {
         Openable.OnOpenableStateChanged -= WriteOpenableStateChange;
         PlayerInventory.OnLooseItemChanged -= WriteLooseItem;
-        PlayerInventory.OnInventoryItemChanged -= WritePlayerItemChange;
-        Player.OnPlayerInfoChanged -= WritePlayerInfoChange;
+        PlayerInventory.OnInventoryItemChanged -= WritePlayerItem;
+        Player.OnPlayerInfoChanged -= WritePlayerInfo;
     }
 
     private void WriteOpenableStateChange(int id, OpenableTuple tuple)
@@ -70,7 +74,7 @@ public class SaveData : ScriptableObject
         cmd.ExecuteNonQuery();
     }
 
-    //TODO: convert bool array to openable tuple.
+    // Gets the state of an openable interactable
     public OpenableTuple ReadOpenableState(int id, string name)
     {
         cmd.CommandText = "SELECT isOpened, isLocked FROM Openables WHERE id = @id";
@@ -86,7 +90,7 @@ public class SaveData : ScriptableObject
             if (reader.Read())
             {
                 tuple.isOpen = reader.GetBoolean(reader.GetOrdinal("isOpened"));
-                tuple.isLocked = reader.GetBoolean(reader.GetOrdinal("isUnlocked"));
+                tuple.isLocked = reader.GetBoolean(reader.GetOrdinal("isLocked"));
                 Debug.Log(id + ", isOpen=" + tuple.isOpen + ", isLocked=" + tuple.isLocked);
             }
             else
@@ -106,7 +110,8 @@ public class SaveData : ScriptableObject
         return tuple;
     }
 
-    private void WritePlayerItemChange(ItemTuple item)
+    // Sets an update to the player character's inventory
+    private void WritePlayerItem(ItemTuple item)
     {
         //check to see if item record exists in player item table via the string name of the item
         cmd.CommandText = "SELECT name FROM PlayerItems WHERE name = @name";
@@ -151,8 +156,8 @@ public class SaveData : ScriptableObject
                 }
                 else
                 {
-                    //a record inserted with a quantity zero is not allowed
-                    throw new Exception("attempted to write an item change to PlayerItems table with a record that does not exist and a quantity of zero.");
+                    throw new Exception("attempted to write an item change to PlayerItems table with a record " +
+                        "that does not exist and a quantity of zero.");
                 }
             }
         }
@@ -162,6 +167,7 @@ public class SaveData : ScriptableObject
         }
     }
 
+    // Gets the list of items that are in the player inventory
     public List<ItemTuple> ReadPlayerItems()
     {
         var itemsInInventory = new List<ItemTuple>();
@@ -189,22 +195,30 @@ public class SaveData : ScriptableObject
         return itemsInInventory;
     }
 
-    private void WritePlayerInfoChange(PlayerInfoTuple playerInfo)
+    // Sets the updated state of the player character
+    private void WritePlayerInfo(PlayerInfoTuple playerInfo)
     {
-        //update the record in the PlayerInfo table with the updated player information
-        cmd.CommandText = "UPDATE PlayerInfo SET maxHealth = @maxHealth, currentHealth = @currentHealth, " +
-            "currentQuest = @currentQuest, gold = @gold, checkpointName = @checkpointName, " +
-            "equippedArmor = @equippedArmor, equippedWeapon = @equippedWeapon";
-        cmd.Parameters.Add("@maxHealth", DbType.Int32).Value = playerInfo.maxHealth;
-        cmd.Parameters.Add("@currentHealth", DbType.Int32).Value = playerInfo.currentHealth;
-        cmd.Parameters.Add("@currentQuest", DbType.String).Value = playerInfo.currentQuest;
-        cmd.Parameters.Add("@gold", DbType.Int32).Value = playerInfo.gold;
-        cmd.Parameters.Add("@checkpointName", DbType.String).Value = playerInfo.checkpointName;
-        cmd.Parameters.Add("@equippedArmor", DbType.String).Value = playerInfo.equippedArmor;
-        cmd.Parameters.Add("@equippedWeapon", DbType.String).Value = playerInfo.equippedWeapon;
-        cmd.ExecuteNonQuery();
+        try
+        {
+            cmd.CommandText = "UPDATE PlayerInfo SET maxHealth = @maxHealth, currentHealth = @currentHealth, " +
+                "currentQuest = @currentQuest, gold = @gold, checkpointName = @checkpointName, " +
+                "equippedArmor = @equippedArmor, equippedWeapon = @equippedWeapon";
+            cmd.Parameters.Add("@maxHealth", DbType.Int32).Value = playerInfo.maxHealth;
+            cmd.Parameters.Add("@currentHealth", DbType.Int32).Value = playerInfo.currentHealth;
+            cmd.Parameters.Add("@currentQuest", DbType.String).Value = playerInfo.currentQuest;
+            cmd.Parameters.Add("@gold", DbType.Int32).Value = playerInfo.gold;
+            cmd.Parameters.Add("@checkpointName", DbType.String).Value = playerInfo.checkpointName;
+            cmd.Parameters.Add("@equippedArmor", DbType.String).Value = playerInfo.equippedArmor;
+            cmd.Parameters.Add("@equippedWeapon", DbType.String).Value = playerInfo.equippedWeapon;
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
     }
 
+    // Gets the information related to the player character
     public PlayerInfoTuple ReadPlayerInfo()
     {
         var playerInfo = new PlayerInfoTuple();
@@ -229,7 +243,6 @@ public class SaveData : ScriptableObject
             }
             else
             {
-                //no record exists within the table
                 throw new Exception("No record exists within the PlayerInfo table.");
             }
         }
@@ -245,18 +258,25 @@ public class SaveData : ScriptableObject
         return playerInfo;
     }
 
+    // Sets that a specified checkpoint has been unlocked
     private void WriteUnlockedCheckpoint(string name)
     {
-        //update the record in the checkpoint table with the fact that it has been unlocked.
-        cmd.CommandText = "UPDATE Checkpoints SET isUnlocked = @true WHERE name = @name";
-        cmd.Parameters.Add("@isUnlocked", DbType.Boolean).Value = true;
-        cmd.ExecuteNonQuery();
-        Debug.Log("Updated checkpoint " + name + " in Checkpoints to be unlocked.");
+        try
+        {
+            cmd.CommandText = "UPDATE Checkpoints SET isUnlocked = @true WHERE name = @name";
+            cmd.Parameters.Add("@isUnlocked", DbType.Boolean).Value = true;
+            cmd.ExecuteNonQuery();
+            Debug.Log("Updated checkpoint " + name + " in Checkpoints to be unlocked.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
     }
 
+    // Gets whether a selected checkpoint has been unlocked
     public bool GetCheckpointUnlocked(string name)
     {
-        //get whether a selected checkpoint is unlocked.
         cmd.CommandText = "SELECT isUnlocked FROM Checkpoints WHERE name = @name";
         cmd.Parameters.Add("@name", DbType.String).Value = name;
         SqliteDataReader reader = cmd.ExecuteReader();
@@ -289,27 +309,30 @@ public class SaveData : ScriptableObject
         return false;
     }
 
-    //TODO: finish
+    // Updates the state of a non-player character (specifically related to dialogue)
     private void WriteCharacterInfo(CharacterInfoTuple tuple)
     {
-        //update the record in the characterinfo table with the specified name with each of the tuple elements
-        //update the record in the PlayerInfo table with the updated player information
-        cmd.CommandText = "UPDATE CharacterInfo SET maxHealth = @maxHealth, currentHealth = @currentHealth, " +
-            "currentQuest = @currentQuest, gold = @gold, checkpointName = @checkpointName, " +
-            "equippedArmor = @equippedArmor, equippedWeapon = @equippedWeapon, WHERE name = @name";
-        cmd.Parameters.Add("@maxHealth", DbType.Int32).Value = playerInfo.maxHealth;
-        cmd.Parameters.Add("@currentHealth", DbType.Int32).Value = playerInfo.currentHealth;
-        cmd.Parameters.Add("@currentQuest", DbType.String).Value = playerInfo.currentQuest;
-        cmd.Parameters.Add("@gold", DbType.Int32).Value = playerInfo.gold;
-        cmd.Parameters.Add("@checkpointName", DbType.String).Value = playerInfo.checkpointName;
-        cmd.Parameters.Add("@equippedArmor", DbType.String).Value = playerInfo.equippedArmor;
-        cmd.Parameters.Add("@equippedWeapon", DbType.String).Value = playerInfo.equippedWeapon;
-        cmd.ExecuteNonQuery();
+        try
+        {
+            cmd.CommandText = "UPDATE CharacterInfo SET level = @level, xLoc = @xLoc, " +
+                "yLoc = @yLoc, conversation = @conversation, gold = @gold WHERE name = @name";
+            cmd.Parameters.Add("@name", DbType.String).Value = tuple.name;
+            cmd.Parameters.Add("@level", DbType.String).Value = tuple.level;
+            cmd.Parameters.Add("@xLoc", DbType.Decimal).Value = tuple.xLoc;
+            cmd.Parameters.Add("@yLoc", DbType.Decimal).Value = tuple.yLoc;
+            cmd.Parameters.Add("@conversation", DbType.Int32).Value = tuple.conversation;
+            cmd.Parameters.Add("@gold", DbType.Int32).Value = tuple.gold;
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
     }
 
+    // Gets the list of characters that exist within a level (to be loaded)
     public List<CharacterInfoTuple> ReadCharacterInfo(string level)
     {
-        //get the info for a given character
         List<CharacterInfoTuple> tuples = new List<CharacterInfoTuple>();
         cmd.CommandText = "SELECT name, xLoc, yLoc, conversation, gold FROM CharacterInfo WHERE level = @level";
         cmd.Parameters.Add("@name", DbType.String).Value = name;
@@ -329,9 +352,9 @@ public class SaveData : ScriptableObject
                 tuple.yLoc = reader.GetFloat(reader.GetOrdinal("yLoc"));
                 tuple.conversation = reader.GetInt32(reader.GetOrdinal("conversation"));
                 tuple.gold = reader.GetInt32(reader.GetOrdinal("gold"));
-                Debug.Log("Character: name=" + tuple.name + ", level=" + tuple.level  + 
-                    ", xLoc=" + tuple.xLoc  + ", yLoc=" + tuple.yLoc + 
-                    ", conversation=" + tuple.conversation  + ", gold=" + tuple.gold);
+                Debug.Log("Character: name=" + tuple.name + ", level=" + tuple.level +
+                    ", xLoc=" + tuple.xLoc + ", yLoc=" + tuple.yLoc +
+                    ", conversation=" + tuple.conversation + ", gold=" + tuple.gold);
                 tuples.Add(tuple);
             }
         }
@@ -347,73 +370,227 @@ public class SaveData : ScriptableObject
         return tuples;
     }
 
-    private void WriteCharacterInventory(string name, List<InventoryItem> items, bool buy)
+    // Sets an update to the non-player character's inventory
+    private void WriteCharacterItem(ItemTuple item, string character)
     {
-        //update the record in the characterinventory table with the specified name with each of the three parameters
-        if (buy)
+        //check to see if item record exists in player item table via the string name of the item
+        cmd.CommandText = "SELECT name FROM CharacterItems WHERE character = @character";
+        cmd.Parameters.Add("@name", DbType.String).Value = item.name;
+        cmd.Parameters.Add("@character", DbType.String).Value = character;
+        SqliteDataReader reader = cmd.ExecuteReader();
+        try
         {
-            //check to see if item record exists in characterinventory table via the string name of the item
-            //if it does, update the record with the item quantity.
-            //otherwise, add a record with the string name with the given quantity.
+            if (reader.Read())
+            {
+                reader.Close();
+                reader = null;
+                if (item.quantity > 0)
+                {
+                    //if it does, update the record with the item quantity.
+                    cmd.CommandText = "UPDATE CharacterItems SET quantity = @quantity WHERE name = @name AND character = @character";
+                    cmd.Parameters.Add("@character", DbType.String).Value = character;
+                    cmd.Parameters.Add("@name", DbType.String).Value = item.name;
+                    cmd.Parameters.Add("@quantity", DbType.Int32).Value = item.quantity;
+                    cmd.ExecuteNonQuery();
+                    Debug.Log("Updated item " + item.name + " for character " + character + " in CharacterItems to quantity " + item.quantity);
+                }
+                else
+                {
+                    //if the quantity is zero, remove the record.
+                    cmd.CommandText = "DELETE FROM CharacterItems WHERE name = @name AND character = @character";
+                    cmd.Parameters.Add("@character", DbType.String).Value = character;
+                    cmd.Parameters.Add("@name", DbType.String).Value = item.name;
+                    cmd.ExecuteNonQuery();
+                    Debug.Log("Removed item " + item.name + " from CharacterItems for character: " + character);
+                }
+            }
+            else
+            {
+                reader.Close();
+                reader = null;
+                if (item.quantity > 0)
+                {
+                    //otherwise, add a record with the string name with the given quantity.
+                    cmd.CommandText = "INSERT INTO CharacterItems (character, name, quantity) VALUES (@character, @name, @quantity)";
+                    cmd.Parameters.Add("@character", DbType.String).Value = character;
+                    cmd.Parameters.Add("@name", DbType.String).Value = item.name;
+                    cmd.Parameters.Add("@quantity", DbType.Int32).Value = item.quantity;
+                    cmd.ExecuteNonQuery();
+                    Debug.Log("Added item " + item.name + " to character " + character + " in CharacterItems with quantity " + item.quantity);
+                }
+                else
+                {
+                    throw new Exception("attempted to write an item change to CharacterItems table with a record " +
+                        "that does not exist and a quantity of zero for character: " + character);
+                }
+            }
         }
-        else
+        catch (Exception e)
         {
-            //check to see if item record exists in characterinventory table via the string name of the item
-            //if it does, decrement the quantity
-            //otherwise, we have a problem :(
+            Debug.LogException(e);
         }
     }
 
-    private void WriteQuestState(string name, int step)
+    // Gets the list of items that are in the specified non-player character's inventory
+    public List<ItemTuple> ReadCharacterItems(string character)
     {
-        //update the record in the queststate table with the specified current step
+        var itemsInInventory = new List<ItemTuple>();
+        cmd.CommandText = "SELECT name, quantity FROM CharacterItems WHERE character = @character";
+        SqliteDataReader reader = cmd.ExecuteReader();
+        try
+        {
+            while (reader.Read())
+            {
+                var item = new ItemTuple();
+                item.name = reader.GetString(reader.GetOrdinal("name"));
+                item.quantity = reader.GetInt32(reader.GetOrdinal("quantity"));
+                itemsInInventory.Add(item);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+        finally
+        {
+            reader.Close();
+            reader = null;
+        }
+        return itemsInInventory;
     }
 
+    // Sets an update to the selected quest step
+    private void WriteQuestStep(string name, int step)
+    {
+        try
+        {
+            cmd.CommandText = "UPDATE Quests SET step = @step WHERE name = @name";
+            cmd.Parameters.Add("@step", DbType.Int32).Value = step;
+            cmd.Parameters.Add("@name", DbType.String).Value = name;
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+    }
+
+    // Gets the current step in a selected quest
+    private int GetQuestStep(string name)
+    {
+        cmd.CommandText = "SELECT step FROM Quests WHERE name = @name";
+        cmd.Parameters.Add("@name", DbType.String).Value = name;
+        SqliteDataReader reader = cmd.ExecuteReader();
+        try
+        {
+            if (name == null)
+            {
+                throw new Exception("A quest name has not been set.");
+            }
+            if (reader.Read())
+            {
+                int result = reader.GetInt32(reader.GetOrdinal("step"));
+                Debug.Log("Quest name=" + name + ", step=" + result);
+                return result;
+            }
+            else
+            {
+                throw new Exception("The quest (" + name + ") does not exist in the Quests table.");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+        finally
+        {
+            reader.Close();
+            reader = null;
+        }
+        return 0;
+    }
+
+    // Set that the boss with the specified id has been killed
     private void WriteBossDefeated(int id)
     {
-        //update the bosses table to remove this boss so that it does not spawn again in the future
-    }
-
-    private void WriteLooseItem(LevelItemTuple item, bool add, string level)
-    {
-        if (add)
+        try
         {
-            cmd.CommandText = "INSERT INTO LooseItems (id, name, xLoc, yLoc, level) VALUES (@id, @name, @xLoc, @yLoc, @level)";
-            cmd.Parameters.Add("@id", DbType.Int32).Value = item.id;
-            cmd.Parameters.Add("@name", DbType.String).Value = item.name;
-            cmd.Parameters.Add("@xLoc", DbType.Decimal).Value = item.xLoc;
-            cmd.Parameters.Add("@yLoc", DbType.Decimal).Value = item.yLoc;
-            cmd.Parameters.Add("@level", DbType.String).Value = level;
+            cmd.CommandText = "UPDATE Bosses SET isDefeated = @true WHERE id = @id";
+            cmd.Parameters.Add("@isDefeated", DbType.Boolean).Value = true;
+            cmd.Parameters.Add("@id", DbType.Int32).Value = id;
             cmd.ExecuteNonQuery();
         }
-        else
+        catch (Exception e)
         {
-            cmd.CommandText = "DELETE FROM LooseItems WHERE id = @id";
-            cmd.Parameters.Add("@id", DbType.Int32).Value = item.id;
-            cmd.ExecuteNonQuery();
-            //Debug.Log("Removed item " + item.id + " from level " + level);
+            Debug.LogException(e);
         }
     }
 
-    public bool ValidateUniqueItemID(int id)
+    // Gets whether a boss has been killed or not
+    public bool ReadBossState(int id)
     {
-        cmd.CommandText = "SELECT id FROM LooseItems WHERE id = @id";
+        cmd.CommandText = "SELECT isDefeated FROM Bosses WHERE id = @id";
         cmd.Parameters.Add("@id", DbType.Int32).Value = id;
         SqliteDataReader reader = cmd.ExecuteReader();
-        bool result = false;
-        if (reader.Read())
+        try
         {
-            result = false;
+            if (id == 0)
+            {
+                throw new Exception("A boss id has not been set in the editor.");
+            }
+            if (reader.Read())
+            {
+                bool result = reader.GetBoolean(reader.GetOrdinal("isDefeated"));
+                Debug.Log("Boss id=" + id + ", isDefeated=" + result);
+                return result;
+            }
+            else
+            {
+                throw new Exception("The id of a boss (" + id + ") does not exist in the Bosses table.");
+            }
         }
-        else
+        catch (Exception e)
         {
-            result = true;
+            Debug.LogException(e);
         }
-        reader.Close();
-        reader = null;
-        return result;
+        finally
+        {
+            reader.Close();
+            reader = null;
+        }
+        return false;
     }
 
+    // Saves a item that has been spawned into a level with the level
+    private void WriteLooseItem(LevelItemTuple item, bool add, string level)
+    {
+        try
+        {
+            if (add)
+            {
+                cmd.CommandText = "INSERT INTO LooseItems (id, name, xLoc, yLoc, level) VALUES (@id, @name, @xLoc, @yLoc, @level)";
+                cmd.Parameters.Add("@id", DbType.Int32).Value = item.id;
+                cmd.Parameters.Add("@name", DbType.String).Value = item.name;
+                cmd.Parameters.Add("@xLoc", DbType.Decimal).Value = item.xLoc;
+                cmd.Parameters.Add("@yLoc", DbType.Decimal).Value = item.yLoc;
+                cmd.Parameters.Add("@level", DbType.String).Value = level;
+                cmd.ExecuteNonQuery();
+            }
+            else
+            {
+                cmd.CommandText = "DELETE FROM LooseItems WHERE id = @id";
+                cmd.Parameters.Add("@id", DbType.Int32).Value = item.id;
+                cmd.ExecuteNonQuery();
+                //Debug.Log("Removed item " + item.id + " from level " + level);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+    }
+
+    // Gets a list of items that exist within a level (to be loaded)
     public List<LevelItemTuple> ReadLooseItems(string level)
     {
         var itemsInLevel = new List<LevelItemTuple>();
@@ -443,5 +620,35 @@ public class SaveData : ScriptableObject
             reader = null;
         }
         return itemsInLevel;
+    }
+
+    // Ensures that the generated ID for an item does not exist in the database already
+    public bool ValidateUniqueItemID(int id)
+    {
+        cmd.CommandText = "SELECT id FROM LooseItems WHERE id = @id";
+        cmd.Parameters.Add("@id", DbType.Int32).Value = id;
+        SqliteDataReader reader = cmd.ExecuteReader();
+        bool result = false;
+        try
+        {
+            if (reader.Read())
+            {
+                result = false;
+            }
+            else
+            {
+                result = true;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+        finally
+        {
+            reader.Close();
+            reader = null;
+        }
+        return result;
     }
 }
