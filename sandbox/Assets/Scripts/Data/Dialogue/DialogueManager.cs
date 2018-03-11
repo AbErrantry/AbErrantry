@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Character2D;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,8 +11,12 @@ namespace Dialogue2D
 {
     public class DialogueManager : MonoBehaviour
     {
-        private Character2D.PlayerInput playerInput;
-        private Character2D.PlayerMovement playerMovement;
+        private PlayerInput playerInput;
+        private PlayerMovement playerMovement;
+        private PlayerInventory playerInventory;
+        private Player player;
+
+        private StoreMenu storeMenu;
 
         public CameraShift cameraShift;
         public FollowTarget followTarget;
@@ -24,6 +29,7 @@ namespace Dialogue2D
         public Animator dialogueAnimator;
         public Animator choiceAnimator;
         public Animator continueAnimator;
+        public Animator fadeAnimator;
 
         public RectTransform dialogueTransform;
         public GameObject dialogueContainer;
@@ -42,14 +48,20 @@ namespace Dialogue2D
 
         public bool isOpen;
 
+        private bool isWaiting;
+
         //used for initialization
         private void Start()
         {
             dialogueSegments = new List<DialogueSegment>();
             currentSegment = new DialogueSegment();
 
-            playerInput = GetComponent<Character2D.PlayerInput>();
-            playerMovement = GetComponent<Character2D.PlayerMovement>();
+            playerInput = GetComponent<PlayerInput>();
+            playerMovement = GetComponent<PlayerMovement>();
+            playerInventory = GetComponent<PlayerInventory>();
+            player = GetComponent<Player>();
+
+            storeMenu = GetComponent<StoreMenu>();
 
             dialogueContainer.SetActive(false);
 
@@ -87,6 +99,7 @@ namespace Dialogue2D
         {
             StopAllCoroutines();
             dialogueContainer.SetActive(false);
+            fadeAnimator.SetBool("isDisappearing", false);
             isOpen = false;
         }
 
@@ -99,14 +112,13 @@ namespace Dialogue2D
             {
                 FlushChoices();
             }
-            DoActions();
             GetNextSegment();
         }
 
         private void DisplaySegment()
         {
             StopAllCoroutines();
-            if(character.GetComponent<Animator>() != null)
+            if (character.GetComponent<Animator>() != null)
             {
                 character.GetComponent<Animator>().SetBool("isTalking", true);
             }
@@ -115,7 +127,7 @@ namespace Dialogue2D
 
         private void DisplayChoices()
         {
-            if(character.GetComponent<Animator>() != null)
+            if (character.GetComponent<Animator>() != null)
             {
                 character.GetComponent<Animator>().SetBool("isTalking", false);
             }
@@ -148,66 +160,73 @@ namespace Dialogue2D
             {
                 switch (action.type)
                 {
-					case ActionTypes.AffectKarma:
-                        Debug.Log("Karma affected by " + action.number + " points.");
-                        //call function to set new karma value.
+                    case ActionTypes.AffectKarma:
+                        player.SetKarma(action.number);
                         break;
                     case ActionTypes.BecomeHostile:
-                        Debug.Log(nameText.text + " became hostile.");
-                        //call function to make character hostile
+                        character.GetComponent<NPC>().MakeHostile();
                         break;
                     case ActionTypes.Disappear:
-                        Debug.Log(nameText.text + " vanished.");
-                        //call function to make character disappear and remove from memory
-                        //add a fade to black and back to let the character disappear
+                        character.GetComponent<NPC>().Disappear();
+                        StartCoroutine(DisappearRoutine(true));
                         break;
                     case ActionTypes.GiveGold:
-                        Debug.Log(nameText.text + " gave you " + action.number + " gold.");
-                        //add action.amount gold to the player's gold supply and notify them
+                        player.SetGold(action.number);
                         break;
                     case ActionTypes.GiveItem:
-                        Debug.Log(nameText.text + " gave you " + action.number + " " + action.name + "(s).");
-                        //add action.amount action.name to the player's inventory and notify them
+                        for (int index = 0; index < action.number; index++)
+                        {
+                            playerInventory.AddItem(action.name);
+                        }
                         break;
                     case ActionTypes.None:
+                        //do nothing
                         break;
                     case ActionTypes.OpenShopMenu:
-                        Debug.Log("Opened shop menu.");
+                        isWaiting = true;
+                        storeMenu.ToggleStore(character.GetComponent<CharacterInventory>());
                         //open shop menu where you can buy things from the shopkeep's inventory and sell things from yours
                         //buying adds items to your inventory and removes from theirs
                         //selling removes items from your inventory and adds to theirs
                         //TODO: after x amount of time played, add items to each shopkeep's inventory.
                         break;
                     case ActionTypes.ProgressDialogue:
-                        Debug.Log("Dialogue progressed to conversation " + action.number + ".");
-                        //move to a new conversation id that has been specified.
+                        character.GetComponent<NPC>().SetDialogueState(action.number);
                         break;
                     case ActionTypes.ProgressQuest:
                         Debug.Log("Quest " + action.name + " progressed to step " + action.number);
-                        //move to a new point in the specified quest.
+                        //TODO: move the selected quest to the new step (update UIBar too)
                         break;
                     case ActionTypes.RequestGold:
                         Debug.Log(nameText.text + " requests " + action.number + " gold.");
-                        //request gold to continue the specified conversation
-                        //can also progress to a dialogue that starts off here if this is the only continuing branch
+                        //TODO: bring up dialogue asking if character can have a set amount of gold
+                        //if enough, go to xLoc segment
+                        //if not enough, go to yLoc segment
+                        //TODO: can also progress to a dialogue that starts off here if this is the only continuing branch
                         break;
                     case ActionTypes.RequestItem:
                         Debug.Log(nameText.text + " requests " + action.number + " " + action.name + "(s).");
-                        //request items to continue the specified conversation
-                        //can also progress to a dialogue that starts off here if this is the only continuing branch
+                        //TODO: bring up dialogue asking if character can have a set amount of a certain item
+                        //if enough, go to xLoc segment
+                        //if not enough, go to yLoc segment
+                        //TODO: can also progress to a dialogue that starts off here if this is the only continuing branch
                         break;
                     case ActionTypes.TakeGold:
-                        Debug.Log(nameText.text + " took " + action.number + " gold.");
-                        //take/steal action.number gold from the player. If they do not have that much, take as much as they have.
+                        int total = player.gold;
+                        if (total < action.number)
+                        {
+                            action.number = total;
+                        }
+                        player.SetGold(-action.number, true);
                         break;
                     case ActionTypes.TransportLevel:
-                        Debug.Log(nameText.text + " transported to " + action.name + " level at location x=" + action.xloc + ", y=" + action.yloc + ".");
+                        character.GetComponent<NPC>().CharacterInfoChanged(action.name, action.xloc, action.yloc);
                         //transport the character to the specified level at the coordinates provided.
                         //they will be added to a list of characters in that level with specified coordinates.
                         //add a fade to black and back to let the character disappear
                         break;
                     case ActionTypes.TransportLocation:
-                        Debug.Log(nameText.text + " transported to " + action.name + " level at location x=" + action.xloc + ", y=" + action.yloc + ".");
+                        character.GetComponent<NPC>().CharacterInfoChanged(action.name, action.xloc, action.yloc);
                         //transport the character to the specified coordinates in the current level
                         //they will be added to a list of characters in this level with new specified coordinates.
                         //they will stay instantiated and actually be transported in this case.
@@ -218,6 +237,36 @@ namespace Dialogue2D
                         break;
                 }
             }
+        }
+
+        public void SetDoneWaiting()
+        {
+            isWaiting = false;
+            GetNextSegment(false);
+        }
+
+        private IEnumerator DisappearRoutine(bool destroy)
+        {
+            string characterName = character.GetComponent<NPC>().name;
+            isWaiting = true;
+
+            fadeAnimator.SetBool("isDisappearing", true);
+            yield return new WaitForSeconds(0.5f);
+
+            isWaiting = false;
+            EndDialogue();
+            if (destroy)
+            {
+                Destroy(character);
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            fadeAnimator.SetBool("isDisappearing", false);
+            yield return new WaitForSeconds(0.5f);
+
+            EventDisplay.instance.AddEvent(characterName + " has disappeared.");
+
         }
 
         //
@@ -251,25 +300,32 @@ namespace Dialogue2D
         }
 
         //gets the next segment in dialogue
-        public void GetNextSegment()
+        public void GetNextSegment(bool doActions = true)
         {
             continueAnimator.SetBool("isActive", false);
-            if (currentSegment.next == -1)
+            if (doActions)
             {
-                EndDialogue();
+                DoActions();
             }
-            else
+            if (!isWaiting)
             {
-                //get the next segment
-                foreach (DialogueSegment segment in dialogueSegments)
+                if (currentSegment.next == -1)
                 {
-                    if (currentSegment.next == segment.id)
-                    {
-                        currentSegment = segment;
-                        break;
-                    }
+                    EndDialogue();
                 }
-                DisplaySegment();
+                else
+                {
+                    //get the next segment
+                    foreach (DialogueSegment segment in dialogueSegments)
+                    {
+                        if (currentSegment.next == segment.id)
+                        {
+                            currentSegment = segment;
+                            break;
+                        }
+                    }
+                    DisplaySegment();
+                }
             }
         }
 
@@ -302,11 +358,11 @@ namespace Dialogue2D
 
             followTarget.SetTarget(character.transform);
 
-            if(character.GetComponent<Animator>() != null)
+            if (character.GetComponent<Animator>() != null)
             {
                 character.GetComponent<Animator>().SetTrigger("isGreeting");
             }
-            
+
             if (character.transform.position.x < transform.position.x)
             {
                 if (character.gameObject.GetComponent<NPC>() != null)

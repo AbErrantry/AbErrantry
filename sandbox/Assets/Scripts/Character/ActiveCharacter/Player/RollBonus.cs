@@ -10,7 +10,7 @@ namespace Character2D
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             playerMovement = animator.GetComponentInParent<PlayerMovement>();
-            playerMovement.MoveBonus(2.0f);
+            playerMovement.MoveBonus(1.5f);
             playerMovement.isRolling = true;
         }
 

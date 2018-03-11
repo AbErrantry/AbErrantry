@@ -56,7 +56,7 @@ namespace Character2D
             crouchSpeed = 0.50f;
             climbSpeedInput = 0.0f;
             climbSpeed = 0.0f;
-            bonusForce = 250.0f;
+            bonusForce = 200.0f;
             movementOverride = false;
         }
 
@@ -205,7 +205,7 @@ namespace Character2D
             }
             else if (!isSliding && !isRolling && !playerAttack.isAttacking && !Player.instance.isDying)
             {
-                rb.velocity = new Vector2(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y);
+                SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 8.0f);
             }
         }
 

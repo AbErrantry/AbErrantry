@@ -11,8 +11,8 @@ namespace Character2D
         public GameObject pickupPrefab;
         public List<InventoryItem> items; //items held by the character
 
-        public static event Action<LevelItemTuple, bool, string> OnLooseItemChanged; //todo: set loose items
-        public static event Action<ItemTuple> OnInventoryItemChanged; //todo: set loose items
+        public static event Action<LevelItemTuple, bool, string> OnLooseItemChanged;
+        public static event Action<ItemTuple> OnInventoryItemChanged;
 
         //used for initialization
         protected void Start()
@@ -34,7 +34,7 @@ namespace Character2D
             }
         }
 
-        private void AddItem(string itemName, bool init = false)
+        public void AddItem(string itemName, bool init = false)
         {
             bool found = false;
             var itemTuple = new ItemTuple();
@@ -65,6 +65,7 @@ namespace Character2D
 
             if (!init)
             {
+                EventDisplay.instance.AddEvent("Received " + itemName);
                 OnInventoryItemChanged(itemTuple);
             }
         }
@@ -77,7 +78,7 @@ namespace Character2D
             AddItem(pickup.name);
         }
 
-        public void RemoveItem(InventoryItem itemToRemove, bool removeAll, bool drop)
+        public void RemoveItem(InventoryItem itemToRemove, bool removeAll, bool drop, bool isTransaction = false)
         {
             var amountToDrop = 0;
             int amountLeft = 0;
@@ -103,12 +104,24 @@ namespace Character2D
             itemTuple.quantity = amountLeft;
             OnInventoryItemChanged(itemTuple);
 
-            if (!drop) return;
+            if (isTransaction)
+            {
+                EventDisplay.instance.AddEvent("Sold " + amountToDrop + " " + itemToRemove.item.name + "(s).");
+                return;
+            }
 
+            if (!drop)
+            {
+                EventDisplay.instance.AddEvent("Destroyed " + amountToDrop + " " + itemToRemove.item.name + "(s).");
+                return;
+            }
+
+            EventDisplay.instance.AddEvent("Dropped " + amountToDrop + " " + itemToRemove.item.name + "(s).");
             for (var i = 0; i < amountToDrop; i++)
             {
                 InstantiateItem(itemToRemove.item, transform.position);
             }
+
         }
 
         public void InstantiateItem(Item item, Vector3 pos, bool write = true, int id = 0)
@@ -166,8 +179,7 @@ namespace Character2D
                     }
                 }
             }
-            //does not have enough of the necessary item
-            //TODO: put event in event log: not enough of <itemName>: need <amount>
+            EventDisplay.instance.AddEvent("You do not have enough " + itemName + "s. You need " + amount + ".");
             return false;
         }
     }

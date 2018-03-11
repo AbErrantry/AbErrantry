@@ -110,6 +110,7 @@ namespace Character2D
         protected virtual void FinalizeAttack()
         {
             //put things that happen after an attack here
+            rb.velocity = new Vector2(0.0f, 0.0f);
         }
     }
 }

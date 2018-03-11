@@ -1,13 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NPC : Interactable
 {
     public int currentDialogueState;
+    public string currentSceneName;
+    public int gold;
     public bool changesDirection = true;
 
     public bool isFacingRight;
+
+    public static event Action<CharacterInfoTuple> OnCharacterInfoChanged;
 
     //used for initialization
     private new void Start()
@@ -34,5 +40,55 @@ public class NPC : Interactable
                 isFacingRight = false;
             }
         }
+    }
+
+    public void SetDialogueState(int state)
+    {
+        currentDialogueState = state;
+        CharacterInfoChanged(currentSceneName, transform.position.x, transform.position.y);
+        //TODO: some kind of noise or something here?
+    }
+
+    public void SetGold(int delta)
+    {
+        gold += delta;
+        CharacterInfoChanged(currentSceneName, transform.position.x, transform.position.y);
+    }
+
+    public void CharacterInfoChanged(string levelName, float xLoc, float yLoc)
+    {
+        var tuple = new CharacterInfoTuple();
+        tuple.name = name;
+        tuple.gold = gold;
+        tuple.xLoc = xLoc;
+        tuple.yLoc = yLoc;
+        tuple.conversation = currentDialogueState;
+        tuple.level = levelName;
+        OnCharacterInfoChanged(tuple);
+    }
+
+    public void MakeHostile()
+    {
+        var enemy = gameObject.GetComponent<Character2D.Enemy>();
+        if (enemy != null)
+        {
+            //TODO: Set as active
+            RemoveReference();
+            EventDisplay.instance.AddEvent(name + " became hostile!");
+        }
+        else
+        {
+            Debug.LogError("NPC cannot become hostile because it does not have an enemy component.");
+        }
+    }
+
+    private void RemoveReference()
+    {
+        GameData.data.saveData.DeleteCharacter(name);
+    }
+
+    public void Disappear()
+    {
+        RemoveReference();
     }
 }

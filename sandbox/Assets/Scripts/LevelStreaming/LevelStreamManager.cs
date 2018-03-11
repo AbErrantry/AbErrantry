@@ -115,7 +115,12 @@ public class LevelStreamManager : MonoBehaviour
 
     private void LoadCharacters()
     {
-
+        var levelCharacters = new List<CharacterInfoTuple>();
+        levelCharacters = GameData.data.saveData.ReadCharacterInfo(sceneName);
+        foreach (var character in levelCharacters)
+        {
+            CharacterManager.instance.SpawnCharacter(character);
+        }
     }
 
     // Coroutine that unloads the level asynchronously.

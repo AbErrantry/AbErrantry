@@ -64,7 +64,7 @@ public abstract class Openable : Interactable
 		}
 		else
 		{
-			Debug.Log("Locked."); //TODO: replace with locked eventSystem
+			EventDisplay.instance.AddEvent("Locked.");
 		}
 	}
 }

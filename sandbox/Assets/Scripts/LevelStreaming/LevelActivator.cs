@@ -21,7 +21,11 @@ public class LevelActivator : MonoBehaviour
         {
             manager.MakeActive();
             BackgroundSwitch.instance.UpdateScrolling(backgroundID);
-            Character2D.Player.instance.locationText.text = levelInfo.displayName;
+            if (Character2D.Player.instance.locationText.text != levelInfo.displayName)
+            {
+                Character2D.Player.instance.locationText.text = levelInfo.displayName;
+                EventDisplay.instance.AddEvent("Entered " + levelInfo.displayName);
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Character2D
         public static Action<PlayerInfoTuple> OnPlayerInfoChanged;
 
         public int gold;
+        public int karma;
         public string currentQuest;
         public string equippedArmor;
         public string equippedWeapon;
@@ -67,12 +68,6 @@ namespace Character2D
             SetPlayerInfo();
         }
 
-        public void AffectGold(int delta)
-        {
-            gold += delta;
-            InvokePlayerInfoChange();
-        }
-
         private void SetPlayerInfo()
         {
             PlayerInfoTuple playerInfo = GameData.data.saveData.ReadPlayerInfo();
@@ -80,6 +75,7 @@ namespace Character2D
             currentVitality = playerInfo.currentHealth;
             currentQuest = playerInfo.currentQuest;
             gold = playerInfo.gold;
+            karma = playerInfo.karma;
             spawnManager = SpawnManager.SetSpawnManager(playerInfo.checkpointName);
             spawnPoint = spawnManager.gameObject.transform.position;
             SetArmor(playerInfo.equippedArmor, isLoad : true);
@@ -91,6 +87,31 @@ namespace Character2D
             goldText.text = gold.ToString();
             questText.text = currentQuest.ToString();
             locationText.text = spawnManager.persistentLevel.levelInfo.displayName;
+        }
+
+        public void SetKarma(int delta)
+        {
+            karma += delta;
+            InvokePlayerInfoChange();
+        }
+
+        public void SetGold(int delta, bool stolen = false)
+        {
+            gold += delta;
+            goldText.text = gold.ToString();
+            InvokePlayerInfoChange();
+            if (delta > 0 && !stolen)
+            {
+                EventDisplay.instance.AddEvent("Received " + Mathf.Abs(delta) + " gold.");
+            }
+            else if (delta <= 0 && !stolen)
+            {
+                EventDisplay.instance.AddEvent("Gave " + Mathf.Abs(delta) + " gold.");
+            }
+            else
+            {
+                EventDisplay.instance.AddEvent(Mathf.Abs(delta) + " gold was taken from you.");
+            }
         }
 
         public void SetArmor(string name, bool isLoad = false)
@@ -118,6 +139,7 @@ namespace Character2D
             playerInfo.currentHealth = currentVitality;
             playerInfo.currentQuest = currentQuest;
             playerInfo.gold = gold;
+            playerInfo.karma = karma;
             playerInfo.checkpointName = spawnManager.managerName;
             playerInfo.equippedArmor = equippedArmor;
             playerInfo.equippedWeapon = equippedWeapon;

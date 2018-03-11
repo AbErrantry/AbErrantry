@@ -122,6 +122,7 @@ public class CameraShift : MonoBehaviour
 
         StopAllCoroutines();
         StartCoroutine(CameraLerp(shiftTimePerUnit, shiftedX, shiftedY, deadZoneHeightShifted, deadZoneWidthShifted, shiftedOrthSize));
+        EventDisplay.instance.ShiftContainer(!result); //put the event container on the opposite side of the opened container
         return result;
     }
 

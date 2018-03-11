@@ -107,6 +107,7 @@ namespace Character2D
         protected override void FinalizeAttack()
         {
             playerInput.EnableInput();
+            rb.velocity = new Vector2(0.0f, 0.0f);
         }
 
         //sends boolean values describing character state to the animator

@@ -2,6 +2,66 @@
 
 	<segment id="0">
 		<text>Hey, knight.</text>
+		<choice id="1">
+			<text>Shop.</text>
+			<next>1</next>
+		</choice>
+		<choice id="3">
+			<text>Give me some gold.</text>
+			<next>3</next>
+		</choice>
+		<choice id="4">
+			<text>Give me an Iron Sword.</text>
+			<next>4</next>
+		</choice>
+		<choice id="4">
+			<text>Go away.</text>
+			<next>5</next>
+		</choice>
+	</segment>
+	
+	<segment id="1">
+		<text>What would you like?</text>
+		<action type="OpenShopMenu"/>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>Would you like to buy anything else?</text>
+		<choice id="1">
+			<text>Yes.</text>
+			<next>1</next>
+		</choice>
+		<choice id="2">
+			<text>No.</text>
+			<next>20</next>
+		</choice>
+	</segment>
+	
+	<segment id="3">
+		<text>Here's 100 gold.</text>
+		<action type="GiveGold">
+			<number>100</number>
+		</action>
+		<next>20</next>
+	</segment>
+	
+	<segment id="4">
+		<text>Here's 1 Iron Sword.</text>
+		<action type="GiveItem">
+			<name>Iron Sword</name>
+			<number>1</number>
+		</action>
+		<next>20</next>
+	</segment>
+	
+	<segment id="5">
+		<text>Alright, then.</text>
+		<action type="Disappear"/>
+	</segment>
+	
+	<segment id="20">
+		<text>Bye, knight.</text>
 	</segment>
 	
 </dialogue>

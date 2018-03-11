@@ -22,6 +22,7 @@ public abstract class UnlockAction : MonoBehaviour
     protected void UnlockOpenable()
     {
         openable.Unlock();
+        EventDisplay.instance.AddEvent("A door or chest has unlocked somewhere.");
     }
 
     protected abstract void CheckUnlock();

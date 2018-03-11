@@ -9,7 +9,7 @@ public class Item
     public float strength;
     public int useLimit;
     public int rarity;
-    public float price;
+    public int price;
     public bool isKey; //if a key item, cannot drop/destroy/sell
     public Sprite sprite; //exists in the Resources folder with filename as its name
 }

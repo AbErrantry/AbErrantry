@@ -12,17 +12,26 @@ namespace Character2D
         public TMP_Text itemQuantity;
         public TMP_Text itemPrice;
         public TMP_Text itemStrength;
+
         private BackpackMenu backpackMenu;
+        private StoreMenu storeMenu;
 
         // Use this for initialization
         private void Start()
         {
-            backpackMenu = GameObject.Find("Knight").GetComponent<BackpackMenu>();
+            backpackMenu = Player.instance.GetComponent<BackpackMenu>();
+            storeMenu = Player.instance.GetComponent<StoreMenu>();
         }
 
         public void SelectItem()
         {
             backpackMenu.SelectItem(item);
         }
+
+        public void SelectStoreItem()
+        {
+            storeMenu.SelectItem(item);
+        }
+
     }
 }

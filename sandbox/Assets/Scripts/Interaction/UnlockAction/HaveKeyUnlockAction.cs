@@ -19,11 +19,11 @@ public class HaveKeyUnlockAction : UnlockAction
 		if (Player.instance.gameObject.GetComponent<PlayerInventory>().CheckForItem(keyName, 1))
 		{
 			UnlockOpenable(); //the key has been used.
-			//TODO: add event for unlocked <openable> with keyName
+			EventDisplay.instance.AddEvent("Used the " + keyName + ".");
 		}
 		else
 		{
-			Debug.Log("Locked."); //TODO: replace with locked eventSystem
+			EventDisplay.instance.AddEvent("Locked.");
 		}
 	}
 

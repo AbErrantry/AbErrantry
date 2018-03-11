@@ -43,6 +43,9 @@ namespace Character2D
         public bool isFacingRight; //whether the character is facing right or not
 
         public bool isOnPlatform;
+        public bool isOnIce;
+
+        public float vLast;
 
         //used for initialization
         protected void Start()
@@ -77,6 +80,8 @@ namespace Character2D
 
             lastPosition = 0.0f;
             isFacingRight = true;
+
+            vLast = 0.0f;
         }
 
         //called once per frame (for input)
@@ -151,6 +156,22 @@ namespace Character2D
             {
                 rb.velocity = new Vector2(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y);
             }
+        }
+
+        //controls the character acceleration
+        protected void SmoothMove(float xVel, float yVel, float friction)
+        {
+            float delta = 0.0f;
+            if (Mathf.Abs(vLast - xVel) > 0.10f)
+            {
+                delta = (xVel - vLast) * Time.deltaTime * friction;
+            }
+            else
+            {
+                vLast = xVel;
+            }
+            rb.velocity = new Vector2(vLast + delta, yVel);
+            vLast = rb.velocity.x;
         }
 
         //sets the logic for values related to character movement

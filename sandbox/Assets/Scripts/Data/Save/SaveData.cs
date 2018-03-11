@@ -51,8 +51,8 @@ public class SaveData : ScriptableObject
         PlayerInventory.OnInventoryItemChanged += WritePlayerItem;
         Player.OnPlayerInfoChanged += WritePlayerInfo;
         //WriteUnlockedCheckpoint
-        //WriteCharacterInfo
-        //WriteCharacterItem
+        NPC.OnCharacterInfoChanged += WriteCharacterInfo;
+        CharacterInventory.OnCharacterItemChanged += WriteCharacterItem;
         //WriteQuestStep
         //WriteBossDefeated
     }
@@ -63,6 +63,11 @@ public class SaveData : ScriptableObject
         PlayerInventory.OnLooseItemChanged -= WriteLooseItem;
         PlayerInventory.OnInventoryItemChanged -= WritePlayerItem;
         Player.OnPlayerInfoChanged -= WritePlayerInfo;
+        //WriteUnlockedCheckpoint
+        NPC.OnCharacterInfoChanged -= WriteCharacterInfo;
+        CharacterInventory.OnCharacterItemChanged -= WriteCharacterItem;
+        //WriteQuestStep
+        //WriteBossDefeated
     }
 
     private void WriteOpenableStateChange(int id, OpenableTuple tuple)
@@ -91,7 +96,7 @@ public class SaveData : ScriptableObject
             {
                 tuple.isOpen = reader.GetBoolean(reader.GetOrdinal("isOpened"));
                 tuple.isLocked = reader.GetBoolean(reader.GetOrdinal("isLocked"));
-                Debug.Log(id + ", isOpen=" + tuple.isOpen + ", isLocked=" + tuple.isLocked);
+                //Debug.Log(id + ", isOpen=" + tuple.isOpen + ", isLocked=" + tuple.isLocked);
             }
             else
             {
@@ -201,12 +206,13 @@ public class SaveData : ScriptableObject
         try
         {
             cmd.CommandText = "UPDATE PlayerInfo SET maxHealth = @maxHealth, currentHealth = @currentHealth, " +
-                "currentQuest = @currentQuest, gold = @gold, checkpointName = @checkpointName, " +
+                "currentQuest = @currentQuest, gold = @gold, karma = @karma, checkpointName = @checkpointName, " +
                 "equippedArmor = @equippedArmor, equippedWeapon = @equippedWeapon";
             cmd.Parameters.Add("@maxHealth", DbType.Int32).Value = playerInfo.maxHealth;
             cmd.Parameters.Add("@currentHealth", DbType.Int32).Value = playerInfo.currentHealth;
             cmd.Parameters.Add("@currentQuest", DbType.String).Value = playerInfo.currentQuest;
             cmd.Parameters.Add("@gold", DbType.Int32).Value = playerInfo.gold;
+            cmd.Parameters.Add("@karma", DbType.Int32).Value = playerInfo.karma;
             cmd.Parameters.Add("@checkpointName", DbType.String).Value = playerInfo.checkpointName;
             cmd.Parameters.Add("@equippedArmor", DbType.String).Value = playerInfo.equippedArmor;
             cmd.Parameters.Add("@equippedWeapon", DbType.String).Value = playerInfo.equippedWeapon;
@@ -222,7 +228,7 @@ public class SaveData : ScriptableObject
     public PlayerInfoTuple ReadPlayerInfo()
     {
         var playerInfo = new PlayerInfoTuple();
-        cmd.CommandText = "SELECT maxHealth, currentHealth, currentQuest, gold, " +
+        cmd.CommandText = "SELECT maxHealth, currentHealth, currentQuest, gold, karma," +
             "checkPointName, equippedArmor, equippedWeapon FROM PlayerInfo";
         SqliteDataReader reader = cmd.ExecuteReader();
         try
@@ -233,11 +239,12 @@ public class SaveData : ScriptableObject
                 playerInfo.currentHealth = reader.GetInt32(reader.GetOrdinal("currentHealth"));
                 playerInfo.currentQuest = reader.GetString(reader.GetOrdinal("currentQuest"));
                 playerInfo.gold = reader.GetInt32(reader.GetOrdinal("gold"));
+                playerInfo.karma = reader.GetInt32(reader.GetOrdinal("karma"));
                 playerInfo.checkpointName = reader.GetString(reader.GetOrdinal("checkPointName"));
                 playerInfo.equippedArmor = reader.GetString(reader.GetOrdinal("equippedArmor"));
                 playerInfo.equippedWeapon = reader.GetString(reader.GetOrdinal("equippedWeapon"));
                 Debug.Log("maxHealth=" + playerInfo.maxHealth + ", currentHealth=" + playerInfo.currentHealth +
-                    ", currentQuest=" + playerInfo.currentQuest + ", gold=" + playerInfo.gold +
+                    ", currentQuest=" + playerInfo.currentQuest + ", gold=" + playerInfo.gold + ", karma=" + playerInfo.karma +
                     ", checkpointName=" + playerInfo.checkpointName + ", equippedArmor=" + playerInfo.equippedArmor +
                     ", equippedWeapon=" + playerInfo.equippedWeapon);
             }
@@ -330,6 +337,15 @@ public class SaveData : ScriptableObject
         }
     }
 
+    // Deletes a record of a character from the database since it is no longer needed
+    public void DeleteCharacter(string name)
+    {
+        cmd.CommandText = "DELETE FROM CharacterInfo WHERE name = @name";
+        cmd.Parameters.Add("@name", DbType.String).Value = name;
+        cmd.ExecuteNonQuery();
+        Debug.Log("Removed character " + name + " from CharacterInfo");
+    }
+
     // Gets the list of characters that exist within a level (to be loaded)
     public List<CharacterInfoTuple> ReadCharacterInfo(string level)
     {
@@ -374,7 +390,7 @@ public class SaveData : ScriptableObject
     private void WriteCharacterItem(ItemTuple item, string character)
     {
         //check to see if item record exists in player item table via the string name of the item
-        cmd.CommandText = "SELECT name FROM CharacterItems WHERE character = @character";
+        cmd.CommandText = "SELECT name FROM CharacterItems WHERE name = @name AND character = @character";
         cmd.Parameters.Add("@name", DbType.String).Value = item.name;
         cmd.Parameters.Add("@character", DbType.String).Value = character;
         SqliteDataReader reader = cmd.ExecuteReader();
@@ -436,6 +452,7 @@ public class SaveData : ScriptableObject
     {
         var itemsInInventory = new List<ItemTuple>();
         cmd.CommandText = "SELECT name, quantity FROM CharacterItems WHERE character = @character";
+        cmd.Parameters.Add("@character", DbType.String).Value = character;
         SqliteDataReader reader = cmd.ExecuteReader();
         try
         {

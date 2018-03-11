@@ -32,7 +32,7 @@ public class ItemData : ScriptableObject
                 strength = item.Element("strength").ElementValueNull_Float(),
                 useLimit = item.Element("useLimit").ElementValueNull_Integer(),
                 rarity = item.Element("rarity").ElementValueNull_Integer(),
-                price = item.Element("price").ElementValueNull_Float(),
+                price = item.Element("price").ElementValueNull_Integer(),
                 isKey = item.Element("isKey").ElementValueNull_Boolean(),
         }).OrderBy(x => x.name).ToList();
 
