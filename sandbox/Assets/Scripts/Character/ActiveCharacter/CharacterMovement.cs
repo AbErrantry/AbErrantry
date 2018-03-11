@@ -154,7 +154,7 @@ namespace Character2D
             }
             if (!characterAttack.isAttacking && !attackable.isDying)
             {
-                rb.velocity = new Vector2(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y);
+                SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 8.0f);
             }
         }
 
