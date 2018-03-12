@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 61048430428087944}
   - component: {fileID: 253504997001830236}
   - component: {fileID: 114218869165784264}
+  - component: {fileID: 114881015952750890}
   m_Layer: 15
   m_Name: Water
   m_TagString: Untagged
@@ -190,6 +191,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+--- !u!114 &114881015952750890
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1387330082554204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd626ebdc042809488f3b87a7e438042, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterMagnitude: 0
+  shouldRandomize: 0
+  maxMagnitude: 0
+  minMagnitude: 0
 --- !u!253 &253484824402882172
 BuoyancyEffector2D:
   m_ObjectHideFlags: 1
