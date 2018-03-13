@@ -41,6 +41,7 @@ public class StoreMenu : MonoBehaviour
 	public TMP_Text itemPrice;
 
 	public Button confirmButton;
+	public TMP_Text confirmButtonText;
 	public Button cancelButton;
 
 	public Button amountCancelButton;
@@ -58,6 +59,12 @@ public class StoreMenu : MonoBehaviour
 	private Navigation horizontalNav;
 
 	public bool isSelling;
+
+	public Image goldImage;
+	public Image containerImage;
+
+	private Color purpleColor;
+	private Color blueColor;
 
 	//used for initialization
 	private void Start()
@@ -78,6 +85,9 @@ public class StoreMenu : MonoBehaviour
 		horizontalNav.mode = Navigation.Mode.Horizontal;
 
 		selectedItemIndex = 0;
+
+		purpleColor = new Color32(166,2,202,255);
+     	blueColor = new Color32(103,110,255,255);
 	}
 
 	public void ToggleStore(CharacterInventory inv)
@@ -129,6 +139,9 @@ public class StoreMenu : MonoBehaviour
 	{
 		CloseTabs();
 		isSelling = true;
+		confirmButtonText.text = "Sell";
+		goldImage.color = blueColor;
+		containerImage.color = blueColor;
 		currentInventory = playerInventory.items;
 		goldText.text = characterInventory.GetComponent<NPC>().name + "'s gold: " + characterInventory.GetComponent<NPC>().gold.ToString();
 
@@ -141,6 +154,9 @@ public class StoreMenu : MonoBehaviour
 	{
 		CloseTabs();
 		isSelling = false;
+		confirmButtonText.text = "Buy";		
+		goldImage.color = purpleColor;
+		containerImage.color = purpleColor;
 		currentInventory = characterInventory.items;
 		goldText.text = "Your gold: " + Player.instance.gold.ToString();
 
