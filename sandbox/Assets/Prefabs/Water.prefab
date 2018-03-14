@@ -56,8 +56,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1387330082554204}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -66.28, y: -29.76, z: 3.2}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.13, y: -4.5, z: 3.3216262}
   m_LocalScale: {x: 14.13716, y: 7.3942966, z: 1}
   m_Children:
   - {fileID: 4575355375613364}
@@ -130,7 +130,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0.019685477, y: -0.01081264}
+  m_Offset: {x: 0, y: -0.011305392}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -141,7 +141,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.85048276, y: 0.99914956}
+  m_Size: {x: 1.0076019, y: 0.9765388}
   m_EdgeRadius: 0
 --- !u!61 &61689212193051262
 BoxCollider2D:
@@ -155,7 +155,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0.017751038, y: -0.038619727}
+  m_Offset: {x: 0.0008562803, y: -0.069782406}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -166,7 +166,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.86411107, y: 0.92276055}
+  m_Size: {x: 1.0161622, y: 0.8604352}
   m_EdgeRadius: 0
 --- !u!114 &114197879446275486
 MonoBehaviour:
@@ -202,10 +202,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd626ebdc042809488f3b87a7e438042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterMagnitude: 0
+  waterMagnitude: 5
+  moveRight: 1
   shouldRandomize: 0
-  maxMagnitude: 0
-  minMagnitude: 0
+  maxMagnitudeRange: 0
+  timeBetweenChange: 0
 --- !u!253 &253484824402882172
 BuoyancyEffector2D:
   m_ObjectHideFlags: 1
