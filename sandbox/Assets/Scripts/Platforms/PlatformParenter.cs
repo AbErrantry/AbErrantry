@@ -6,7 +6,7 @@ public class PlatformParenter : MonoBehaviour
 	private Platform platform;
 	private void Start()
 	{
-		platform = gameObject.transform.root.GetComponent<Platform>();
+		platform = gameObject.transform.parent.GetComponent<Platform>();
 	}
 
 	private void OnTriggerEnter2D(Collider2D other)

@@ -28,6 +28,7 @@ public class Platform : MonoBehaviour
 	private void Start()
 	{
 		velocity = new Vector3();
+		children = new List<GameObject>();
 		lastPosition = transform.position;
 
 		transform.position = startLoc;
