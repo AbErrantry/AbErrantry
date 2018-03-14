@@ -39,7 +39,8 @@ GameObject:
   - component: {fileID: 50192484484014674}
   - component: {fileID: 114969898187810674}
   - component: {fileID: 212379931858203670}
-  - component: {fileID: 61941298028581582}
+  - component: {fileID: 114064032426418324}
+  - component: {fileID: 70107524152387840}
   m_Layer: 0
   m_Name: Boat
   m_TagString: Untagged
@@ -67,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1898044384693270}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.822281, y: 2.3275146, z: 0.12162624}
+  m_LocalPosition: {x: -3, y: 2.4799957, z: 0.12162624}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children:
   - {fileID: 4334506387100490}
@@ -119,8 +120,8 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.8835022, y: 0.20588064}
   m_EdgeRadius: 0
---- !u!61 &61941298028581582
-BoxCollider2D:
+--- !u!70 &70107524152387840
+CapsuleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -131,19 +132,25 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0021919012, y: -0.053246435}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 0.46875}
-    newSize: {x: 3, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.001178, y: 0.31368408}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0.0055908156, y: -0.04679149}
+  m_Size: {x: 1.9664923, y: 0.30501297}
+  m_Direction: 1
+--- !u!114 &114064032426418324
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1898044384693270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 493174d3f350549469b9f8791502111b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  requiresInput: 1
+  startLoc: {x: 75.7, y: -199.7175, z: 0}
+  endLoc: {x: 0, y: 0, z: 0}
+  children: []
 --- !u!114 &114389946733264142
 MonoBehaviour:
   m_ObjectHideFlags: 1
