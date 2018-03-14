@@ -132,7 +132,7 @@ namespace Character2D
                 }
             }
 
-            if (playerMovement.isClimbing || playerMovement.isCrouching)
+            if (playerMovement.isClimbing || playerMovement.isCrouching || playerMovement.isFalling)
             {
                 sleepTimer = Time.time;
             }
