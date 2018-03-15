@@ -9,7 +9,7 @@ public class Drowning : MonoBehaviour {
 
 	private void OnTriggerEnter2D(Collider2D coll)
     {
-		if(coll.tag == "Player")
+		if(coll.tag == "Player" || coll.tag == "Enemy")
 		{
 			Attackable player = coll.gameObject.GetComponent<Attackable>();
 

@@ -16,11 +16,11 @@ public class WaterObjRepeater : MonoBehaviour {
 	{
 		if(isLeft)
 		{
-			col.transform.position = new Vector2(OtherSide.transform.position.x + col.bounds.size.x, OtherSide.transform.position.y);
+			col.transform.position = new Vector2(OtherSide.transform.position.x - col.bounds.size.x, OtherSide.transform.position.y);
 		}
 		else
 		{
-			col.transform.position = new Vector2(OtherSide.transform.position.x - col.bounds.size.x, OtherSide.transform.position.y);
+			col.transform.position = new Vector2(OtherSide.transform.position.x + col.bounds.size.x, OtherSide.transform.position.y);
 		}
 	
 	}
