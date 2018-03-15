@@ -154,10 +154,10 @@ public class CameraShift : MonoBehaviour
         }
     }
 
-    public void OrthoZoom(float endValue)
+    public void OrthoZoom(float endValue, float speed)
     {
         StopAllCoroutines();
-        StartCoroutine(CameraLerp(shiftTimePerUnit, unshiftedX, unshiftedY, deadZoneHeightUnshifted, deadZoneWidthUnshifted, endValue));
+        StartCoroutine(CameraLerp(speed, unshiftedX, unshiftedY, deadZoneHeightUnshifted, deadZoneWidthUnshifted, endValue));
     }
 
     public void ToggleDamping(bool on)

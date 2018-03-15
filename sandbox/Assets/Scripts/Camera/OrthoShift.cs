@@ -4,7 +4,7 @@ using UnityEngine;
 public class OrthoShift : MonoBehaviour
 {
 	public CameraShift cameraShift;
-
+	public float shiftSpeed;
 	[Tooltip("How much should the orthographic zoom in/out be. (1 min, 25 max")]
 	[Range(1.0f, 25.0f)]
 	public float shiftAmount;
@@ -15,7 +15,7 @@ public class OrthoShift : MonoBehaviour
 		if (collision.gameObject.name == "Knight")
 		{
 			cameraShift.SetUnshiftedOrthSize(shiftAmount);
-			cameraShift.OrthoZoom(shiftAmount);
+			cameraShift.OrthoZoom(shiftAmount, shiftSpeed);
 		}
 	}
 
@@ -26,7 +26,7 @@ public class OrthoShift : MonoBehaviour
 		if (collision.gameObject.name == "Knight")
 		{
 			cameraShift.SetUnshiftedOrthSize(5);
-			cameraShift.OrthoZoom(5);
+			cameraShift.OrthoZoom(5, shiftSpeed);
 		}
 	}
 }

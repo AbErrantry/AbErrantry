@@ -12,17 +12,21 @@ public class WaterBehavior : MonoBehaviour {
 	[Range(5,20)]
 	public float waterMagnitude;
 	public bool moveRight;
+
+	[Tooltip("If checked the water will flip directions, time between flips is based on Water Change Time below.")]
+	public bool flipFlop;
 	
 
 	[Header("Water Magnitude Randomization")]
 	[Space(5)]
-	[Tooltip("Should the Magnitude of the Water change randomly. If checked the min and max values below will be used.")]
+	[Tooltip("Should the Magnitude of the Water change randomly. If checked the min and max values below will be used (Does NOT override Random).")]
 	public bool shouldRandomize;
 
 	[Tooltip("Select the max value of the water magnitude. This includes negative magnitude.")]
 	[Range(5,20)]
 	public float maxMagnitudeRange;
 
+	[Header("Water Change Timer")]
 	[Range(1,10)]
 	public float timeBetweenChange;
 
@@ -63,6 +67,19 @@ public class WaterBehavior : MonoBehaviour {
 			if(time <= 0)
 			{
 				SetMagnitude(GetRandomMag());
+				time = timeBetweenChange;
+			}
+			else
+			{
+				time -= Time.deltaTime;
+			}
+		}
+		else if (flipFlop)
+		{
+			if(time <= 0)
+			{
+				waterMagnitude *= -1;
+				SetMagnitude(waterMagnitude);
 				time = timeBetweenChange;
 			}
 			else
