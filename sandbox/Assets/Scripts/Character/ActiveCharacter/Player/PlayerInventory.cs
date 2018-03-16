@@ -34,7 +34,7 @@ namespace Character2D
             }
         }
 
-        public void AddItem(string itemName, bool init = false)
+        public void AddItem(string itemName, bool init = false, bool equip = false)
         {
             bool found = false;
             var itemTuple = new ItemTuple();
@@ -63,9 +63,14 @@ namespace Character2D
                 items.Add(itemToAdd);
             }
 
-            if (!init)
+            if (!init && !equip)
             {
-                EventDisplay.instance.AddEvent("Received " + itemName);
+                EventDisplay.instance.AddEvent("Received " + itemName + ".");
+                OnInventoryItemChanged(itemTuple);
+            }
+            else if (!init && equip)
+            {
+                EventDisplay.instance.AddEvent("Unequipped " + itemName + ".");
                 OnInventoryItemChanged(itemTuple);
             }
         }
@@ -78,7 +83,7 @@ namespace Character2D
             AddItem(pickup.name);
         }
 
-        public void RemoveItem(InventoryItem itemToRemove, bool removeAll, bool drop, bool isTransaction = false)
+        public void RemoveItem(InventoryItem itemToRemove, bool removeAll, bool drop, bool isTransaction = false, bool equip = false, bool use = false)
         {
             var amountToDrop = 0;
             int amountLeft = 0;
@@ -107,6 +112,18 @@ namespace Character2D
             if (isTransaction)
             {
                 EventDisplay.instance.AddEvent("Sold " + amountToDrop + " " + itemToRemove.item.name + "(s).");
+                return;
+            }
+
+            if (equip)
+            {
+                EventDisplay.instance.AddEvent("Equipped " + itemToRemove.item.name + ".");
+                return;
+            }
+
+            if (use)
+            {
+                EventDisplay.instance.AddEvent("Used " + itemToRemove.item.name + ".");
                 return;
             }
 

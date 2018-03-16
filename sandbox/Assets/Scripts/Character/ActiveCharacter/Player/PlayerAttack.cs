@@ -102,12 +102,14 @@ namespace Character2D
         {
             playerInput.DisableInput(false);
             rb.velocity = new Vector2(0.0f, 0.0f);
+            playerMovement.vLast = 0.0f;
         }
 
         protected override void FinalizeAttack()
         {
             playerInput.EnableInput();
             rb.velocity = new Vector2(0.0f, 0.0f);
+            playerMovement.vLast = 0.0f;
         }
 
         //sends boolean values describing character state to the animator

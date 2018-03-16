@@ -19,10 +19,14 @@ namespace Character2D
         public string equippedArmor;
         public string equippedWeapon;
 
+        public Item weapon;
+        public Item armor;
+
         public Animator weaponAnim;
 
         public CinemachineVirtualCamera virtualCamera;
         private PlayerInput playerInput;
+        private PlayerInventory playerInventory;
         private TravelMenu travelMenu;
 
         public Vector2 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
@@ -51,6 +55,7 @@ namespace Character2D
             base.Start();
 
             playerInput = GetComponent<PlayerInput>();
+            playerInventory = GetComponent<PlayerInventory>();
             travelMenu = GetComponent<TravelMenu>();
 
             healthText.text = currentVitality + "/" + maxVitality;
@@ -114,22 +119,59 @@ namespace Character2D
             }
         }
 
+        public void Heal(int amount)
+        {
+            if (amount + currentVitality > maxVitality)
+            {
+                amount = maxVitality - currentVitality;
+            }
+            currentVitality += amount;
+            healthText.text = currentVitality + "/" + maxVitality;
+            EventDisplay.instance.AddEvent("The potion restored " + amount + " health.");
+            InvokePlayerInfoChange();
+        }
+
         public void SetArmor(string name, bool isLoad = false)
         {
-            equippedArmor = name;
+            if (armor != null)
+            {
+                playerInventory.AddItem(armor.name, false, true);
+            }
+
+            armor = GameData.data.itemData.itemDictionary[name];
+            equippedArmor = armor.name;
+            gameObject.GetComponent<SpriteRenderer>().material = armor.material;
             if (!isLoad)
             {
+                GetComponent<Animator>().SetTrigger("isShowingOff");
+                weaponAnim.SetTrigger("isShowingOff");
                 InvokePlayerInfoChange();
             }
         }
 
         public void SetWeapon(string name, bool isLoad = false)
         {
-            equippedWeapon = name;
+            if (weapon != null)
+            {
+                playerInventory.AddItem(weapon.name, false, true);
+            }
+
+            weapon = GameData.data.itemData.itemDictionary[name];
+            equippedWeapon = weapon.name;
+            weaponAnim.gameObject.GetComponent<SpriteRenderer>().material = weapon.material;
+            weaponAnim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Weapons/" + weapon.spriteName);
             if (!isLoad)
             {
+                GetComponent<Animator>().SetTrigger("isShowingOff");
+                weaponAnim.SetTrigger("isShowingOff");
                 InvokePlayerInfoChange();
             }
+        }
+
+        public void ResetState()
+        {
+            GetComponent<Animator>().Play("IDLE");
+            weaponAnim.Play("IDLE");
         }
 
         public void InvokePlayerInfoChange()

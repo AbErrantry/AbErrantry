@@ -34,11 +34,14 @@ public class ItemData : ScriptableObject
                 rarity = item.Element("rarity").ElementValueNull_Integer(),
                 price = item.Element("price").ElementValueNull_Integer(),
                 isKey = item.Element("isKey").ElementValueNull_Boolean(),
+                spriteName = item.Element("asset").ElementValueNull_String(),
+                materialName = item.Element("material").ElementValueNull_String(),
         }).OrderBy(x => x.name).ToList();
 
         foreach (Item item in itemList)
         {
-            item.sprite = Resources.Load<Sprite>("Items/" + item.name);
+            item.sprite = Resources.Load<Sprite>("Items/" + item.spriteName);
+            item.material = Resources.Load<Material>("Shaders/" + item.materialName);
             itemDictionary.Add(item.name, item);
         }
     }
@@ -48,7 +51,9 @@ public class ItemData : ScriptableObject
     {
         foreach (Item val in itemDictionary.Values)
         {
-            Debug.Log(val.name + " " + val.type + " " + val.speed + " " + val.strength + " " + val.useLimit + " " + val.rarity + " " + val.price + " " + val.isKey);
+            Debug.Log(val.name + " " + val.type + " " + val.speed + " " + val.strength +
+                " " + val.useLimit + " " + val.rarity + " " + val.price + " " + val.isKey +
+                " " + val.materialName + " " + val.spriteName);
         }
     }
 }

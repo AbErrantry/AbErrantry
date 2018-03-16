@@ -29,6 +29,12 @@ namespace Character2D
         public GameObject journalTab;
         public GameObject mapTab;
 
+        public Image equippedArmorImage;
+        public Image equippedWeaponImage;
+
+        public TMP_Text equippedArmorText;
+        public TMP_Text equippedWeaponText;
+
         public GameObject inventoryItem;
         public GameObject inventoryList;
         public GameObject inventoryMask;
@@ -111,6 +117,8 @@ namespace Character2D
                     backpackTransform.anchorMax = new Vector2(xMaxRight, backpackTransform.anchorMax.y);
                 }
 
+                RefreshEquippedItems();
+
                 playerInput.DisableInput(false);
 
                 //TODO: move camera to side
@@ -129,12 +137,13 @@ namespace Character2D
             {
                 //TODO: move camera back
                 CloseBackpackMenu();
-                isOpen = false;
             }
         }
 
         public void CloseBackpackMenu()
         {
+            isOpen = false;
+            Player.instance.ResetState();
             cameraShift.ResetCamera();
             playerInput.EnableInput(true);
             StartCoroutine(WaitForClose());
@@ -215,6 +224,7 @@ namespace Character2D
                 controller.itemPrice.text = inv.item.price.ToString();
                 controller.itemStrength.text = inv.item.strength.ToString();
                 controller.itemImage.sprite = inv.item.sprite;
+                controller.itemImage.material = inv.item.material;
                 controller.item = inv; //TODO: may not need. figure that out.
 
                 //put the interactable in the list
@@ -295,6 +305,7 @@ namespace Character2D
         {
             itemText.text = inv.item.name;
             itemImage.sprite = inv.item.sprite;
+            itemImage.material = inv.item.material;
             itemType.text = inv.item.type;
             itemDescription.text = inv.item.description;
             itemQuantity.text = inv.quantity.ToString();
@@ -349,30 +360,52 @@ namespace Character2D
             ElementFocus.focus.SetItemFocus(confirmNoButton.gameObject);
         }
 
+        public void RefreshEquippedItems()
+        {
+            equippedArmorImage.sprite = Player.instance.armor.sprite;
+            equippedWeaponImage.sprite = Player.instance.weapon.sprite;
+
+            equippedArmorImage.material = Player.instance.armor.material;
+            equippedWeaponImage.material = Player.instance.weapon.material;
+
+            equippedArmorText.text = Player.instance.armor.name;
+            equippedWeaponText.text = Player.instance.weapon.name;
+        }
+
         public void UseItem()
         {
-            if (selectedItem.item.type == "weapon")
+            if (selectedItem.item.type == "Weapon")
             {
-                Debug.Log("Equipped " + selectedItem.item.name + ".");
-                //need to also unequip the currently-equipped item and add it back to inventory.
+                Player.instance.SetWeapon(selectedItem.item.name);
+                RefreshEquippedItems();
+                playerInventory.RemoveItem(selectedItem, false, false, false, true, false);
             }
-            else if (selectedItem.item.type == "consumable")
+            else if (selectedItem.item.type == "Armor")
             {
-                Debug.Log("Heal player for " + selectedItem.item.strength + " health points.");
+                Player.instance.SetArmor(selectedItem.item.name);
+                RefreshEquippedItems();
+                playerInventory.RemoveItem(selectedItem, false, false, false, true, false);
+            }
+            else if (selectedItem.item.type == "Consumable")
+            {
+                Player.instance.Heal(Mathf.RoundToInt(selectedItem.item.strength));
                 anim.Play("large-health");
+                playerInventory.RemoveItem(selectedItem, false, false, false, false, true);
             }
             else
             {
-                Debug.Log("Should not have gotten here.");
+                Debug.LogError("Unidentified item type being used for item: " + selectedItem.item.name + ": " + selectedItem.item.type);
             }
 
-            if (selectedItem.quantity == 1)
+            if (selectedItem.quantity == 0)
             {
                 //move the scrollbar back to the top of the list since the item ran out
                 scrollRect.verticalNormalizedPosition = 1.0f;
                 selectedItemIndex = 0;
             }
-            playerInventory.RemoveItem(selectedItem, false, false);
+
+            Debug.Log(selectedItem.quantity);
+
             UnloadInventoryItems();
             LoadInventoryItems();
         }
