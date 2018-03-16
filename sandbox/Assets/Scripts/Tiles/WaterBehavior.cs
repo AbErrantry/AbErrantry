@@ -1,21 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class WaterBehavior : MonoBehaviour {
+public class WaterBehavior : MonoBehaviour
+{
 
 	//How is the water going to behave
- 	[Header("Basic Water Magnitude")]
+	[Header("Basic Water Magnitude")]
 	[Space(5)]
 	[Tooltip("The base Water Magnitude value. Select this if it should not be random.")]
-	[Range(5,20)]
+	[Range(5, 20)]
 	public float waterMagnitude;
 	public bool moveRight;
 
 	[Tooltip("If checked the water will flip directions, time between flips is based on Water Change Time below.")]
 	public bool flipFlop;
-	
 
 	[Header("Water Magnitude Randomization")]
 	[Space(5)]
@@ -23,48 +22,47 @@ public class WaterBehavior : MonoBehaviour {
 	public bool shouldRandomize;
 
 	[Tooltip("Select the max value of the water magnitude. This includes negative magnitude.")]
-	[Range(5,20)]
+	[Range(5, 20)]
 	public float maxMagnitudeRange;
 
 	[Header("Water Change Timer")]
-	[Range(1,10)]
+	[Range(1, 10)]
 	public float timeBetweenChange;
-
 
 	private BuoyancyEffector2D buoy;
 	private float time;
 	// Use this for initialization
-	void Start () 
+	void Start()
 	{
 		buoy = this.gameObject.GetComponent<BuoyancyEffector2D>();
 
-		if(shouldRandomize)
+		if (shouldRandomize)
 		{
 			time = timeBetweenChange;
 			SetMagnitude(GetRandomMag());
 		}
 		else
 		{
-			switch(moveRight)
+			switch (moveRight)
 			{
 				case true:
-				SetMagnitude(waterMagnitude);
-				break;
+					SetMagnitude(waterMagnitude);
+					break;
 				case false:
-				waterMagnitude *= -1;
-				SetMagnitude(waterMagnitude);
-				break;
+					waterMagnitude *= -1;
+					SetMagnitude(waterMagnitude);
+					break;
 			}
 		}
 
 	}
-	
+
 	// Update is called once per frame
-	void Update ()
+	void Update()
 	{
-		if(shouldRandomize)
+		if (shouldRandomize)
 		{
-			if(time <= 0)
+			if (time <= 0)
 			{
 				SetMagnitude(GetRandomMag());
 				time = timeBetweenChange;
@@ -76,7 +74,7 @@ public class WaterBehavior : MonoBehaviour {
 		}
 		else if (flipFlop)
 		{
-			if(time <= 0)
+			if (time <= 0)
 			{
 				waterMagnitude *= -1;
 				SetMagnitude(waterMagnitude);
@@ -98,11 +96,8 @@ public class WaterBehavior : MonoBehaviour {
 
 	private float GetRandomMag()
 	{
-		float temp = (Random.Range(0,2)*2-1) * (Random.Range(5f,maxMagnitudeRange));
+		float temp = (Random.Range(0, 2) * 2 - 1) * (Random.Range(5f, maxMagnitudeRange));
 		return temp;
 	}
 
 }
-
-
- 
