@@ -17,14 +17,14 @@ public class BouncePad : MonoBehaviour {
 	}
 	void OnCollisionEnter2D(Collision2D col)
 	{
-		if(col.gameObject.tag == "Player")
+		if(col.gameObject.GetComponent<Player>() != null)
 		{
-			
 			playerRBody = col.gameObject.GetComponent<Rigidbody2D>();
 			Vector2 playerPos = col.transform.position;
 			Vector2 dir = col.contacts[0].point - playerPos;
 			dir = -dir.normalized;
 			playerRBody.AddForce(dir*bounceForce);
+			GetComponent<Animator>().SetTrigger("Bounce");
 		}
 	}
 }

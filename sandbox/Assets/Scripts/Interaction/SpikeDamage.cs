@@ -12,13 +12,16 @@ namespace Character2D
 		public bool shouldKill;
 		private void OnCollisionEnter2D(Collision2D coll)
 		{
-			if(shouldKill)
+			if(coll.gameObject.GetComponent<Attackable>() != null)
 			{
-				coll.gameObject.GetComponent<Attackable>().Kill();
-			}
-			else
-			{
-				coll.gameObject.GetComponent<Attackable>().TakeDamage(gameObject, Mathf.RoundToInt(spikeDamage));
+				if(shouldKill)
+				{
+					coll.gameObject.GetComponent<Attackable>().Kill();
+				}
+				else
+				{
+					coll.gameObject.GetComponent<Attackable>().TakeDamage(gameObject, Mathf.RoundToInt(spikeDamage));
+				}
 			}
 		}
 	}
