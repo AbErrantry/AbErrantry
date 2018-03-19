@@ -45,6 +45,10 @@ namespace Character2D
 
         private LayerMask layers;
 
+        private Vector2Int boxCastDimensions;
+        private int boxCastDirection;
+        private int boxCastDistance;
+
         void OnBecameVisible()
         {
             enabled = true;
@@ -59,6 +63,10 @@ namespace Character2D
         protected new void Start()
         {
             base.Start();
+
+            boxCastDimensions = new Vector2Int(1, 1);
+            boxCastDistance = 5;
+
             layers = playerMask | defaultMask | hideablesMask;
             enemyMovement = GetComponent<EnemyMovement>();
             canFlinch = false;
@@ -74,12 +82,13 @@ namespace Character2D
 
         protected void FixedUpdate()
         {
-            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(10, 1), 0f, new Vector2(1, 0), 20, layers.value);
+            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, boxCastDimensions, 0.0f, transform.right, boxCastDistance, layers.value);
 
-            if (ray && ray.collider.name == "Knight")
+            DrawBox(transform.position, new Vector2(boxCastDimensions.x * boxCastDistance, boxCastDimensions.y));
+
+            if (ray && ray.collider.gameObject.GetComponent<Player>() != null && !chasingPlayer)
             {
                 chasingPlayer = true;
-                //Debug.Log(ray.collider.gameObject.name);
                 beacCon.currTarget = ray.collider.gameObject;
             }
             else if (chaseTime <= 0)
@@ -101,6 +110,21 @@ namespace Character2D
             {
                 CheckDirection();
             }
+        }
+
+        //TODO: remove debug function.
+        private void DrawBox(Vector2 position, Vector2 size)
+        {
+            boxCastDirection = enemyMovement.isFacingRight ? 1 : -1;
+
+            Vector2 origin = position;
+            Vector2 upperBound = position + new Vector2(0.0f, size.y);
+            Vector2 outerUpperBound = position + new Vector2(size.x * boxCastDirection, size.y);
+            Vector2 outerLowerBound = position + new Vector2(size.x * boxCastDirection, 0.0f);
+            Debug.DrawLine(origin, outerLowerBound, Color.red, Time.fixedDeltaTime);
+            Debug.DrawLine(origin, upperBound, Color.red, Time.fixedDeltaTime);
+            Debug.DrawLine(upperBound, outerUpperBound, Color.red, Time.fixedDeltaTime);
+            Debug.DrawLine(outerLowerBound, outerUpperBound, Color.red, Time.fixedDeltaTime);
         }
 
         protected override void InitializeDeath()

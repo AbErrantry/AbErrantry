@@ -12,6 +12,7 @@ public class CharacterData : ScriptableObject
     {
         characterDictionary = new Dictionary<string, CharacterFields>();
         GetCharacters();
+        //PrintCharacters();
     }
 
     //gets each character type into memory from the database
@@ -25,10 +26,19 @@ public class CharacterData : ScriptableObject
         characterList = (from character in XDoc.Root.Elements("character") select new CharacterFields
         {
             type = character.AttributeValueNull_String("type"),
-                vitality = character.Element("vitality").ElementValueNull_Float(),
-                strength = character.Element("strength").ElementValueNull_Float(),
+                vitality = character.Element("vitality").ElementValueNull_Integer(),
+                strength = character.Element("strength").ElementValueNull_Integer(),
                 agility = character.Element("agility").ElementValueNull_Float(),
                 weight = character.Element("weight").ElementValueNull_Float(),
+                attacks = character.Elements("attack")
+                .Select(attack => new CharacterAttackInfo
+                {
+                    id = attack.AttributeValueNull_Integer("id"),
+                        damage = attack.Element("damage").ElementValueNull_Integer(),
+                        oddsThreshold = attack.Element("oddsThreshold").ElementValueNull_Float(),
+                        attackTime = attack.Element("attackTime").ElementValueNull_Float(),
+                        windupTime = attack.Element("windupTime").ElementValueNull_Float(),
+                }).OrderBy(x => x.oddsThreshold).ToList(),
         }).OrderBy(x => x.type).ToList();
 
         foreach (CharacterFields character in characterList)
@@ -43,6 +53,10 @@ public class CharacterData : ScriptableObject
         foreach (CharacterFields val in characterDictionary.Values)
         {
             Debug.Log(val.type + " " + val.vitality + " " + val.strength + " " + val.agility + " " + val.weight);
+            foreach (CharacterAttackInfo atk in val.attacks)
+            {
+                Debug.Log("     -> " + atk.id + " " + atk.damage + " " + atk.oddsThreshold + " " + atk.attackTime + " " + atk.windupTime);
+            }
         }
     }
 }

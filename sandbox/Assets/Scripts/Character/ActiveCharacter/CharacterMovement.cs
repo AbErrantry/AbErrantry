@@ -7,8 +7,6 @@ namespace Character2D
         //character components
         protected Animator anim; //the animator component of the character character
         protected Rigidbody2D rb; //rigidbody component of the character character
-        private CharacterAttack characterAttack;
-        private Attackable attackable;
 
         //external input
         public bool jumpInput; //jump input from character
@@ -52,8 +50,6 @@ namespace Character2D
         {
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
-            attackable = gameObject.GetComponent<Attackable>();
-            characterAttack = gameObject.GetComponent<CharacterAttack>();
 
             isOnPlatform = false;
 
@@ -152,10 +148,10 @@ namespace Character2D
             {
                 speedMultiplier = 1;
             }
-            if (!characterAttack.isAttacking && !attackable.isDying)
-            {
-                SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 8.0f);
-            }
+            //if (!characterAttack.isAttacking && !attackable.isDying)
+            //{
+            SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 8.0f);
+            //}
         }
 
         //controls the character acceleration

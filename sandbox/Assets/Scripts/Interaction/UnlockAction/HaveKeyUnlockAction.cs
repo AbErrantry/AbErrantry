@@ -16,7 +16,7 @@ public class HaveKeyUnlockAction : UnlockAction
 
 	protected override void CheckUnlock()
 	{
-		if (Player.instance.gameObject.GetComponent<PlayerInventory>().CheckForItem(keyName, 1))
+		if (Player.instance.gameObject.GetComponent<PlayerInventory>().CheckForItemAndRemove(keyName, 1))
 		{
 			UnlockOpenable(); //the key has been used.
 			EventDisplay.instance.AddEvent("Used the " + keyName + ".");

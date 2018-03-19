@@ -12,7 +12,6 @@ namespace Character2D
         private new void Start()
         {
             base.Start();
-            currentVitality = 20;
             canTakeDamage = true;
             canKnockBack = false;
             canFlinch = true;

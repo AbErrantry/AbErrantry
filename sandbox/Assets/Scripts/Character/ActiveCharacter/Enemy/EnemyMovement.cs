@@ -24,11 +24,11 @@ namespace Character2D
         // Update is called once per frame
         private new void Update()
         {
-            base.Update();
             if (enemyAttack.isWindingUp)
             {
-                rb.velocity = new Vector2(0.0f, rb.velocity.y);
+                mvmtSpeed = 0.0f;
             }
+            base.Update();
         }
 
         public void JumpAttempt()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace Dialogue2D
         private Player player;
 
         private StoreMenu storeMenu;
+        private RequestMenu requestMenu;
 
         public CameraShift cameraShift;
         public FollowTarget followTarget;
@@ -62,6 +64,7 @@ namespace Dialogue2D
             player = GetComponent<Player>();
 
             storeMenu = GetComponent<StoreMenu>();
+            requestMenu = GetComponent<RequestMenu>();
 
             dialogueContainer.SetActive(false);
 
@@ -185,10 +188,6 @@ namespace Dialogue2D
                     case ActionTypes.OpenShopMenu:
                         isWaiting = true;
                         storeMenu.ToggleStore(character.GetComponent<CharacterInventory>());
-                        //open shop menu where you can buy things from the shopkeep's inventory and sell things from yours
-                        //buying adds items to your inventory and removes from theirs
-                        //selling removes items from your inventory and adds to theirs
-                        //TODO: after x amount of time played, add items to each shopkeep's inventory.
                         break;
                     case ActionTypes.ProgressDialogue:
                         character.GetComponent<NPC>().SetDialogueState(action.number);
@@ -198,17 +197,13 @@ namespace Dialogue2D
                         //TODO: move the selected quest to the new step (update UIBar too)
                         break;
                     case ActionTypes.RequestGold:
-                        Debug.Log(nameText.text + " requests " + action.number + " gold.");
-                        //TODO: bring up dialogue asking if character can have a set amount of gold
-                        //if enough, go to xLoc segment
-                        //if not enough, go to yLoc segment
+                        isWaiting = true;
+                        requestMenu.ToggleRequest(Convert.ToInt32(action.xloc), Convert.ToInt32(action.yloc), character.GetComponent<NPC>().name, true, action.number);
                         //TODO: can also progress to a dialogue that starts off here if this is the only continuing branch
                         break;
                     case ActionTypes.RequestItem:
-                        Debug.Log(nameText.text + " requests " + action.number + " " + action.name + "(s).");
-                        //TODO: bring up dialogue asking if character can have a set amount of a certain item
-                        //if enough, go to xLoc segment
-                        //if not enough, go to yLoc segment
+                        isWaiting = true;
+                        requestMenu.ToggleRequest(Convert.ToInt32(action.xloc), Convert.ToInt32(action.yloc), character.GetComponent<NPC>().name, false, action.number, action.name);
                         //TODO: can also progress to a dialogue that starts off here if this is the only continuing branch
                         break;
                     case ActionTypes.TakeGold:
@@ -221,16 +216,11 @@ namespace Dialogue2D
                         break;
                     case ActionTypes.TransportLevel:
                         character.GetComponent<NPC>().CharacterInfoChanged(action.name, action.xloc, action.yloc);
-                        //transport the character to the specified level at the coordinates provided.
-                        //they will be added to a list of characters in that level with specified coordinates.
-                        //add a fade to black and back to let the character disappear
+                        StartCoroutine(DisappearRoutine(true));
                         break;
                     case ActionTypes.TransportLocation:
                         character.GetComponent<NPC>().CharacterInfoChanged(action.name, action.xloc, action.yloc);
-                        //transport the character to the specified coordinates in the current level
-                        //they will be added to a list of characters in this level with new specified coordinates.
-                        //they will stay instantiated and actually be transported in this case.
-                        //add a fade to black and back to let the character disappear
+                        StartCoroutine(DisappearRoutine(false, action.xloc, action.yloc));
                         break;
                     default:
                         Debug.LogError(nameText.text + " has an action of type " + action.type.ToString() + " which is undefined.");
@@ -239,13 +229,17 @@ namespace Dialogue2D
             }
         }
 
-        public void SetDoneWaiting()
+        public void SetDoneWaiting(bool isRequest = false, int segment = -1)
         {
+            if (isRequest)
+            {
+                currentSegment.next = segment;
+            }
             isWaiting = false;
             GetNextSegment(false);
         }
 
-        private IEnumerator DisappearRoutine(bool destroy)
+        private IEnumerator DisappearRoutine(bool destroy, float xloc = 0.0f, float yloc = 0.0f)
         {
             string characterName = character.GetComponent<NPC>().name;
             isWaiting = true;
@@ -258,6 +252,10 @@ namespace Dialogue2D
             if (destroy)
             {
                 Destroy(character);
+            }
+            else
+            {
+                character.transform.position = new Vector2(xloc, yloc);
             }
 
             yield return new WaitForSeconds(0.5f);

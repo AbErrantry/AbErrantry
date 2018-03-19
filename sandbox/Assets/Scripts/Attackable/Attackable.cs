@@ -7,6 +7,7 @@ namespace Character2D
 {
     public abstract class Attackable : MonoBehaviour
     {
+        protected Character character;
         protected Rigidbody2D rb;
         protected SpriteRenderer sr;
         protected Animator anim;
@@ -25,11 +26,13 @@ namespace Character2D
         //used for initialization
         protected void Start()
         {
-            maxVitality = currentVitality = 50; //TODO: remove
             isDying = false;
+            character = GetComponent<Character>();
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
             anim = GetComponent<Animator>();
+
+            maxVitality = currentVitality = character.fields.vitality;
         }
 
         //applies damage to the player
@@ -69,13 +72,13 @@ namespace Character2D
             Vector3 force;
             if (attackerLocation.x < transform.position.x)
             {
-                force = new Vector3(intensity * 100f, 50f, 0.0f);
+                force = new Vector3(intensity * 10f, 3f, 0.0f);
             }
             else
             {
-                force = new Vector3(-(intensity * 100f), 50f, 0.0f);
+                force = new Vector3(-(intensity) * 10f, 3f, 0.0f);
             }
-            rb.AddForce(force);
+            rb.AddForce(force, ForceMode2D.Impulse);
         }
 
         protected void Flinch()

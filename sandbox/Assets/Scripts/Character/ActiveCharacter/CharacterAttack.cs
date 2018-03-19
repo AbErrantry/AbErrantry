@@ -13,8 +13,8 @@ namespace Character2D
 
         public bool canHitAttack;
 
-        protected float[] attackDurations;
-        protected float[] attackStrengths;
+        protected Character character;
+
         protected bool[] attackFlags;
 
         protected float attackStart;
@@ -26,8 +26,7 @@ namespace Character2D
         {
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
-            attackDurations = new float[3];
-            attackStrengths = new float[3];
+            character = GetComponent<Character>();
             attackFlags = new bool[3];
             canHitAttack = false;
             attackStart = 0.0f;
@@ -40,12 +39,6 @@ namespace Character2D
 
         protected void FixedUpdate()
         { }
-
-        public void SetAttack(int index, float strength, float duration)
-        {
-            attackDurations[index] = duration;
-            attackStrengths[index] = strength;
-        }
 
         //sends boolean values describing character state to the animator
         protected virtual void SendToAnimator()
@@ -66,11 +59,11 @@ namespace Character2D
             attackFlags[index] = true;
             SendToAnimator();
             List<GameObject> targetsHit = new List<GameObject>();
-            while (Time.time - attackStart < attackDurations[index])
+            while (Time.time - attackStart < character.fields.attacks[index].attackTime)
             {
                 if (canHitAttack)
                 {
-                    ApplyDamage(attackTrigger.currentObjects, attackStrengths[index], ref targetsHit);
+                    ApplyDamage(attackTrigger.currentObjects, character.fields.attacks[index].damage, ref targetsHit);
                 }
                 yield return new WaitForFixedUpdate();
             }
@@ -104,13 +97,11 @@ namespace Character2D
         protected virtual void InitializeAttack(int index)
         {
             //put things that happen before an attack here
-            rb.velocity = new Vector2(0.0f, 0.0f);
         }
 
         protected virtual void FinalizeAttack()
         {
             //put things that happen after an attack here
-            rb.velocity = new Vector2(0.0f, 0.0f);
         }
     }
 }

@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 114227752755818278}
   - component: {fileID: 114488963288204144}
   - component: {fileID: 114590852682470918}
+  - component: {fileID: 114826859650292378}
   m_Layer: 9
   m_Name: Skeleton
   m_TagString: Enemy
@@ -560,9 +561,6 @@ MonoBehaviour:
   isWindingUp: 0
   isAttacking: 0
   canAttack: 0
-  attackList:
-  - power: 15
-    duration: 0.5
 --- !u!114 &114495819989529112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -594,11 +592,26 @@ MonoBehaviour:
   isJumping: 0
   isFalling: 0
   isFacingRight: 0
+  isOnPlatform: 0
+  isOnIce: 0
+  vLast: 0
   enemyAttack: {fileID: 114488963288204144}
   topJump: {fileID: 114282354437442136}
   botJump: {fileID: 114495819989529112}
   isScanning: 0
   stopAndScanTime: 5
+--- !u!114 &114826859650292378
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1074986175784350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 585a171e195341e489840e0e66c24b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
 --- !u!114 &114856685348852260
 MonoBehaviour:
   m_ObjectHideFlags: 1

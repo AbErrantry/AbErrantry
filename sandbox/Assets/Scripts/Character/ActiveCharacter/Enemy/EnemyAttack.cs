@@ -7,17 +7,11 @@ namespace Character2D
     public class EnemyAttack : CharacterAttack
     {
         public bool canAttack;
-        [SerializeField] public List<Attack> attackList;
 
         // Use this for initialization
         protected new void Start()
         {
             base.Start();
-            //TODO: set from file
-            for (int i = 0; i < attackList.Count; i++)
-            {
-                SetAttack(i, attackList[i].power, attackList[i].duration);
-            }
         }
 
         // Update is called once per frame
@@ -37,35 +31,23 @@ namespace Character2D
 
         public void ChooseRandomAttack()
         {
-            int attackIndex = 0;
-            float randomValue = Random.Range(0.0f, 100.0f);
-            if (randomValue > 80.0f && attackList.Count >= 3)
+            CharacterAttackInfo chosenAttack = new CharacterAttackInfo();
+            float randomValue = Random.Range(0.0f, 1.0f);
+            foreach (CharacterAttackInfo atk in character.fields.attacks)
             {
-                attackIndex = 2;
-            }
-            else if (randomValue > 50.0f && attackList.Count >= 2)
-            {
-                attackIndex = 1;
-            }
-            else
-            {
-                if (attackList.Count >= 1)
+                if (randomValue >= atk.oddsThreshold)
                 {
-                    attackIndex = 0;
-                }
-                else
-                {
-                    Debug.LogError("Enemy " + gameObject.name + " does not have any registered attacks.");
+                    chosenAttack = atk;
                 }
             }
-            StartCoroutine(WindUpDelay(attackIndex));
+            StartCoroutine(WindUpDelay(chosenAttack.id));
         }
 
         private IEnumerator WindUpDelay(int index)
         {
             isWindingUp = true;
             SendToAnimator();
-            yield return new WaitForSeconds(attackDurations[index] * 2.0f);
+            yield return new WaitForSeconds(character.fields.attacks[index].windupTime);
             StartCoroutine(Attack(index));
         }
 

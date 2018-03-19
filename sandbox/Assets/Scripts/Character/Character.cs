@@ -10,17 +10,20 @@ namespace Character2D
         {
             Knight,
             Goblin,
-            Villager,
             Skeleton,
-            Orc
+            Slime,
+            Rat,
+            Crate,
+            Dummy,
         }
 
         public Types type; //the type of character
 
-        public float vitality; //the vitality of the character
-        public float strength; //the strength of the character
-        public float agility; //the agility of the character
-        public float weight; //the weight of the character
-        public bool isActive; //whether or not the character is active
+        public CharacterFields fields;
+
+        public void Start()
+        {
+            fields = GameData.data.characterData.characterDictionary[type.ToString()];
+        }
     }
 }

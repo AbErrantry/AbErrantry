@@ -37,10 +37,6 @@ namespace Character2D
             attackRelease = 0.0f;
             attack2Threshold = 0.15f;
             attack3Threshold = 0.60f;
-
-            SetAttack(0, 5.0f, 0.20f); // Stab attack setup
-            SetAttack(1, 7.0f, 0.30f); // Swing attack setup
-            SetAttack(2, 15.0f, 0.80f); // Power attack setup
         }
 
         //

@@ -64,7 +64,9 @@ public class EventDisplay : MonoBehaviour
 					events.Dequeue();
 					if (events.Count > 0)
 					{
-						events.Peek().timestamp = Time.time - 1.0f;
+						events.Peek().timestamp = Time.time;
+						events.Peek().fadeStarted = false;
+						events.Peek().reference.GetComponent<Animator>().Play("Event_Open");
 					}
 				}
 			}
@@ -80,6 +82,7 @@ public class EventDisplay : MonoBehaviour
 			e.reference.GetComponent<EventPrefabReference>().text.text = e.text;
 			e.reference.GetComponent<EventPrefabReference>().count.text = e.count.ToString();
 			e.fadeStarted = false;
+			e.reference.GetComponent<Animator>().Play("Event_Open");
 			return e;
 		}).Count();
 

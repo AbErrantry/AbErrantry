@@ -5,34 +5,108 @@
 		<strength>10</strength>
 		<agility>10</agility>
 		<weight>10</weight>
+		<attack id="0">
+			<damage>5</damage>
+			<oddsThreshold>0.00</oddsThreshold>
+			<attackTime>0.20</attackTime>
+			<windupTime>0.00</windupTime>
+		</attack>
+		<attack id="1">
+			<damage>7</damage>
+			<oddsThreshold>0.50</oddsThreshold>
+			<attackTime>0.30</attackTime>
+			<windupTime>0.15</windupTime>
+		</attack>
+		<attack id="2">
+			<damage>15</damage>
+			<oddsThreshold>0.80</oddsThreshold>
+			<attackTime>0.80</attackTime>
+			<windupTime>0.60</windupTime>
+		</attack>
+	</character>
+	
+	<character type="Crate">
+		<vitality>10</vitality>
+		<strength>0</strength>
+		<agility>0</agility>
+		<weight>0</weight>
+	</character>
+	
+	<character type="Dummy">
+		<vitality>20</vitality>
+		<strength>0</strength>
+		<agility>0</agility>
+		<weight>0</weight>
 	</character>
 	
 	<character type="Goblin">
-		<vitality>80</vitality>
-		<strength>12</strength>
-		<agility>5</agility>
+		<vitality>20</vitality>
+		<strength>1</strength>
+		<agility>3</agility>
 		<weight>15</weight>
+		<attack id="0">
+			<damage>3</damage>
+			<oddsThreshold>0.0</oddsThreshold>
+			<attackTime>0.2</attackTime>
+			<windupTime>0.4</windupTime>
+		</attack>
+		<attack id="1">
+			<damage>5</damage>
+			<oddsThreshold>0.5</oddsThreshold>
+			<attackTime>0.3</attackTime>
+			<windupTime>0.5</windupTime>
+		</attack>
+		<attack id="2">
+			<damage>10</damage>
+			<oddsThreshold>0.8</oddsThreshold>
+			<attackTime>0.8</attackTime>
+			<windupTime>0.8</windupTime>
+		</attack>
 	</character>
 	
-	<character type="Villager">
-		<vitality>50</vitality>
-		<strength>2</strength>
-		<agility>10</agility>
-		<weight>10</weight>
+	<character type="Rat">
+		<vitality>15</vitality>
+		<strength>1</strength>
+		<agility>5</agility>
+		<weight>4</weight>
+		<attack id="0">
+			<damage>4</damage>
+			<oddsThreshold>0.0</oddsThreshold>
+			<attackTime>0.2</attackTime>
+			<windupTime>0.2</windupTime>
+		</attack>
 	</character>
 	
 	<character type="Skeleton">
-		<vitality>50</vitality>
-		<strength>15</strength>
-		<agility>5</agility>
-		<weight>5</weight>
+		<vitality>20</vitality>
+		<strength>1</strength>
+		<agility>4</agility>
+		<weight>2</weight>
+		<attack id="0">
+			<damage>12</damage>
+			<oddsThreshold>0.0</oddsThreshold>
+			<attackTime>0.5</attackTime>
+			<windupTime>0.5</windupTime>
+		</attack>
 	</character>
 	
-	<character type="Orc">
-		<vitality>200</vitality>
-		<strength>15</strength>
-		<agility>3</agility>
-		<weight>20</weight>
+	<character type="Slime">
+		<vitality>15</vitality>
+		<strength>1</strength>
+		<agility>2</agility>
+		<weight>5</weight>
+		<attack id="0">
+			<damage>5</damage>
+			<oddsThreshold>0.0</oddsThreshold>
+			<attackTime>0.5</attackTime>
+			<windupTime>0.5</windupTime>
+		</attack>
+		<attack id="0">
+			<damage>15</damage>
+			<oddsThreshold>0.8</oddsThreshold>
+			<attackTime>0.917</attackTime>
+			<windupTime>0.8</windupTime>
+		</attack>
 	</character>
 	
 </characters>

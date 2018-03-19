@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 114920673928413184}
   - component: {fileID: 114169031183565466}
   - component: {fileID: 114881617273582962}
+  - component: {fileID: 114942215863961152}
   m_Layer: 9
   m_Name: Slime
   m_TagString: Enemy
@@ -525,11 +526,6 @@ MonoBehaviour:
   isWindingUp: 0
   isAttacking: 0
   canAttack: 0
-  attackList:
-  - power: 5
-    duration: 0.5
-  - power: 10
-    duration: 0.917
 --- !u!114 &114457878351022594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -575,6 +571,9 @@ MonoBehaviour:
   isJumping: 0
   isFalling: 0
   isFacingRight: 0
+  isOnPlatform: 0
+  isOnIce: 0
+  vLast: 0
   enemyAttack: {fileID: 114169031183565466}
   topJump: {fileID: 114123854962938412}
   botJump: {fileID: 114558315029744508}
@@ -615,6 +614,18 @@ MonoBehaviour:
   hideablesMask:
     serializedVersion: 2
     m_Bits: 0
+--- !u!114 &114942215863961152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1327361652905270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 585a171e195341e489840e0e66c24b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 3
 --- !u!212 &212084939404769734
 SpriteRenderer:
   m_ObjectHideFlags: 1

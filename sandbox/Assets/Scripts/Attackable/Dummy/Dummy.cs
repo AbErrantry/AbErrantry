@@ -10,15 +10,19 @@ namespace Character2D
         private new void Start()
         {
             base.Start();
-            canTakeDamage = false;
+            canTakeDamage = true;
             canKnockBack = false;
             canFlinch = true;
         }
 
         protected override void InitializeDeath()
-        { }
+        {
+            //TODO: add destruction animation
+        }
 
         public override void FinalizeDeath()
-        { }
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -243,10 +243,10 @@ public class SaveData : ScriptableObject
                 playerInfo.checkpointName = reader.GetString(reader.GetOrdinal("checkPointName"));
                 playerInfo.equippedArmor = reader.GetString(reader.GetOrdinal("equippedArmor"));
                 playerInfo.equippedWeapon = reader.GetString(reader.GetOrdinal("equippedWeapon"));
-                Debug.Log("maxHealth=" + playerInfo.maxHealth + ", currentHealth=" + playerInfo.currentHealth +
-                    ", currentQuest=" + playerInfo.currentQuest + ", gold=" + playerInfo.gold + ", karma=" + playerInfo.karma +
-                    ", checkpointName=" + playerInfo.checkpointName + ", equippedArmor=" + playerInfo.equippedArmor +
-                    ", equippedWeapon=" + playerInfo.equippedWeapon);
+                // Debug.Log("maxHealth=" + playerInfo.maxHealth + ", currentHealth=" + playerInfo.currentHealth +
+                //     ", currentQuest=" + playerInfo.currentQuest + ", gold=" + playerInfo.gold + ", karma=" + playerInfo.karma +
+                //     ", checkpointName=" + playerInfo.checkpointName + ", equippedArmor=" + playerInfo.equippedArmor +
+                //     ", equippedWeapon=" + playerInfo.equippedWeapon);
             }
             else
             {

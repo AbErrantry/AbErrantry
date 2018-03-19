@@ -57,6 +57,7 @@ public class StoreMenu : MonoBehaviour
 
 	private Navigation automaticNav;
 	private Navigation horizontalNav;
+	private Navigation noNav;
 
 	public bool isSelling;
 
@@ -65,6 +66,10 @@ public class StoreMenu : MonoBehaviour
 
 	private Color purpleColor;
 	private Color blueColor;
+
+	private Navigation firstElementNavigation;
+	private Navigation middleElementNavigation;
+	private Navigation lastElementNavigation;
 
 	//used for initialization
 	private void Start()
@@ -80,14 +85,24 @@ public class StoreMenu : MonoBehaviour
 
 		automaticNav = new Navigation();
 		horizontalNav = new Navigation();
+		noNav = new Navigation();
 
 		automaticNav.mode = Navigation.Mode.Automatic;
 		horizontalNav.mode = Navigation.Mode.Horizontal;
+		noNav.mode = Navigation.Mode.None;
 
 		selectedItemIndex = 0;
 
 		purpleColor = new Color32(166, 2, 202, 255);
 		blueColor = new Color32(103, 110, 255, 255);
+
+		firstElementNavigation = new Navigation();
+		middleElementNavigation = new Navigation();
+		lastElementNavigation = new Navigation();
+
+		firstElementNavigation.mode = Navigation.Mode.Explicit;
+		middleElementNavigation.mode = Navigation.Mode.Explicit;
+		lastElementNavigation.mode = Navigation.Mode.Explicit;
 	}
 
 	public void ToggleStore(CharacterInventory inv)
@@ -125,9 +140,6 @@ public class StoreMenu : MonoBehaviour
 		UnloadInventoryItems();
 
 		selectedItemIndex = 0;
-
-		buyTab.GetComponent<Button>().navigation = horizontalNav;
-		sellTab.GetComponent<Button>().navigation = automaticNav;
 
 		buyTab.GetComponent<Image>().sprite = nonCurrentTabSprite;
 		sellTab.GetComponent<Image>().sprite = nonCurrentTabSprite;
@@ -193,6 +205,7 @@ public class StoreMenu : MonoBehaviour
 			controller.itemPrice.text = inv.item.price.ToString();
 			controller.itemStrength.text = inv.item.strength.ToString();
 			controller.itemImage.sprite = inv.item.sprite;
+			controller.itemImage.material = inv.item.material;
 			controller.item = inv; //TODO: may not need. figure that out.
 
 			//put the interactable in the list
@@ -201,9 +214,43 @@ public class StoreMenu : MonoBehaviour
 			//for some reason Unity does not use full scale for the instantiated object by default
 			newButton.transform.localScale = Vector3.one;
 		}
+		StartCoroutine(SetUpNavigation(itemList));
 		if (!initOpen)
 		{
 			FocusOnInventoryItem();
+		}
+	}
+
+	private IEnumerator SetUpNavigation(List<InventoryItem> itemList)
+	{
+		while (itemList.Count != inventoryList.transform.childCount)
+		{
+			yield return null;
+		}
+		for (int index = 0; index < inventoryList.transform.childCount; index++)
+		{
+			if (inventoryList.transform.childCount == 1)
+			{
+				firstElementNavigation.selectOnUp = sellTab.GetComponent<Button>();
+				inventoryList.transform.GetChild(index).GetComponent<Button>().navigation = firstElementNavigation;
+			}
+			else if (index == 0)
+			{
+				firstElementNavigation.selectOnUp = sellTab.GetComponent<Button>();
+				firstElementNavigation.selectOnDown = inventoryList.transform.GetChild(index + 1).GetComponent<Button>();
+				inventoryList.transform.GetChild(index).GetComponent<Button>().navigation = firstElementNavigation;
+			}
+			else if (index == inventoryList.transform.childCount - 1)
+			{
+				lastElementNavigation.selectOnUp = inventoryList.transform.GetChild(index - 1).GetComponent<Button>();
+				inventoryList.transform.GetChild(index).GetComponent<Button>().navigation = lastElementNavigation;
+			}
+			else
+			{
+				middleElementNavigation.selectOnUp = inventoryList.transform.GetChild(index - 1).GetComponent<Button>();
+				middleElementNavigation.selectOnDown = inventoryList.transform.GetChild(index + 1).GetComponent<Button>();
+				inventoryList.transform.GetChild(index).GetComponent<Button>().navigation = middleElementNavigation;
+			}
 		}
 	}
 
@@ -276,11 +323,17 @@ public class StoreMenu : MonoBehaviour
 		itemQuantity.text = inv.quantity.ToString();
 		itemStrength.text = inv.item.strength.ToString();
 		itemPrice.text = inv.item.price.ToString();
+		itemImage.material = inv.item.material;
 		selectedItem = inv;
 		descriptionMask.SetActive(false);
-		if (inv.item.type != "story")
+		if (inv.item.type != "Story" || !isSelling)
 		{
 			confirmButton.interactable = true;
+			cancelButton.navigation = horizontalNav;
+		}
+		else
+		{
+			cancelButton.navigation = noNav;
 		}
 		for (int index = 0; index < inventoryList.transform.childCount; index++)
 		{

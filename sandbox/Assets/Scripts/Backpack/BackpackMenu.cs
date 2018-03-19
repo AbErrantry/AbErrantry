@@ -76,6 +76,11 @@ namespace Character2D
 
         private Navigation automaticNav;
         private Navigation horizontalNav;
+        private Navigation noNav;
+
+        private Navigation firstElementNavigation;
+        private Navigation middleElementNavigation;
+        private Navigation lastElementNavigation;
 
         //used for initialization
         private void Start()
@@ -94,11 +99,21 @@ namespace Character2D
 
             automaticNav = new Navigation();
             horizontalNav = new Navigation();
+            noNav = new Navigation();
 
             automaticNav.mode = Navigation.Mode.Automatic;
             horizontalNav.mode = Navigation.Mode.Horizontal;
+            noNav.mode = Navigation.Mode.None;
 
             selectedItemIndex = 0;
+
+            firstElementNavigation = new Navigation();
+            middleElementNavigation = new Navigation();
+            lastElementNavigation = new Navigation();
+
+            firstElementNavigation.mode = Navigation.Mode.Explicit;
+            middleElementNavigation.mode = Navigation.Mode.Explicit;
+            lastElementNavigation.mode = Navigation.Mode.Explicit;
         }
 
         public void ToggleBackpack()
@@ -233,9 +248,43 @@ namespace Character2D
                 //for some reason Unity does not use full scale for the instantiated object by default
                 newButton.transform.localScale = Vector3.one;
             }
+            StartCoroutine(SetUpNavigation());
             if (!initOpen)
             {
                 FocusOnInventoryItem();
+            }
+        }
+
+        private IEnumerator SetUpNavigation()
+        {
+            while (playerInventory.items.Count != inventoryList.transform.childCount)
+            {
+                yield return null;
+            }
+            for (int index = 0; index < inventoryList.transform.childCount; index++)
+            {
+                if (inventoryList.transform.childCount == 1)
+                {
+                    firstElementNavigation.selectOnUp = inventoryTab.GetComponent<Button>();
+                    inventoryList.transform.GetChild(index).GetComponent<Button>().navigation = firstElementNavigation;
+                }
+                else if (index == 0)
+                {
+                    firstElementNavigation.selectOnUp = inventoryTab.GetComponent<Button>();
+                    firstElementNavigation.selectOnDown = inventoryList.transform.GetChild(index + 1).GetComponent<Button>();
+                    inventoryList.transform.GetChild(index).GetComponent<Button>().navigation = firstElementNavigation;
+                }
+                else if (index == inventoryList.transform.childCount - 1)
+                {
+                    lastElementNavigation.selectOnUp = inventoryList.transform.GetChild(index - 1).GetComponent<Button>();
+                    inventoryList.transform.GetChild(index).GetComponent<Button>().navigation = lastElementNavigation;
+                }
+                else
+                {
+                    middleElementNavigation.selectOnUp = inventoryList.transform.GetChild(index - 1).GetComponent<Button>();
+                    middleElementNavigation.selectOnDown = inventoryList.transform.GetChild(index + 1).GetComponent<Button>();
+                    inventoryList.transform.GetChild(index).GetComponent<Button>().navigation = middleElementNavigation;
+                }
             }
         }
 
@@ -313,11 +362,16 @@ namespace Character2D
             itemPrice.text = inv.item.price.ToString();
             selectedItem = inv;
             descriptionMask.SetActive(false);
-            if (inv.item.type != "story")
+            if (inv.item.type != "Story")
             {
+                cancelButton.navigation = horizontalNav;
                 useButton.interactable = true;
                 dropButton.interactable = true;
                 destroyButton.interactable = true;
+            }
+            else
+            {
+                cancelButton.navigation = noNav;
             }
             for (int index = 0; index < inventoryList.transform.childCount; index++)
             {
@@ -403,8 +457,6 @@ namespace Character2D
                 scrollRect.verticalNormalizedPosition = 1.0f;
                 selectedItemIndex = 0;
             }
-
-            Debug.Log(selectedItem.quantity);
 
             UnloadInventoryItems();
             LoadInventoryItems();

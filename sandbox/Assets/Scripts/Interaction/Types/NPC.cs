@@ -14,6 +14,7 @@ public class NPC : Interactable
     public bool isFacingRight;
 
     public static event Action<CharacterInfoTuple> OnCharacterInfoChanged;
+    //TODO: add ability to move another character/change their state
 
     //used for initialization
     private new void Start()

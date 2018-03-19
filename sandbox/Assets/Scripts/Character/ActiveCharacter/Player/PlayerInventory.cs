@@ -83,7 +83,8 @@ namespace Character2D
             AddItem(pickup.name);
         }
 
-        public void RemoveItem(InventoryItem itemToRemove, bool removeAll, bool drop, bool isTransaction = false, bool equip = false, bool use = false)
+        public void RemoveItem(InventoryItem itemToRemove, bool removeAll, bool drop,
+            bool isTransaction = false, bool equip = false, bool use = false, bool give = false)
         {
             var amountToDrop = 0;
             int amountLeft = 0;
@@ -124,6 +125,12 @@ namespace Character2D
             if (use)
             {
                 EventDisplay.instance.AddEvent("Used " + itemToRemove.item.name + ".");
+                return;
+            }
+
+            if (give)
+            {
+                EventDisplay.instance.AddEvent("Gave " + itemToRemove.item.name + ".");
                 return;
             }
 
@@ -180,7 +187,7 @@ namespace Character2D
             }
         }
 
-        public bool CheckForItem(string itemName, int amount)
+        public bool CheckForItemAndRemove(string itemName, int amount)
         {
             foreach (InventoryItem item in items)
             {
@@ -198,6 +205,34 @@ namespace Character2D
             }
             EventDisplay.instance.AddEvent("You do not have enough " + itemName + "s. You need " + amount + ".");
             return false;
+        }
+
+        public bool CheckForItem(string itemName, int amount)
+        {
+            foreach (InventoryItem item in items)
+            {
+                if (item.item.name == itemName)
+                {
+                    if (item.quantity >= amount)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public InventoryItem GetInventoryItem(string itemName)
+        {
+            foreach (InventoryItem item in items)
+            {
+                if (item.item.name == itemName)
+                {
+                    return item;
+                }
+            }
+            Debug.LogError("Inventory item not found when trying to access it: " + itemName);
+            return null;
         }
     }
 }
