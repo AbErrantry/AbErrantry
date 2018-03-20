@@ -1,20 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class SoundOptions : MonoBehaviour
 {
-    // Use this for initialization
-    void Start()
-    {
-        this.GetComponent<Button>().onClick.AddListener(()=> LoadGame());
-    }
+    public AudioMixer audioMixer;
 
-    // Update is called once per frame
-    void LoadGame()
+    public void SetVolume (float volume)
     {
-        SceneManager.LoadScene("SoundOptions");
+        audioMixer.SetFloat("masterVol", volume);
     }
 }
