@@ -2,16 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Character2D
+{
 public class FallingStalactite : MonoBehaviour {
 
 	public float dropTime;
 	public bool isDropping;
 	public GameObject itemToDrop;
+	public float stalactiteDamage;
+	public float destoryDelay;
 	private float time;
+
+	[Header("CameraShaking")]
+
+	public float camShakeIntensity;
+	public float camShakeTime;
+	private CameraShake camShake;
 	// Use this for initialization
 	void Start ()
 	{
 		time = dropTime;
+		camShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 	}
 	
 	// Update is called once per frame
@@ -30,6 +41,13 @@ public class FallingStalactite : MonoBehaviour {
 
 	void DropATite()
 	{
-		
+		if(!camShake.isShaking)
+		{
+			camShake.isShaking = true;
+			StartCoroutine(camShake.Shaker(camShakeIntensity,camShakeTime));
+		}
+		GameObject clone = Instantiate(itemToDrop,transform.position,Quaternion.identity);
+		clone.GetComponent<StalactiteHit>().SetVar(stalactiteDamage, gameObject, destoryDelay);
 	}
+}
 }
