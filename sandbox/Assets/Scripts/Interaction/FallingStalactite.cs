@@ -7,7 +7,7 @@ namespace Character2D
 public class FallingStalactite : MonoBehaviour {
 
 	public float dropTime;
-	public bool isDropping;
+	public bool randomizeDrop;
 	public GameObject itemToDrop;
 	public float stalactiteDamage;
 	public float destoryDelay;
@@ -21,7 +21,16 @@ public class FallingStalactite : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-		time = dropTime;
+		if(randomizeDrop)
+		{
+			dropTime = Random.Range(1.5f,10.75f);
+			time = dropTime;
+		}
+		else
+		{
+			time = dropTime;
+		}
+
 		camShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 	}
 	
