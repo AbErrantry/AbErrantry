@@ -9,7 +9,7 @@ namespace Character2D
         public BoxMove boxMove;
 
         // Use this for initialization
-        private new void Start()
+        protected new void Start()
         {
             base.Start();
             canTakeDamage = true;
@@ -31,7 +31,7 @@ namespace Character2D
             Destroy(gameObject);
         }
 
-        public void DestroyCrate()
+        public virtual void DestroyCrate()
         {
             InitializeDeath();
         }
