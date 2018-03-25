@@ -17,7 +17,7 @@ public class BouncePad : MonoBehaviour {
 	}
 	void OnCollisionEnter2D(Collision2D col)
 	{
-		if(col.gameObject.GetComponent<Player>() != null)
+		if(col.gameObject.GetComponent<Attackable>() != null)
 		{
 			playerRBody = col.gameObject.GetComponent<Rigidbody2D>();
 			Vector2 playerPos = col.transform.position;
