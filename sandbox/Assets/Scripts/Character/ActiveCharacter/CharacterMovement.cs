@@ -148,10 +148,7 @@ namespace Character2D
             {
                 speedMultiplier = 1;
             }
-            //if (!characterAttack.isAttacking && !attackable.isDying)
-            //{
-            SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 8.0f);
-            //}
+            SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 10.0f);
         }
 
         //controls the character acceleration
