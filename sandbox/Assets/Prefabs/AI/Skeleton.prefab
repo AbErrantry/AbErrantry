@@ -84,6 +84,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1154916642634080
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4277030959181684}
+  - component: {fileID: 61506453791750736}
+  - component: {fileID: 114362444223852370}
+  m_Layer: 10
+  m_Name: ScanTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1186506352249294
 GameObject:
   m_ObjectHideFlags: 1
@@ -180,6 +197,19 @@ Transform:
   m_Father: {fileID: 4665901379221640}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4277030959181684
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1154916642634080}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4665901379221640}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4487194609353186
 Transform:
   m_ObjectHideFlags: 1
@@ -235,6 +265,7 @@ Transform:
   - {fileID: 4614566637278964}
   - {fileID: 4649370328299716}
   - {fileID: 4153317901516024}
+  - {fileID: 4277030959181684}
   m_Father: {fileID: 224632513284083258}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -296,7 +327,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.3667498, y: -0.56408346}
+  m_Offset: {x: 0.46265537, y: -0.56408346}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -307,7 +338,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.7335, y: 0.659101}
+  m_Size: {x: 1.925311, y: 0.659101}
   m_EdgeRadius: 0
 --- !u!61 &61104017175931460
 BoxCollider2D:
@@ -321,7 +352,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.482719, y: 0.15706342}
+  m_Offset: {x: 0.4945327, y: 0.15706342}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -332,7 +363,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.4498034, y: 0.9099494}
+  m_Size: {x: 2.4734306, y: 0.9099494}
   m_EdgeRadius: 0
 --- !u!61 &61325033408659234
 BoxCollider2D:
@@ -358,6 +389,31 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.9404282, y: 1.3467193}
+  m_EdgeRadius: 0
+--- !u!61 &61506453791750736
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1154916642634080}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 45, y: 30}
   m_EdgeRadius: 0
 --- !u!61 &61513975680833080
 BoxCollider2D:
@@ -507,7 +563,6 @@ MonoBehaviour:
     beaconNum: 0
   chasingPlayer: 0
   stoppingPercentage: 75
-  giveUpTime: 5
   playerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -517,6 +572,7 @@ MonoBehaviour:
   hideablesMask:
     serializedVersion: 2
     m_Bits: 0
+  playerInRange: 0
 --- !u!114 &114282354437442136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -531,6 +587,20 @@ MonoBehaviour:
   currentObjects: []
   disregardCount: 0
   enemy: {fileID: 114590852682470918}
+--- !u!114 &114362444223852370
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1154916642634080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bf535fcdd9c473439b0a7491bb08d89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentObjects: []
+  disregardCount: 0
+  enemy: {fileID: 114227752755818278}
 --- !u!114 &114483594708975594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -561,6 +631,7 @@ MonoBehaviour:
   isWindingUp: 0
   isAttacking: 0
   canAttack: 0
+  enemy: {fileID: 0}
 --- !u!114 &114495819989529112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -749,7 +820,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 29.56, y: -47.61}
+  m_AnchoredPosition: {x: 305.489, y: -34.651573}
   m_SizeDelta: {x: 10.93, y: 9.772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!251 &251243294097763406

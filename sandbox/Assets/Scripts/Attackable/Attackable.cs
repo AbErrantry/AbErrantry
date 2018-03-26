@@ -72,13 +72,18 @@ namespace Character2D
             Vector3 force;
             if (attackerLocation.x < transform.position.x)
             {
-                force = new Vector3(intensity * 10f, 3f, 0.0f);
+                force = new Vector3(intensity * 2.5f, 2.5f, 0.0f);
             }
             else
             {
-                force = new Vector3(-(intensity) * 10f, 3f, 0.0f);
+                force = new Vector3(-(intensity) * 2.5f, 2.5f, 0.0f);
             }
+            rb.velocity = Vector2.zero;
             rb.AddForce(force, ForceMode2D.Impulse);
+            if (GetComponent<CharacterMovement>() != null)
+            {
+                GetComponent<CharacterMovement>().vLast = rb.velocity.x;
+            }
         }
 
         protected void Flinch()

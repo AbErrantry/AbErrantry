@@ -7,6 +7,7 @@ namespace Character2D
     public class EnemyAttack : CharacterAttack
     {
         public bool canAttack;
+        public Enemy enemy;
 
         // Use this for initialization
         protected new void Start()

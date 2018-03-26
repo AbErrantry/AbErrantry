@@ -203,9 +203,9 @@ namespace Character2D
                     climbSpeed = 0.0f;
                 }
             }
-            else if (!isSliding && !isRolling && !playerAttack.isAttacking && !Player.instance.isDying)
+            else if (!isSliding && !isRolling)
             {
-                SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 8.0f);
+                SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 10.0f);
             }
         }
 

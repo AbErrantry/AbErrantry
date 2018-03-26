@@ -27,11 +27,6 @@ namespace Character2D
         [Tooltip("How often should the AI stop and look around at each beacon, 0% - 100% (0% never, 100% max).")]
         public float stoppingPercentage; //How often should the AI stop and look around
 
-        [Range(5.0f, 15.0f)]
-        [Tooltip("How long(seconds) the AI will follow the player outside of their boxcast")]
-        public float giveUpTime;
-        private float chaseTime;
-
         [Header("AI Scanning Masks")]
         [Space(5)]
         [Tooltip("Select the Players layer.")]
@@ -48,6 +43,8 @@ namespace Character2D
         private Vector2Int boxCastDimensions;
         private int boxCastDirection;
         private int boxCastDistance;
+
+        public bool playerInRange;
 
         void OnBecameVisible()
         {
@@ -75,40 +72,60 @@ namespace Character2D
             chasingPlayer = false;
             beacCon.beaconNum = 0;
             beacCon.currTarget = beacCon.beacons[beacCon.beaconNum];
-            chaseTime = giveUpTime;
+
+            playerInRange = false;
 
             enabled = false;
         }
 
+        public override void TakeDamage(GameObject attacker, int damage)
+        {
+            base.TakeDamage(attacker, damage);
+            if (attacker.GetComponent<Player>() != null)
+            {
+                enemyMovement.StopAllCoroutines();
+                StopAllCoroutines();
+                chasingPlayer = true;
+                beacCon.currTarget = attacker;
+            }
+        }
+
         protected void FixedUpdate()
         {
-            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, boxCastDimensions, 0.0f, transform.right, boxCastDistance, layers.value);
-
-            DrawBox(transform.position, new Vector2(boxCastDimensions.x * boxCastDistance, boxCastDimensions.y));
-
-            if (ray && ray.collider.gameObject.GetComponent<Player>() != null && !chasingPlayer)
+            if (!isDying)
             {
-                chasingPlayer = true;
-                beacCon.currTarget = ray.collider.gameObject;
-            }
-            else if (chaseTime <= 0)
-            {
-                chasingPlayer = false;
-                if (!enemyMovement.isScanning)
+                RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, boxCastDimensions, 0.0f, transform.right, boxCastDistance, layers.value);
+
+                DrawBox(transform.position, new Vector2(boxCastDimensions.x * boxCastDistance, boxCastDimensions.y));
+
+                if (ray && ray.collider.gameObject.GetComponent<Player>() != null && !chasingPlayer)
                 {
+                    enemyMovement.StopCoroutines();
+                    StopAllCoroutines();
+                    chasingPlayer = true;
+                    beacCon.currTarget = ray.collider.gameObject;
+                }
+                else if (!playerInRange && chasingPlayer)
+                {
+                    chasingPlayer = false;
                     StartCoroutine(enemyMovement.StopAndScan());
                     SwitchBeacon();
                 }
-                chaseTime = giveUpTime;
-            }
-            else if (chasingPlayer)
-            {
-                chaseTime -= Time.deltaTime;
-            }
 
-            if (chasingPlayer)
+                MoveTowardsTarget();
+            }
+        }
+
+        private void MoveTowardsTarget()
+        {
+            enemyMovement.MoveTowards(beacCon.currTarget.transform);
+            if (Mathf.Abs(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x) > 5.0f && chasingPlayer)
             {
-                CheckDirection();
+                enemyMovement.runInput = true;
+            }
+            else
+            {
+                enemyMovement.runInput = false;
             }
         }
 
@@ -139,7 +156,8 @@ namespace Character2D
         public override void FinalizeDeath()
         {
             //drop loot
-            Debug.Log("Enemy died: " + gameObject.name); //TODO: remove debug
+            EventDisplay.instance.AddEvent("Defeated " + character.fields.type);
+            //TODO: give random amount of gold around enemy difficulty.
             Destroy(gameObject);
         }
 
@@ -149,21 +167,7 @@ namespace Character2D
         {
             beacCon.beaconNum++;
             beacCon.currTarget = beacCon.beacons[beacCon.beaconNum % beacCon.beacons.Length];
-
-            CheckDirection();
             ShouldScan();
-        }
-
-        private void CheckDirection()
-        {
-            if (beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x < 0 && enemyMovement.isFacingRight)
-            {
-                enemyMovement.ChangeDirection();
-            }
-            else if (beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x > 0 && !enemyMovement.isFacingRight)
-            {
-                enemyMovement.ChangeDirection();
-            }
         }
 
         private void ShouldScan()
