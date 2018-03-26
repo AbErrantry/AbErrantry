@@ -286,6 +286,8 @@ namespace Dialogue2D
             GameObject newButton = Instantiate(choiceButton) as GameObject;
             DialoguePrefabReference controller = newButton.GetComponent<DialoguePrefabReference>();
 
+            newButton.GetComponent<Button>().interactable = false;
+
             //set the text for the choice onscreen
             controller.choiceText.text = text;
             controller.choiceNext = next;

@@ -4,18 +4,14 @@ using UnityEngine;
 
 public class PlayerUnderBox : Trigger<Character2D.Player>
 {
-    public BoxMove boxMove;
+    public Character2D.Crate crate;
 
     //fires upon an object entering/exiting the trigger box
     protected override void TriggerAction(bool isInTrigger)
     {
         if (isInTrigger)
         {
-            boxMove.SetPlayerUnder(true);
-        }
-        else
-        {
-            boxMove.SetPlayerUnder(false);
+            crate.DestroyCrate();
         }
     }
 }
