@@ -16,7 +16,6 @@ namespace Character2D
 			base.Start();
 			canFlinch = false;
 			canHitAttack = false;
-			currentVitality = 0;
 			explodeDamage = 25.0f;
 			explodeTime = 0.5f;
 		}

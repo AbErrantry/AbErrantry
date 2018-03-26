@@ -13,7 +13,6 @@ namespace Character2D
 			canTakeDamage = true;
 			canKnockBack = false;
 			canFlinch = false;
-			currentVitality = 0;
 		}
 
 		//applies damage to the player

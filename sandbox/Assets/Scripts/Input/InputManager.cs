@@ -50,25 +50,37 @@
     		keyMapping[keyMap] = key;
     	}
 
-    	public bool GetKeyDown(string keyMap)
-    	{
-    		return Input.GetKeyDown(keyMapping[keyMap]);
-    	}
-
     	public bool GetButtonDown(string keyMap)
     	{
-    		//if controller,
     		return Input.GetKeyDown(keyMapping[keyMap]);
     	}
 
-    	public bool GetButton(string keyMap)
-    	{
-    		return Input.GetKeyDown(keyMapping[keyMap]);
-    	}
+		public bool GetButtonUp(string keyMap)
+		{
+			return Input.GetKeyUp(keyMapping[keyMap]);
+		}
 
-    	public bool GetButtonUp(string keyMap)
-    	{
-    		return Input.GetKeyDown(keyMapping[keyMap]);
-    	}
+		public bool GetButton(string keyMap)
+		{
+			return Input.GetKey(keyMapping[keyMap]);
+		}
 
+		public float GetAxisRaw(string keyMap)
+		{
+			//Up and down, W and S, A and D, etc.
+			//goes from -1 -> 1 depending on button pressed.
+			//keyMap-> get tuple
+			if(Input.GetKey(keyMapping[keyMap])) // positive value
+			{
+				return 1.0f;
+			}
+			else if(Input.GetKey(keyMapping[keyMap])) // negative value
+			{
+				return -1.0f;
+			}
+			else
+			{
+				return 0.0f;
+			}
+		}
     }

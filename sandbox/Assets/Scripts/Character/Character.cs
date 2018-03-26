@@ -15,6 +15,8 @@ namespace Character2D
             Rat,
             Crate,
             Dummy,
+            ExplodingCrate,
+            DestroyableTile,
         }
 
         public Types type; //the type of character

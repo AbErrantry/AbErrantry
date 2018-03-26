@@ -31,6 +31,8 @@ namespace Character2D
         private float timeToSleep;
         private float sleepTimer;
 
+        public InputManager inputManager;
+
         private void Awake()
         {
             if (instance == null)

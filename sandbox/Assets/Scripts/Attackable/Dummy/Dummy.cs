@@ -17,7 +17,8 @@ namespace Character2D
 
         protected override void InitializeDeath()
         {
-            //TODO: add destruction animation
+            GetComponent<BoxCollider2D>().enabled = false;
+            anim.Play("DESTROY");
         }
 
         public override void FinalizeDeath()
