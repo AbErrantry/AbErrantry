@@ -11,5 +11,8 @@ public class SoundOptions : MonoBehaviour
     public void SetVolume (float volume)
     {
         audioMixer.SetFloat("masterVol", volume);
+        audioMixer.SetFloat("musicVol", volume);
+        audioMixer.SetFloat("sfxVol", volume);
+        audioMixer.SetFloat("dialogueVol", volume);
     }
 }

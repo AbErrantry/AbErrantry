@@ -77,7 +77,7 @@ namespace Character2D
                 playerInteraction.interactionInput = Input.GetButtonDown("Interact"); //send interaction input
                 playerAttack.attackInputDown = Input.GetButtonDown("Attack"); //send attack input pressed
                 playerAttack.attackInputUp = Input.GetButtonUp("Attack"); //send attack input released
-                //playerPause.pauseInput = Input.GetButtonDown("Pause");
+                playerInteraction.pauseInput = Input.GetButtonDown("Pause");
             }
 
             if (Input.GetButtonDown("Jump") != false)
@@ -112,10 +112,10 @@ namespace Character2D
             {
                 sleepTimer = Time.time;
             }
-            //if (Input.GetButtonDown("Pause") != false)
-            //{
-            //    sleepTimer = Time.time;
-            //}
+            if (Input.GetButtonDown("Pause") != false)
+            {
+                sleepTimer = Time.time;
+            }
 
             if (Input.GetButtonDown("Backpack"))
             {
