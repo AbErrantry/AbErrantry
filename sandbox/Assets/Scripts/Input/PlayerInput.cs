@@ -69,22 +69,22 @@ namespace Character2D
         {
             if (acceptInput)
             {
-                playerMovement.jumpInput = Input.GetButtonDown("Jump"); //send jump input pressed
-                playerMovement.crouchInput = Input.GetButton("Crouch"); //send crouch input
-                playerMovement.runInput = Input.GetButton("Run"); //send run input
-                playerMovement.mvmtSpeed = Input.GetAxisRaw("Move"); //send movement speed
-                playerMovement.climbSpeedInput = Input.GetAxisRaw("Vertical"); //send climb speed
-                playerInteraction.interactionInput = Input.GetButtonDown("Interact"); //send interaction input
-                playerAttack.attackInputDown = Input.GetButtonDown("Attack"); //send attack input pressed
-                playerAttack.attackInputUp = Input.GetButtonUp("Attack"); //send attack input released
-                playerInteraction.pauseInput = Input.GetButtonDown("Pause");
+                playerMovement.jumpInput = hInput.GetButtonDown("Jump"); //send jump input pressed
+                playerMovement.crouchInput = hInput.GetButton("Crouch"); //send crouch input
+                playerMovement.runInput = hInput.GetButton("Run"); //send run input
+                playerMovement.mvmtSpeed = hInput.GetAxis("Move"); //send movement speed
+                playerMovement.climbSpeedInput = hInput.GetAxis("Vertical"); //send climb speed
+                playerInteraction.interactionInput = hInput.GetButtonDown("Interact"); //send interaction input
+                playerAttack.attackInputDown = hInput.GetButtonDown("Attack"); //send attack input pressed
+                playerAttack.attackInputUp = hInput.GetButtonUp("Attack"); //send attack input released
+               // playerInteraction.pauseInput = Input.GetButtonDown("Pause");
             }
 
             if (Input.GetButtonDown("Jump") != false)
             {
                 sleepTimer = Time.time;
             }
-            if (Input.GetButton("Crouch") != false)
+
             {
                 sleepTimer = Time.time;
             }

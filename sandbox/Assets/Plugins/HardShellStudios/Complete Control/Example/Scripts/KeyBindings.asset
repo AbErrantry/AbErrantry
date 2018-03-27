@@ -12,23 +12,23 @@ MonoBehaviour:
   m_Name: KeyBindings
   m_EditorClassIdentifier: 
   inputs:
-  - Name: Horizontal
-    UniqueName: move_horizontal
+  - Name: Jump
+    UniqueName: move_Jump
     Type: 0
     Positive:
-      Primary: 100
+      Primary: 32
       Secondary: 0
     Negative:
-      Primary: 97
+      Primary: 0
       Secondary: 0
     targetController: 0
     Axis: 0
     Invert: 0
-    Sensitivity: 20
+    Sensitivity: 1
     val: 0
   - Name: Horizontal
-    UniqueName: 
-    Type: 2
+    UniqueName: move_Horizontal
+    Type: 0
     Positive:
       Primary: 100
       Secondary: 0
@@ -40,12 +40,12 @@ MonoBehaviour:
     Invert: 0
     Sensitivity: 1
     val: 0
-  - Name: Jump
-    UniqueName: move_jump
-    Type: 0
+  - Name: Horizontal
+    UniqueName: 
+    Type: 2
     Positive:
-      Primary: 32
-      Secondary: 331
+      Primary: 0
+      Secondary: 0
     Negative:
       Primary: 0
       Secondary: 0
