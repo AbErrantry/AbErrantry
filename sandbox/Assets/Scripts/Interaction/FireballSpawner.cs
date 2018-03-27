@@ -21,11 +21,12 @@ public class FireballSpawner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if(!isFiring)
+		if(!isFiring && !requireInput)
 		{
 			if(time<=0)
 			{
 				isFiring = true;
+				StopAllCoroutines();
 				StartCoroutine(SpawnAnObject());
 				time = spawnTime;
 			}
@@ -38,16 +39,19 @@ public class FireballSpawner : MonoBehaviour {
 
 	public IEnumerator SpawnAnObject()
 	{
+		
+		gameObject.GetComponent<Animator>().SetTrigger("Attacking");
 		for(int i = 0; i < numToSpawn; i++)
 		{
 			GameObject clone = Instantiate(itemToSpawn, transform.position, Quaternion.identity);
 
 			clone.GetComponent<Rigidbody2D>().AddForce(
-											new Vector2(Random.Range(minMaxForce*-1, minMaxForce),Random.Range(minMaxForce*-1, minMaxForce)));
+											new Vector2(Random.Range(minMaxForce*-1, minMaxForce)*10,Random.Range(minMaxForce*-1, minMaxForce)*10));
 
 			yield return new WaitForSeconds(1);
 		}
-
+		//gameObject.GetComponent<Animator>().SetTrigger("Idle");
+		gameObject.GetComponent<Animator>().SetBool("Attacking", false);
 		isFiring = false;
 	}
 }
