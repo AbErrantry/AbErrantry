@@ -9,6 +9,8 @@ public class Keybindings : MonoBehaviour {
     private Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
 
     public TextMeshProUGUI up, left, down, right, jump, run, attack, interact, pause;
+    public InputManager inputManager;
+    
 
     private GameObject currentKey;
 
@@ -41,36 +43,44 @@ public class Keybindings : MonoBehaviour {
     {
 		if (Input.GetKeyDown(keys["MoveUp"]))
         {
-
+            Debug.Log("MoveUp");
         }
+
         if (Input.GetKeyDown(keys["MoveLeft"]))
         {
 
         }
+
         if (Input.GetKeyDown(keys["MoveDown"]))
         {
 
         }
+
         if (Input.GetKeyDown(keys["MoveRight"]))
         {
 
         }
+
         if (Input.GetKeyDown(keys["Jump"]))
         {
 
         }
+
         if (Input.GetKeyDown(keys["Run"]))
         {
 
         }
+
         if (Input.GetKeyDown(keys["Attack"]))
         {
 
         }
+
         if (Input.GetKeyDown(keys["Interact"]))
         {
 
         }
+
         if (Input.GetKeyDown(keys["Pause"]))
         {
 
