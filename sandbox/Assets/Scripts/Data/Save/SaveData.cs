@@ -5,14 +5,40 @@ using System.Data;
 using Character2D;
 using Mono.Data.Sqlite;
 using UnityEngine;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class SaveData : ScriptableObject
 {
     private string path;
     private string file;
+    public PlayerInfoTuple pITuple;
 
     private SqliteConnection conn;
     private SqliteCommand cmd;
+
+    public static void SavePlayer(Player player)
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream stream = new FileStream(Application.persistentDataPath + "/Save/", FileMode.Create);
+
+        PlayerData tuple = new PlayerData(player);
+
+        bf.Serialize(stream, tuple);
+        stream.Close();
+    }
+
+    public static void LoadPlayer()
+    {
+        if (File.Exists(Application.persistentDataPath + "/Save/"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream stream = new FileStream(Application.persistentDataPath + "/Save/", FileMode.Open);
+
+            PlayerData tuple = bf.Deserialize(stream) as PlayerData;
+            stream.Close();
+        }
+    }
 
     // default constructor
     private void OnEnable()
@@ -223,7 +249,7 @@ public class SaveData : ScriptableObject
             Debug.LogException(e);
         }
     }
-
+    
     // Gets the information related to the player character
     public PlayerInfoTuple ReadPlayerInfo()
     {
@@ -667,5 +693,27 @@ public class SaveData : ScriptableObject
             reader = null;
         }
         return result;
+    }
+}
+
+[Serializable]
+public class PlayerData
+{
+    public int[] stats;
+    public string[] data;
+
+    public PlayerData(Player playSave)
+    {
+        stats = new int[4];
+       // stats[0] = playSave.maxhealth;
+       // stats[1] = playSave.currentHealth;
+        stats[2] = playSave.gold;
+        stats[3] = playSave.karma;
+
+        data = new string[4];
+        data[0] = playSave.currentQuest;
+      //  data[1] = playSave.checkpointName;
+        data[2] = playSave.equippedArmor;
+        data[3] = playSave.equippedWeapon;
     }
 }
