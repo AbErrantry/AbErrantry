@@ -80,7 +80,7 @@ namespace Character2D
                // playerInteraction.pauseInput = Input.GetButtonDown("Pause");
             }
 
-            if (Input.GetButtonDown("Jump") != false)
+            if (hInput.GetButtonDown("Jump") != false)
             {
                 sleepTimer = Time.time;
             }
@@ -88,36 +88,36 @@ namespace Character2D
             {
                 sleepTimer = Time.time;
             }
-            if (Input.GetButton("Run") != false)
+            if (hInput.GetButton("Run") != false)
             {
                 sleepTimer = Time.time;
             }
-            if (Input.GetAxisRaw("Move") != 0.0f)
+            if (hInput.GetAxis("Move") != 0.0f)
             {
                 sleepTimer = Time.time;
             }
-            if (Input.GetAxisRaw("Vertical") != 0.0f)
+            if (hInput.GetAxis("Vertical") != 0.0f)
             {
                 sleepTimer = Time.time;
             }
-            if (Input.GetButtonDown("Interact") != false)
+            if (hInput.GetButtonDown("Interact") != false)
             {
                 sleepTimer = Time.time;
             }
-            if (Input.GetButtonDown("Attack") != false)
+            if (hInput.GetButtonDown("Attack") != false)
             {
                 sleepTimer = Time.time;
             }
-            if (Input.GetButtonUp("Attack") != false)
+            if (hInput.GetButtonUp("Attack") != false)
             {
                 sleepTimer = Time.time;
             }
-            if (Input.GetButtonDown("Pause") != false)
+            if (hInput.GetButtonDown("Pause") != false)
             {
                 sleepTimer = Time.time;
             }
 
-            if (Input.GetButtonDown("Backpack"))
+            if (hInput.GetButtonDown("Backpack"))
             {
                 sleepTimer = Time.time;
                 if ((!acceptInput && backpackMenu.isOpen) || acceptInput)
@@ -125,7 +125,7 @@ namespace Character2D
                     backpackMenu.ToggleBackpack();
                 }
             }
-            else if (Input.GetButtonDown("Interact"))
+            else if (hInput.GetButtonDown("Interact"))
             {
                 sleepTimer = Time.time;
                 if ((!acceptInput && playerInteraction.isOpen) || acceptInput)
