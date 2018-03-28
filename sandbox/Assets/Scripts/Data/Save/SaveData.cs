@@ -5,6 +5,7 @@ using System.Data;
 using Character2D;
 using Mono.Data.Sqlite;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SaveData : ScriptableObject
 {
@@ -17,9 +18,14 @@ public class SaveData : ScriptableObject
     // default constructor
     private void OnEnable()
     {
+
+        PlayerPrefs.SetString("URI=file:", Application.streamingAssetsPath + "/Save/" + file);
         file = "TestDatabase.db"; //TODO: get database file to load and set it into file
-        //file = PlayerPrefs.GetString("CurrentSave");
+       // file = PlayerPrefs.GetString("CurrentSave");
         path = "URI=file:" + Application.streamingAssetsPath + "/Save/" + file;
+
+        file = PlayerPrefs.GetString("URI=file:");
+        SceneManager.LoadScene(file);
 
         SubscribeToEvents();
         OpenConnection();
