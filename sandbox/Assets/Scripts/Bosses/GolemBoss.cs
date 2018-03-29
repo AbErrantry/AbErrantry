@@ -7,8 +7,8 @@ public class GolemBoss : Boss
 	protected new void Start()
 	{
 		name = "Golem";
-		health = 100;
 		base.Start();
+		canTakeDamage = true;
 	}
 
 	protected new void Update()

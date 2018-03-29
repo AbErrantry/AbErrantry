@@ -4,30 +4,17 @@ using UnityEngine;
 
 public class OgreBoss : Boss
 {
-	bool test;
-	bool test2;
 
 	protected new void Start()
 	{
 		name = "Ogre";
-		health = 100;
 		base.Start();
-		test = false;
-		test2 = false;
+		canTakeDamage = true;
 	}
 
 	protected new void Update()
 	{
-		if (!test && Time.time > 10.0f)
-		{
-			Punch();
-			test = true;
-		}
-		else if (!test2 && Time.time > 20.0f)
-		{
-			RaiseWater();
-			test2 = true;
-		}
+
 	}
 
 	public void RaiseWater()

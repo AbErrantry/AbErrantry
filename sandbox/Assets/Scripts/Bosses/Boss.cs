@@ -9,7 +9,6 @@ public abstract class Boss : Attackable
 	public static event Action<string> OnBossDefeated;
 
 	protected new string name;
-	protected int health;
 
 	// Use this for initialization
 	protected new void Start()

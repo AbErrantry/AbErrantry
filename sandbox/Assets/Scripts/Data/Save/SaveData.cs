@@ -533,9 +533,10 @@ public class SaveData : ScriptableObject
     // Set that the boss with the specified id has been killed
     private void WriteBossDefeated(string name)
     {
+        Debug.Log(name);
         try
         {
-            cmd.CommandText = "UPDATE Bosses SET isDefeated = @true WHERE name = @name";
+            cmd.CommandText = "UPDATE Bosses SET isDefeated = @isDefeated WHERE name = @name";
             cmd.Parameters.Add("@isDefeated", DbType.Boolean).Value = true;
             cmd.Parameters.Add("@name", DbType.String).Value = name;
             cmd.ExecuteNonQuery();
