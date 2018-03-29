@@ -17,4 +17,9 @@ public class Play : MonoBehaviour
     {
         SceneManager.LoadScene("Persistent-SC");
     }
+
+    void Awake()
+    {
+        PlayerPrefs.SetString("CurrentSave", "TestDatabase.db");
+    }
 }

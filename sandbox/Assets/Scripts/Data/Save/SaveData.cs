@@ -18,8 +18,6 @@ public class SaveData : ScriptableObject
     // default constructor
     private void OnEnable()
     {
-        PlayerPrefs.SetString("CurrentSave", "TestDatabase.db"); //TODO: remove. Set in main menu instead.
-
         file = PlayerPrefs.GetString("CurrentSave");
         path = "URI=file:" + Application.streamingAssetsPath + "/Save/" + file;
 
