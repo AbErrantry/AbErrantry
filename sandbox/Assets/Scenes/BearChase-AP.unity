@@ -81285,6 +81285,7 @@ MonoBehaviour:
   movement: {fileID: 114253594307131320, guid: c8c0d6531853f564bbb554e3219d90c6, type: 2}
   endBearcon: {fileID: 1402801443}
   tilemap: {fileID: 866128500}
+  bearDead: {fileID: 1663719393}
 --- !u!61 &1332889776
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -82304,6 +82305,75 @@ GameObject:
   m_PrefabParentObject: {fileID: 1932706693787498, guid: 3a8adcf69852cb44f8c12c21e9eec583,
     type: 2}
   m_PrefabInternal: {fileID: 1661079864}
+--- !u!1 &1663719392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1663719395}
+  - component: {fileID: 1663719394}
+  - component: {fileID: 1663719393}
+  m_Layer: 0
+  m_Name: SwitchCameraTargetBack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1663719393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1663719392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7526f4b58fd47246b23c3cf6603e0a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bear: {fileID: 0}
+  followTarget: {fileID: 0}
+  player: {fileID: 0}
+--- !u!61 &1663719394
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1663719392}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -10.500916, y: -1.9423943}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 22.001831, y: 14.960983}
+  m_EdgeRadius: 0
+--- !u!4 &1663719395
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1663719392}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 762.4714, y: -59.438946, z: -0.60894567}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 23
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1679195604
 Prefab:
   m_ObjectHideFlags: 0

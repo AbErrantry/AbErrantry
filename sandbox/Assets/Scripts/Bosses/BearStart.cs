@@ -13,6 +13,7 @@ public class BearStart : MonoBehaviour {
 	public EnemyMovement movement;
 	public GameObject endBearcon;
 	public GameObject tilemap;
+	public BearDeadTrigger bearDead;
 
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -25,6 +26,7 @@ public class BearStart : MonoBehaviour {
 			clone.GetComponent<Enemy>().beacCon.beacons[0] = endBearcon;
 			destDoor.attackables[0] = clone.GetComponent<Attackable>();
 			followTarget.target = clone.transform;
+			bearDead.bear = clone;
 			Destroy(this.gameObject);
 		}
 	}
