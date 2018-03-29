@@ -371,9 +371,11 @@ public class SaveData : ScriptableObject
                 tuple.yLoc = reader.GetFloat(reader.GetOrdinal("yLoc"));
                 tuple.conversation = reader.GetInt32(reader.GetOrdinal("conversation"));
                 tuple.gold = reader.GetInt32(reader.GetOrdinal("gold"));
-                Debug.Log("Character: name=" + tuple.name + ", level=" + tuple.level +
-                    ", xLoc=" + tuple.xLoc + ", yLoc=" + tuple.yLoc +
-                    ", conversation=" + tuple.conversation + ", gold=" + tuple.gold);
+
+                //Debug.Log("Character: name=" + tuple.name + ", level=" + tuple.level +
+                //    ", xLoc=" + tuple.xLoc + ", yLoc=" + tuple.yLoc +
+                //    ", conversation=" + tuple.conversation + ", gold=" + tuple.gold);
+
                 tuples.Add(tuple);
             }
         }

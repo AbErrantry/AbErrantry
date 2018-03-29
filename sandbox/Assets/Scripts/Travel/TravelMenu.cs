@@ -40,14 +40,21 @@ public class TravelMenu : MonoBehaviour
 		ElementFocus.focus.RemoveFocus();
 	}
 
-	public void Open(string text)
+	public void Open(string text, bool dying)
 	{
 		this.text.text = text;
 		isTravelling = true;
 		container.SetActive(true);
 		group.interactable = false;
 		anim.SetBool("isOpen", true);
-		StartCoroutine(OpenDelay());
+		if (dying)
+		{
+			StartCoroutine(OpenDelay());
+		}
+		else
+		{
+			anim.Play("Open");
+		}
 	}
 
 	public void EnableButtons()

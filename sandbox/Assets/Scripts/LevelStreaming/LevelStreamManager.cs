@@ -28,10 +28,7 @@ public class LevelStreamManager : MonoBehaviour
         //       this is a temporary fix for testing since we never technically load into Area1-AP.
         if (scenes == null)
         {
-            scenes = new List<string>()
-            {
-            "Persistent-SC"
-            };
+            InitializeActiveScenes();
         }
 
         sceneName = levelInfo.name;
@@ -43,6 +40,14 @@ public class LevelStreamManager : MonoBehaviour
         isLoading = false;
 
         playerInventory = PlayerInput.instance.gameObject.GetComponent<PlayerInventory>();
+    }
+
+    public static void InitializeActiveScenes()
+    {
+        scenes = new List<string>()
+        {
+            "Persistent-SC"
+        };
     }
 
     // Fires when another collider enters this trigger

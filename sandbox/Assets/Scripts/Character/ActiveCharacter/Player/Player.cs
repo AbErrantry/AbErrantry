@@ -227,7 +227,17 @@ namespace Character2D
         private IEnumerator TravelMenuDelay()
         {
             yield return new WaitForSeconds(2.0f);
-            travelMenu.Open("You died");
+            travelMenu.Open("You died", true);
+        }
+
+        public void InitialLoad()
+        {
+            playerInput.InvokeSleep();
+            if (spawnManager != null)
+            {
+                spawnManager.RefreshLevels();
+            }
+            travelMenu.Open("Start", false);
         }
 
         public override void FinalizeDeath()

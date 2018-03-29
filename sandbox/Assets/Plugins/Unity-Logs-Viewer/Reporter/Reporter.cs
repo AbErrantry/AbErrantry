@@ -350,7 +350,6 @@ public class Reporter : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogWarning("tow manager is exists delete the second");
 			DestroyImmediate(gameObject, true);
 			return;
 		}
