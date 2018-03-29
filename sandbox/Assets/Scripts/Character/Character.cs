@@ -17,6 +17,12 @@ namespace Character2D
             Dummy,
             ExplodingCrate,
             DestroyableTile,
+            Bear,
+            Ogre,
+            Golem,
+            Wraith,
+            Snowman,
+            Dragon,
         }
 
         public Types type; //the type of character

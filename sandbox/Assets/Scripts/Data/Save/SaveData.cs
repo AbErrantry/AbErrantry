@@ -55,7 +55,7 @@ public class SaveData : ScriptableObject
         NPC.OnCharacterInfoChanged += WriteCharacterInfo;
         CharacterInventory.OnCharacterItemChanged += WriteCharacterItem;
         //WriteQuestStep
-        //WriteBossDefeated
+        Boss.OnBossDefeated += WriteBossDefeated;
     }
 
     private void UnsubscribeFromEvents()
@@ -68,7 +68,7 @@ public class SaveData : ScriptableObject
         NPC.OnCharacterInfoChanged -= WriteCharacterInfo;
         CharacterInventory.OnCharacterItemChanged -= WriteCharacterItem;
         //WriteQuestStep
-        //WriteBossDefeated
+        Boss.OnBossDefeated -= WriteBossDefeated;
     }
 
     private void WriteOpenableStateChange(int id, OpenableTuple tuple)

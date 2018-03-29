@@ -1,19 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Character2D;
 using UnityEngine;
 
-public abstract class Boss : MonoBehaviour
+public abstract class Boss : Attackable
 {
-	protected Animator anim;
+	public static event Action<string> OnBossDefeated;
+
 	protected new string name;
 	protected int health;
 
 	// Use this for initialization
-	protected void Start()
+	protected new void Start()
 	{
-		anim = GetComponent<Animator>();
-		// TODO: if the boss is not yet defeated, spawn them.
+		base.Start();
+		bool bossDefeated = GameData.data.saveData.ReadBossState(name);
+		if (!bossDefeated)
+		{
+			SpawnBoss();
+		}
 	}
 
 	// Update is called once per frame
@@ -22,17 +28,18 @@ public abstract class Boss : MonoBehaviour
 
 	}
 
-	private void SpawnBoss()
+	protected void SpawnBoss()
 	{
-
+		anim.Play("Spawn");
 	}
 
-	private void BossDefeated()
+	protected void BossDefeated()
 	{
 		if (!Player.instance.isDying)
 		{
-			// TODO: write the boss defeated if the player is still alive at this point.
-			//
+			OnBossDefeated(name);
+			EventDisplay.instance.AddEvent("Defeated " + name + " boss.");
 		}
 	}
+
 }

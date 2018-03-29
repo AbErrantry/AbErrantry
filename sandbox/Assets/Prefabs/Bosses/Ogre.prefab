@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 95073756970376572}
   - component: {fileID: 251515615763869564}
   - component: {fileID: 114684039858946270}
+  - component: {fileID: 114348345692934948}
   m_Layer: 9
   m_Name: Ogre
   m_TagString: Enemy
@@ -183,6 +184,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114348345692934948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1582928548216996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 585a171e195341e489840e0e66c24b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 10
 --- !u!114 &114684039858946270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -194,6 +207,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83e2cb23641d3824b963c9af77cc33d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDying: 0
+  canFlinch: 0
+  canKnockBack: 0
+  canTakeDamage: 0
 --- !u!114 &114950024720962122
 MonoBehaviour:
   m_ObjectHideFlags: 1

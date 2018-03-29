@@ -30,4 +30,14 @@ public class GolemBoss : Boss
 	{
 		anim.Play("Smash");
 	}
+
+	protected override void InitializeDeath()
+	{
+		anim.Play("Death");
+	}
+
+	public override void FinalizeDeath()
+	{
+		BossDefeated();
+	}
 }

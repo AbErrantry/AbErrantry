@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 114045804123645842}
   - component: {fileID: 114263014176411068}
   - component: {fileID: 114253594307131320}
+  - component: {fileID: 114430710489221452}
   m_Layer: 9
   m_Name: Bear
   m_TagString: Enemy
@@ -491,7 +492,6 @@ MonoBehaviour:
     beaconNum: 0
   chasingPlayer: 1
   stoppingPercentage: 0
-  giveUpTime: 5
   playerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -501,6 +501,7 @@ MonoBehaviour:
   hideablesMask:
     serializedVersion: 2
     m_Bits: 0
+  playerInRange: 0
 --- !u!114 &114253594307131320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -515,8 +516,12 @@ MonoBehaviour:
   jumpInput: 0
   runInput: 0
   mvmtSpeed: 0
+  isJumping: 0
   isFalling: 0
   isFacingRight: 0
+  isOnPlatform: 0
+  isOnIce: 0
+  vLast: 0
   enemyAttack: {fileID: 114263014176411068}
   topJump: {fileID: 114323412918286836}
   botJump: {fileID: 114718662401519392}
@@ -534,8 +539,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   characterAttack: {fileID: 114263014176411068}
 --- !u!114 &114263014176411068
@@ -554,7 +557,7 @@ MonoBehaviour:
   isWindingUp: 0
   isAttacking: 0
   canAttack: 0
-  attackList: []
+  enemy: {fileID: 0}
 --- !u!114 &114323412918286836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -567,10 +570,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   enemy: {fileID: 114253594307131320}
+--- !u!114 &114430710489221452
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1081064447265634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 585a171e195341e489840e0e66c24b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 9
 --- !u!114 &114718662401519392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -583,8 +596,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   enemy: {fileID: 114253594307131320}
 --- !u!114 &114867770667566292
@@ -615,8 +626,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObjects: []
-  objectTag: 
-  layerTag: 
   disregardCount: 0
   characterMovement: {fileID: 114253594307131320}
 --- !u!212 &212101956236922206
