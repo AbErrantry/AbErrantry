@@ -29,7 +29,7 @@ namespace Character2D
         // Update is called once per frame
         private new void Update()
         {
-            if (enemyAttack.isWindingUp || enemy.isDying)
+            if (enemyAttack.isWindingUp || enemy.isDying || enemyAttack.isAttacking)
             {
                 mvmtSpeed = 0.0f;
             }

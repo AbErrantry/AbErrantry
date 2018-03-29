@@ -531,13 +531,13 @@ public class SaveData : ScriptableObject
     }
 
     // Set that the boss with the specified id has been killed
-    private void WriteBossDefeated(int id)
+    private void WriteBossDefeated(string name)
     {
         try
         {
-            cmd.CommandText = "UPDATE Bosses SET isDefeated = @true WHERE id = @id";
+            cmd.CommandText = "UPDATE Bosses SET isDefeated = @true WHERE name = @name";
             cmd.Parameters.Add("@isDefeated", DbType.Boolean).Value = true;
-            cmd.Parameters.Add("@id", DbType.Int32).Value = id;
+            cmd.Parameters.Add("@name", DbType.String).Value = name;
             cmd.ExecuteNonQuery();
         }
         catch (Exception e)
@@ -547,26 +547,26 @@ public class SaveData : ScriptableObject
     }
 
     // Gets whether a boss has been killed or not
-    public bool ReadBossState(int id)
+    public bool ReadBossState(string name)
     {
-        cmd.CommandText = "SELECT isDefeated FROM Bosses WHERE id = @id";
-        cmd.Parameters.Add("@id", DbType.Int32).Value = id;
+        cmd.CommandText = "SELECT isDefeated FROM Bosses WHERE name = @name";
+        cmd.Parameters.Add("@name", DbType.String).Value = name;
         SqliteDataReader reader = cmd.ExecuteReader();
         try
         {
-            if (id == 0)
+            if (name == "")
             {
                 throw new Exception("A boss id has not been set in the editor.");
             }
             if (reader.Read())
             {
                 bool result = reader.GetBoolean(reader.GetOrdinal("isDefeated"));
-                Debug.Log("Boss id=" + id + ", isDefeated=" + result);
+                Debug.Log("Boss name=" + name + ", isDefeated=" + result);
                 return result;
             }
             else
             {
-                throw new Exception("The id of a boss (" + id + ") does not exist in the Bosses table.");
+                throw new Exception("The id of a boss (" + name + ") does not exist in the Bosses table.");
             }
         }
         catch (Exception e)

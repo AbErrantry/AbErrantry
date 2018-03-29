@@ -14,7 +14,6 @@ namespace Character2D
 		void OnDestroy()
 		{
 			SpawnManager.managerDictionary.Clear();
-			AssetBundle.UnloadAllAssetBundles(true);
 			LevelStreamManager.InitializeActiveScenes();
 		}
 	}

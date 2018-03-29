@@ -60,10 +60,6 @@ namespace Character2D
 
             healthText.text = currentVitality + "/" + maxVitality;
 
-            //TODO: remove temp AssetBundle loading
-            string path = Application.streamingAssetsPath + "/AssetBundles/default";
-            AssetBundle.LoadFromFile(path);
-
             //set from CharacterData
             spawnPoint = transform.position; //todo: set from file
             canFlinch = false;
