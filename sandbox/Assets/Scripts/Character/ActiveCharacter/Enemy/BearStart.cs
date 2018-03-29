@@ -7,6 +7,7 @@ namespace Character2D
 public class BearStart : MonoBehaviour {
 
     public GameObject bear;
+	public DestroyAttackablesUnlockAction destDoor;
 	public Transform spawnPOS;
 	public EnemyMovement movement;
 	public GameObject endBearcon;
@@ -19,7 +20,7 @@ public class BearStart : MonoBehaviour {
 			GameObject clone = Instantiate(bear, spawnPOS.position, Quaternion.identity);
 			clone.GetComponentInChildren<TileDestroyer>().tilemapGameObject = tilemap;
 			clone.GetComponent<Enemy>().beacCon.beacons[0] = endBearcon;
-			
+			destDoor.attackables[0] = clone.GetComponent<Attackable>();
 			Destroy(this.gameObject);
 		}
 	}
