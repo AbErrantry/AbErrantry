@@ -1,11 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using HardShellStudios.CompleteControl;
+using UnityEngine;
 
-public static class hInput {
+public static class hInput
+{
 
-    public static KeyCode RebindRemovalKey { get { return hManager.Active().rebindRemoveKey; } }
+    public static KeyCode RebindRemovalKey
+    {
+        get
+        {
+            return hManager.Active().rebindRemoveKey;
+        }
+    }
 
     public static bool GetButton(string buttonName)
     {
@@ -25,6 +32,11 @@ public static class hInput {
     public static float GetAxis(string buttonName)
     {
         return hManager.Active().GetAxis(buttonName);
+    }
+
+    public static float GetAxisRaw(string buttonName)
+    {
+        return hManager.Active().GetAxisRaw(buttonName);
     }
 
     public static void SetKey(string uniqueKeyName, KeyCode keyCode, KeyTarget keyTarget = KeyTarget.PositivePrimary)

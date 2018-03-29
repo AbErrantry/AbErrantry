@@ -72,12 +72,12 @@ namespace Character2D
                 playerMovement.jumpInput = hInput.GetButtonDown("Jump"); //send jump input pressed
                 playerMovement.crouchInput = hInput.GetButton("Crouch"); //send crouch input
                 playerMovement.runInput = hInput.GetButton("Run"); //send run input
-                playerMovement.mvmtSpeed = hInput.GetAxis("Move"); //send movement speed
-                playerMovement.climbSpeedInput = hInput.GetAxis("Vertical"); //send climb speed
+                playerMovement.mvmtSpeed = hInput.GetAxisRaw("Move"); //send movement speed
+                playerMovement.climbSpeedInput = hInput.GetAxisRaw("Vertical"); //send climb speed
                 playerInteraction.interactionInput = hInput.GetButtonDown("Interact"); //send interaction input
                 playerAttack.attackInputDown = hInput.GetButtonDown("Attack"); //send attack input pressed
                 playerAttack.attackInputUp = hInput.GetButtonUp("Attack"); //send attack input released
-               // playerInteraction.pauseInput = Input.GetButtonDown("Pause");
+                // playerInteraction.pauseInput = hInput.GetButtonDown("Pause");
             }
 
             if (hInput.GetButtonDown("Jump") != false)
@@ -92,11 +92,11 @@ namespace Character2D
             {
                 sleepTimer = Time.time;
             }
-            if (hInput.GetAxis("Move") != 0.0f)
+            if (hInput.GetAxisRaw("Move") != 0.0f)
             {
                 sleepTimer = Time.time;
             }
-            if (hInput.GetAxis("Vertical") != 0.0f)
+            if (hInput.GetAxisRaw("Vertical") != 0.0f)
             {
                 sleepTimer = Time.time;
             }

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum KeyTarget {
+public enum KeyTarget
+{
     PositivePrimary,
     PositiveSecondary,
     NegativePrimary,
@@ -20,7 +21,6 @@ namespace HardShellStudios.CompleteControl
         hInputDetails[] inputs;
         bool resetInEditor;
         public KeyCode rebindRemoveKey;
-        float[,] inputAxis;
 
         #region Time difference handler
         int lastFrame = 0;
@@ -61,7 +61,7 @@ namespace HardShellStudios.CompleteControl
         public hManager()
         {
             LoadDefaultScheme();
-            if(!resetInEditor || !Application.isEditor)
+            if (!resetInEditor || !Application.isEditor)
                 LoadPersonal();
             hUtility.SaveBinings(inputs);
         }
@@ -76,8 +76,6 @@ namespace HardShellStudios.CompleteControl
             {
                 inputs[i] = defaultScheme.inputs[i];
             }
-            inputAxis = new float[inputs.Length, 3];
-            
         }
 
         public void LoadPersonal()
@@ -183,30 +181,53 @@ namespace HardShellStudios.CompleteControl
                     if (inputs[i].Invert && biggest != 0)
                         biggest *= -1;
                 }
-                        
+
             }
 
             return biggest;
         }
 
+        public float GetAxisRaw(string keyName)
+        {
+            float biggest = 0;
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                if (inputs[i].Name == keyName)
+                {
+                    if (inputs[i].Type == KeyType.MouseAxis)
+                    {
+                        biggest = CompareAxis(biggest, Input.GetAxisRaw(string.Format("Mouse Axis-{0}", inputs[i].Axis.ToString())));
+                    }
+                    else if (inputs[i].Type == KeyType.ControllerAxis)
+                    {
+                        biggest = CompareAxis(biggest, Input.GetAxisRaw(string.Format("Controller Axis-{0}-{1}", inputs[i].targetController.ToString(), inputs[i].Axis.ToString())));
+                    }
+                    else if (inputs[i].Type == KeyType.KeyPress)
+                    {
+                        biggest = CompareAxis(biggest, GetAxisFromKey(inputs[i], i));
+                    }
+
+                    if (inputs[i].Invert && biggest != 0)
+                        biggest *= -1;
+                }
+            }
+            return biggest;
+        }
+
         float GetAxisFromKey(hInputDetails details, int i)
         {
-            if (Time.frameCount > inputAxis[i, 0])
+            if (Input.GetKey(inputs[i].Positive.Primary) || Input.GetKey(inputs[i].Positive.Secondary))
             {
-                inputAxis[i, 1] = inputAxis[i, 2];
-                float dir = 0;
-                if (Input.GetKey(inputs[i].Positive.Primary) || Input.GetKey(inputs[i].Positive.Secondary))
-                    dir += 1;
-                if (Input.GetKey(inputs[i].Negative.Primary) || Input.GetKey(inputs[i].Negative.Secondary))
-                    dir -= 1;
-
-                inputAxis[i, 2] = Mathf.Clamp(Mathf.MoveTowards(inputAxis[i, 2], dir, inputs[i].Sensitivity * timeDifference), -1, 1);
+                return 1.0f;
+            }
+            else if (Input.GetKey(inputs[i].Negative.Primary) || Input.GetKey(inputs[i].Negative.Secondary))
+            {
+                return -1.0f;
             }
             else
-                return inputAxis[i, 2];
-
-            inputAxis[i, 0] = lastFrame;
-            return inputAxis[i, 2];
+            {
+                return 0.0f;
+            }
         }
 
         #endregion
@@ -220,7 +241,7 @@ namespace HardShellStudios.CompleteControl
                     return i;
 
             Debug.LogError("Unique key '" + uniqueKeyName + "' not found.");
-                
+
             return 0;
         }
 
@@ -252,7 +273,7 @@ namespace HardShellStudios.CompleteControl
         {
             int i = GetUniqueIndex(uniqueKeyName);
             inputs[i].Type = KeyType.MouseAxis;
-            inputs[i].Axis = (AxisCode)mouseAxis;
+            inputs[i].Axis = (AxisCode) mouseAxis;
 
             hUtility.SaveBinings(inputs);
         }
@@ -305,14 +326,13 @@ namespace HardShellStudios.CompleteControl
             int i = GetUniqueIndex(uniqueKeyCode);
             switch (keyTarget)
             {
-                default:
-                    return inputs[i].Positive.Primary;
+                default : return inputs[i].Positive.Primary;
                 case KeyTarget.PositiveSecondary:
-                    return inputs[i].Positive.Secondary;
+                        return inputs[i].Positive.Secondary;
                 case KeyTarget.NegativePrimary:
-                    return inputs[i].Negative.Primary;
+                        return inputs[i].Negative.Primary;
                 case KeyTarget.NegativeSecondary:
-                    return inputs[i].Negative.Secondary;
+                        return inputs[i].Negative.Secondary;
             }
         }
 

@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.IO;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
-using System.IO;
+using UnityEngine;
 
 namespace HardShellStudios.CompleteControl
 {
@@ -14,12 +14,9 @@ namespace HardShellStudios.CompleteControl
         hScheme myTarget;
         AnimBool[] showFields = null;
 
-        bool tested = false;
-        bool isGood = false;
-
         void OnEnable()
         {
-            myTarget = (hScheme)target;
+            myTarget = (hScheme) target;
             InitFadeBoxes(myTarget);
             for (int i = 0; i < showFields.Length; i++)
             {
@@ -40,7 +37,6 @@ namespace HardShellStudios.CompleteControl
             //AssetDatabase.SaveAssets();
             //AssetDatabase.Refresh();
         }
-
 
         void InitFadeBoxes(hScheme myTarget)
         {
@@ -82,7 +78,7 @@ namespace HardShellStudios.CompleteControl
 
             EditorGUILayout.EndVertical();
 
-            myTarget = (hScheme)target;
+            myTarget = (hScheme) target;
             InitFadeBoxes(myTarget);
 
             if (!TestUnitySettings())
@@ -150,7 +146,7 @@ namespace HardShellStudios.CompleteControl
 
                         myTarget.inputs[i].Name = EditorGUILayout.TextField("Name", myTarget.inputs[i].Name);
                         myTarget.inputs[i].UniqueName = EditorGUILayout.TextField("Unique Name", myTarget.inputs[i].UniqueName);
-                        myTarget.inputs[i].Type = (KeyType)EditorGUILayout.EnumPopup("Type", myTarget.inputs[i].Type);
+                        myTarget.inputs[i].Type = (KeyType) EditorGUILayout.EnumPopup("Type", myTarget.inputs[i].Type);
 
                         #region KeyPress display in editor
                         if (myTarget.inputs[i].Type == KeyType.KeyPress)
@@ -158,7 +154,7 @@ namespace HardShellStudios.CompleteControl
                             EditorGUILayout.LabelField("+ Positive");
 
                             EditorGUILayout.BeginHorizontal();
-                            myTarget.inputs[i].Positive.Primary = (KeyCode)EditorGUILayout.EnumPopup("Primary", myTarget.inputs[i].Positive.Primary);
+                            myTarget.inputs[i].Positive.Primary = (KeyCode) EditorGUILayout.EnumPopup("Primary", myTarget.inputs[i].Positive.Primary);
                             if (GUILayout.Button("X", hStyles.RemoveInput()))
                             {
                                 myTarget.inputs[i].Positive.Primary = KeyCode.None;
@@ -166,7 +162,7 @@ namespace HardShellStudios.CompleteControl
                             EditorGUILayout.EndHorizontal();
 
                             EditorGUILayout.BeginHorizontal();
-                            myTarget.inputs[i].Positive.Secondary = (KeyCode)EditorGUILayout.EnumPopup("Secondary", myTarget.inputs[i].Positive.Secondary);
+                            myTarget.inputs[i].Positive.Secondary = (KeyCode) EditorGUILayout.EnumPopup("Secondary", myTarget.inputs[i].Positive.Secondary);
                             if (GUILayout.Button("X", hStyles.RemoveInput()))
                             {
                                 myTarget.inputs[i].Positive.Secondary = KeyCode.None;
@@ -175,7 +171,7 @@ namespace HardShellStudios.CompleteControl
 
                             EditorGUILayout.LabelField("- Negative");
                             EditorGUILayout.BeginHorizontal();
-                            myTarget.inputs[i].Negative.Primary = (KeyCode)EditorGUILayout.EnumPopup("Primary", myTarget.inputs[i].Negative.Primary);
+                            myTarget.inputs[i].Negative.Primary = (KeyCode) EditorGUILayout.EnumPopup("Primary", myTarget.inputs[i].Negative.Primary);
                             if (GUILayout.Button("X", hStyles.RemoveInput()))
                             {
                                 myTarget.inputs[i].Negative.Primary = KeyCode.None;
@@ -183,7 +179,7 @@ namespace HardShellStudios.CompleteControl
                             EditorGUILayout.EndHorizontal();
 
                             EditorGUILayout.BeginHorizontal();
-                            myTarget.inputs[i].Negative.Secondary = (KeyCode)EditorGUILayout.EnumPopup("Secondary", myTarget.inputs[i].Negative.Secondary);
+                            myTarget.inputs[i].Negative.Secondary = (KeyCode) EditorGUILayout.EnumPopup("Secondary", myTarget.inputs[i].Negative.Secondary);
                             if (GUILayout.Button("X", hStyles.RemoveInput()))
                             {
                                 myTarget.inputs[i].Negative.Secondary = KeyCode.None;
@@ -195,15 +191,15 @@ namespace HardShellStudios.CompleteControl
                         else if (myTarget.inputs[i].Type == KeyType.MouseAxis)
                         {
                             // Display the 3 Axis for the mice and map it to the 28 availbale axis inputs.
-                            MouseAxis tempAxis = (MouseAxis)(((int)myTarget.inputs[i].Axis) > 3 ? 0 : (int)myTarget.inputs[i].Axis);
-                            myTarget.inputs[i].Axis = (AxisCode)EditorGUILayout.EnumPopup("Axis", tempAxis);
+                            MouseAxis tempAxis = (MouseAxis) (((int) myTarget.inputs[i].Axis) > 3 ? 0 : (int) myTarget.inputs[i].Axis);
+                            myTarget.inputs[i].Axis = (AxisCode) EditorGUILayout.EnumPopup("Axis", tempAxis);
                         }
                         #endregion
                         #region ControllerAxis display in editor
                         else if (myTarget.inputs[i].Type == KeyType.ControllerAxis)
                         {
-                            myTarget.inputs[i].targetController = (TargetController)EditorGUILayout.EnumPopup("Controller", myTarget.inputs[i].targetController);
-                            myTarget.inputs[i].Axis = (AxisCode)EditorGUILayout.EnumPopup("Axis", myTarget.inputs[i].Axis);
+                            myTarget.inputs[i].targetController = (TargetController) EditorGUILayout.EnumPopup("Controller", myTarget.inputs[i].targetController);
+                            myTarget.inputs[i].Axis = (AxisCode) EditorGUILayout.EnumPopup("Axis", myTarget.inputs[i].Axis);
                         }
                         #endregion
 
@@ -236,8 +232,8 @@ namespace HardShellStudios.CompleteControl
                 myTarget.inputs = AddInput(myTarget.inputs);
 
             // Rebind Remove Key.
-            myTarget.rebindRemoveKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Rebind Remove", 
-                "When trying to rebind keys at runtime, this specific one will act as none. E.g. Normally 'Escape' or 'Delete'"), 
+            myTarget.rebindRemoveKey = (KeyCode) EditorGUILayout.EnumPopup(new GUIContent("Rebind Remove",
+                    "When trying to rebind keys at runtime, this specific one will act as none. E.g. Normally 'Escape' or 'Delete'"),
                 myTarget.rebindRemoveKey);
 
             // Force reset of bindings.
@@ -332,7 +328,6 @@ namespace HardShellStudios.CompleteControl
                 myTarget.inputs = new hInputDetails[0];
                 inputArray = myTarget.inputs;
             }
-            
 
             hInputDetails[] newInputs = new hInputDetails[inputArray.Length + 1];
             for (int i = 0; i < inputArray.Length; i++)
@@ -354,7 +349,7 @@ namespace HardShellStudios.CompleteControl
                     newInputs[count] = inputArray[i];
                     count++;
                 }
-                
+
             }
 
             return newInputs;
