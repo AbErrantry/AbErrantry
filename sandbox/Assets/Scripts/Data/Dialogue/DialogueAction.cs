@@ -25,5 +25,6 @@ namespace Dialogue2D
         public int number;
         public float xloc;
         public float yloc;
+        public string annex;
     }
 }

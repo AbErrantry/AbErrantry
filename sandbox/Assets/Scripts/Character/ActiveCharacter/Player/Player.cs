@@ -15,6 +15,9 @@ namespace Character2D
 
         public int gold;
         public int karma;
+
+        public bool isSavingPrincess;
+
         public string currentQuest;
         public string equippedArmor;
         public string equippedWeapon;
@@ -87,6 +90,9 @@ namespace Character2D
 
             goldText.text = gold.ToString();
             questText.text = currentQuest.ToString();
+
+            isSavingPrincess = playerInfo.isSavingPrincess;
+
             locationText.text = spawnManager.persistentLevel.levelInfo.displayName;
         }
 

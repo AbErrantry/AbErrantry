@@ -125,7 +125,7 @@ namespace Dialogue2D
             {
                 character.GetComponent<Animator>().SetBool("isTalking", true);
             }
-            StartCoroutine(TypeSentence(currentSegment.text));
+            StartCoroutine(TypeSentence(NameConversion.ConvertSymbol(currentSegment.text)));
         }
 
         private void DisplayChoices()
@@ -138,7 +138,7 @@ namespace Dialogue2D
             {
                 foreach (DialogueChoice choice in currentSegment.choices)
                 {
-                    CreateChoiceButton(choice.text, choice.next);
+                    CreateChoiceButton(NameConversion.ConvertSymbol(choice.text), choice.next);
                 }
                 choiceAnimator.SetBool("isOpen", true);
             }

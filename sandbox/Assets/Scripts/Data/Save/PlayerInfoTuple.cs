@@ -8,4 +8,5 @@
 	public string checkpointName;
 	public string equippedArmor;
 	public string equippedWeapon;
+	public bool isSavingPrincess;
 }

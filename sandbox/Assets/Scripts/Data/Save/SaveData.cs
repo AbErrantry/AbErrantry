@@ -208,7 +208,7 @@ public class SaveData : ScriptableObject
         {
             cmd.CommandText = "UPDATE PlayerInfo SET maxHealth = @maxHealth, currentHealth = @currentHealth, " +
                 "currentQuest = @currentQuest, gold = @gold, karma = @karma, checkpointName = @checkpointName, " +
-                "equippedArmor = @equippedArmor, equippedWeapon = @equippedWeapon";
+                "equippedArmor = @equippedArmor, equippedWeapon = @equippedWeapon, isSavingPrincess = @isSavingPrincess";
             cmd.Parameters.Add("@maxHealth", DbType.Int32).Value = playerInfo.maxHealth;
             cmd.Parameters.Add("@currentHealth", DbType.Int32).Value = playerInfo.currentHealth;
             cmd.Parameters.Add("@currentQuest", DbType.String).Value = playerInfo.currentQuest;
@@ -217,6 +217,7 @@ public class SaveData : ScriptableObject
             cmd.Parameters.Add("@checkpointName", DbType.String).Value = playerInfo.checkpointName;
             cmd.Parameters.Add("@equippedArmor", DbType.String).Value = playerInfo.equippedArmor;
             cmd.Parameters.Add("@equippedWeapon", DbType.String).Value = playerInfo.equippedWeapon;
+            cmd.Parameters.Add("@isSavingPrincess", DbType.Boolean).Value = playerInfo.isSavingPrincess;
             cmd.ExecuteNonQuery();
         }
         catch (Exception e)
@@ -230,7 +231,7 @@ public class SaveData : ScriptableObject
     {
         var playerInfo = new PlayerInfoTuple();
         cmd.CommandText = "SELECT maxHealth, currentHealth, currentQuest, gold, karma," +
-            "checkPointName, equippedArmor, equippedWeapon FROM PlayerInfo";
+            "checkPointName, equippedArmor, equippedWeapon, isSavingPrincess FROM PlayerInfo";
         SqliteDataReader reader = cmd.ExecuteReader();
         try
         {
@@ -244,10 +245,11 @@ public class SaveData : ScriptableObject
                 playerInfo.checkpointName = reader.GetString(reader.GetOrdinal("checkPointName"));
                 playerInfo.equippedArmor = reader.GetString(reader.GetOrdinal("equippedArmor"));
                 playerInfo.equippedWeapon = reader.GetString(reader.GetOrdinal("equippedWeapon"));
-                // Debug.Log("maxHealth=" + playerInfo.maxHealth + ", currentHealth=" + playerInfo.currentHealth +
-                //     ", currentQuest=" + playerInfo.currentQuest + ", gold=" + playerInfo.gold + ", karma=" + playerInfo.karma +
-                //     ", checkpointName=" + playerInfo.checkpointName + ", equippedArmor=" + playerInfo.equippedArmor +
-                //     ", equippedWeapon=" + playerInfo.equippedWeapon);
+                playerInfo.isSavingPrincess = reader.GetBoolean(reader.GetOrdinal("isSavingPrincess"));
+                Debug.Log("maxHealth=" + playerInfo.maxHealth + ", currentHealth=" + playerInfo.currentHealth +
+                    ", currentQuest=" + playerInfo.currentQuest + ", gold=" + playerInfo.gold + ", karma=" + playerInfo.karma +
+                    ", checkpointName=" + playerInfo.checkpointName + ", equippedArmor=" + playerInfo.equippedArmor +
+                    ", equippedWeapon=" + playerInfo.equippedWeapon + ", isSavingPrincess=" + playerInfo.isSavingPrincess);
             }
             else
             {
