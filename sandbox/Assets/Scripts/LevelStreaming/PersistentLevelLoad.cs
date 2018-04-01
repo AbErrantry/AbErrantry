@@ -6,9 +6,14 @@ namespace Character2D
 {
 	public class PersistentLevelLoad : MonoBehaviour
 	{
+		public bool isDebug;
+
 		void Start()
 		{
-			Player.instance.InitialLoad();
+			if (!isDebug)
+			{
+				Player.instance.InitialLoad();
+			}
 		}
 
 		void OnDestroy()
