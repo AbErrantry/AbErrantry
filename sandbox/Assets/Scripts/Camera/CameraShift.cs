@@ -61,7 +61,7 @@ public class CameraShift : MonoBehaviour
         shiftedRightX_75 = 0.125f;
         shiftedRightX_50 = 0.25f;
 
-        shiftedOrthSize = 2.0f;
+        shiftedOrthSize = 3.0f;
         unshiftedOrthSize = vcam.m_Lens.OrthographicSize;
 
         unshiftedX = body.m_ScreenX;
@@ -78,7 +78,7 @@ public class CameraShift : MonoBehaviour
         deadZoneHeightShifted = 0.0f;
         deadZoneWidthShifted = 0.0f;
 
-        shiftTimePerUnit = 1.0f;
+        shiftTimePerUnit = 1.5f;
     }
 
     public void SetUnshiftedOrthSize(float size)

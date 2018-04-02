@@ -11,7 +11,7 @@ namespace Character2D
     public class Player : Attackable
     {
         public static Player instance;
-        public static Action<PlayerInfoTuple> OnPlayerInfoChanged;
+        public static event Action<PlayerInfoTuple> OnPlayerInfoChanged;
 
         public int gold;
         public int karma;
@@ -28,8 +28,10 @@ namespace Character2D
         public Animator weaponAnim;
 
         public CinemachineVirtualCamera virtualCamera;
+
         private PlayerInput playerInput;
         private PlayerInventory playerInventory;
+        private PlayerQuests playerQuests;
         private TravelMenu travelMenu;
 
         public Vector2 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
@@ -59,6 +61,7 @@ namespace Character2D
 
             playerInput = GetComponent<PlayerInput>();
             playerInventory = GetComponent<PlayerInventory>();
+            playerQuests = GetComponent<PlayerQuests>();
             travelMenu = GetComponent<TravelMenu>();
 
             healthText.text = currentVitality + "/" + maxVitality;
@@ -89,11 +92,45 @@ namespace Character2D
             transform.position = spawnPoint;
 
             goldText.text = gold.ToString();
-            questText.text = currentQuest.ToString();
+            if (currentQuest != string.Empty)
+            {
+                questText.text = playerQuests.GetQuestString(currentQuest);
+            }
+            else
+            {
+                questText.text = "No active quest.";
+            }
 
             isSavingPrincess = playerInfo.isSavingPrincess;
 
             locationText.text = spawnManager.persistentLevel.levelInfo.displayName;
+        }
+
+        public void SetQuest(string name, bool update)
+        {
+            if (update)
+            {
+                if (name == currentQuest)
+                {
+                    if (playerQuests.QuestIsActive(name))
+                    {
+                        currentQuest = name;
+                        questText.text = playerQuests.GetQuestString(currentQuest);
+                    }
+                    else
+                    {
+                        currentQuest = "";
+                        questText.text = "No active quest.";
+                    }
+                }
+            }
+            else
+            {
+                currentQuest = name;
+                questText.text = playerQuests.GetQuestString(currentQuest);
+                EventDisplay.instance.AddEvent("Set tracked quest to: " + currentQuest);
+            }
+            InvokePlayerInfoChange();
         }
 
         public void SetKarma(int delta)
@@ -192,7 +229,8 @@ namespace Character2D
 
         public override void TakeDamage(GameObject attacker, int damage)
         {
-            base.TakeDamage(attacker, damage);
+            int dmg = damage - Mathf.RoundToInt(GameData.data.itemData.itemDictionary[equippedArmor].strength) >= 0 ? damage - Mathf.RoundToInt(GameData.data.itemData.itemDictionary[equippedArmor].strength) : 0;
+            base.TakeDamage(attacker, dmg);
             if (currentVitality < 0)
             {
                 currentVitality = 0;

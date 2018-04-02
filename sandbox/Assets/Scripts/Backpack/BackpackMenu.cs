@@ -10,6 +10,7 @@ namespace Character2D
     {
         private PlayerInput playerInput;
         private PlayerInventory playerInventory;
+        private PlayerQuests playerQuests;
 
         public Animator anim;
         public CameraShift cameraShift;
@@ -43,6 +44,12 @@ namespace Character2D
         public GameObject confirmMask;
         public GameObject amountContainer;
         public GameObject confirmContainer;
+
+        public GameObject questPrefab;
+        public GameObject locationPrefab;
+
+        public GameObject journalList;
+        public GameObject mapList;
 
         public ScrollRect scrollRect;
 
@@ -87,6 +94,8 @@ namespace Character2D
         {
             playerInput = GetComponent<PlayerInput>();
             playerInventory = GetComponent<PlayerInventory>();
+            playerQuests = GetComponent<PlayerQuests>();
+
             backpackContainer.SetActive(false);
             CloseTabs();
             isOpen = false;
@@ -255,6 +264,38 @@ namespace Character2D
             }
         }
 
+        private void LoadQuests()
+        {
+            foreach (var quest in playerQuests.quests)
+            {
+                if (quest.step > 0)
+                {
+                    //TODO: fix comments
+                    //instantiate a prefab for the interact button
+                    GameObject newButton = Instantiate(questPrefab) as GameObject;
+                    JournalPrefabReference controller = newButton.GetComponent<JournalPrefabReference>();
+
+                    //set the text for the interactable onscreen
+                    controller.quest = quest;
+                    controller.questName.text = quest.quest.name;
+                    controller.questHint.text = quest.quest.segments[quest.step].hint;
+                    controller.questStep.text = quest.quest.segments[quest.step].text;
+                    controller.questText.text = quest.quest.text;
+
+                    //put the interactable in the list
+                    newButton.transform.SetParent(journalList.transform);
+
+                    //for some reason Unity does not use full scale for the instantiated object by default
+                    newButton.transform.localScale = Vector3.one;
+                }
+            }
+        }
+
+        private void LoadLocations()
+        {
+
+        }
+
         private IEnumerator SetUpNavigation()
         {
             while (playerInventory.items.Count != inventoryList.transform.childCount)
@@ -384,6 +425,17 @@ namespace Character2D
             ElementFocus.focus.SetItemFocus(cancelButton.gameObject);
         }
 
+        public void SelectQuest(QuestInstance instance)
+        {
+            //List of quests. selecting one sets it as the active quest and provides more information
+        }
+
+        public void SelectLocation(string locationName)
+        {
+            //popup: are you sure that you want to fast travel here?
+            //yes-> travel, no->cancel
+        }
+
         public void HideAmountConfirmContainers(bool isInMenu = true)
         {
             amountMask.SetActive(false);
@@ -443,7 +495,7 @@ namespace Character2D
             else if (selectedItem.item.type == "Consumable")
             {
                 Player.instance.Heal(Mathf.RoundToInt(selectedItem.item.strength));
-                anim.Play("large-health");
+                ParticleManager.instance.SpawnParticle(gameObject, "health");
                 playerInventory.RemoveItem(selectedItem, false, false, false, false, true);
             }
             else

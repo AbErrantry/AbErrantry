@@ -7,14 +7,14 @@ public class NameConversion
 	{
 		if (Player.instance.isSavingPrincess)
 		{
-			text = text.Replace("@", "princess");
+			text = text.Replace("@", "Princess");
 			text = text.Replace("#", "she");
 			text = text.Replace("%", "daughter");
 			text = text.Replace("$", "her");
 		}
 		else
 		{
-			text = text.Replace("@", "prince");
+			text = text.Replace("@", "Prince");
 			text = text.Replace("#", "he");
 			text = text.Replace("%", "son");
 			text = text.Replace("$", "him");

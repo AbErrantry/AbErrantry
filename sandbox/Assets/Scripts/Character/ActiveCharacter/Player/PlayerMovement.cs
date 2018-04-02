@@ -207,6 +207,10 @@ namespace Character2D
             {
                 SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 10.0f);
             }
+            else if (isOnIce)
+            {
+                SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 4.0f);
+            }
         }
 
         protected override void SetMovementLogic()

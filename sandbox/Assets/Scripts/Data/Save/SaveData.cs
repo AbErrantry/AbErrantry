@@ -51,10 +51,10 @@ public class SaveData : ScriptableObject
         PlayerInventory.OnLooseItemChanged += WriteLooseItem;
         PlayerInventory.OnInventoryItemChanged += WritePlayerItem;
         Player.OnPlayerInfoChanged += WritePlayerInfo;
-        //WriteUnlockedCheckpoint
+        SpawnManager.OnCheckPointUnlocked += WriteUnlockedCheckpoint;
         NPC.OnCharacterInfoChanged += WriteCharacterInfo;
         CharacterInventory.OnCharacterItemChanged += WriteCharacterItem;
-        //WriteQuestStep
+        PlayerQuests.OnQuestUpdate += WriteQuestStep;
         Boss.OnBossDefeated += WriteBossDefeated;
     }
 
@@ -64,10 +64,10 @@ public class SaveData : ScriptableObject
         PlayerInventory.OnLooseItemChanged -= WriteLooseItem;
         PlayerInventory.OnInventoryItemChanged -= WritePlayerItem;
         Player.OnPlayerInfoChanged -= WritePlayerInfo;
-        //WriteUnlockedCheckpoint
+        SpawnManager.OnCheckPointUnlocked -= WriteUnlockedCheckpoint;
         NPC.OnCharacterInfoChanged -= WriteCharacterInfo;
         CharacterInventory.OnCharacterItemChanged -= WriteCharacterItem;
-        //WriteQuestStep
+        PlayerQuests.OnQuestUpdate -= WriteQuestStep;
         Boss.OnBossDefeated -= WriteBossDefeated;
     }
 
@@ -246,10 +246,10 @@ public class SaveData : ScriptableObject
                 playerInfo.equippedArmor = reader.GetString(reader.GetOrdinal("equippedArmor"));
                 playerInfo.equippedWeapon = reader.GetString(reader.GetOrdinal("equippedWeapon"));
                 playerInfo.isSavingPrincess = reader.GetBoolean(reader.GetOrdinal("isSavingPrincess"));
-                Debug.Log("maxHealth=" + playerInfo.maxHealth + ", currentHealth=" + playerInfo.currentHealth +
-                    ", currentQuest=" + playerInfo.currentQuest + ", gold=" + playerInfo.gold + ", karma=" + playerInfo.karma +
-                    ", checkpointName=" + playerInfo.checkpointName + ", equippedArmor=" + playerInfo.equippedArmor +
-                    ", equippedWeapon=" + playerInfo.equippedWeapon + ", isSavingPrincess=" + playerInfo.isSavingPrincess);
+                //Debug.Log("maxHealth=" + playerInfo.maxHealth + ", currentHealth=" + playerInfo.currentHealth +
+                //    ", currentQuest=" + playerInfo.currentQuest + ", gold=" + playerInfo.gold + ", karma=" + playerInfo.karma +
+                //    ", checkpointName=" + playerInfo.checkpointName + ", equippedArmor=" + playerInfo.equippedArmor +
+                //    ", equippedWeapon=" + playerInfo.equippedWeapon + ", isSavingPrincess=" + playerInfo.isSavingPrincess);
             }
             else
             {
@@ -273,7 +273,8 @@ public class SaveData : ScriptableObject
     {
         try
         {
-            cmd.CommandText = "UPDATE Checkpoints SET isUnlocked = @true WHERE name = @name";
+            cmd.CommandText = "UPDATE Checkpoints SET isUnlocked = @isUnlocked WHERE name = @name";
+            cmd.Parameters.Add("@name", DbType.String).Value = name;
             cmd.Parameters.Add("@isUnlocked", DbType.Boolean).Value = true;
             cmd.ExecuteNonQuery();
             Debug.Log("Updated checkpoint " + name + " in Checkpoints to be unlocked.");
@@ -498,7 +499,7 @@ public class SaveData : ScriptableObject
     }
 
     // Gets the current step in a selected quest
-    private int GetQuestStep(string name)
+    public int GetQuestStep(string name)
     {
         cmd.CommandText = "SELECT step FROM Quests WHERE name = @name";
         cmd.Parameters.Add("@name", DbType.String).Value = name;

@@ -17,7 +17,7 @@ public class QuestData : ScriptableObject
         questDictionary = new Dictionary<string, Quest>();
         root = Application.streamingAssetsPath + "/Quests/";
         GetAllQuests();
-        PrintQuests(); //uncomment for debug
+        //PrintQuests(); //uncomment for debug
     }
 
     private void GetAllQuests()

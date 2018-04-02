@@ -7,11 +7,12 @@ namespace Character2D
     public class EnemyAttack : CharacterAttack
     {
         public bool canAttack;
-        public Enemy enemy;
+        private Enemy enemy;
 
         // Use this for initialization
         protected new void Start()
         {
+            enemy = GetComponent<Enemy>();
             base.Start();
         }
 
@@ -24,7 +25,7 @@ namespace Character2D
         protected new void FixedUpdate()
         {
             base.FixedUpdate();
-            if (canAttack && !isAttacking && !isWindingUp)
+            if (canAttack && !isAttacking && !isWindingUp && !enemy.isDormant)
             {
                 ChooseRandomAttack();
             }

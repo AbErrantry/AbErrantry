@@ -21,15 +21,13 @@ namespace Character2D
         private new void Start()
         {
             base.Start();
-            mvmtSpeed = 1.0f;
-            originalFace = mvmtSpeed;
             enemy = GetComponent<Enemy>();
         }
 
         // Update is called once per frame
         private new void Update()
         {
-            if (enemyAttack.isWindingUp || enemy.isDying || enemyAttack.isAttacking)
+            if (enemyAttack.isWindingUp || enemy.isDying || enemyAttack.isAttacking || enemy.isDormant)
             {
                 mvmtSpeed = 0.0f;
             }
@@ -52,10 +50,12 @@ namespace Character2D
             if (target.position.x >= transform.position.x)
             {
                 mvmtSpeed = 1.0f;
+                originalFace = mvmtSpeed;
             }
             else
             {
                 mvmtSpeed = -1.0f;
+                originalFace = mvmtSpeed;
             }
         }
 

@@ -8,6 +8,7 @@ namespace Character2D
     {
         public Animator weaponAnim;
         private PlayerInput playerInput;
+        private Player player;
         protected PlayerMovement playerMovement;
 
         public bool canAttack;
@@ -28,6 +29,7 @@ namespace Character2D
             base.Start();
 
             playerInput = GetComponent<PlayerInput>();
+            player = GetComponent<Player>();
             playerMovement = GetComponent<PlayerMovement>();
 
             attackInputDown = false;
@@ -92,6 +94,11 @@ namespace Character2D
                     StartCoroutine(Attack(2));
                 }
             }
+        }
+
+        protected override int GetAttackPower(int damage)
+        {
+            return character.fields.strength * damage * Mathf.RoundToInt(GameData.data.itemData.itemDictionary[player.equippedWeapon].strength);
         }
 
         protected override void InitializeAttack(int index)

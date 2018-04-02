@@ -7,6 +7,7 @@ namespace Character2D
         //character components
         protected Animator anim; //the animator component of the character character
         protected Rigidbody2D rb; //rigidbody component of the character character
+        protected Character character;
 
         //external input
         public bool jumpInput; //jump input from character
@@ -50,6 +51,7 @@ namespace Character2D
         {
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
+            character = GetComponent<Character>();
 
             isOnPlatform = false;
 
@@ -64,7 +66,9 @@ namespace Character2D
             isFalling = false;
 
             speedMultiplier = 1;
-            maxSpeed = 3.0f;
+
+            maxSpeed = character.fields.agility;
+            rb.mass = character.fields.weight;
 
             isInitJump = true;
             jumpForce = 500.0f;
@@ -148,7 +152,14 @@ namespace Character2D
             {
                 speedMultiplier = 1;
             }
-            SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 10.0f);
+            if (isOnIce)
+            {
+                SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 4.0f);
+            }
+            else
+            {
+                SmoothMove(mvmtSpeed * speedMultiplier * maxSpeed, rb.velocity.y, 10.0f);
+            }
         }
 
         //controls the character acceleration

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Character2D;
 using UnityEngine;
@@ -6,6 +7,10 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
 	public static Dictionary<string, SpawnManager> managerDictionary;
+
+	public static event Action<string> OnCheckPointUnlocked;
+
+	public bool isUnlocked;
 
 	public string managerName;
 	public string managerDisplayName;
@@ -36,6 +41,7 @@ public class SpawnManager : MonoBehaviour
 			managerDictionary = new Dictionary<string, SpawnManager>();
 		}
 		managerName = leftLevel.sceneName + "|" + rightLevel.sceneName;
+		isUnlocked = GameData.data.saveData.GetCheckpointUnlocked(managerName);
 		managerDictionary.Add(managerName, this);
 	}
 
@@ -48,6 +54,12 @@ public class SpawnManager : MonoBehaviour
 	{
 		if (other.tag == "Player")
 		{
+			if (!isUnlocked)
+			{
+				isUnlocked = true;
+				OnCheckPointUnlocked(managerName);
+				EventDisplay.instance.AddEvent("Unlocked checkpoint: " + managerDisplayName);
+			}
 			Player.instance.SetSpawn(transform.position, this);
 		}
 	}

@@ -15,6 +15,7 @@ namespace Dialogue2D
         private PlayerInput playerInput;
         private PlayerMovement playerMovement;
         private PlayerInventory playerInventory;
+        private PlayerQuests playerQuests;
         private Player player;
 
         private StoreMenu storeMenu;
@@ -61,6 +62,7 @@ namespace Dialogue2D
             playerInput = GetComponent<PlayerInput>();
             playerMovement = GetComponent<PlayerMovement>();
             playerInventory = GetComponent<PlayerInventory>();
+            playerQuests = GetComponent<PlayerQuests>();
             player = GetComponent<Player>();
 
             storeMenu = GetComponent<StoreMenu>();
@@ -193,8 +195,7 @@ namespace Dialogue2D
                         character.GetComponent<NPC>().SetDialogueState(action.number);
                         break;
                     case ActionTypes.ProgressQuest:
-                        Debug.Log("Quest " + action.name + " progressed to step " + action.number);
-                        //TODO: move the selected quest to the new step (update UIBar too)
+                        playerQuests.UpdateQuestStep(action.name, action.number);
                         break;
                     case ActionTypes.RequestGold:
                         isWaiting = true;

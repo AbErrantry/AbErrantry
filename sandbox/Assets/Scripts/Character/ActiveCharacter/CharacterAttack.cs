@@ -63,7 +63,7 @@ namespace Character2D
             {
                 if (canHitAttack)
                 {
-                    ApplyDamage(attackTrigger.currentObjects, character.fields.attacks[index].damage, ref targetsHit);
+                    ApplyDamage(attackTrigger.currentObjects, GetAttackPower(character.fields.attacks[index].damage), ref targetsHit);
                 }
                 yield return new WaitForFixedUpdate();
             }
@@ -92,6 +92,11 @@ namespace Character2D
                     targets[i].GetComponent<Attackable>().TakeDamage(gameObject, Mathf.RoundToInt(damage));
                 }
             }
+        }
+
+        protected virtual int GetAttackPower(int damage)
+        {
+            return character.fields.strength * damage;
         }
 
         protected virtual void InitializeAttack(int index)

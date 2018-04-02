@@ -30,6 +30,10 @@
 			<text>Can you move to the Plains?</text>
 			<next>15</next>
 		</choice>
+		<choice id="7">
+			<text>Progress my quest!</text>
+			<next>17</next>
+		</choice>
 	</segment>
 	
 	<segment id="1">
@@ -167,6 +171,15 @@
 			<xloc>164.95</xloc>
 			<yloc>-48.65</yloc>
 		</action>
+	</segment>
+	
+	<segment id="17">
+		<text>Sure thing.</text>
+		<action type="ProgressQuest">
+			<name>Find the @</name>
+			<number>-1</number>
+		</action>
+		<next>20</next>
 	</segment>
 	
 	<segment id="20">

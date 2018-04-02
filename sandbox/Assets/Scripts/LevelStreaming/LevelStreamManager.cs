@@ -108,6 +108,13 @@ public class LevelStreamManager : MonoBehaviour
         scenes.Add(sceneName);
     }
 
+    public void LoadPersistentData()
+    {
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(scenes[0]));
+        LoadItems();
+        LoadCharacters();
+    }
+
     private void LoadItems()
     {
         var levelItems = new List<LevelItemTuple>();

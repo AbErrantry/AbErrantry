@@ -40,11 +40,14 @@ namespace Character2D
 
         private LayerMask layers;
 
-        private Vector2Int boxCastDimensions;
+        private Vector2 boxCastDimensions;
+
         private int boxCastDirection;
         private int boxCastDistance;
 
         public bool playerInRange;
+
+        public bool isDormant;
 
         void OnBecameVisible()
         {
@@ -61,7 +64,9 @@ namespace Character2D
         {
             base.Start();
 
-            boxCastDimensions = new Vector2Int(1, 1);
+            isDormant = false;
+
+            boxCastDimensions = new Vector2(1, 0.5f);
             boxCastDistance = 5;
 
             layers = playerMask | defaultMask | hideablesMask;
@@ -81,18 +86,24 @@ namespace Character2D
         public override void TakeDamage(GameObject attacker, int damage)
         {
             base.TakeDamage(attacker, damage);
-            if (attacker.GetComponent<Player>() != null)
+            if (attacker.GetComponent<Player>() != null && !chasingPlayer)
             {
-                enemyMovement.StopAllCoroutines();
-                StopAllCoroutines();
-                chasingPlayer = true;
-                beacCon.currTarget = attacker;
+                SetPlayerTarget(attacker);
             }
+        }
+
+        public void SetPlayerTarget(GameObject player)
+        {
+            enemyMovement.StopAllCoroutines();
+            StopAllCoroutines();
+            chasingPlayer = true;
+            beacCon.currTarget = player;
+            ParticleManager.instance.SpawnParticle(gameObject, "spot");
         }
 
         protected void FixedUpdate()
         {
-            if (!isDying)
+            if (!isDying && !isDormant)
             {
                 RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, boxCastDimensions, 0.0f, transform.right, boxCastDistance, layers.value);
 
@@ -104,6 +115,7 @@ namespace Character2D
                     StopAllCoroutines();
                     chasingPlayer = true;
                     beacCon.currTarget = ray.collider.gameObject;
+                    ParticleManager.instance.SpawnParticle(gameObject, "spot");
                 }
                 else if (!playerInRange && chasingPlayer)
                 {
@@ -118,14 +130,17 @@ namespace Character2D
 
         private void MoveTowardsTarget()
         {
-            enemyMovement.MoveTowards(beacCon.currTarget.transform);
-            if (Mathf.Abs(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x) > 5.0f && chasingPlayer)
+            if (beacCon.currTarget != null)
             {
-                enemyMovement.runInput = true;
-            }
-            else
-            {
-                enemyMovement.runInput = false;
+                enemyMovement.MoveTowards(beacCon.currTarget.transform);
+                if (Mathf.Abs(beacCon.currTarget.transform.position.x - this.gameObject.transform.position.x) > 5.0f && chasingPlayer)
+                {
+                    enemyMovement.runInput = true;
+                }
+                else
+                {
+                    enemyMovement.runInput = false;
+                }
             }
         }
 

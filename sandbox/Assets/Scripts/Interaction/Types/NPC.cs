@@ -32,12 +32,12 @@ public class NPC : Interactable
         {
             if (faceRight)
             {
-                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
                 isFacingRight = true;
             }
             else
             {
-                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
                 isFacingRight = false;
             }
         }
@@ -70,10 +70,10 @@ public class NPC : Interactable
 
     public void MakeHostile()
     {
-        var enemy = gameObject.GetComponent<Character2D.Enemy>();
-        if (enemy != null)
+        var dormantCharacter = gameObject.GetComponent<Character2D.DormantCharacter>();
+        if (dormantCharacter != null)
         {
-            //TODO: Set as active
+            dormantCharacter.BecomeHostile();
             RemoveReference();
             EventDisplay.instance.AddEvent(name + " became hostile!");
         }
