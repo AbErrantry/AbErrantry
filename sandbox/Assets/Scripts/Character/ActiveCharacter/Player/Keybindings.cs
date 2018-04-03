@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using HardShellStudios.CompleteControl;
 
+[AddComponentMenu("Hard Shell Studios/Complete Control/UI Rebind Button")]
 [RequireComponent(typeof(Button))]
 public class Keybindings : MonoBehaviour
 {
