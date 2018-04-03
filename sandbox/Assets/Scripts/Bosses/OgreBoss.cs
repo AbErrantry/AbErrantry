@@ -9,7 +9,7 @@ public class OgreBoss : Boss
 	[Range(0,15)]
 	public float attackCooldown;
 	public Collider2D posPositions;
-	public AttackTrigger attackTrigger;
+	public Collider2D attackTrigger;
 	public int punchDamage;
 	private float cooldown;
 	private int attackPicked;
@@ -21,16 +21,17 @@ public class OgreBoss : Boss
 	protected new void Start()
 	{
 		name = "Ogre";
-		base.Start();
 		canTakeDamage = true; 
 		cooldown = attackCooldown;
 		isAttacking = false;
 		min = posPositions.bounds.min;
 		max = posPositions.bounds.max;
+		base.Start();
 	}
 
 	protected new void Update()
 	{
+		//Debug.Log("Min: "+ min.ToString() + " Max: " + max.ToString());
 		if(cooldown<=0 && !isAttacking)
 		{
 			if((currentVitality/maxVitality)*100 >= 75)
@@ -104,9 +105,6 @@ public class OgreBoss : Boss
 	protected IEnumerator Punch()
 	{
 		anim.Play("Punch");
-		//float attackStart = Time.time;
-		List<GameObject> targetsHit = new List<GameObject>();
-		ApplyDamage(attackTrigger.currentObjects, punchDamage, ref targetsHit);
 		yield return new WaitForFixedUpdate();
 	}
 
@@ -125,16 +123,9 @@ public class OgreBoss : Boss
 		BossDefeated();
 	}
 
-	protected void ApplyDamage(List<GameObject> targets, int damage, ref List<GameObject> targetsHit)
-		{
-			for (int i = targets.Count - 1; i >= 0; i--)
-			{
-				if (!targetsHit.Contains(targets[i]))
-				{
-					targetsHit.Add(targets[i]);
-					targets[i].GetComponent<Attackable>().TakeDamage(gameObject, damage);
-				}
-			}
-		}
+	public void ApplyDamage(GameObject target)
+	{
+		target.GetComponent<Attackable>().TakeDamage(gameObject, punchDamage);
+	}
 }
 }
