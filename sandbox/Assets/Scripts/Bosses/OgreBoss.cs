@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Character2D
+{
 public class OgreBoss : Boss
 {
 	[Range(0,15)]
 	public float attackCooldown;
 	public Collider2D posPositions;
+	public AttackTrigger attackTrigger;
+	public int punchDamage;
 	private float cooldown;
 	private int attackPicked;
 	private bool isAttacking;
 	private Vector2 min;
 	private Vector2 max;
+	
 
 	protected new void Start()
 	{
@@ -30,7 +35,7 @@ public class OgreBoss : Boss
 		{
 			if((currentVitality/maxVitality)*100 >= 75)
 			{
-				PickAttack(2);
+				PickAttack(1);
 			}
 			else if((currentVitality/maxVitality)*100 >= 50)
 			{
@@ -59,7 +64,7 @@ public class OgreBoss : Boss
 			isAttacking=false;
 			break;
 			case 1:
-			Punch();
+			StartCoroutine(Punch());
 			isAttacking=false;
 			break;
 			case 2:
@@ -72,17 +77,18 @@ public class OgreBoss : Boss
 	{
 		isAttacking=true;
 		LowerWater();
-		yield return new WaitForSeconds(2.667f);
+		yield return new WaitForSeconds(2.3f);
 		NewPosition();
-		yield return new WaitForSeconds(.1f);
-		RaiseWater();
-		yield return new WaitForSeconds(3f);
+		//RaiseWater();
+		yield return new WaitForSeconds(2f);
+		gameObject.GetComponent<Animator>().SetBool("Moved", false);
 		isAttacking=false;
 	}
 
 	public void NewPosition()
 	{
 		gameObject.transform.position = new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y));
+		gameObject.GetComponent<Animator>().SetBool("Moved", true);
 	}
 
 	public void RaiseWater()
@@ -95,9 +101,13 @@ public class OgreBoss : Boss
 		anim.Play("Lower");
 	}
 
-	public void Punch()
+	protected IEnumerator Punch()
 	{
 		anim.Play("Punch");
+		//float attackStart = Time.time;
+		List<GameObject> targetsHit = new List<GameObject>();
+		ApplyDamage(attackTrigger.currentObjects, punchDamage, ref targetsHit);
+		yield return new WaitForFixedUpdate();
 	}
 
 	public void Hurt()
@@ -114,4 +124,17 @@ public class OgreBoss : Boss
 	{
 		BossDefeated();
 	}
+
+	protected void ApplyDamage(List<GameObject> targets, int damage, ref List<GameObject> targetsHit)
+		{
+			for (int i = targets.Count - 1; i >= 0; i--)
+			{
+				if (!targetsHit.Contains(targets[i]))
+				{
+					targetsHit.Add(targets[i]);
+					targets[i].GetComponent<Attackable>().TakeDamage(gameObject, damage);
+				}
+			}
+		}
+}
 }
