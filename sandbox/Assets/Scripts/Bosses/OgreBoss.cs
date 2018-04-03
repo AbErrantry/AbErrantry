@@ -65,7 +65,7 @@ public class OgreBoss : Boss
 			isAttacking=false;
 			break;
 			case 1:
-			StartCoroutine(Punch());
+			Punch();
 			isAttacking=false;
 			break;
 			case 2:
@@ -102,10 +102,9 @@ public class OgreBoss : Boss
 		anim.Play("Lower");
 	}
 
-	protected IEnumerator Punch()
+	private void Punch()
 	{
 		anim.Play("Punch");
-		yield return new WaitForFixedUpdate();
 	}
 
 	public void Hurt()
