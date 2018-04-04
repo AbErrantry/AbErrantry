@@ -4,54 +4,6 @@ using UnityEngine;
 
 namespace Character2D
 {
-<<<<<<< HEAD
-public class WraithBoss : Boss 
-{
-	public Collider2D attackTrigger;
-	[Range(0,30)]
-	public float attackCooldown;
-
-	public int damage;
-	private float cooldown;
-	//public int attackPicked;
-	public bool isAttacking;
-
-	[Header("Fireball Attack")]
-	public GameObject fireball;
-	public int fireballCount;
-	public float minMaxForce;
-
-	[Header("RainFire")]
-	public Collider2D rainFireTrigger;
-	public GameObject giantFireBall;
-	public int giantFireCount;
-	private Vector2 min;
-	private Vector2 max;
-	private float startTime;
-	
-	protected new void Start()
-	{
-		name = "Wraith";
-		canTakeDamage = true;
-		cooldown = attackCooldown;
-		min = rainFireTrigger.bounds.min;
-		max = rainFireTrigger.bounds.max;
-		player = GameObject.Find("Knight").GetComponent<Transform>();
-		startTime = Time.time;
-		isFacingRight = false;
-		base.Start();
-	}
-	
-	protected new void Update()
-	{
-		/* 
-		 if (player.position.x >= transform.position.x)
-		{
-			isFacingRight = true;
-			transform.eulerAngles = new Vector3(0, 180, 0);
-		}
-		else
-=======
 	public class WraithBoss : Boss
 	{
 		public Collider2D attackTrigger;
@@ -78,7 +30,6 @@ public class WraithBoss : Boss
 		private float startTime;
 		private bool isFacingRight;
 		protected new void Start()
->>>>>>> 9771a47e60ae9c6afd27ae929d10f232827b434e
 		{
 			name = "Wraith";
 			canTakeDamage = true;
@@ -90,7 +41,6 @@ public class WraithBoss : Boss
 			isFacingRight = false;
 			base.Start();
 		}
-		*/
 
 		protected new void Update()
 		{
@@ -240,14 +190,6 @@ public class WraithBoss : Boss
 			isAttacking = false;
 			StopAllCoroutines();
 		}
-<<<<<<< HEAD
-		
-		
-		anim.SetBool("EndDash", true);
-		StopAllCoroutines();
-	}
-=======
->>>>>>> 9771a47e60ae9c6afd27ae929d10f232827b434e
 
 		private void Laugh()
 		{
