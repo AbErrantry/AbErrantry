@@ -37,7 +37,7 @@ public class Fireball : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(fireballTime);
 		gameObject.GetComponent<Animator>().SetTrigger("Dying");
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.2f);
 		EndFireBall();
 	}
 	public void EndFireBall()
