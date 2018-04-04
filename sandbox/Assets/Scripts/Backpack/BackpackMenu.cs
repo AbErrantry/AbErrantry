@@ -89,6 +89,8 @@ namespace Character2D
         private Navigation middleElementNavigation;
         private Navigation lastElementNavigation;
 
+        public CanvasGroup canvasGroup;
+
         //used for initialization
         private void Start()
         {
@@ -156,6 +158,8 @@ namespace Character2D
                 OpenInventoryTab();
 
                 isOpen = true;
+
+                canvasGroup.interactable = true;
             }
             else
             {
@@ -170,6 +174,7 @@ namespace Character2D
             Player.instance.ResetState();
             cameraShift.ResetCamera();
             playerInput.EnableInput(true);
+            canvasGroup.interactable = false;
             StartCoroutine(WaitForClose());
             ElementFocus.focus.RemoveFocus();
             backpackContainer.GetComponent<Animator>().SetBool("IsOpen", false);

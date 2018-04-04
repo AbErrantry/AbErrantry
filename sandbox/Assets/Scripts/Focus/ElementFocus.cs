@@ -36,8 +36,8 @@ public class ElementFocus : MonoBehaviour
                 {
                     if (eventSystem.currentSelectedGameObject.transform.parent.gameObject == contentPanel.gameObject)
                     {
-                        StopAllCoroutines();
                         selectedItem = eventSystem.currentSelectedGameObject.GetComponent<RectTransform>();
+                        StopAllCoroutines();
                         SnapToItem();
                     }
                 }
@@ -47,7 +47,6 @@ public class ElementFocus : MonoBehaviour
         {
             if (selectedItem != null)
             {
-                StopAllCoroutines();
                 StartCoroutine(HighlightFocus(selectedItem.gameObject));
             }
             else
@@ -56,7 +55,6 @@ public class ElementFocus : MonoBehaviour
                 {
                     if (selectableUI.interactable)
                     {
-                        StopAllCoroutines();
                         StartCoroutine(HighlightFocus(selectableUI.gameObject));
                         break;
                     }
@@ -71,7 +69,6 @@ public class ElementFocus : MonoBehaviour
 
     public void SetMenuFocus(GameObject itemToFocus, ScrollRect itemScrollRect, RectTransform itemContentPanel)
     {
-        StopAllCoroutines();
         StartCoroutine(HighlightFocus(itemToFocus));
         selectedItem = itemToFocus.GetComponent<RectTransform>();
         scrollRect = itemScrollRect;
@@ -80,14 +77,12 @@ public class ElementFocus : MonoBehaviour
 
     public void SetItemFocus(GameObject itemToFocus)
     {
-        StopAllCoroutines();
         StartCoroutine(HighlightFocus(itemToFocus));
         selectedItem = itemToFocus.GetComponent<RectTransform>();
     }
 
     public void RemoveFocus()
     {
-        StopAllCoroutines();
         selectedItem = null;
         eventSystem.SetSelectedGameObject(null);
     }
@@ -96,7 +91,18 @@ public class ElementFocus : MonoBehaviour
     {
         int itemIndex = selectedItem.transform.GetSiblingIndex();
         int itemCount = scrollRect.content.transform.childCount - 1;
-        scrollRect.verticalNormalizedPosition = (float) (itemCount - itemIndex) / itemCount;
+        StartCoroutine(LerpToPosition((float) (itemCount - itemIndex) / itemCount));
+    }
+
+    private IEnumerator LerpToPosition(float finalPos)
+    {
+        float startTime = Time.time;
+        while (Time.time - startTime < 0.25f)
+        {
+            scrollRect.verticalNormalizedPosition = Mathf.SmoothStep(scrollRect.verticalNormalizedPosition, finalPos, (Time.time - startTime) / 0.25f);
+            yield return null;
+        }
+        yield return null;
     }
 
     private IEnumerator HighlightFocus(GameObject itemToFocus)

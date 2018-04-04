@@ -153,16 +153,15 @@ namespace Character2D
             //instantiate a prefab for the pickup
             var newPickup = Instantiate(pickupPrefab) as GameObject;
             var pickup = newPickup.GetComponent<Pickup>();
-            var rend = newPickup.GetComponent<SpriteRenderer>();
-            var collider = newPickup.GetComponent<BoxCollider2D>();
+            var rend = newPickup.GetComponentInChildren<SpriteRenderer>();
 
             //set the properties for the pickup
             pickup.name = item.name;
             pickup.typeOfInteractable = Interactable.Types.Pickup;
             pickup.SetType();
             rend.sprite = item.sprite;
+            rend.material = item.material;
             newPickup.transform.position = pos;
-            collider.size = rend.bounds.size;
 
             //for some reason Unity does not use full scale for the instantiated object by default
             newPickup.transform.localScale = Vector3.one;
