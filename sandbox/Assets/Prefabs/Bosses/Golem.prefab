@@ -52,6 +52,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224641506708723064}
   - component: {fileID: 61103343864045822}
+  - component: {fileID: 114927011728490268}
   m_Layer: 9
   m_Name: AttackTrigger1
   m_TagString: Untagged
@@ -89,6 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224726852466563580}
   - component: {fileID: 61247731274759530}
+  - component: {fileID: 114841795307818454}
   m_Layer: 9
   m_Name: AttackTrigger2
   m_TagString: Untagged
@@ -340,6 +342,12 @@ MonoBehaviour:
   canFlinch: 0
   canKnockBack: 0
   canTakeDamage: 0
+  hand1: {fileID: 61103343864045822}
+  hand2: {fileID: 61247731274759530}
+  eyes: {fileID: 61421051796209052}
+  attackCooldown: 5
+  damage: 20
+  isAttacking: 0
 --- !u!114 &114225615331027104
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -352,6 +360,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 11
+--- !u!114 &114841795307818454
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1228964502280684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af1c2783545e9444fa3b9943a88f6c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  golem: {fileID: 114186975458416654}
+--- !u!114 &114927011728490268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1148065823409274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af1c2783545e9444fa3b9943a88f6c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  golem: {fileID: 114186975458416654}
 --- !u!212 &212220432278785206
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -548,7 +580,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 523.8302, y: -273.96756}
+  m_AnchoredPosition: {x: 521.5283, y: -272.74985}
   m_SizeDelta: {x: 10.93, y: 9.772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224313112739973290
