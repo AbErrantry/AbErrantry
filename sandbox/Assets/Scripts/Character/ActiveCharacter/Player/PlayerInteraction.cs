@@ -331,7 +331,7 @@ namespace Character2D
             {
                 //TODO: can set the item color based on item rarity
                 string item = "<color=red> " + interactItem;
-                interactBarText.text = press + key + type + item;
+                interactBarText.text = press + key + type + NameConversion.ConvertSymbol(item);
             }
         }
     }

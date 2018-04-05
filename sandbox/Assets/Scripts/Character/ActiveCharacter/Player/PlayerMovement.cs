@@ -171,6 +171,7 @@ namespace Character2D
 
             if (isOnLadder)
             {
+                vLast = 0.0f;
                 isClimbing = false;
                 isStrafing = false;
                 rb.gravityScale = 0.0f;

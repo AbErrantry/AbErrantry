@@ -181,6 +181,12 @@ public class LevelStreamManager : MonoBehaviour
         StartCoroutine(WaitForRefreshUnload());
     }
 
+    // Begins the process of unloading and loading the level.
+    public void FlushLevel()
+    {
+        UnloadScene();
+    }
+
     // Coroutine that waits until the level is unloaded to reload it.
     private IEnumerator WaitForRefreshUnload()
     {

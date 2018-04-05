@@ -37,6 +37,8 @@ namespace Character2D
         public Vector2 spawnPoint; //the spawnpoint upon death (one of the fast travel points)
         public SpawnManager spawnManager;
 
+        private SpawnManager travelSpawnManager;
+
         public TMP_Text healthText;
         public TMP_Text goldText;
         public TMP_Text locationText;
@@ -261,13 +263,13 @@ namespace Character2D
             anim.SetBool("isDying", isDying);
             weaponAnim.SetBool("isDying", isDying);
             //enemies no longer target player
-            StartCoroutine(TravelMenuDelay());
+            StartCoroutine(TravelMenuDelay("You died.", 2.0f));
         }
 
-        private IEnumerator TravelMenuDelay()
+        private IEnumerator TravelMenuDelay(string type, float time, bool fastTravel = false)
         {
-            yield return new WaitForSeconds(2.0f);
-            travelMenu.Open("You died", true);
+            yield return new WaitForSeconds(time);
+            travelMenu.Open(type, false, fastTravel);
         }
 
         public void InitialLoad()
@@ -277,7 +279,12 @@ namespace Character2D
             {
                 spawnManager.RefreshLevels();
             }
-            travelMenu.Open("Start", false);
+            travelMenu.Open("Start", true);
+        }
+
+        public void FastTravel(string location)
+        {
+            StartCoroutine(TravelMenuDelay("Traveling to " + location + ".", 1.0f, true));
         }
 
         public override void FinalizeDeath()
@@ -288,19 +295,27 @@ namespace Character2D
             playerInput.InvokeSleep();
         }
 
-        public void Respawn()
+        public void Respawn(bool isDead)
         {
-            isDying = false;
-            anim.SetBool("isDying", isDying);
-            weaponAnim.SetBool("isDying", isDying);
-            currentVitality = maxVitality;
-            healthText.text = currentVitality + "/" + maxVitality;
+            if (isDead)
+            {
+                isDying = false;
+                anim.SetBool("isDying", isDying);
+                weaponAnim.SetBool("isDying", isDying);
+                currentVitality = maxVitality;
+                healthText.text = currentVitality + "/" + maxVitality;
+            }
             locationText.text = spawnManager.persistentLevel.levelInfo.displayName;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             transform.position = spawnPoint;
             if (spawnManager != null)
             {
                 spawnManager.RefreshLevels();
+                if (travelSpawnManager != null)
+                {
+                    travelSpawnManager.FlushLevels();
+                    travelSpawnManager = null;
+                }
             }
             StartCoroutine(CameraToggleDelay());
             InvokePlayerInfoChange();
@@ -312,8 +327,12 @@ namespace Character2D
             virtualCamera.enabled = isActive;
         }
 
-        public void SetSpawn(Vector2 loc, SpawnManager mgr)
+        public void SetSpawn(Vector2 loc, SpawnManager mgr, bool flush = false)
         {
+            if (flush)
+            {
+                travelSpawnManager = spawnManager;
+            }
             if (mgr != spawnManager)
             {
                 spawnPoint = loc;

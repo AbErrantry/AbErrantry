@@ -6,7 +6,8 @@ namespace Character2D
 {
 	public class MapPrefabReference : MonoBehaviour
 	{
-		public string locationName;
+		public SpawnManager spawn;
+
 		public TMP_Text locationText;
 
 		private BackpackMenu backpackMenu;
@@ -19,7 +20,7 @@ namespace Character2D
 
 		public void SelectLocation()
 		{
-			backpackMenu.SelectLocation(locationName);
+			backpackMenu.SelectLocation(spawn);
 		}
 	}
 }

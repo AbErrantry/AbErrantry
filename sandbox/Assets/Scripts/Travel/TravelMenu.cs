@@ -26,10 +26,10 @@ public class TravelMenu : MonoBehaviour
 		container.SetActive(false);
 	}
 
-	private IEnumerator OpenDelay()
+	private IEnumerator OpenDelay(bool fastTravel)
 	{
 		yield return new WaitForSeconds(1.0f); //wait for travel/death screen to fade in completely
-		player.Respawn();
+		player.Respawn(fastTravel);
 	}
 
 	private IEnumerator CloseDelay()
@@ -40,16 +40,21 @@ public class TravelMenu : MonoBehaviour
 		ElementFocus.focus.RemoveFocus();
 	}
 
-	public void Open(string text, bool dying)
+	public void Open(string text, bool init, bool fastTravel = false)
 	{
 		this.text.text = text;
 		isTravelling = true;
+		if (fastTravel)
+		{
+			Character2D.PlayerInput.instance.InvokeSleep();
+			Character2D.Player.instance.ToggleCamera(true);
+		}
 		container.SetActive(true);
 		group.interactable = false;
 		anim.SetBool("isOpen", true);
-		if (dying)
+		if (!init)
 		{
-			StartCoroutine(OpenDelay());
+			StartCoroutine(OpenDelay(fastTravel));
 		}
 		else
 		{

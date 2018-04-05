@@ -79,7 +79,7 @@ public class EventDisplay : MonoBehaviour
 		{
 			e.count++;
 			e.timestamp = Time.time;
-			e.reference.GetComponent<EventPrefabReference>().text.text = e.text;
+			e.reference.GetComponent<EventPrefabReference>().text.text = NameConversion.ConvertSymbol(e.text);
 			e.reference.GetComponent<EventPrefabReference>().count.text = e.count.ToString();
 			e.fadeStarted = false;
 			e.reference.GetComponent<Animator>().Play("Event_Open");
@@ -105,7 +105,7 @@ public class EventDisplay : MonoBehaviour
 		EventPrefabReference controller = newEvent.GetComponent<EventPrefabReference>();
 
 		//set the text for the event onscreen and provide a reference to it in the queue
-		controller.text.text = text;
+		controller.text.text = NameConversion.ConvertSymbol(text);
 		controller.count.text = "1";
 		eventToAdd.reference = controller.gameObject;
 

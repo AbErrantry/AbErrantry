@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,10 +49,17 @@ namespace Character2D
         public GameObject questPrefab;
         public GameObject locationPrefab;
 
+        public GameObject journalDescriptionMask;
+        public GameObject journalMask;
+        public GameObject mapDescriptionMask;
+        public GameObject mapMask;
+
         public GameObject journalList;
         public GameObject mapList;
 
-        public ScrollRect scrollRect;
+        public ScrollRect inventoryScrollRect;
+        public ScrollRect journalScrollRect;
+        public ScrollRect mapScrollRect;
 
         public Image itemImage;
 
@@ -62,16 +70,35 @@ namespace Character2D
         public TMP_Text itemStrength;
         public TMP_Text itemPrice;
 
+        public TMP_Text questName;
+        public TMP_Text questDescription;
+        public TMP_Text questStepDescription;
+        public TMP_Text questStepHint;
+
+        public TMP_Text locationName;
+
         public Button useButton;
         public Button dropButton;
         public Button destroyButton;
-        public Button cancelButton;
+        public Button inventoryCancelButton;
 
         public Button amountCancelButton;
         public Button confirmNoButton;
 
-        public InventoryItem selectedItem;
+        public Button journalSetButton;
+        public Button journalCancelButton;
+
+        public Button mapTravelButton;
+        public Button mapCancelButton;
+
+        private InventoryItem selectedItem;
         private int selectedItemIndex;
+
+        private QuestInstance selectedQuest;
+        private int selectedQuestIndex;
+
+        private SpawnManager selectedLocation;
+        private int selectedLocationIndex;
 
         public bool isDestroying;
         public bool isAll;
@@ -152,9 +179,13 @@ namespace Character2D
                 backpackContainer.GetComponent<Animator>().SetBool("IsOpen", true);
 
                 //move the scrollbar back to the top of the list
-                scrollRect.verticalNormalizedPosition = 1.0f;
+                inventoryScrollRect.verticalNormalizedPosition = 1.0f;
+                journalScrollRect.verticalNormalizedPosition = 1.0f;
+                mapScrollRect.verticalNormalizedPosition = 1.0f;
 
                 LoadInventoryItems(initOpen: true);
+                LoadQuests();
+                LoadLocations();
                 OpenInventoryTab();
 
                 isOpen = true;
@@ -168,12 +199,15 @@ namespace Character2D
             }
         }
 
-        public void CloseBackpackMenu()
+        public void CloseBackpackMenu(bool travel = false)
         {
             isOpen = false;
             Player.instance.ResetState();
             cameraShift.ResetCamera();
-            playerInput.EnableInput(true);
+            if (!travel)
+            {
+                playerInput.EnableInput(true);
+            }
             canvasGroup.interactable = false;
             StartCoroutine(WaitForClose());
             ElementFocus.focus.RemoveFocus();
@@ -186,6 +220,8 @@ namespace Character2D
             backpackContainer.SetActive(false);
             CloseTabs();
             UnloadInventoryItems();
+            UnloadJournalItems();
+            UnloadMapItems();
         }
 
         private void StopCoroutine()
@@ -194,6 +230,8 @@ namespace Character2D
             backpackContainer.SetActive(false);
             CloseTabs();
             UnloadInventoryItems();
+            UnloadJournalItems();
+            UnloadMapItems();
         }
 
         private void CloseTabs()
@@ -228,6 +266,7 @@ namespace Character2D
             journalContainer.SetActive(true);
             journalTab.GetComponent<Image>().sprite = currentTabSprite;
             journalTab.GetComponent<Button>().navigation = automaticNav;
+            FocusOnJournalMenu();
         }
 
         public void OpenMapTab()
@@ -236,6 +275,7 @@ namespace Character2D
             mapContainer.SetActive(true);
             mapTab.GetComponent<Image>().sprite = currentTabSprite;
             mapTab.GetComponent<Button>().navigation = automaticNav;
+            FocusOnMapMenu();
         }
 
         private void LoadInventoryItems(bool initOpen = false)
@@ -262,7 +302,7 @@ namespace Character2D
                 //for some reason Unity does not use full scale for the instantiated object by default
                 newButton.transform.localScale = Vector3.one;
             }
-            StartCoroutine(SetUpNavigation());
+            StartCoroutine(SetUpInventoryNavigation());
             if (!initOpen)
             {
                 FocusOnInventoryItem();
@@ -282,10 +322,10 @@ namespace Character2D
 
                     //set the text for the interactable onscreen
                     controller.quest = quest;
-                    controller.questName.text = quest.quest.name;
-                    controller.questHint.text = quest.quest.segments[quest.step].hint;
-                    controller.questStep.text = quest.quest.segments[quest.step].text;
-                    controller.questText.text = quest.quest.text;
+                    controller.questName.text = NameConversion.ConvertSymbol(quest.quest.name);
+                    controller.questHint = quest.quest.segments[quest.step].hint;
+                    controller.questStep = quest.quest.segments[quest.step].text;
+                    controller.questText.text = NameConversion.ConvertSymbol(quest.quest.text);
 
                     //put the interactable in the list
                     newButton.transform.SetParent(journalList.transform);
@@ -294,14 +334,37 @@ namespace Character2D
                     newButton.transform.localScale = Vector3.one;
                 }
             }
+            journalDescriptionMask.SetActive(true);
+            StartCoroutine(SetUpJournalNavigation());
         }
 
         private void LoadLocations()
         {
+            foreach (var checkpoint in SpawnManager.managerDictionary.Values)
+            {
+                if (checkpoint.isUnlocked)
+                {
+                    //TODO: fix comments
+                    //instantiate a prefab for the interact button
+                    GameObject newButton = Instantiate(locationPrefab) as GameObject;
+                    MapPrefabReference controller = newButton.GetComponent<MapPrefabReference>();
 
+                    //set the text for the interactable onscreen
+                    controller.spawn = checkpoint;
+                    controller.locationText.text = NameConversion.ConvertSymbol(checkpoint.managerDisplayName);
+
+                    //put the interactable in the list
+                    newButton.transform.SetParent(mapList.transform);
+
+                    //for some reason Unity does not use full scale for the instantiated object by default
+                    newButton.transform.localScale = Vector3.one;
+                }
+            }
+            mapDescriptionMask.SetActive(true);
+            StartCoroutine(SetUpMapNavigation());
         }
 
-        private IEnumerator SetUpNavigation()
+        private IEnumerator SetUpInventoryNavigation()
         {
             while (playerInventory.items.Count != inventoryList.transform.childCount)
             {
@@ -334,13 +397,96 @@ namespace Character2D
             }
         }
 
-        private void MaskDescription()
+        private IEnumerator SetUpJournalNavigation()
         {
-            useButton.interactable = false;
+            while (playerQuests.quests.Where(q => q.step > 0).Count() != journalList.transform.childCount)
+            {
+                yield return null;
+            }
+            for (int index = 0; index < journalList.transform.childCount; index++)
+            {
+                if (journalList.transform.childCount == 1)
+                {
+                    firstElementNavigation.selectOnUp = journalTab.GetComponent<Button>();
+                    journalList.transform.GetChild(index).GetComponent<Button>().navigation = firstElementNavigation;
+                }
+                else if (index == 0)
+                {
+                    firstElementNavigation.selectOnUp = journalTab.GetComponent<Button>();
+                    firstElementNavigation.selectOnDown = journalList.transform.GetChild(index + 1).GetComponent<Button>();
+                    journalList.transform.GetChild(index).GetComponent<Button>().navigation = firstElementNavigation;
+                }
+                else if (index == journalList.transform.childCount - 1)
+                {
+                    lastElementNavigation.selectOnUp = journalList.transform.GetChild(index - 1).GetComponent<Button>();
+                    journalList.transform.GetChild(index).GetComponent<Button>().navigation = lastElementNavigation;
+                }
+                else
+                {
+                    middleElementNavigation.selectOnUp = journalList.transform.GetChild(index - 1).GetComponent<Button>();
+                    middleElementNavigation.selectOnDown = journalList.transform.GetChild(index + 1).GetComponent<Button>();
+                    journalList.transform.GetChild(index).GetComponent<Button>().navigation = middleElementNavigation;
+                }
+            }
+        }
+
+        private IEnumerator SetUpMapNavigation()
+        {
+            while (SpawnManager.managerDictionary.Values.Where(m => m.isUnlocked).Count() != mapList.transform.childCount)
+            {
+                yield return null;
+            }
+            for (int index = 0; index < mapList.transform.childCount; index++)
+            {
+                if (mapList.transform.childCount == 1)
+                {
+                    firstElementNavigation.selectOnUp = mapTab.GetComponent<Button>();
+                    mapList.transform.GetChild(index).GetComponent<Button>().navigation = firstElementNavigation;
+                }
+                else if (index == 0)
+                {
+                    firstElementNavigation.selectOnUp = mapTab.GetComponent<Button>();
+                    firstElementNavigation.selectOnDown = mapList.transform.GetChild(index + 1).GetComponent<Button>();
+                    mapList.transform.GetChild(index).GetComponent<Button>().navigation = firstElementNavigation;
+                }
+                else if (index == mapList.transform.childCount - 1)
+                {
+                    lastElementNavigation.selectOnUp = mapList.transform.GetChild(index - 1).GetComponent<Button>();
+                    mapList.transform.GetChild(index).GetComponent<Button>().navigation = lastElementNavigation;
+                }
+                else
+                {
+                    middleElementNavigation.selectOnUp = mapList.transform.GetChild(index - 1).GetComponent<Button>();
+                    middleElementNavigation.selectOnDown = mapList.transform.GetChild(index + 1).GetComponent<Button>();
+                    mapList.transform.GetChild(index).GetComponent<Button>().navigation = middleElementNavigation;
+                }
+            }
+        }
+
+        private IEnumerator MaskInventoryDescription()
+        {
             dropButton.interactable = false;
             destroyButton.interactable = false;
-            cancelButton.interactable = false;
+            inventoryCancelButton.interactable = false;
             descriptionMask.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            useButton.interactable = false;
+        }
+
+        private IEnumerator MaskJournalDescription()
+        {
+            journalCancelButton.interactable = false;
+            journalDescriptionMask.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            journalSetButton.interactable = false;
+        }
+
+        private IEnumerator MaskMapDescription()
+        {
+            mapCancelButton.interactable = false;
+            mapDescriptionMask.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            mapTravelButton.interactable = false;
         }
 
         public void FocusOnInventoryMenu()
@@ -359,14 +505,14 @@ namespace Character2D
             if (playerInventory.items.Count > 0)
             {
                 inventoryMask.SetActive(false);
-                ElementFocus.focus.SetMenuFocus(inventoryList.transform.GetChild(0).gameObject, scrollRect, inventoryList.GetComponent<RectTransform>());
+                ElementFocus.focus.SetMenuFocus(inventoryList.transform.GetChild(0).gameObject, inventoryScrollRect, inventoryList.GetComponent<RectTransform>());
             }
             else
             {
                 inventoryMask.SetActive(true);
-                ElementFocus.focus.SetMenuFocus(inventoryTab, scrollRect, inventoryList.GetComponent<RectTransform>());
+                ElementFocus.focus.SetMenuFocus(inventoryTab, inventoryScrollRect, inventoryList.GetComponent<RectTransform>());
             }
-            MaskDescription();
+            StartCoroutine(MaskInventoryDescription());
         }
 
         public IEnumerator FocusOnInventoryItemRoutine()
@@ -382,7 +528,91 @@ namespace Character2D
                 inventoryMask.SetActive(true);
                 ElementFocus.focus.SetItemFocus(inventoryTab);
             }
-            MaskDescription();
+            StartCoroutine(MaskInventoryDescription());
+        }
+
+        public void FocusOnJournalMenu()
+        {
+            StartCoroutine(FocusOnJournalMenuRoutine());
+        }
+
+        public void FocusOnJournalItem()
+        {
+            StartCoroutine(FocusOnJournalItemRoutine());
+        }
+
+        public IEnumerator FocusOnJournalMenuRoutine()
+        {
+            yield return new WaitForEndOfFrame();
+            if (playerQuests.quests.Where(q => q.step > 0).Count() > 0)
+            {
+                journalMask.SetActive(false);
+                ElementFocus.focus.SetMenuFocus(journalList.transform.GetChild(0).gameObject, journalScrollRect, journalList.GetComponent<RectTransform>());
+            }
+            else
+            {
+                journalMask.SetActive(true);
+                ElementFocus.focus.SetMenuFocus(journalTab, journalScrollRect, journalList.GetComponent<RectTransform>());
+            }
+            StartCoroutine(MaskJournalDescription());
+        }
+
+        public IEnumerator FocusOnJournalItemRoutine()
+        {
+            yield return new WaitForEndOfFrame();
+            if (playerQuests.quests.Where(q => q.step > 0).Count() > 0)
+            {
+                journalMask.SetActive(false);
+                ElementFocus.focus.SetItemFocus(journalList.transform.GetChild(selectedQuestIndex).gameObject);
+            }
+            else
+            {
+                journalMask.SetActive(true);
+                ElementFocus.focus.SetItemFocus(journalTab);
+            }
+            StartCoroutine(MaskJournalDescription());
+        }
+
+        public void FocusOnMapMenu()
+        {
+            StartCoroutine(FocusOnMapMenuRoutine());
+        }
+
+        public void FocusOnMapItem()
+        {
+            StartCoroutine(FocusOnMapItemRoutine());
+        }
+
+        public IEnumerator FocusOnMapMenuRoutine()
+        {
+            yield return new WaitForEndOfFrame();
+            if (SpawnManager.managerDictionary.Values.Where(m => m.isUnlocked).Count() > 0)
+            {
+                mapMask.SetActive(false);
+                ElementFocus.focus.SetMenuFocus(mapList.transform.GetChild(0).gameObject, mapScrollRect, mapList.GetComponent<RectTransform>());
+            }
+            else
+            {
+                mapMask.SetActive(true);
+                ElementFocus.focus.SetMenuFocus(mapTab, mapScrollRect, mapList.GetComponent<RectTransform>());
+            }
+            StartCoroutine(MaskMapDescription());
+        }
+
+        public IEnumerator FocusOnMapItemRoutine()
+        {
+            yield return new WaitForEndOfFrame();
+            if (SpawnManager.managerDictionary.Values.Where(m => m.isUnlocked).Count() > 0)
+            {
+                mapMask.SetActive(false);
+                ElementFocus.focus.SetItemFocus(mapList.transform.GetChild(selectedLocationIndex).gameObject);
+            }
+            else
+            {
+                mapMask.SetActive(true);
+                ElementFocus.focus.SetItemFocus(mapTab);
+            }
+            StartCoroutine(MaskMapDescription());
         }
 
         //delete ui elements from the list for the next iteration
@@ -390,6 +620,26 @@ namespace Character2D
         {
             var children = new List<GameObject>();
             foreach (Transform child in inventoryList.transform)
+            {
+                children.Add(child.gameObject);
+            }
+            children.ForEach(child => Destroy(child));
+        }
+
+        private void UnloadJournalItems()
+        {
+            var children = new List<GameObject>();
+            foreach (Transform child in journalList.transform)
+            {
+                children.Add(child.gameObject);
+            }
+            children.ForEach(child => Destroy(child));
+        }
+
+        private void UnloadMapItems()
+        {
+            var children = new List<GameObject>();
+            foreach (Transform child in mapList.transform)
             {
                 children.Add(child.gameObject);
             }
@@ -410,14 +660,14 @@ namespace Character2D
             descriptionMask.SetActive(false);
             if (inv.item.type != "Story")
             {
-                cancelButton.navigation = horizontalNav;
+                inventoryCancelButton.navigation = horizontalNav;
                 useButton.interactable = true;
                 dropButton.interactable = true;
                 destroyButton.interactable = true;
             }
             else
             {
-                cancelButton.navigation = noNav;
+                inventoryCancelButton.navigation = noNav;
             }
             for (int index = 0; index < inventoryList.transform.childCount; index++)
             {
@@ -426,19 +676,45 @@ namespace Character2D
                     selectedItemIndex = index;
                 }
             }
-            cancelButton.interactable = true;
-            ElementFocus.focus.SetItemFocus(cancelButton.gameObject);
+            inventoryCancelButton.interactable = true;
+            ElementFocus.focus.SetItemFocus(inventoryCancelButton.gameObject);
         }
 
         public void SelectQuest(QuestInstance instance)
         {
-            //List of quests. selecting one sets it as the active quest and provides more information
+            questName.text = NameConversion.ConvertSymbol(instance.quest.name);
+            questDescription.text = NameConversion.ConvertSymbol(instance.quest.text);
+            questStepDescription.text = NameConversion.ConvertSymbol(instance.quest.segments[instance.step].text);
+            questStepHint.text = NameConversion.ConvertSymbol(instance.quest.segments[instance.step].hint);
+            ElementFocus.focus.SetItemFocus(journalCancelButton.gameObject);
+            selectedQuest = instance;
+            journalDescriptionMask.SetActive(false);
+            for (int index = 0; index < journalList.transform.childCount; index++)
+            {
+                if (journalList.transform.GetChild(index).GetComponent<JournalPrefabReference>().quest.quest.name == instance.quest.name)
+                {
+                    selectedQuestIndex = index;
+                }
+            }
+            journalCancelButton.interactable = true;
+            journalSetButton.interactable = true;
         }
 
-        public void SelectLocation(string locationName)
+        public void SelectLocation(SpawnManager spawn)
         {
-            //popup: are you sure that you want to fast travel here?
-            //yes-> travel, no->cancel
+            locationName.text = "Do you want to travel to " + spawn.managerDisplayName + "?";
+            ElementFocus.focus.SetItemFocus(mapCancelButton.gameObject);
+            selectedLocation = spawn;
+            mapDescriptionMask.SetActive(false);
+            for (int index = 0; index < mapList.transform.childCount; index++)
+            {
+                if (mapList.transform.GetChild(index).GetComponent<MapPrefabReference>().spawn.managerDisplayName == spawn.managerDisplayName)
+                {
+                    selectedLocationIndex = index;
+                }
+            }
+            mapCancelButton.interactable = true;
+            mapTravelButton.interactable = true;
         }
 
         public void HideAmountConfirmContainers(bool isInMenu = true)
@@ -511,7 +787,7 @@ namespace Character2D
             if (selectedItem.quantity == 0)
             {
                 //move the scrollbar back to the top of the list since the item ran out
-                scrollRect.verticalNormalizedPosition = 1.0f;
+                inventoryScrollRect.verticalNormalizedPosition = 1.0f;
                 selectedItemIndex = 0;
             }
 
@@ -524,7 +800,7 @@ namespace Character2D
             if (selectedItem.quantity == 1 || isAll)
             {
                 //move the scrollbar back to the top of the list since the item ran out
-                scrollRect.verticalNormalizedPosition = 1.0f;
+                inventoryScrollRect.verticalNormalizedPosition = 1.0f;
                 selectedItemIndex = 0;
             }
             playerInventory.RemoveItem(selectedItem, isAll, true);
@@ -538,7 +814,7 @@ namespace Character2D
             if (selectedItem.quantity == 1 || isAll)
             {
                 //move the scrollbar back to the top of the list since the item ran out
-                scrollRect.verticalNormalizedPosition = 1.0f;
+                inventoryScrollRect.verticalNormalizedPosition = 1.0f;
                 selectedItemIndex = 0;
             }
             playerInventory.RemoveItem(selectedItem, isAll, false);
@@ -558,6 +834,19 @@ namespace Character2D
             {
                 DropItem();
             }
+        }
+
+        public void SetQuest()
+        {
+            Player.instance.SetQuest(selectedQuest.quest.name, false);
+            FocusOnJournalItem();
+        }
+
+        public void SetLocation()
+        {
+            CloseBackpackMenu(true);
+            Player.instance.SetSpawn(selectedLocation.gameObject.transform.position, selectedLocation, true);
+            Player.instance.FastTravel(selectedLocation.managerDisplayName);
         }
     }
 }

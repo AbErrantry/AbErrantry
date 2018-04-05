@@ -348,7 +348,7 @@ namespace Dialogue2D
             StopCoroutine();
             isOpen = true;
             character = conversingCharacter;
-            nameText.text = charName;
+            nameText.text = NameConversion.ConvertSymbol(charName);
 
             dialogueContainer.SetActive(true);
             dialogueAnimator.SetBool("IsOpen", true);

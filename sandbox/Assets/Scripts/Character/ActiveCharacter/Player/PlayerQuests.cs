@@ -16,7 +16,6 @@ namespace Character2D
 		// Use this for initialization
 		private void Start()
 		{
-			player = GetComponent<Player>();
 			quests = new List<QuestInstance>();
 			foreach (Quest quest in GameData.data.questData.questDictionary.Values)
 			{
@@ -25,6 +24,7 @@ namespace Character2D
 				instance.step = GameData.data.saveData.GetQuestStep(quest.name);
 				quests.Add(instance);
 			}
+			player = GetComponent<Player>();
 		}
 
 		public void UpdateQuestStep(string name, int step)

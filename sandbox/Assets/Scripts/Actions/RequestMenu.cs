@@ -28,6 +28,9 @@ public class RequestMenu : MonoBehaviour
 	public Button YesButton;
 	public Button NoButton;
 
+	private Navigation verticalNav;
+	private Navigation noNav;
+
 	private void Start()
 	{
 		playerInventory = GetComponent<PlayerInventory>();
@@ -38,12 +41,19 @@ public class RequestMenu : MonoBehaviour
 
 		isOpen = false;
 		isGold = false;
+
+		verticalNav = new Navigation();
+		noNav = new Navigation();
+
+		verticalNav.mode = Navigation.Mode.Vertical;
+		noNav.mode = Navigation.Mode.None;
 	}
 
 	public void ToggleRequest(int requestSuccessPath, int requestFailurePath, string requestingCharacterName,
 		bool requestIsGold, int requestAmount, string requestedItemName = null)
 	{
 		YesButton.interactable = false;
+		NoButton.navigation = noNav;
 		if (!isOpen)
 		{
 			requestContainer.SetActive(true);
@@ -103,6 +113,7 @@ public class RequestMenu : MonoBehaviour
 			if (playerInventory.CheckForItem(item.name, amount))
 			{
 				YesButton.interactable = true;
+				NoButton.navigation = verticalNav;
 			}
 		}
 		else
@@ -112,6 +123,7 @@ public class RequestMenu : MonoBehaviour
 			if (player.gold >= amount)
 			{
 				YesButton.interactable = true;
+				NoButton.navigation = verticalNav;
 			}
 		}
 	}

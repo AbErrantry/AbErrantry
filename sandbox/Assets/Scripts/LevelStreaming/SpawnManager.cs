@@ -41,6 +41,7 @@ public class SpawnManager : MonoBehaviour
 			managerDictionary = new Dictionary<string, SpawnManager>();
 		}
 		managerName = leftLevel.sceneName + "|" + rightLevel.sceneName;
+		managerDisplayName = persistentLevel.levelInfo.displayName;
 		isUnlocked = GameData.data.saveData.GetCheckpointUnlocked(managerName);
 		managerDictionary.Add(managerName, this);
 	}
@@ -62,6 +63,12 @@ public class SpawnManager : MonoBehaviour
 			}
 			Player.instance.SetSpawn(transform.position, this);
 		}
+	}
+
+	public void FlushLevels()
+	{
+		leftLevel.FlushLevel();
+		rightLevel.FlushLevel();
 	}
 
 	public void RefreshLevels()
