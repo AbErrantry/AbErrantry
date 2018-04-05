@@ -12,20 +12,6 @@ MonoBehaviour:
   m_Name: KeyBindings
   m_EditorClassIdentifier: 
   inputs:
-  - Name: Jump
-    UniqueName: move_Jump
-    Type: 0
-    Positive:
-      Primary: 32
-      Secondary: 331
-    Negative:
-      Primary: 0
-      Secondary: 0
-    targetController: 0
-    Axis: 0
-    Invert: 0
-    Sensitivity: 1
-    val: 0
   - Name: Move
     UniqueName: move_Horizontal
     Type: 0
@@ -41,27 +27,13 @@ MonoBehaviour:
     Sensitivity: 1
     val: 0
   - Name: Move
-    UniqueName: 
+    UniqueName: move_Horizontal_controller
     Type: 2
     Positive:
       Primary: 0
       Secondary: 0
     Negative:
       Primary: 0
-      Secondary: 0
-    targetController: 0
-    Axis: 0
-    Invert: 0
-    Sensitivity: 1
-    val: 0
-  - Name: Run
-    UniqueName: move_Run
-    Type: 0
-    Positive:
-      Primary: 304
-      Secondary: 0
-    Negative:
-      Primary: 304
       Secondary: 0
     targetController: 0
     Axis: 0
@@ -82,12 +54,54 @@ MonoBehaviour:
     Invert: 0
     Sensitivity: 1
     val: 0
-  - Name: Interact
-    UniqueName: Interact
+  - Name: Vertical
+    UniqueName: move_Vertical_controller
+    Type: 2
+    Positive:
+      Primary: 119
+      Secondary: 273
+    Negative:
+      Primary: 115
+      Secondary: 274
+    targetController: 0
+    Axis: 0
+    Invert: 0
+    Sensitivity: 1
+    val: 0
+  - Name: Run
+    UniqueName: move_Run
     Type: 0
     Positive:
-      Primary: 113
-      Secondary: 13
+      Primary: 304
+      Secondary: 0
+    Negative:
+      Primary: 304
+      Secondary: 0
+    targetController: 0
+    Axis: 0
+    Invert: 0
+    Sensitivity: 1
+    val: 0
+  - Name: Crouch
+    UniqueName: move_Crouch
+    Type: 0
+    Positive:
+      Primary: 115
+      Secondary: 0
+    Negative:
+      Primary: 0
+      Secondary: 0
+    targetController: 0
+    Axis: 0
+    Invert: 0
+    Sensitivity: 1
+    val: 0
+  - Name: Jump
+    UniqueName: move_Jump
+    Type: 0
+    Positive:
+      Primary: 32
+      Secondary: 331
     Negative:
       Primary: 0
       Secondary: 0
@@ -110,8 +124,22 @@ MonoBehaviour:
     Invert: 0
     Sensitivity: 1
     val: 0
+  - Name: Interact
+    UniqueName: Interact
+    Type: 0
+    Positive:
+      Primary: 113
+      Secondary: 13
+    Negative:
+      Primary: 0
+      Secondary: 0
+    targetController: 0
+    Axis: 0
+    Invert: 0
+    Sensitivity: 1
+    val: 0
   - Name: Backpack
-    UniqueName: Inventory
+    UniqueName: Backpack
     Type: 0
     Positive:
       Primary: 98
@@ -138,19 +166,5 @@ MonoBehaviour:
     Invert: 0
     Sensitivity: 1
     val: 0
-  - Name: Crouch
-    UniqueName: move_Crouch
-    Type: 0
-    Positive:
-      Primary: 115
-      Secondary: 0
-    Negative:
-      Primary: 0
-      Secondary: 0
-    targetController: 0
-    Axis: 0
-    Invert: 0
-    Sensitivity: 1
-    val: 0
   rebindRemoveKey: 27
-  forceResetInEditor: 1
+  forceResetInEditor: 0

@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using HardShellStudios.CompleteControl;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using HardShellStudios.CompleteControl;
 
 [AddComponentMenu("Hard Shell Studios/Complete Control/UI Rebind Button")]
 [RequireComponent(typeof(Button))]
-public class UI_RebindKey : MonoBehaviour {
+public class UI_RebindKey : MonoBehaviour
+{
 
     public string uniqueName;
     public KeyTarget keyTarget = KeyTarget.PositivePrimary;
-    public Text text;
+    public TMP_Text text;
     public bool constantUpdate = false;
 
     private string originalString;
