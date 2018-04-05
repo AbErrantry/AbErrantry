@@ -26,9 +26,9 @@ namespace Character2D
 		public int giantFireCount;
 		private Vector2 min;
 		private Vector2 max;
-		public Transform player;
+		//public Transform player;
 		private float startTime;
-		private bool isFacingRight;
+		//private bool isFacingRight;
 		protected new void Start()
 		{
 			name = "Wraith";
@@ -44,16 +44,16 @@ namespace Character2D
 
 		protected new void Update()
 		{
-			if (player.position.x >= transform.position.x)
-			{
-				isFacingRight = true;
-				transform.eulerAngles = new Vector3(0, 180, 0);
-			}
-			else
-			{
-				isFacingRight = false;
-				transform.eulerAngles = new Vector3(0, 0, 0);
-			}
+			//if (player.position.x >= transform.position.x)
+			//{
+			//	isFacingRight = true;
+			//	transform.eulerAngles = new Vector3(0, 180, 0);
+			//}
+			//else
+			//{
+			//	isFacingRight = false;
+			//	transform.eulerAngles = new Vector3(0, 0, 0);
+			//}
 
 			if (cooldown <= 0 && !isAttacking)
 			{
