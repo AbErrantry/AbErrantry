@@ -152,6 +152,12 @@ namespace Dialogue2D
 
         public void FocusOnChoice()
         {
+            StartCoroutine(FocusOnChoiceRoutine());
+        }
+
+        private IEnumerator FocusOnChoiceRoutine()
+        {
+            yield return new WaitForSeconds(0.5f);
             foreach (Transform child in choiceList.transform)
             {
                 child.GetComponent<Button>().interactable = true;
@@ -339,6 +345,7 @@ namespace Dialogue2D
                 dialogueText.text = dialogueText.text + letter; //add audio for letter being played
                 yield return new WaitForSeconds(0.01f * textSpeed);
             }
+            yield return new WaitForSeconds(1.0f);
             DisplayChoices();
         }
 
