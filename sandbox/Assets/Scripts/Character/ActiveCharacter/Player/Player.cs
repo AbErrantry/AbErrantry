@@ -81,7 +81,13 @@ namespace Character2D
         {
             PlayerInfoTuple playerInfo = GameData.data.saveData.ReadPlayerInfo();
             maxVitality = playerInfo.maxHealth;
+
             currentVitality = playerInfo.currentHealth;
+            if (currentVitality == 0)
+            {
+                currentVitality = maxVitality;
+            }
+
             currentQuest = playerInfo.currentQuest;
             gold = playerInfo.gold;
             karma = playerInfo.karma;
@@ -89,7 +95,6 @@ namespace Character2D
             spawnPoint = spawnManager.gameObject.transform.position;
             SetArmor(playerInfo.equippedArmor, isLoad : true);
             SetWeapon(playerInfo.equippedWeapon, isLoad : true);
-            TakeDamage(gameObject, 0);
 
             transform.position = spawnPoint;
 
@@ -112,7 +117,7 @@ namespace Character2D
         {
             if (update)
             {
-                if (name == currentQuest)
+                if (name == currentQuest || currentQuest == "")
                 {
                     if (playerQuests.QuestIsActive(name))
                     {
@@ -141,22 +146,30 @@ namespace Character2D
             InvokePlayerInfoChange();
         }
 
-        public void SetGold(int delta, bool stolen = false)
+        public void SetGold(int delta, bool stolen = false, bool dead = false)
         {
             gold += delta;
+            if (gold < 0)
+            {
+                gold = 0;
+            }
             goldText.text = gold.ToString();
             InvokePlayerInfoChange();
-            if (delta > 0 && !stolen)
+            if (delta > 0 && !stolen && !dead)
             {
                 EventDisplay.instance.AddEvent("Received " + Mathf.Abs(delta) + " gold.");
             }
-            else if (delta <= 0 && !stolen)
+            else if (delta <= 0 && !stolen && !dead)
             {
                 EventDisplay.instance.AddEvent("Gave " + Mathf.Abs(delta) + " gold.");
             }
-            else
+            else if (stolen && !dead)
             {
                 EventDisplay.instance.AddEvent(Mathf.Abs(delta) + " gold was taken from you.");
+            }
+            else if (dead)
+            {
+                EventDisplay.instance.AddEvent("Lost " + Mathf.Abs(delta) + " gold due to dying.");
             }
         }
 
@@ -258,6 +271,9 @@ namespace Character2D
             //take away player input
             ToggleCamera(false);
             playerInput.DisableInput();
+
+            //death penalty of 5% of gold
+            SetGold(-Mathf.RoundToInt(gold * 0.05f), false, true);
 
             isDying = true;
             anim.SetBool("isDying", isDying);

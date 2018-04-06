@@ -300,7 +300,7 @@ public class SaveData : ScriptableObject
             if (reader.Read())
             {
                 bool result = reader.GetBoolean(reader.GetOrdinal("isUnlocked"));
-                Debug.Log("Checkpoint=" + name + ", isUnlocked=" + result);
+                //Debug.Log("Checkpoint=" + name + ", isUnlocked=" + result);
                 return result;
             }
             else
@@ -513,7 +513,7 @@ public class SaveData : ScriptableObject
             if (reader.Read())
             {
                 int result = reader.GetInt32(reader.GetOrdinal("step"));
-                Debug.Log("Quest name=" + name + ", step=" + result);
+                //Debug.Log("Quest name=" + name + ", step=" + result);
                 return result;
             }
             else
@@ -536,7 +536,6 @@ public class SaveData : ScriptableObject
     // Set that the boss with the specified id has been killed
     private void WriteBossDefeated(string name)
     {
-        Debug.Log(name);
         try
         {
             cmd.CommandText = "UPDATE Bosses SET isDefeated = @isDefeated WHERE name = @name";
@@ -565,7 +564,7 @@ public class SaveData : ScriptableObject
             if (reader.Read())
             {
                 bool result = reader.GetBoolean(reader.GetOrdinal("isDefeated"));
-                Debug.Log("Boss name=" + name + ", isDefeated=" + result);
+                //Debug.Log("Boss name=" + name + ", isDefeated=" + result);
                 return result;
             }
             else

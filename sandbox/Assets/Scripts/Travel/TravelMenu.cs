@@ -29,7 +29,7 @@ public class TravelMenu : MonoBehaviour
 	private IEnumerator OpenDelay(bool fastTravel)
 	{
 		yield return new WaitForSeconds(1.0f); //wait for travel/death screen to fade in completely
-		player.Respawn(fastTravel);
+		player.Respawn(!fastTravel);
 	}
 
 	private IEnumerator CloseDelay()

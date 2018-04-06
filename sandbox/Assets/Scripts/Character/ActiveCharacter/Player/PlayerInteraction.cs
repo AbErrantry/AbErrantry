@@ -28,8 +28,6 @@ namespace Character2D
         public TMP_Text interactBarText; //the text displayed on the interact bar
         public Button collectAllButton;
 
-        private string interactKey; //the key for interaction
-
         public bool interactionInput; //whether the character is trying to interact or not
         public bool isInteracting;
         public float interactTime;
@@ -58,8 +56,7 @@ namespace Character2D
             interactionInput = false;
             interactBar.SetActive(false);
             interactContainer.SetActive(false);
-            //TODO: set default interactBarKey
-            interactKey = "Q";
+
             interactTime = 0.5f;
         }
 
@@ -311,17 +308,10 @@ namespace Character2D
             StartCoroutine(InteractDelay(false));
         }
 
-        //changes the interact key for display
-        //TODO: implement
-        public void InteractKeyChange(string newKey)
-        {
-            interactKey = newKey;
-        }
-
         private void SetInteractBarText(string interactType, string interactItem, bool isMultiple)
         {
             string press = "<color=white>Press ";
-            string key = "<color=red>" + interactKey;
+            string key = "<color=red>" + GetKeyName.Input("Interact", KeyTarget.PositivePrimary);
             string type = "<color=white> to " + interactType;
             if (isMultiple)
             {

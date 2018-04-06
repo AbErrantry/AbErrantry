@@ -50,7 +50,6 @@ public abstract class Openable : Interactable
 		if (isLocked)
 		{
 			isLocked = false;
-			Debug.Log("Unlocked");
 			anim.SetBool("isLocked", isLocked);
 			ToggleState();
 		}

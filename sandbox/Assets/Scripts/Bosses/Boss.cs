@@ -22,13 +22,13 @@ public abstract class Boss : Attackable
 		{
 			SpawnBoss();
 		}
-		
+
 	}
 
 	// Update is called once per frame
 	protected void Update()
 	{
-		 if (player.position.x >= transform.position.x)
+		if (player.position.x >= transform.position.x)
 		{
 			isFacingRight = true;
 			transform.eulerAngles = new Vector3(0, 180, 0);
@@ -52,6 +52,7 @@ public abstract class Boss : Attackable
 			OnBossDefeated(name);
 			EventDisplay.instance.AddEvent("Defeated " + name + " boss.");
 		}
+		Destroy(gameObject);
 	}
 
 }

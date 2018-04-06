@@ -1,0 +1,35 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Good morning, knight.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>It's time for your daily training.</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>Go ahead and work your way towards the castle. The King would like to talk with you.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>It's about the @.</text>
+		<next>4</next>
+	</segment>
+	
+	<segment id="4">
+		<text>Oops, I almost forgot. Here's the key for the course. Don't take too long now.</text>
+		<action type="GiveItem">
+			<name>Training Area Key</name>
+			<number>1</number>
+		</action>
+		<action type="ProgressQuest">
+			<name>Training</name>
+			<number>1</number>
+		</action>
+	</segment>
+	
+</dialogue>

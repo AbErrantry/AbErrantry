@@ -9,7 +9,8 @@ public abstract class UnlockAction : MonoBehaviour
         None,
         ButtonsDown,
         DestroyAttackables,
-        HaveKey
+        HaveKey,
+        BossDefeated,
     }
 
     protected Openable openable;
@@ -21,8 +22,11 @@ public abstract class UnlockAction : MonoBehaviour
 
     protected void UnlockOpenable()
     {
-        openable.Unlock();
-        EventDisplay.instance.AddEvent("A door or chest has unlocked somewhere.");
+        if (openable.isLocked)
+        {
+            openable.Unlock();
+            EventDisplay.instance.AddEvent("A door or chest has unlocked somewhere.");
+        }
     }
 
     protected abstract void CheckUnlock();
