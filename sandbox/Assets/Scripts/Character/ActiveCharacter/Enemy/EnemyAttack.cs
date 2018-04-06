@@ -9,11 +9,14 @@ namespace Character2D
         public bool canAttack;
         private Enemy enemy;
 
+        private string attackNoise;
+        
         // Use this for initialization
         protected new void Start()
         {
             enemy = GetComponent<Enemy>();
             base.Start();
+            attackNoise = "event:/" + character.fields.type + "/attack";
         }
 
         // Update is called once per frame
@@ -56,6 +59,11 @@ namespace Character2D
         public void PlayAttack()
         {
             anim.Play("POWER");
+        }
+
+        protected override void InitializeAttack(int index)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(attackNoise);
         }
     }
 }

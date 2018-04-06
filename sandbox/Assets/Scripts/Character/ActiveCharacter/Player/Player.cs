@@ -245,6 +245,7 @@ namespace Character2D
         public override void TakeDamage(GameObject attacker, int damage)
         {
             int dmg = damage - Mathf.RoundToInt(GameData.data.itemData.itemDictionary[equippedArmor].strength) >= 0 ? damage - Mathf.RoundToInt(GameData.data.itemData.itemDictionary[equippedArmor].strength) : 0;
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Knight/take_damage");
             base.TakeDamage(attacker, dmg);
             if (currentVitality < 0)
             {

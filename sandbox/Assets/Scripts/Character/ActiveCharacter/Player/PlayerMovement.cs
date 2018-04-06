@@ -146,6 +146,7 @@ namespace Character2D
                 //if this is the first jump frame, add the jump force
                 if (isInitJump)
                 {
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Knight/jump");
                     rb.velocity = new Vector2(rb.velocity.x, 0.0f);
                     rb.AddForce(new Vector2(0f, jumpForce));
                     isInitJump = false;
@@ -216,7 +217,7 @@ namespace Character2D
 
         protected override void SetMovementLogic()
         {
-            if (Mathf.Abs(lastPosition - rb.transform.position.x) > 0.001f && mvmtSpeed != 0)
+            if (Mathf.Abs(lastPosition - rb.transform.position.x) > Time.deltaTime && mvmtSpeed != 0)
             {
                 isMoving = true;
             }

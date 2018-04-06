@@ -81,10 +81,12 @@ namespace Character2D
                 if (attackDuration > attack2Threshold)
                 {
                     StartCoroutine(Attack(1));
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Knight/swing");
                 }
                 else
                 {
                     StartCoroutine(Attack(0));
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Knight/stab");
                 }
             }
             else if (isWindingUp && !playerMovement.isFalling)
@@ -92,6 +94,7 @@ namespace Character2D
                 if (Time.time - attackPress > attack3Threshold)
                 {
                     StartCoroutine(Attack(2));
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Knight/power");
                 }
             }
         }

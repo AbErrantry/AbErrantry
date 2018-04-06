@@ -12,6 +12,7 @@ namespace Character2D
             playerMovement = animator.GetComponentInParent<PlayerMovement>();
             playerMovement.MoveBonus(1.5f);
             playerMovement.isRolling = true;
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Knight/roll");
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state

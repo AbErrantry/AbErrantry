@@ -76,6 +76,7 @@ public class NPC : Interactable
             dormantCharacter.BecomeHostile();
             RemoveReference();
             EventDisplay.instance.AddEvent(name + " became hostile!");
+            Destroy(this);
         }
         else
         {

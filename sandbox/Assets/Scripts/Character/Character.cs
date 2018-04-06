@@ -9,7 +9,8 @@ namespace Character2D
         public enum Types //enumeration of character types
         {
             Knight,
-            Attacker,
+            MaleAttacker,
+            FemaleAttacker,
             Goblin,
             Skeleton,
             Slime,

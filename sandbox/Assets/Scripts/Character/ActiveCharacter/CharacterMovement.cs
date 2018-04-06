@@ -181,7 +181,7 @@ namespace Character2D
         //sets the logic for values related to character movement
         protected virtual void SetMovementLogic()
         {
-            if (Mathf.Abs(lastPosition - rb.transform.position.x) > 0.001f && mvmtSpeed != 0)
+            if (Mathf.Abs(lastPosition - rb.transform.position.x) > Time.deltaTime && mvmtSpeed != 0)
             {
                 isMoving = true;
             }

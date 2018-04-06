@@ -49,6 +49,9 @@ namespace Character2D
 
         public bool isDormant;
 
+        private string damageNoise;
+        private string deathNoise;
+
         void OnBecameVisible()
         {
             enabled = true;
@@ -81,15 +84,22 @@ namespace Character2D
             playerInRange = false;
 
             enabled = false;
+
+            damageNoise = "event:/" + character.fields.type + "/take_damage";
+            deathNoise = "event:/" + character.fields.type + "/death";
         }
 
         public override void TakeDamage(GameObject attacker, int damage)
         {
             base.TakeDamage(attacker, damage);
-            if (attacker.GetComponent<Player>() != null && !chasingPlayer)
+            if(canTakeDamage)
             {
-                SetPlayerTarget(attacker);
-            }
+                FMODUnity.RuntimeManager.PlayOneShot(damageNoise);
+                if (attacker.GetComponent<Player>() != null && !chasingPlayer)
+                {
+                    SetPlayerTarget(attacker);
+                }
+            }  
         }
 
         public void SetPlayerTarget(GameObject player)
@@ -166,13 +176,21 @@ namespace Character2D
             //enemy no longer attackable
             isDying = true;
             anim.SetBool("isDying", isDying); //death animation
+            FMODUnity.RuntimeManager.PlayOneShot(deathNoise);
         }
 
         public override void FinalizeDeath()
         {
             //drop loot
-            EventDisplay.instance.AddEvent("Defeated " + character.fields.type);
-            //TODO: give random amount of gold around enemy difficulty.
+            if(GetComponent<DormantCharacter>() != null)
+            {
+                EventDisplay.instance.AddEvent("Defeated " + GetComponent<DormantCharacter>().name + ".");
+            }
+            else
+            {
+                EventDisplay.instance.AddEvent("Defeated " + character.fields.type + ".");
+            }
+            Player.instance.SetGold(UnityEngine.Random.Range(1,6) * character.fields.vitality);
             Destroy(gameObject);
         }
 

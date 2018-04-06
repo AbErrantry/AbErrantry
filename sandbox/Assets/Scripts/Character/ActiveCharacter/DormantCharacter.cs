@@ -7,11 +7,13 @@ namespace Character2D
 	public class DormantCharacter : MonoBehaviour
 	{
 		private Enemy enemy;
+		public new string name;
 
 		// Use this for initialization
 		void Start()
 		{
 			enemy = GetComponent<Enemy>();
+			name = GetComponent<NPC>().name;
 			enemy.canTakeDamage = false;
 			enemy.canKnockBack = false;
 			enemy.isDormant = true;

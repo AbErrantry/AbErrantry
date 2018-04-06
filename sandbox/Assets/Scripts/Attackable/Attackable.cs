@@ -14,6 +14,8 @@ namespace Character2D
 
         public event Action<Attackable> OnAttackableDestroyed;
 
+        protected string attackNoise;
+
         protected int maxVitality;
         protected int currentVitality;
 
