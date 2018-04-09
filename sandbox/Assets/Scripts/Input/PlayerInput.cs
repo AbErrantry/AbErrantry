@@ -84,7 +84,7 @@ namespace Character2D
             {
                 sleepTimer = Time.time;
             }
-
+            if (hInput.GetButtonDown("Crouch") != false)
             {
                 sleepTimer = Time.time;
             }
@@ -192,16 +192,16 @@ namespace Character2D
 
         public void EnableInput(bool menu = false)
         {
-            if (menu && !isAsleep)
+            if (menu && !isAsleep && !Player.instance.isDying)
             {
                 //have to wait for the end of the frame
                 StartCoroutine(EnableInputRoutine());
             }
-            else if (menu && isAsleep)
+            else if (menu && isAsleep && !Player.instance.isDying)
             {
                 StartCoroutine(WakeUp(false));
             }
-            else if (isAsleep)
+            else if (isAsleep && !Player.instance.isDying)
             {
                 if (backpackMenu.isOpen || playerInteraction.isOpen || dialogueManager.isOpen)
                 {
@@ -211,6 +211,10 @@ namespace Character2D
                 {
                     StartCoroutine(WakeUp(false));
                 }
+            }
+            else if (Player.instance.isDying)
+            {
+                interactTrigger.EnableTrigger();
             }
             else
             {

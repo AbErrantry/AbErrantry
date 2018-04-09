@@ -4518,7 +4518,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 268.65
+  m_fontSize: 268.4
   m_fontSizeBase: 140
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -12769,7 +12769,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 268.65
+  m_fontSize: 268.4
   m_fontSizeBase: 140
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -14227,13 +14227,18 @@ MonoBehaviour:
   - 125
   - 105
   velocity: 1
---- !u!81 &1217749269
-AudioListener:
+--- !u!114 &1217749269
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1217749266}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListenerNumber: 0
 --- !u!124 &1217749270
 Behaviour:
   m_ObjectHideFlags: 0
@@ -18592,9 +18597,10 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Missing Persons is a game created by the Senior Design Team consisting
-    of Sean Croskey, Luke Pacheco, Aristotelis Papioannou, and Dominic Retli. The
-    project was overseen by Patricia Anderson, her son Luke, and Dr. Bruce Maxim. '
+  m_text: 'Ab Errantry is a Senior Design project created by University of Michigan-Dearborn
+    students Sean Croskey, Luke Pacheco, Aristotelis Papioannou, and Dominic Retli.
+    The project was overseen by Patricia F. Anderson, Luke Veninga, and Dr. Bruce
+    Maxim. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73898333b1528674aaccfb49b81e586f, type: 2}
   m_sharedMaterial: {fileID: 21857221863307850, guid: 73898333b1528674aaccfb49b81e586f,
@@ -18629,7 +18635,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_textAlignment: 257
+  m_textAlignment: 513
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -22631,7 +22637,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Caption 2: more text goes here.'
+  m_text: This game was created over a period of eight months in the Unity3d game
+    engine. It exists as an open source project on GitHub. If you have any questions,
+    please send an email to aberrantry@umich.edu.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73898333b1528674aaccfb49b81e586f, type: 2}
   m_sharedMaterial: {fileID: 21857221863307850, guid: 73898333b1528674aaccfb49b81e586f,
@@ -22666,7 +22674,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_textAlignment: 257
+  m_textAlignment: 513
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0

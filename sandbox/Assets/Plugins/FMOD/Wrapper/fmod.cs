@@ -1,6 +1,6 @@
 /* ========================================================================================== */
 /*                                                                                            */
-/* FMOD Studio - C# Wrapper . Copyright (c), Firelight Technologies Pty, Ltd. 2004-2017.      */
+/* FMOD Studio - C# Wrapper . Copyright (c), Firelight Technologies Pty, Ltd. 2004-2018.          */
 /*                                                                                            */
 /* ========================================================================================== */
 
@@ -17,8 +17,8 @@ namespace FMOD
     */
     public class VERSION
     {
-        public const int    number = 0x00011002;
-#if (UNITY_IPHONE || UNITY_TVOS || UNITY_SWITCH) && !UNITY_EDITOR
+        public const int    number = 0x00011004;
+#if (UNITY_IPHONE || UNITY_TVOS || UNITY_SWITCH || UNITY_WEBGL) && !UNITY_EDITOR
         public const string dll    = "__Internal";
 #elif (UNITY_PS4) && !UNITY_EDITOR
         public const string dll    = "libfmod";
@@ -4450,35 +4450,45 @@ namespace FMOD
         public class ThreadSafeEncoding : IDisposable
         {
             UTF8Encoding encoding = new UTF8Encoding();
-            byte[] buffer = new byte[128];
-            private bool inUse;
+            byte[] encodedBuffer = new byte[128];
+            char[] decodedBuffer = new char[128];
+            bool inUse;
 
-            public bool InUse()     {   return inUse;   }
-            public void SetInUse()  {   inUse = true;   }
+            public bool InUse()    { return inUse; }
+            public void SetInUse() { inUse = true; }
+
+            private int roundUpPowerTwo(int number)
+            {
+                int newNumber = 1;
+                while (newNumber <= number)
+                {
+                    newNumber *= 2;
+                }
+
+                return newNumber;
+            }
 
             public byte[] byteFromStringUTF8(string s)
             {
-                if (s == null)  return null;
-                // Allow one extra byte for null terminator
-                int maximumLength = encoding.GetMaxByteCount(s.Length) + 1;
-                if (maximumLength > buffer.Length)
+                if (s == null)
                 {
-                    // Allow one extra byte for null terminator
-                    int encodedLength = encoding.GetByteCount(s) + 1;
-                    if (encodedLength > buffer.Length)
+                    return null;
+                }
+
+                int maximumLength = encoding.GetMaxByteCount(s.Length) + 1; // +1 for null terminator
+                if (maximumLength > encodedBuffer.Length)
+                {
+                    int encodedLength = encoding.GetByteCount(s) + 1; // +1 for null terminator
+                    if (encodedLength > encodedBuffer.Length)
                     {
-                        int newLength = buffer.Length;
-                        while (newLength < encodedLength)
-                        {
-                            newLength *= 2;
-                        }
-                        buffer = new byte[newLength];
+                        encodedBuffer = new byte[roundUpPowerTwo(encodedLength)];
                     }
                 }
-                int byteCount = encoding.GetBytes(s, 0, s.Length, buffer, 0);
-                // FMOD expects a null terminator, the calculation allows space for this
-                buffer[byteCount] = 0;
-                return buffer;
+
+                int byteCount = encoding.GetBytes(s, 0, s.Length, encodedBuffer, 0);
+                encodedBuffer[byteCount] = 0; // Apply null terminator
+
+                return encodedBuffer;
             }
 
             public string stringFromNative(IntPtr nativePtr)
@@ -4488,29 +4498,37 @@ namespace FMOD
                     return "";
                 }
 
-                int strlen = 0;
-                while (Marshal.ReadByte(nativePtr, strlen) != 0)
+                int nativeLen = 0;
+                while (Marshal.ReadByte(nativePtr, nativeLen) != 0)
                 {
-                    strlen++;
+                    nativeLen++;
                 }
-                if (strlen > 0)
-                {
-                    if (buffer.Length < strlen)
-                    {
-                        int newLength = buffer.Length;
-                        while (newLength < strlen)
-                        {
-                            newLength *= 2;
-                        }
-                        buffer = new byte[newLength];
-                    }
-                    Marshal.Copy(nativePtr, buffer, 0, strlen);
-                    return Encoding.UTF8.GetString(buffer, 0, strlen);
-                }
-                else
+
+                if (nativeLen == 0)
                 {
                     return "";
                 }
+
+                if (nativeLen > encodedBuffer.Length)
+                {
+                    encodedBuffer = new byte[roundUpPowerTwo(nativeLen)];
+                }
+
+                Marshal.Copy(nativePtr, encodedBuffer, 0, nativeLen);
+
+                int maximumLength = encoding.GetMaxCharCount(nativeLen);
+                if (maximumLength > decodedBuffer.Length)
+                {
+                    int decodedLength = encoding.GetCharCount(encodedBuffer, 0, nativeLen);
+                    if (decodedLength > decodedBuffer.Length)
+                    {
+                        decodedBuffer = new char[roundUpPowerTwo(decodedLength)];
+                    }
+                }
+
+                int charCount = encoding.GetChars(encodedBuffer, 0, nativeLen, decodedBuffer, 0);
+
+                return new String(decodedBuffer, 0, charCount);
             }
 
             public void Dispose()
