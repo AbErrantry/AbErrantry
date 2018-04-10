@@ -20,7 +20,7 @@ public class RobotBoss : Boss {
 		name = "Robot";
 		canTakeDamage = true;
 		isFacingRight = false;
-		player = GameObject.Find("Knight").GetComponent<Transform>();
+		//player = GameObject.Find("Knight").GetComponent<Transform>();
 
 		base.Start();
 	}

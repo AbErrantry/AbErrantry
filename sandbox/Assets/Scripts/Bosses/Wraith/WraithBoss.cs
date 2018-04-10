@@ -36,7 +36,7 @@ namespace Character2D
 			cooldown = attackCooldown;
 			min = rainFireTrigger.bounds.min;
 			max = rainFireTrigger.bounds.max;
-			player = GameObject.Find("Knight").GetComponent<Transform>();
+			//player = GameObject.Find("Knight").GetComponent<Transform>();
 			startTime = Time.time;
 			isFacingRight = false;
 			base.Start();
