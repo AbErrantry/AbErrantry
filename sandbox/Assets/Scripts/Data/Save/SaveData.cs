@@ -19,7 +19,11 @@ public class SaveData : ScriptableObject
     private void OnEnable()
     {
         file = PlayerPrefs.GetString("CurrentSave");
-        path = "URI=file:" + Application.streamingAssetsPath + "/Save/" + file;
+        if (file == null)
+        {
+            Application.Quit();
+        }
+        path = "URI=file:" + Application.streamingAssetsPath + "/Saves/" + file;
 
         SubscribeToEvents();
         OpenConnection();

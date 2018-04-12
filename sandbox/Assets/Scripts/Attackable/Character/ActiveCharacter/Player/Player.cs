@@ -111,6 +111,24 @@ namespace Character2D
             isSavingPrincess = playerInfo.isSavingPrincess;
 
             locationText.text = spawnManager.persistentLevel.levelInfo.displayName;
+
+            SetSavingCharacter();
+        }
+
+        private void SetSavingCharacter()
+        {
+            if (PlayerPrefs.GetInt("IsNewFile") == 1)
+            {
+                if (PlayerPrefs.GetInt("IsSavingPrince") == 1)
+                {
+                    isSavingPrincess = false;
+                }
+                else
+                {
+                    isSavingPrincess = true;
+                }
+                InvokePlayerInfoChange();
+            }
         }
 
         public void SetQuest(string name, bool update)
