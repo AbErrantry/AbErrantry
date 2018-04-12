@@ -31,6 +31,17 @@ public class OgreBoss : Boss
 
 	protected new void Update()
 	{
+		if (player.position.x >= transform.position.x)
+		{
+			isFacingRight = true;
+			transform.eulerAngles = new Vector3(0, 180, 0);
+		}
+		else
+		{
+			isFacingRight = false;
+			transform.eulerAngles = new Vector3(0, 0, 0);
+		}
+
 		//Debug.Log("Min: "+ min.ToString() + " Max: " + max.ToString());
 		if(cooldown<=0 && !isAttacking)
 		{

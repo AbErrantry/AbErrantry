@@ -7,19 +7,25 @@ namespace Character2D
 public class Snowball : MonoBehaviour {
 
 	public int snowballDamage;
+
+	[Tooltip("How long until the Snowball disappears")]
+	[Range(1,60)]
+	public float timeout;
 	private Vector2 completeStop;
 	// Use this for initialization
 	void Start ()
 	{
-		completeStop = new Vector2(0,0);
-		//gameObject.GetComponent<Animator>().SetTrigger("Spawn");
 
 	}
 	void Update()
 	{
-		if(gameObject.GetComponent<Rigidbody2D>().velocity == completeStop)
+		if(timeout <=0)
 		{
 			StartCoroutine(DestroySnowball());
+		}
+		else
+		{
+			timeout -= Time.deltaTime;
 		}
 	}
 	

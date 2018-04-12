@@ -28,16 +28,7 @@ public abstract class Boss : Attackable
 	// Update is called once per frame
 	protected void Update()
 	{
-		if (player.position.x >= transform.position.x)
-		{
-			isFacingRight = true;
-			transform.eulerAngles = new Vector3(0, 180, 0);
-		}
-		else
-		{
-			isFacingRight = false;
-			transform.eulerAngles = new Vector3(0, 0, 0);
-		}
+	
 	}
 
 	protected void SpawnBoss()

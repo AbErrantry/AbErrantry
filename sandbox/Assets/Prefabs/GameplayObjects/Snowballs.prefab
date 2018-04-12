@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 58491904659518532}
   - component: {fileID: 95916536797704740}
   - component: {fileID: 114694551643166808}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: Snowballs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0.5
   m_Material: {fileID: 0}
   m_Interpolate: 1
@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snowballDamage: 15
+  timeout: 15
 --- !u!212 &212896147908437352
 SpriteRenderer:
   m_ObjectHideFlags: 1
