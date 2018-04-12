@@ -41,6 +41,8 @@ namespace Character2D
 
         protected bool movementOverride;
 
+        FMOD.Studio.EventInstance jumpEvent;
+
         //used for initialization
         protected new void Start()
         {
@@ -58,6 +60,8 @@ namespace Character2D
             climbSpeed = 0.0f;
             bonusForce = 200.0f;
             movementOverride = false;
+
+            jumpEvent = FMODUnity.RuntimeManager.CreateInstance("event:/Knight/jump");
         }
 
         //called once per frame (for input)
@@ -146,7 +150,7 @@ namespace Character2D
                 //if this is the first jump frame, add the jump force
                 if (isInitJump)
                 {
-                    FMODUnity.RuntimeManager.PlayOneShot("event:/Knight/jump");
+                    jumpEvent.start();
                     rb.velocity = new Vector2(rb.velocity.x, 0.0f);
                     rb.AddForce(new Vector2(0f, jumpForce));
                     isInitJump = false;
