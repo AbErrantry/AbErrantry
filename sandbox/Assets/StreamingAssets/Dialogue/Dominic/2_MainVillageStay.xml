@@ -1,0 +1,37 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Hello again! Everything going well I assume?</text>
+		<choice id="0">
+			<text>I'd like to trade.</text>
+			<next>1</next>
+		</choice>
+		<choice id="1">
+			<text>Nevermind.</text>
+			<next>3</next>
+		</choice>
+	</segment>
+	
+	<segment id="1">
+		<text>What would you like?</text>
+		<action type="OpenShopMenu"/>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>Would you like to buy anything else?</text>
+		<choice id="1">
+			<text>Yes.</text>
+			<next>1</next>
+		</choice>
+		<choice id="2">
+			<text>No.</text>
+			<next>3</next>
+		</choice>
+	</segment>
+	
+	<segment id="3">
+		<text>See you around, Knight.</text>
+	</segment>
+	
+</dialogue>

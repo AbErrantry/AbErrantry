@@ -300,6 +300,11 @@ public class ConfigSettings : MonoBehaviour
 		PlayerPrefs.SetString("CurrentSave", newSaveFile.text + ".db");
 		PlayerPrefs.SetInt("IsNewFile", 1);
 
+		if (File.Exists(Application.streamingAssetsPath + "/" + newSaveFile.text + "-Log.txt"))
+		{
+			File.Delete(Application.streamingAssetsPath + "/" + newSaveFile.text + "-Log.txt");
+		}
+
 		string source = Application.streamingAssetsPath + "/Default/TestDatabase.db";
 		string dest = Application.streamingAssetsPath + "/Saves/" + newSaveFile.text + ".db";
 

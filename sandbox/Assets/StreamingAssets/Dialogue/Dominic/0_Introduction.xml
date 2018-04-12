@@ -1,38 +1,14 @@
 <dialogue>
 
 	<segment id="0">
-		<text>Hey, knight.</text>
+		<text>Hi there. My name's Dominic and I'm a traveling salesman.</text>
 		<choice id="0">
-			<text>Shop.</text>
+			<text>What do you have to offer?</text>
 			<next>1</next>
 		</choice>
 		<choice id="1">
-			<text>Give me some gold.</text>
+			<text>Nevermind.</text>
 			<next>3</next>
-		</choice>
-		<choice id="2">
-			<text>Give me an Iron Sword.</text>
-			<next>4</next>
-		</choice>
-		<choice id="3">
-			<text>Go away.</text>
-			<next>5</next>
-		</choice>
-		<choice id="4">
-			<text>Want some of my stuff?</text>
-			<next>6</next>
-		</choice>
-		<choice id="5">
-			<text>Can you move to the far side of the Castle?</text>
-			<next>13</next>
-		</choice>
-		<choice id="6">
-			<text>Can you move to the Plains?</text>
-			<next>15</next>
-		</choice>
-		<choice id="7">
-			<text>Progress my quest!</text>
-			<next>17</next>
 		</choice>
 	</segment>
 	
@@ -50,140 +26,20 @@
 		</choice>
 		<choice id="2">
 			<text>No.</text>
-			<next>20</next>
+			<next>3</next>
 		</choice>
 	</segment>
 	
 	<segment id="3">
-		<text>Here's 100 gold.</text>
-		<action type="GiveGold">
-			<number>100</number>
-		</action>
-		<next>20</next>
-	</segment>
-	
-	<segment id="4">
-		<text>Here's 1 Iron Sword.</text>
-		<action type="GiveItem">
-			<name>Iron Sword</name>
-			<number>1</number>
-		</action>
-		<next>20</next>
-	</segment>
-	
-	<segment id="5">
-		<text>Alright, then.</text>
-		<action type="Disappear"/>
-	</segment>
-	
-	<segment id="6">
-		<text>Sure. What do you want to give me?</text>
-		<choice id="0">
-			<text>Take some of my gold.</text>
-			<next>7</next>
-		</choice>
-		<choice id="1">
-			<text>Take my iron sword.</text>
-			<next>8</next>
-		</choice>
-		<choice id="2">
-			<text>Take my emerald sword.</text>
-			<next>9</next>
-		</choice>
-		<choice id="2">
-			<text>Take 5 of my iron swords.</text>
-			<next>10</next>
-		</choice>
-	</segment>
-	
-	<segment id="7">
-		<text>Alright, do you want to give me 100 gold?</text>
-		<action type="RequestGold">
-			<number>100</number>
-			<xloc>11</xloc>
-			<yloc>12</yloc>
-		</action>
-	</segment>
-	
-	<segment id="8">
-		<text>Alright, do you want to give me 1 iron sword?</text>
-		<action type="RequestItem">
-			<name>Iron Sword</name>
-			<number>1</number>
-			<xloc>11</xloc>
-			<yloc>12</yloc>
-		</action>
-	</segment>
-	
-	<segment id="9">
-		<text>Alright, do you want to give me 1 emerald sword?</text>
-		<action type="RequestItem">
-			<name>Emerald Sword</name>
-			<number>1</number>
-			<xloc>11</xloc>
-			<yloc>12</yloc>
-		</action>
-	</segment>
-	
-	<segment id="10">
-		<text>Alright, do you want to give me 5 iron swords?</text>
-		<action type="RequestItem">
-			<name>Iron Sword</name>
-			<number>5</number>
-			<xloc>11</xloc>
-			<yloc>12</yloc>
-		</action>
-	</segment>
-	
-	<segment id="11">
-		<text>Cool, thanks for the free stuff.</text>
-		<next>20</next>
-	</segment>
-	
-	<segment id="12">
-		<text>Aww, you don't have it? That's alright.</text>
-		<next>20</next>
-	</segment>
-	
-	<segment id="13">
-		<text>...Huh?</text>
-		<next>14</next>
-	</segment>
-	
-	<segment id="14">
-		<text>I mean, I guess I can...</text>
-		<action type="TransportLocation">
-			<name>Castle1-AP</name>
-			<xloc>91.48</xloc>
-			<yloc>-48.58</yloc>
-		</action>
-	</segment>
-	
-	<segment id="15">
-		<text>...Huh?</text>
-		<next>16</next>
-	</segment>
-	
-	<segment id="16">
-		<text>I mean, I guess I can... That's kind of a long walk though.</text>
+		<text>I've got to get going. You'll catch up with me eventually.</text>
 		<action type="TransportLevel">
-			<name>Level1-1-AP</name>
-			<xloc>164.95</xloc>
-			<yloc>-48.65</yloc>
+			<name>MainVillage-DRAP</name>
+			<xloc>866.59</xloc>
+			<yloc>-37.64</yloc>
 		</action>
-	</segment>
-	
-	<segment id="17">
-		<text>Sure thing.</text>
-		<action type="ProgressQuest">
-			<name>Find the @</name>
-			<number>-1</number>
+		<action type="ProgressDialogue">
+			<number>1</number>
 		</action>
-		<next>20</next>
-	</segment>
-	
-	<segment id="20">
-		<text>Bye, knight.</text>
 	</segment>
 	
 </dialogue>

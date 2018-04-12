@@ -186,7 +186,7 @@ namespace Dialogue2D
                 {
                     case ActionTypes.AffectKarma:
                         player.SetKarma(action.number);
-                        AppendToLog(action.name);
+                        AppendToLog("[" + action.number + "]" + "[" + character.GetComponent<NPC>().name + "]" + "[" + action.name + "]");
                         break;
                     case ActionTypes.BecomeHostile:
                         character.GetComponent<NPC>().MakeHostile();

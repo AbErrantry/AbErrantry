@@ -1,0 +1,40 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Hey, Knight! Happy you made it here.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>The Squire and I are trying to pinpoint the location of the @, but we are stuck by a set of barriers in a tunnel on the outskirts of the village.</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>The mayor knows more about the situation than I do. I'd have a talk with him if I were you.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>We're getting closer to finding $. I can feel it in my bones.</text>
+		<next>4</next>
+	</segment>
+	
+	<segment id="4">
+		<text>You're doing great. Keep it up.</text>
+		<next>5</next>
+	</segment>
+	
+	<segment id="5">
+		<text>I'm going to stick near the Squire. He's been acting quite strange lately.</text>
+		<action type="TransportLevel">
+			<name>Persistent-SC</name>
+			<xloc>956.05</xloc>
+			<yloc>-71.17</yloc>
+		</action>
+		<action type="ProgressDialogue">
+			<number>2</number>
+		</action>
+	</segment>
+	
+</dialogue>

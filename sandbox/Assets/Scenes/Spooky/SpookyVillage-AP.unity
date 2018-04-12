@@ -2675,8 +2675,6 @@ GameObject:
   - component: {fileID: 717900004}
   - component: {fileID: 717900003}
   - component: {fileID: 717900002}
-  - component: {fileID: 717900001}
-  - component: {fileID: 717900000}
   m_Layer: 0
   m_Name: SpookyVillageGrid-Background
   m_TagString: World
@@ -2698,30 +2696,6 @@ Transform:
   m_Father: {fileID: 1149821052}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &717900000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114770553528111568, guid: 98bad195d72bb6b45a072db5eded40eb,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 717899998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ecba361a7cb8db49b26eeaafcb98c03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &717900001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114306395673517496, guid: 98bad195d72bb6b45a072db5eded40eb,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 717899998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96aa6fbf443a93047b11a6fc5e7860cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!66 &717900002
 CompositeCollider2D:
   m_ObjectHideFlags: 0
@@ -3125,7 +3099,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -996683687
-  m_SortingLayer: 1
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_MaxChunkCount: 16
@@ -3870,8 +3844,6 @@ GameObject:
   - component: {fileID: 720265960}
   - component: {fileID: 720265959}
   - component: {fileID: 720265958}
-  - component: {fileID: 720265957}
-  - component: {fileID: 720265956}
   m_Layer: 0
   m_Name: SpookyVillageGrid-ForeGround
   m_TagString: World
@@ -3893,30 +3865,6 @@ Transform:
   m_Father: {fileID: 1149821052}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &720265956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114320421175861058, guid: 98bad195d72bb6b45a072db5eded40eb,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 720265954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ecba361a7cb8db49b26eeaafcb98c03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &720265957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114535399556523488, guid: 98bad195d72bb6b45a072db5eded40eb,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 720265954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96aa6fbf443a93047b11a6fc5e7860cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!66 &720265958
 CompositeCollider2D:
   m_ObjectHideFlags: 0
@@ -4008,7 +3956,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1132419603
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_MaxChunkCount: 16
@@ -4099,8 +4047,69 @@ Transform:
   - {fileID: 720265955}
   - {fileID: 717899999}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1442350665
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4432685364818850, guid: 64d6f1373d400cf4fb19a1a8e530df58, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 394.55634
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432685364818850, guid: 64d6f1373d400cf4fb19a1a8e530df58, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -409.4673
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432685364818850, guid: 64d6f1373d400cf4fb19a1a8e530df58, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 3.9702907
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432685364818850, guid: 64d6f1373d400cf4fb19a1a8e530df58, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432685364818850, guid: 64d6f1373d400cf4fb19a1a8e530df58, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432685364818850, guid: 64d6f1373d400cf4fb19a1a8e530df58, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432685364818850, guid: 64d6f1373d400cf4fb19a1a8e530df58, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432685364818850, guid: 64d6f1373d400cf4fb19a1a8e530df58, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081391908656954, guid: 64d6f1373d400cf4fb19a1a8e530df58, type: 2}
+      propertyPath: m_Name
+      value: Chest (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114951992614014066, guid: 64d6f1373d400cf4fb19a1a8e530df58,
+        type: 2}
+      propertyPath: unlockActionType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114951992614014066, guid: 64d6f1373d400cf4fb19a1a8e530df58,
+        type: 2}
+      propertyPath: name
+      value: Community Chest
+      objectReference: {fileID: 0}
+    - target: {fileID: 114951992614014066, guid: 64d6f1373d400cf4fb19a1a8e530df58,
+        type: 2}
+      propertyPath: itemName
+      value: Steel Sword
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 64d6f1373d400cf4fb19a1a8e530df58, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1903917554
 GameObject:
   m_ObjectHideFlags: 0

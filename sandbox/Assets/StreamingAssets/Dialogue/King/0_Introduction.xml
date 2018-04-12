@@ -47,12 +47,12 @@
 	</segment>
 	
 	<segment id="7">
-		<text>I need you to head through the forest to the town and investigate everyone you meet along the way.</text>
+		<text>I need you to head through the plains to the village DriftWood and investigate everyone you meet along the way.</text>
 		<next>8</next>
 	</segment>
 	
 	<segment id="8">
-		<text>Please exercise caution when talking with anyone.</text>
+		<text>Please exercise caution when talking with anyone. I do not want this information about the @'s disappearance to fall into the wrong hands.</text>
 		<next>9</next>
 	</segment>
 	
@@ -78,42 +78,42 @@
 	</segment>
 	
 	<segment id="11">
-		<text>Ah. The sword. An excellent choice for a knight.</text>
+		<text>Ah. The sword. An excellent choice for a knight. Here is some gold as well. Be safe on your journey.</text>
 		<action type="GiveItem">
 			<name>Iron Sword</name>
 			<number>1</number>
 		</action>
-		<next>14</next>
+		<action type="GiveGold">
+			<number>150</number>
+		</action>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
 	</segment>
 	
 	<segment id="12">
-		<text>Ah. The axe. A bit nontraditional, but I respect that.</text>
+		<text>Ah. The axe. A bit nontraditional, but I respect that. Here is some gold as well. Be safe on your journey.</text>
 		<action type="GiveItem">
 			<name>Iron Axe</name>
 			<number>1</number>
 		</action>
-		<next>14</next>
+		<action type="GiveGold">
+			<number>150</number>
+		</action>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
 	</segment>
 	
 	<segment id="13">
-		<text>Ah. The spear. Tried and true.</text>
+		<text>Ah. The spear. Tried and true. Here is some gold as well. Be safe on your journey.</text>
 		<action type="GiveItem">
 			<name>Iron Spear</name>
 			<number>1</number>
 		</action>
-		<next>14</next>
-	</segment>
-	
-	<segment id="14">
-		<text>Here is some gold as well to help you along your way.</text>
 		<action type="GiveGold">
 			<number>150</number>
 		</action>
-		<next>15</next>
-	</segment>
-	
-	<segment id="15">
-		<text>Please find my %. I'm counting on you.</text>
 		<action type="ProgressDialogue">
 			<number>1</number>
 		</action>

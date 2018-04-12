@@ -1,0 +1,40 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Hello, Knight.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>I'd recommend talking to the mayor of the village when you get a chance.</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>I don't think that the @ is anywhere around here, but the General and I both think # lies within the lava or ice caverns.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>It's a shame that the entrance to those caverns is inaccessible.</text>
+		<next>4</next>
+	</segment>
+	
+	<segment id="4">
+		<text>I can't wait for the King's thanks when I finally find his %.</text>
+		<next>5</next>
+	</segment>
+	
+	<segment id="5">
+		<text>Let me know before the General if you make any progress or find anything. I'll be around.</text>
+		<action type="TransportLevel">
+			<name>Persistent-SC</name>
+			<xloc>951.20</xloc>
+			<yloc>-70.67</yloc>
+		</action>
+		<action type="ProgressDialogue">
+			<number>2</number>
+		</action>
+	</segment>
+	
+</dialogue>
