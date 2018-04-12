@@ -38,6 +38,7 @@ public class ScrollingBackgroundMenu : MonoBehaviour
             speed = velocity / BackgroundSpeed[i];
             offsets[i] += new Vector2(Time.deltaTime * speed, 0);
             Backgrounds[i].material.mainTextureOffset = offsets[i];
+            Backgrounds[i].sortingLayerName = "Background";
         }
     }
 

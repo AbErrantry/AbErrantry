@@ -1,6 +1,6 @@
-using Character2D;
 using System.Collections;
 using System.Collections.Generic;
+using Character2D;
 using UnityEngine;
 
 public class ScrollingBackground : MonoBehaviour
@@ -45,6 +45,7 @@ public class ScrollingBackground : MonoBehaviour
             speed = cam.velocity.x / BackgroundSpeed[i];
             offsets[i] += new Vector2(Time.deltaTime * speed, 0);
             Backgrounds[i].material.mainTextureOffset = offsets[i];
+            Backgrounds[i].sortingLayerName = "Background";
         }
     }
 
@@ -53,15 +54,15 @@ public class ScrollingBackground : MonoBehaviour
         prevGrouping = currGrouping;
         currGrouping = grouping;
 
-        if(prevGrouping != null)
+        if (prevGrouping != null)
         {
-        prevGrouping.SetActive(false);
+            prevGrouping.SetActive(false);
         }
         currGrouping.SetActive(true); //new background is running
         Backgrounds = new MeshRenderer[newSize]; //reinitializes the items
         BackgroundSpeed = new float[newSize];
         offsets = new Vector2[newSize];
-        for (int i = 0; i < newSize; i++)//sets each image
+        for (int i = 0; i < newSize; i++) //sets each image
         {
             Backgrounds[i] = newImages[i];
             BackgroundSpeed[i] = newSpeeds[i];
