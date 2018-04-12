@@ -142,7 +142,7 @@ public class RobotBoss : Boss {
 		Debug.Log(Vector2.Distance(player.transform.position, transform.position));
 		GameObject clone = Instantiate(snowball, attackTrigger.bounds.center, Quaternion.identity);
 
-		clone.GetComponent<Rigidbody2D>().AddForce (Quaternion.LookRotation (player.transform.position - transform.position).eulerAngles * forceMult);
+		clone.GetComponent<Rigidbody2D>().AddForce (new Vector2(forceMult*10,0));
 	}
 	private void ShootBackpack()
 	{
