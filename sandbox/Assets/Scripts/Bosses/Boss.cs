@@ -22,7 +22,7 @@ public abstract class Boss : Attackable
 		{
 			SpawnBoss();
 		}
-
+		
 	}
 
 	// Update is called once per frame

@@ -26,6 +26,7 @@ public class OgreBoss : Boss
 		isAttacking = false;
 		min = posPositions.bounds.min;
 		max = posPositions.bounds.max;
+		attackTrigger = gameObject.GetComponentInChildren<BoxCollider2D>();
 		base.Start();
 	}
 

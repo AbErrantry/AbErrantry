@@ -19,7 +19,7 @@ public class BouncePad : MonoBehaviour {
 	{
 		if(!isBossBattle)
 		{
-			if(col.gameObject.GetComponent<Attackable>() != null)
+			if(col.gameObject.GetComponent<Attackable>() != null && col.gameObject.GetComponent<Boss>() == null)
 			{
 				playerRBody = col.gameObject.GetComponent<Rigidbody2D>();
 				Vector2 playerPos = col.transform.position;

@@ -21,6 +21,8 @@ public class WraithStart : MonoBehaviour
 											,Quaternion.identity);
 
 				clone.GetComponent<WraithBoss>().rainFireTrigger = rFTrigger;
+
+				Destroy(this.gameObject);
 			}
 		}
 	}

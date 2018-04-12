@@ -32,7 +32,7 @@ public class GolemBoss : Boss
 
 	protected new void Update()
 	{
-			if (player.position.x >= transform.position.x)
+		if (player.position.x >= transform.position.x)
 		{
 			isFacingRight = true;
 			transform.eulerAngles = new Vector3(0, 180, 0);
