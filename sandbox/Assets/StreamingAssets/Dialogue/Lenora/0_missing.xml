@@ -1,0 +1,61 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Sir! My Persian cat has ran away! I need help!</text>
+		<choice id="0">
+			<text>I can help.</text>
+			<next>1</next>
+		</choice>
+		<choice id="1">
+			<text>Where did it run off to?</text>
+			<next>1</next>
+		</choice>
+	</segment>
+	
+	<segment id="1">
+		<text>My poor cat ran into this door next to me!</text>
+		<choice id="0">
+			<text>Let me go get it for you.</text>
+			<next>2</next>
+		</choice>
+		<choice id="1">
+			<text>What does this cat look like?</text>
+			<next>3</next>
+		</choice>
+	</segment>
+	
+	<segment id="2">
+		<text>Oh, thank you sir! Hurry back with it!</text>
+		<action type="Disappear"/>
+		<action type="AffectKarma">
+			<number>-7</number>
+			<name>Lenora convinced you to find her cat which turned out to be an ambush. Always try to find out as much information as you can in scenarios like these to avoid ending up in potentially dangerous situations.</name>
+		</action>
+		<action type="GiveItem">
+			<name>Village Storage Key</name>
+			<number>1</number>
+		</action>
+	</segment>
+	
+	<segment id="3">
+		<text>Well, umm, it's a, uhh, Siamese cat that I love very dearly!</text>
+		<choice id="0">
+			<text>Alright, wait here and I will find it.</text>
+			<next>2</next>
+		</choice>
+		<choice id="1">
+			<text>Didn't you say before that it was a Persian cat?</text>
+			<next>4</next>
+		</choice>
+	</segment>
+	
+	<segment id="4">
+		<text>Well... no, I mean, yes, I mean, umm...</text>
+		<action type="Disappear"/>
+		<action type="AffectKarma">
+			<number>10</number>
+			<name>By investigating into Lenora's story before searching for the cat, you found a hole in the story and dodged a dangerous situation.</name>
+		</action>
+	</segment>
+	
+</dialogue>

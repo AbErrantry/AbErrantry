@@ -59,6 +59,11 @@ public static class hInput
         hManager.Active().SetKeySensitivity(uniqueKeyName, sensitivity);
     }
 
+    public static void SetKeyInvert(string uniqueKeyName, bool invert)
+    {
+        hManager.Active().SetKeyInvert(uniqueKeyName, invert);
+    }
+
     public static KeyCode CurrentKeyDown()
     {
         return hManager.Active().CurrentKeyDown();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Character2D;
@@ -70,7 +71,19 @@ namespace Dialogue2D
 
             dialogueContainer.SetActive(false);
 
-            textSpeed = 1.0f;
+            if (PlayerPrefs.GetString("TextSpeed") == "Fast")
+            {
+                textSpeed = 1.0f;
+            }
+            else if (PlayerPrefs.GetString("TextSpeed") == "Normal")
+            {
+                textSpeed = 2.0f;
+            }
+            else
+            {
+                textSpeed = 3.0f;
+            }
+
             xMinLeft = 0.007f;
             xMaxLeft = 0.50f;
             xMinRight = 0.50f;
@@ -173,6 +186,7 @@ namespace Dialogue2D
                 {
                     case ActionTypes.AffectKarma:
                         player.SetKarma(action.number);
+                        AppendToLog(action.name);
                         break;
                     case ActionTypes.BecomeHostile:
                         character.GetComponent<NPC>().MakeHostile();
@@ -233,6 +247,15 @@ namespace Dialogue2D
                         Debug.LogError(nameText.text + " has an action of type " + action.type.ToString() + " which is undefined.");
                         break;
                 }
+            }
+        }
+
+        private void AppendToLog(string entry)
+        {
+            string path = Application.streamingAssetsPath + "/" + GameData.data.saveData.filename + "-Log.txt";
+            using(StreamWriter sw = File.AppendText(path))
+            {
+                sw.WriteLine(entry);
             }
         }
 

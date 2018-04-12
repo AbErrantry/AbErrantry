@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using Character2D;
 using Mono.Data.Sqlite;
 using UnityEngine;
@@ -9,6 +10,8 @@ using UnityEngine.SceneManagement;
 
 public class SaveData : ScriptableObject
 {
+    public string filename;
+
     private string path;
     private string file;
 
@@ -24,6 +27,7 @@ public class SaveData : ScriptableObject
             Application.Quit();
         }
         path = "URI=file:" + Application.streamingAssetsPath + "/Saves/" + file;
+        filename = Path.GetFileNameWithoutExtension(path);
 
         SubscribeToEvents();
         OpenConnection();

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using HardShellStudios.CompleteControl;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -97,10 +98,14 @@ public class ConfigSettings : MonoBehaviour
 		{
 			SetResolutionFromPrefs(Screen.currentResolution.ToString());
 		}
-		foreach (var res in Screen.resolutions)
+		for (int i = 0; i < Screen.resolutions.Length; i++)
 		{
 			TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
-			data.text = res.ToString();
+			data.text = Screen.resolutions[i].ToString();
+			if (data.text == Screen.currentResolution.ToString())
+			{
+				resolution.value = i;
+			}
 			resolution.options.Add(data);
 		}
 		resolution.captionText.text = Screen.currentResolution.ToString();
@@ -121,8 +126,8 @@ public class ConfigSettings : MonoBehaviour
 		}
 		else
 		{
-			PlayerPrefs.SetString("ControllerType", "Keyboard");
 			controllerType.captionText.text = "Keyboard";
+			SetControllerType();
 		}
 
 		List<string> files = new List<string>(Directory.GetFiles(Application.streamingAssetsPath + "/Saves/"));
@@ -216,13 +221,56 @@ public class ConfigSettings : MonoBehaviour
 	public void SetControllerType()
 	{
 		PlayerPrefs.SetString("ControllerType", controllerType.captionText.text);
+
+		if (controllerType.captionText.text == "Keyboard")
+		{
+			hInput.SetKey("move_Horizontal", KeyCode.D, KeyTarget.PositivePrimary);
+			hInput.SetKey("move_Horizontal", KeyCode.A, KeyTarget.NegativePrimary);
+			hInput.SetKey("move_Vertical", KeyCode.W, KeyTarget.PositivePrimary);
+			hInput.SetKey("move_Vertical", KeyCode.S, KeyTarget.NegativePrimary);
+			hInput.SetKey("move_Run", KeyCode.LeftShift, KeyTarget.PositivePrimary);
+			hInput.SetKey("move_Crouch", KeyCode.LeftControl, KeyTarget.PositivePrimary);
+			hInput.SetKey("move_Jump", KeyCode.Space, KeyTarget.PositivePrimary);
+			hInput.SetKey("Attack", KeyCode.E, KeyTarget.PositivePrimary);
+			hInput.SetKey("Interact", KeyCode.Q, KeyTarget.PositivePrimary);
+			hInput.SetKey("Backpack", KeyCode.R, KeyTarget.PositivePrimary);
+			hInput.SetKey("Pause", KeyCode.Tab, KeyTarget.PositivePrimary);
+		}
+		else if (controllerType.captionText.text == "Dualshock 4")
+		{
+			hInput.SetKey("move_Horizontal_controller", AxisCode.Axis7);
+			hInput.SetKey("move_Vertical_controller", AxisCode.Axis8);
+			hInput.SetKey("move_Run", KeyCode.JoystickButton4, KeyTarget.PositivePrimary);
+			hInput.SetKey("move_Crouch", KeyCode.JoystickButton2, KeyTarget.PositivePrimary);
+			hInput.SetKey("move_Jump", KeyCode.JoystickButton1, KeyTarget.PositivePrimary);
+			hInput.SetKey("Attack", KeyCode.JoystickButton5, KeyTarget.PositivePrimary);
+			hInput.SetKey("Interact", KeyCode.JoystickButton0, KeyTarget.PositivePrimary);
+			hInput.SetKey("Backpack", KeyCode.JoystickButton3, KeyTarget.PositivePrimary);
+			hInput.SetKey("Pause", KeyCode.JoystickButton9, KeyTarget.PositivePrimary);
+		}
+		else if (controllerType.captionText.text == "Xbox Controller")
+		{
+			hInput.SetKey("move_Horizontal_controller", AxisCode.Axis6);
+			hInput.SetKey("move_Vertical_controller", AxisCode.Axis7);
+			hInput.SetKey("move_Run", KeyCode.JoystickButton4, KeyTarget.PositivePrimary);
+			hInput.SetKey("move_Crouch", KeyCode.JoystickButton1, KeyTarget.PositivePrimary);
+			hInput.SetKey("move_Jump", KeyCode.JoystickButton0, KeyTarget.PositivePrimary);
+			hInput.SetKey("Attack", KeyCode.JoystickButton5, KeyTarget.PositivePrimary);
+			hInput.SetKey("Interact", KeyCode.JoystickButton2, KeyTarget.PositivePrimary);
+			hInput.SetKey("Backpack", KeyCode.JoystickButton3, KeyTarget.PositivePrimary);
+			hInput.SetKey("Pause", KeyCode.JoystickButton7, KeyTarget.PositivePrimary);
+		}
 	}
 
 	public void ValidateSaveFileName()
 	{
-		if (saveFileNames.Contains(newSaveFile.text))
+		var isValid = !string.IsNullOrEmpty(newSaveFile.text) &&
+			newSaveFile.text.IndexOfAny(Path.GetInvalidFileNameChars()) < 0 &&
+			!File.Exists(Path.Combine(Application.streamingAssetsPath + "/Saves/", newSaveFile.text));
+		if (!isValid)
 		{
-			errorMessage.text = "Error: save file name already exists.";
+			errorMessage.text = "Error: save file is invalid";
+			newSaveFile.text = "SaveData";
 			while (saveFileNames.Contains(newSaveFile.text))
 			{
 				newSaveFile.text = newSaveFile.text + "1";
@@ -265,6 +313,11 @@ public class ConfigSettings : MonoBehaviour
 		PlayerPrefs.SetString("CurrentSave", gamesToLoad.captionText.text + ".db");
 		PlayerPrefs.SetInt("IsNewFile", 0);
 		SceneManager.LoadScene("Persistent-SC");
+	}
+
+	public void Credits()
+	{
+		SceneManager.LoadScene("Credits");
 	}
 
 	private int BoolToInt(bool val)

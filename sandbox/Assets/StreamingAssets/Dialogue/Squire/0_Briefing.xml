@@ -1,0 +1,44 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Hello, Knight.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>As the King has already briefed you on your mission, I'll keep it short and sweet.</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>The General and myself will be tagging along on your journey to find the @.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>I'll try and help you along. I'll supply you with leads and you carry them out.</text>
+		<next>4</next>
+	</segment>
+	
+	<segment id="4">
+		<text>Speaking of which, have you noticed anything off about the General lately? I think he's been acting a bit strange.</text>
+		<next>5</next>
+	</segment>
+	
+	<segment id="5">
+		<text>Either way, you best be on your way. Here's the key to unlock the castle door to the plains.</text>
+		<action type="GiveItem">
+			<name>Castle Plains Key</name>
+			<number>1</number>
+		</action>
+		<action type="TransportLevel">
+			<name>MainVillage-DRAP</name>
+			<xloc>918.25</xloc>
+			<yloc>-49.64</yloc>
+		</action>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+	</segment>
+	
+</dialogue>

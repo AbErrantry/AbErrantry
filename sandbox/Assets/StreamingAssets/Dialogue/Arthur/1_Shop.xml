@@ -1,0 +1,43 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Hmm...</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>Oh! Would you like to buy something?</text>
+		<next>2</next>
+		<choice id="0">
+			<text>Yes!</text>
+			<next>2</next>
+		</choice>
+		<choice id="1">
+			<text>Not right now.</text>
+			<next>4</next>
+		</choice>
+	</segment>
+	
+	<segment id="2">
+		<text>What would you like?</text>
+		<action type="OpenShopMenu"/>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>Would you like to buy anything else?</text>
+		<choice id="1">
+			<text>Yes, actually.</text>
+			<next>2</next>
+		</choice>
+		<choice id="2">
+			<text>Nope, that will be it.</text>
+			<next>4</next>
+		</choice>
+	</segment>
+	
+	<segment id="4">
+		<text>Alright then. If you ever need some more potions, come talk to me.</text>
+	</segment>
+	
+</dialogue>

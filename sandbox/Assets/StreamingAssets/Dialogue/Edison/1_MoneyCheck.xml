@@ -1,0 +1,46 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Do you have my money bag yet?.</text>
+		<choice id="0">
+			<text>Yes.</text>
+			<next>1</next>
+		</choice>
+		<choice id="1">
+			<text>Not yet.</text>
+			<next>5</next>
+		</choice>
+	</segment>
+	
+	<segment id="1">
+		<text>Alright, hand it over.</text>
+		<action type="RequestItem">
+			<name>Bag of Money</name>
+			<number>1</number>
+			<xloc>2</xloc>
+			<yloc>5</yloc>
+		</action>
+	</segment>
+	
+	<segment id="2">
+		<text>Finally. Did anyone see you bringing this to me? I hope not.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>Our paths may cross again in the future. Here's your cut of the pot.</text>
+		<action type="GiveGold">
+			<number>5</number>
+		</action>
+		<action type="TransportLevel">
+			<name>Level1-1-AP</name>
+			<xloc>164.95</xloc>
+			<yloc>-48.65</yloc>
+		</action>
+	</segment>
+	
+	<segment id="5">
+		<text>Ugh. Hurry up, then.</text>
+	</segment>
+	
+</dialogue>

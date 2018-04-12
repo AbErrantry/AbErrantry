@@ -59,6 +59,12 @@ public class UI_RebindKey : MonoBehaviour
 
     public void RebindKey()
     {
+        StartCoroutine(RebindKeyRoutine());
+    }
+
+    private IEnumerator RebindKeyRoutine()
+    {
+        yield return new WaitForSeconds(0.1f);
         text.text = "PRESS ANY KEY";
         textSettled = false;
         isBinding = true;

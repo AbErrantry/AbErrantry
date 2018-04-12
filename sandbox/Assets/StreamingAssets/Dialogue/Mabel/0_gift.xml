@@ -1,0 +1,35 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Hello there, youngster!</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>You look young and nimble. Would you mind delivering a gift to my niece Margaret?</text>
+		<choice id="0">
+			<text>Sure! I'd love to help.</text>
+			<next>3</next>
+		</choice>
+		<choice id="1">
+			<text>Sorry, I'm very busy right now.</text>
+			<next>2</next>
+		</choice>
+	</segment>
+	
+	<segment id="2">
+		<text>Oh that's fine. Maybe another time.</text>
+	</segment>
+	
+	<segment id="3">
+		<text>Oh great! Margaret lives in the swamp. Thank you so much for your help!</text>
+		<action type="ProgressQuest">
+			<name>Gift for Margaret</name>
+			<number>1</number>
+		</action>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+	</segment>
+	
+</dialogue>

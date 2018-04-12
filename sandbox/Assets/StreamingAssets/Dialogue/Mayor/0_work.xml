@@ -1,0 +1,53 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Welcome to DriftWood. If you didn't know, this is the largest village in the kingdom.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>Currently, the passages to the swamplands, rock caverns, and ethereal badlands are fully up and functional.</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>However,the tunnel to the ice and lava caverns is currently under maintenance.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>Well,they have been under maintenance for several years now.</text>
+		<next>4</next>
+	</segment>
+	
+	<segment id="4">
+		<text>The construction crew that was tasked with repairing them forgot to take out some barricades.</text>
+		<next>5</next>
+	</segment>
+	
+	<segment id="5">
+		<text>The crew went on to do some work in the other operational locations, but I never heard from them again.</text>
+		<next>6</next>
+	</segment>
+	
+	<segment id="6">
+		<text>If you need to get through, you'll have to go find those keys to remove the barricades.</text>
+		<next>7</next>
+	</segment>
+	
+	<segment id="7">
+		<text>You'd be doing me a huge favor by doing so. Take this key to access the currently-functional locations.</text>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+		<action type="GiveItem">
+			<name>Village Tri-path Key</name>
+			<number>1</number>
+		</action>
+		<action type="ProgressQuest">
+			<name>Find the @</name>
+			<number>2</number>
+		</action>
+	</segment>
+
+</dialogue>

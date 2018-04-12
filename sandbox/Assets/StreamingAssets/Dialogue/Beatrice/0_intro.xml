@@ -1,0 +1,64 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Welcome to the village!</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>You don't look so good. Are you feeling okay?</text>
+		<choice id="0">
+			<text>I'm fine besides the giant bear that attacked me back there.</text>
+			<next>2</next>
+		</choice>
+		<choice id="1">
+			<text>It's been a rough journey to get here.</text>
+			<next>3</next>
+		</choice>
+	</segment>
+	
+	<segment id="2">
+		<text>Giant bear? Wow, that must have been terrifying.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>Anyways, you seem lost. Do you need any help searching for anything?</text>
+		<choice id="0">
+			<text>No thanks.</text>
+			<next>4</next>
+		</choice>
+		<choice id="1">
+			<text>Yes, have you seen the @ recently?</text>
+			<next>5</next>
+		</choice>
+	</segment>
+	
+	<segment id="4">
+		<text>Alright, enjoy your stay here.</text>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+		<action type="AffectKarma">
+			<number>3</number>
+			<name>You avoided asking Beatrice about the whereabouts of the @ given that you did not know whether she could be trusted yet.</name>
+		</action>
+	</segment>
+	
+	<segment id="5">
+		<text>The @? I haven't seen $, but oddly enough two men strolled in arguing not too long ago about that.</text>
+		<next>6</next>
+		<action type="AffectKarma">
+			<number>-3</number>
+			<name>You asked Beatrice about the whereabouts of the @ when it was not certain if she could be trusted. When in doubt, give out as little information as possible.</name>
+		</action>
+	</segment>
+	
+	<segment id="6">
+		<text>Perhaps they have an idea.</text>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+	</segment>
+	
+</dialogue>

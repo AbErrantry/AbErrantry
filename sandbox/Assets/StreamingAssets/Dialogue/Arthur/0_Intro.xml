@@ -1,0 +1,29 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Oh...</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>Hello! Welcome to the village!</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>You're a new face. Nowadays, it's not often we get travelers.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>Here's a gift for coming all this way. If you ever need some potions, come talk to me.</text>
+		<action type="GiveItem">
+			<name>Small Health Potion</name>
+			<number>5</number>
+		</action>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+	</segment>
+	
+</dialogue>

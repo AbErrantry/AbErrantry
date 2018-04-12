@@ -26,7 +26,7 @@ public class ElementFocus : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (selectedItem != null && eventSystem.currentSelectedGameObject != null)
         {

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Character2D
 {
@@ -32,6 +33,10 @@ namespace Character2D
         private float sleepTimer;
 
         public InputManager inputManager;
+
+        public bool pauseInput;
+        public GameObject PauseMenu;
+        private bool isPausing;
 
         private void Awake()
         {
@@ -77,7 +82,6 @@ namespace Character2D
                 playerInteraction.interactionInput = hInput.GetButtonDown("Interact"); //send interaction input
                 playerAttack.attackInputDown = hInput.GetButtonDown("Attack"); //send attack input pressed
                 playerAttack.attackInputUp = hInput.GetButtonUp("Attack"); //send attack input released
-                // playerInteraction.pauseInput = hInput.GetButtonDown("Pause");
             }
 
             if (hInput.GetButtonDown("Jump") != false)
@@ -115,6 +119,20 @@ namespace Character2D
             if (hInput.GetButtonDown("Pause") != false)
             {
                 sleepTimer = Time.time;
+                if (!backpackMenu.isOpen && !playerInteraction.isOpen && !dialogueManager.isOpen && !travelMenu.isTravelling && !Player.instance.isDying)
+                {
+                    if (!isPausing)
+                    {
+                        Time.timeScale = 0.0f;
+                        PauseMenu.SetActive(true);
+                        isPausing = true;
+                        DisableInput();
+                    }
+                    else
+                    {
+                        Resume();
+                    }
+                }
             }
 
             if (hInput.GetButtonDown("Backpack"))
@@ -154,6 +172,20 @@ namespace Character2D
                     InvokeAwake();
                 }
             }
+        }
+
+        public void Resume()
+        {
+            Time.timeScale = 1.0f;
+            PauseMenu.SetActive(false);
+            isPausing = false;
+            EnableInput();
+        }
+
+        public void Exit()
+        {
+            Time.timeScale = 1.0f;
+            SceneManager.LoadScene("MainMenu");
         }
 
         public void InvokeSleep()

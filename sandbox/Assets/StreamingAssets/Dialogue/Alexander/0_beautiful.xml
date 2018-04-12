@@ -1,0 +1,44 @@
+<dialogue>
+
+	<segment id="0">
+		<text>It's a beautiful day out today.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>Do you ever just take a second to appreciate that?</text>
+		<choice id="0">
+			<text>As much as I can.</text>
+			<next>3</next>
+		</choice>
+		<choice id="1">
+			<text>On occasions.</text>
+			<next>3</next>
+		</choice>
+		<choice id="2">
+			<text>I'm not too sentimental.</text>
+			<next>2</next>
+		</choice>
+		<choice id="3">
+			<text>I don't have time for that.</text>
+			<next>2</next>
+		</choice>
+	</segment>
+	
+	<segment id="2">
+		<text>Fair enough.</text>
+	</segment>
+	
+	<segment id="3">
+		<text>I've learned to always count my blessings. You never know how long they will stay around.</text>
+		<next>4</next>
+	</segment>
+	
+	<segment id="4">
+		<text>Anyways, I've got some more work to do today.</text>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+	</segment>
+	
+</dialogue>

@@ -296,6 +296,14 @@ namespace HardShellStudios.CompleteControl
             hUtility.SaveBinings(inputs);
         }
 
+        public void SetKeyInvert(string uniqueKeyName, bool invert)
+        {
+            int i = GetUniqueIndex(uniqueKeyName);
+            inputs[i].Invert = invert;
+
+            hUtility.SaveBinings(inputs);
+        }
+
         public void ResetKey(string uniqueKeyName)
         {
             hScheme defaultScheme = hUtility.GetDefaultScheme();
