@@ -369,6 +369,10 @@ MonoBehaviour:
 
 
 
+
+
+
+
     Thanks For Playing!
 
 
@@ -424,7 +428,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 50
+  m_firstOverflowCharacterIndex: 31
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_enableKerning: 1
@@ -446,12 +450,12 @@ MonoBehaviour:
   m_margin: {x: -281.72156, y: 0, z: -271.64996, w: -1218.1848}
   m_textInfo:
     textComponent: {fileID: 168475443}
-    characterCount: 57
+    characterCount: 61
     spriteCount: 0
-    spaceCount: 30
+    spaceCount: 34
     wordCount: 5
     linkCount: 0
-    lineCount: 27
+    lineCount: 31
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
@@ -549,6 +553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 533279477}
   - component: {fileID: 533279478}
+  - component: {fileID: 533279479}
   m_Layer: 5
   m_Name: GameObject
   m_TagString: Untagged
@@ -572,10 +577,10 @@ RectTransform:
   m_Father: {fileID: 1436151289}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -756}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &533279478
 Animator:
@@ -594,6 +599,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &533279479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 533279476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d08808c07b1fd44dbd616fc787dcec8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1086705935
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,10 +640,10 @@ RectTransform:
   m_Father: {fileID: 1436151289}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 942, y: 632}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1086705937
 MonoBehaviour:
@@ -679,13 +695,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1096563795
-AudioListener:
+--- !u!114 &1096563795
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1096563794}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListenerNumber: 0
 --- !u!124 &1096563796
 Behaviour:
   m_ObjectHideFlags: 0
