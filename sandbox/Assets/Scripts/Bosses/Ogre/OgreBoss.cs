@@ -48,7 +48,7 @@ public class OgreBoss : Boss
 		{
 			if((currentVitality/maxVitality)*100 >= 75)
 			{
-				PickAttack(1);
+				PickAttack(2);
 			}
 			else if((currentVitality/maxVitality)*100 >= 50)
 			{
