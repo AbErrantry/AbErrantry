@@ -5,7 +5,7 @@
             <value>progression_jingl</value>
         </property>
         <property name="outputFormat">
-            <value>1</value>
+            <value>0</value>
         </property>
         <relationship name="folder">
             <destination>{2db9d652-d31a-4c0f-ab3a-774b90704ade}</destination>
@@ -60,7 +60,7 @@
     <object class="MarkerTrack" id="{0d53bbd7-8329-40ee-a4f4-1713cd9f664f}"/>
     <object class="GroupTrack" id="{4db4fef1-2516-4f6e-89b7-0361751b1be4}">
         <relationship name="modules">
-            <destination>{30202f40-262c-4f59-a571-dce4270a11b1}</destination>
+            <destination>{4cf5cf4b-43a2-4b11-a331-e5ac760a9333}</destination>
         </relationship>
         <relationship name="mixerGroup">
             <destination>{43a5ca01-8e1a-454a-a6f8-3df76797af92}</destination>
@@ -68,7 +68,7 @@
     </object>
     <object class="Timeline" id="{2b73436c-d6c0-4e98-a1b3-139682027e58}">
         <relationship name="modules">
-            <destination>{30202f40-262c-4f59-a571-dce4270a11b1}</destination>
+            <destination>{4cf5cf4b-43a2-4b11-a331-e5ac760a9333}</destination>
         </relationship>
     </object>
     <object class="EventMixerMaster" id="{6f27a0cf-6582-4fce-898b-fe6cc59f8099}">
@@ -88,20 +88,17 @@
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{ee64a4d7-a167-49ca-bbeb-7e7fb356d90e}"/>
-    <object class="SingleSound" id="{30202f40-262c-4f59-a571-dce4270a11b1}">
+    <object class="SingleSound" id="{4cf5cf4b-43a2-4b11-a331-e5ac760a9333}">
         <property name="length">
-            <value>6.5044897959183672</value>
-        </property>
-        <property name="pitch">
-            <value>7.5</value>
+            <value>2.1000000000000001</value>
         </property>
         <relationship name="audioFile">
-            <destination>{7bf763fc-8680-485f-91dc-493dd12b9c0d}</destination>
+            <destination>{18052f05-c66b-4992-862a-a5fdb96f489f}</destination>
         </relationship>
     </object>
     <object class="EventMixerGroup" id="{43a5ca01-8e1a-454a-a6f8-3df76797af92}">
         <property name="volume">
-            <value>-7.5</value>
+            <value>10</value>
         </property>
         <property name="name">
             <value>Audio 1</value>
@@ -126,9 +123,30 @@
     <object class="MixerBusEffectChain" id="{89f86170-afaa-45af-b413-bc758afe6f92}">
         <relationship name="effects">
             <destination>{dea76d5f-4ea4-4bb7-8b32-32eb206a7e68}</destination>
+            <destination>{48773ac4-56e4-4029-bec4-5b24cbe9bfc2}</destination>
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{3fc8fabb-5ef2-4d49-9b57-eea7db3d51ef}"/>
     <object class="MixerBusFader" id="{1eacec6e-7684-4813-a878-388322ddc1ad}"/>
     <object class="MixerBusFader" id="{dea76d5f-4ea4-4bb7-8b32-32eb206a7e68}"/>
+    <object class="SFXReverbEffect" id="{48773ac4-56e4-4029-bec4-5b24cbe9bfc2}">
+        <property name="decayTime">
+            <value>4900</value>
+        </property>
+        <property name="lateDelay">
+            <value>30</value>
+        </property>
+        <property name="HFDecayRatio">
+            <value>33</value>
+        </property>
+        <property name="highCut">
+            <value>4500</value>
+        </property>
+        <property name="earlyLateMix">
+            <value>40</value>
+        </property>
+        <property name="wetLevel">
+            <value>-9.60000038</value>
+        </property>
+    </object>
 </objects>

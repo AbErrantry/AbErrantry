@@ -5,7 +5,7 @@
             <value>become_hostile</value>
         </property>
         <property name="outputFormat">
-            <value>1</value>
+            <value>0</value>
         </property>
         <relationship name="folder">
             <destination>{2db9d652-d31a-4c0f-ab3a-774b90704ade}</destination>
@@ -59,11 +59,8 @@
     <object class="EventAutomatableProperties" id="{27b76e3f-e567-43c5-8193-907602e0b035}"/>
     <object class="MarkerTrack" id="{0b8b184d-adc7-4194-b8b5-594a42e9f909}"/>
     <object class="GroupTrack" id="{eb01175b-8d59-465c-904e-055729b7fe24}">
-        <relationship name="automationTracks">
-            <destination>{6f7873ee-1dfd-43c9-a006-b5cd4ef162f1}</destination>
-        </relationship>
         <relationship name="modules">
-            <destination>{259866da-ecd6-455c-b38e-8b8a6ffdc9ad}</destination>
+            <destination>{189dd9f8-17d4-4679-8f1c-e3b61a5b8761}</destination>
         </relationship>
         <relationship name="mixerGroup">
             <destination>{c105ee7f-bed1-4101-a878-de860e7b9a1f}</destination>
@@ -71,7 +68,7 @@
     </object>
     <object class="Timeline" id="{9790733b-6621-4722-be00-eebbf556b599}">
         <relationship name="modules">
-            <destination>{259866da-ecd6-455c-b38e-8b8a6ffdc9ad}</destination>
+            <destination>{189dd9f8-17d4-4679-8f1c-e3b61a5b8761}</destination>
         </relationship>
     </object>
     <object class="EventMixerMaster" id="{86a9120b-8a80-485d-b738-e2b42cee6120}">
@@ -91,17 +88,12 @@
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{4cf5ceef-92d6-4129-832d-5c17d31b0aec}"/>
-    <object class="AutomationTrack" id="{6f7873ee-1dfd-43c9-a006-b5cd4ef162f1}">
-        <relationship name="automator">
-            <destination>{faa16e1e-ff6d-46ae-ac5f-fd7d81af1380}</destination>
-        </relationship>
-    </object>
-    <object class="SingleSound" id="{259866da-ecd6-455c-b38e-8b8a6ffdc9ad}">
+    <object class="SingleSound" id="{189dd9f8-17d4-4679-8f1c-e3b61a5b8761}">
         <property name="length">
-            <value>2</value>
+            <value>0.216</value>
         </property>
         <relationship name="audioFile">
-            <destination>{c7294cee-c0ae-4481-9553-197bef8629d1}</destination>
+            <destination>{04bbca9c-482c-4371-9740-e1e1bb9148ef}</destination>
         </relationship>
     </object>
     <object class="EventMixerGroup" id="{c105ee7f-bed1-4101-a878-de860e7b9a1f}">
@@ -161,7 +153,7 @@
             <value>0</value>
         </property>
         <property name="value">
-            <value>-12</value>
+            <value>2</value>
         </property>
     </object>
     <object class="AutomationPoint" id="{ab30856e-6ab9-4da2-8db1-6bc624d85f5b}">
@@ -169,7 +161,7 @@
             <value>1.058902877697842</value>
         </property>
         <property name="value">
-            <value>-80</value>
+            <value>-32</value>
         </property>
     </object>
 </objects>
