@@ -185,13 +185,13 @@ namespace Character2D
                 {
                     climbSpeed = climbSpeedInput;
                     isClimbing = true;
-                    transform.Translate(Vector3.up * climbSpeedInput * Time.deltaTime * 2.0f);
+                    rb.MovePosition(transform.position + Vector3.up * climbSpeedInput * Time.deltaTime * 5.0f);
                 }
                 else if (Mathf.Abs(mvmtSpeed) > 0.0f && !isGrounded)
                 {
                     climbSpeed = 0.0f;
                     isStrafing = true;
-                    transform.Translate(Vector3.right * Mathf.Abs(mvmtSpeed) * Time.deltaTime * 2.0f);
+                    rb.MovePosition(transform.position + Vector3.right * mvmtSpeed * Time.deltaTime * 5.0f);
                 }
                 else if (isGrounded && climbingTriggerTop.currentObjects.Count != 0)
                 {
@@ -202,7 +202,7 @@ namespace Character2D
                 {
                     climbSpeed = 1.0f;
                     isClimbing = true;
-                    transform.Translate(Vector3.up * Time.deltaTime * 2.0f);
+                    rb.MovePosition(transform.position + Vector3.up * Time.deltaTime * 5.0f);
                 }
                 else
                 {
