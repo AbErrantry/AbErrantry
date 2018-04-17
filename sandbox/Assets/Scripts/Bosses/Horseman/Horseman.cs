@@ -78,8 +78,12 @@ public class Horseman : Boss
 
 	private IEnumerator Attack1()
 	{
+		if(!anim.GetBool("Attack1"))
+		{
+			anim.SetBool("Attack1",true);
+		}
 		anim.Play("Attack1");
-		yield return new WaitForSeconds(.5f);
+		yield return new WaitForSeconds(1f);
 		Plume();
 		yield return new WaitForSeconds(.5f);
 
@@ -87,6 +91,7 @@ public class Horseman : Boss
 		UnPlume();
 
 		yield return new WaitForSeconds(.5f);
+		anim.SetBool("Attack1",false);
 		isAttacking = false;
 		StopAllCoroutines();
 
@@ -94,8 +99,12 @@ public class Horseman : Boss
 
 	private IEnumerator Attack2()
 	{
+		if(!anim.GetBool("Attack2"))
+		{
+			anim.SetBool("Attack2",true);
+		}
 		anim.Play("Attack2");
-		yield return new WaitForSeconds(.5f);
+		yield return new WaitForSeconds(1f);
 		Plume();
 		yield return new WaitForSeconds(.5f);
 
@@ -103,6 +112,7 @@ public class Horseman : Boss
 		UnPlume();
 
 		yield return new WaitForSeconds(.5f);
+		anim.SetBool("Attack2",false);
 		isAttacking = false;
 		StopAllCoroutines();
 	}
