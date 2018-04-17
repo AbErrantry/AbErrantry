@@ -320,6 +320,11 @@ public class ConfigSettings : MonoBehaviour
 		SceneManager.LoadScene("Persistent-SC");
 	}
 
+	public void ExitGame()
+	{
+		Application.Quit();
+	}
+
 	public void Credits()
 	{
 		SceneManager.LoadScene("Credits");
