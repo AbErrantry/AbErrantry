@@ -42,7 +42,7 @@ namespace Character2D
         {
             if (!isDying)
             {
-                if (canFlinch)
+                if (canFlinch && canTakeDamage)
                 {
                     Flinch();
                 }
@@ -88,7 +88,7 @@ namespace Character2D
             }
         }
 
-        protected void Flinch()
+        protected virtual void Flinch()
         {
             anim.Play("FLINCH");
         }
