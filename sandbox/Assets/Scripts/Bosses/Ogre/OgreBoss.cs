@@ -46,14 +46,8 @@ public class OgreBoss : Boss
 		//Debug.Log("Min: "+ min.ToString() + " Max: " + max.ToString());
 		if(cooldown<=0 && !isAttacking)
 		{
-			if((currentVitality/maxVitality)*100 >= 75)
-			{
-				PickAttack(2);
-			}
-			else if((currentVitality/maxVitality)*100 >= 50)
-			{
-				PickAttack(2);
-			}
+			PickAttack(2);
+	
 			cooldown = attackCooldown;
 			
 		}
@@ -74,7 +68,7 @@ public class OgreBoss : Boss
 		switch(Random.Range(0, attackLevel +1))
 		{
 			case 0:
-			isAttacking=false;
+			StartCoroutine(MoveAway());
 			break;
 			case 1:
 			Punch();
