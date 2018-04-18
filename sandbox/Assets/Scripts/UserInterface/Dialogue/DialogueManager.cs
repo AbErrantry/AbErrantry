@@ -255,7 +255,7 @@ namespace Dialogue2D
             string path = Application.streamingAssetsPath + "/" + GameData.data.saveData.filename + "-Log.txt";
             using(StreamWriter sw = File.AppendText(path))
             {
-                sw.WriteLine(entry);
+                sw.WriteLine(NameConversion.ConvertSymbol(entry));
             }
         }
 
@@ -365,7 +365,7 @@ namespace Dialogue2D
             dialogueText.text = "";
             foreach (char letter in Segment.ToCharArray())
             {
-                dialogueText.text = dialogueText.text + letter; //add audio for letter being played
+                dialogueText.text = dialogueText.text + letter; //TODO: add audio for letter being played
                 yield return new WaitForSeconds(0.01f * textSpeed);
             }
             yield return new WaitForSeconds(1.0f);
