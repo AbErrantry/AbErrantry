@@ -17,23 +17,29 @@ public abstract class Boss : Attackable
 	{
 		player = GameObject.Find("Knight").GetComponent<Transform>();
 		base.Start();
+		canFlinch = true;
 		bool bossDefeated = GameData.data.saveData.ReadBossState(name);
 		if (!bossDefeated)
 		{
 			SpawnBoss();
 		}
-		
+
 	}
 
 	// Update is called once per frame
 	protected void Update()
 	{
-	
+
 	}
 
 	protected void SpawnBoss()
 	{
 		anim.Play("Spawn");
+	}
+
+	protected override void Flinch()
+	{
+		anim.Play("Hurt");
 	}
 
 	protected void BossDefeated()
