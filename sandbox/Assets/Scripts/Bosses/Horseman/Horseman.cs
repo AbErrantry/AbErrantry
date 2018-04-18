@@ -15,6 +15,7 @@ public class Horseman : Boss
 	private int attackPicked;
 	public bool isAttacking;
 	public LavaPlume[] plumes;
+	public LavaPlume[] bigPlumes;
 	protected new void Start()
 	{
 		name = "Horseman";
@@ -86,7 +87,7 @@ public class Horseman : Boss
 		yield return new WaitForSeconds(1f);
 		Plume();
 		yield return new WaitForSeconds(.5f);
-
+		
 		yield return new WaitForSeconds(2);
 		UnPlume();
 
@@ -99,6 +100,7 @@ public class Horseman : Boss
 
 	private IEnumerator Attack2()
 	{
+		int plumeNum = Random.Range(0,bigPlumes.Length +1);
 		if(!anim.GetBool("Attack2"))
 		{
 			anim.SetBool("Attack2",true);
@@ -107,8 +109,26 @@ public class Horseman : Boss
 		yield return new WaitForSeconds(1f);
 		Plume();
 		yield return new WaitForSeconds(.5f);
+		bigPlumes[plumeNum].PlumeFake();
+		yield return new WaitForSeconds(2f);
 
-		yield return new WaitForSeconds(2);
+		for(int i = 0; i<bigPlumes.Length;i++)
+		{
+			if(i != plumeNum)
+			{
+				bigPlumes[i].PlumeIt();
+			}
+		}
+		yield return new WaitForSeconds(1);
+		for(int i = 0; i<bigPlumes.Length;i++)
+		{
+			if(i != plumeNum)
+			{
+				bigPlumes[i].UnPlumeIt();
+			}
+		}
+		yield return new WaitForSeconds(1);
+
 		UnPlume();
 
 		yield return new WaitForSeconds(.5f);

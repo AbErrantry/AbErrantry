@@ -45,5 +45,10 @@ public class LavaPlume : MonoBehaviour {
 		gameObject.GetComponent<Animator>().SetBool("PlumeUp", false);
 	}
 
+	public void PlumeFake()
+	{
+		gameObject.GetComponent<Animator>().Play("PlumeTell");
+	}
+
 
 }
