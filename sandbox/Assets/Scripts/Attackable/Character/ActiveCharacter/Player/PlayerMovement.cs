@@ -62,6 +62,7 @@ namespace Character2D
             movementOverride = false;
 
             jumpEvent = FMODUnity.RuntimeManager.CreateInstance("event:/Knight/jump");
+            jumpEvent.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
         }
 
         //called once per frame (for input)

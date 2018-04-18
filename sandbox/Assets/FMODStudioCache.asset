@@ -72,13 +72,11 @@ MonoBehaviour:
   - {fileID: 114557832318460630}
   - {fileID: 114461131754071518}
   - {fileID: 114821135548732628}
-  - {fileID: 114752263355303480}
   - {fileID: 114039174985774040}
   - {fileID: 114986848343704886}
   - {fileID: 114569201798521382}
   - {fileID: 114372555482013880}
   - {fileID: 114220099045924142}
-  - {fileID: 114950233546160654}
   - {fileID: 114247916357709992}
   - {fileID: 114074938750397206}
   - {fileID: 114397257437312100}
@@ -90,7 +88,6 @@ MonoBehaviour:
   - {fileID: 114893660668329254}
   - {fileID: 114881197133623976}
   - {fileID: 114542603273213808}
-  - {fileID: 114271476633957562}
   - {fileID: 114759358859071336}
   - {fileID: 114314018442162476}
   - {fileID: 114954746854448238}
@@ -105,9 +102,12 @@ MonoBehaviour:
   - {fileID: 114764424190724328}
   - {fileID: 114494603691985104}
   - {fileID: 114895288813145474}
+  - {fileID: 114235843719926236}
+  - {fileID: 114943221274605466}
+  - {fileID: 114568005230777100}
   MasterBankRef: {fileID: 114881459528722666}
   StringsBankRef: {fileID: 114717226440049040}
-  stringsBankWriteTime: 636595664671638187
+  stringsBankWriteTime: 636596191072252132
   cacheVersion: 2
 --- !u!114 &114011709845498434
 MonoBehaviour:
@@ -235,7 +235,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
@@ -408,7 +408,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
@@ -474,7 +474,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
@@ -820,6 +820,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 762
+--- !u!114 &114235843719926236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Crate/take_damage
+  guid: 452eb14ec773dc4b83e771cad1a23929
+  Banks:
+  - {fileID: 114881459528722666}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 261
 --- !u!114 &114247916357709992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1030,7 +1052,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
@@ -1530,7 +1552,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
@@ -1618,7 +1640,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
@@ -1836,6 +1858,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 500
+--- !u!114 &114568005230777100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Crate/death
+  guid: f1f6d2e250587e4c839ad273607425e6
+  Banks:
+  - {fileID: 114881459528722666}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 997
 --- !u!114 &114569201798521382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1963,7 +2007,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
@@ -2241,7 +2285,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
@@ -2279,11 +2323,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: Assets\Audio\soundFX_all\Build\Desktop\Master Bank.strings.bank
-  lastModified: 636595664671638187
+  lastModified: 636596191072252132
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 4814
+    Value: 4802
   Exists: 1
 --- !u!114 &114723781896371270
 MonoBehaviour:
@@ -2453,7 +2497,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
@@ -2646,7 +2690,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
@@ -2754,7 +2798,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
@@ -3119,11 +3163,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: C:\Users\Sean\Documents\GitHub\AbErrantry\sandbox\Assets\Audio\soundFX_all\Build\Desktop\Master
     Bank.bank
-  lastModified: 636595664671518172
+  lastModified: 636596191072142103
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 29154720
+    Value: 29156256
   Exists: 1
 --- !u!114 &114882686672355160
 MonoBehaviour:
@@ -3251,7 +3295,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
@@ -3581,6 +3625,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 737
+--- !u!114 &114943221274605466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Crate/impact
+  guid: aece972cdb7c524ba49de4846397f215
+  Banks:
+  - {fileID: 114881459528722666}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 504
 --- !u!114 &114943912663997630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3663,7 +3729,7 @@ MonoBehaviour:
   - {fileID: 114881459528722666}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 0

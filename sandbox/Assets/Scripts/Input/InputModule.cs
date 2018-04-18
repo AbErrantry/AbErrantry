@@ -10,8 +10,22 @@ namespace UnityEngine.EventSystems
 		private Vector2 m_LastMousePosition;
 		private Vector2 m_MousePosition;
 
+		private FMOD.Studio.EventInstance moveNoise;
+		private FMOD.Studio.EventInstance selectNoise;
+
 		protected InputModule()
-		{ }
+		{
+
+		}
+
+		protected override void Awake()
+		{
+			moveNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Menus_Inventory/move");
+			selectNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Menus_Inventory/select");
+
+			moveNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+			selectNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+		}
 
 		[Obsolete("Mode is no longer needed on input module as it handles both mouse and keyboard simultaneously.", false)]
 		public enum InputMode
@@ -132,7 +146,10 @@ namespace UnityEngine.EventSystems
 
 			var data = GetBaseEventData();
 			if (hInput.GetButtonDown("Jump"))
+			{
 				ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, data, ExecuteEvents.submitHandler);
+				selectNoise.start();
+			}
 
 			if (hInput.GetButton("Crouch"))
 				ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, data, ExecuteEvents.cancelHandler);
@@ -186,7 +203,14 @@ namespace UnityEngine.EventSystems
 			if (!Mathf.Approximately(axisEventData.moveVector.x, 0f) ||
 				!Mathf.Approximately(axisEventData.moveVector.y, 0f))
 			{
+				GameObject currentObject = eventSystem.currentSelectedGameObject;
 				ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, axisEventData, ExecuteEvents.moveHandler);
+
+				GameObject newObject = eventSystem.currentSelectedGameObject;
+				if (currentObject != newObject)
+				{
+					moveNoise.start();
+				}
 			}
 			m_NextAction = time + 2.0f / m_InputActionsPerSecond;
 			return axisEventData.used;
@@ -250,7 +274,6 @@ namespace UnityEngine.EventSystems
 		{
 			var pointerEvent = data.buttonData;
 			var currentOverGo = pointerEvent.pointerCurrentRaycast.gameObject;
-
 			// PointerDown notification
 			if (data.PressedThisFrame())
 			{
@@ -260,6 +283,8 @@ namespace UnityEngine.EventSystems
 				pointerEvent.useDragThreshold = true;
 				pointerEvent.pressPosition = pointerEvent.position;
 				pointerEvent.pointerPressRaycast = pointerEvent.pointerCurrentRaycast;
+
+				selectNoise.start();
 
 				DeselectIfSelectionChanged(currentOverGo, pointerEvent);
 
