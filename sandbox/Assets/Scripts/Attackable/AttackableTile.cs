@@ -16,7 +16,7 @@ namespace Character2D
 		}
 
 		//applies damage to the player
-		public override void TakeDamage(GameObject attacker, int damage)
+		public override void TakeDamage(GameObject attacker, int damage, bool appliesKnockback = true)
 		{
 			if (!isDying)
 			{

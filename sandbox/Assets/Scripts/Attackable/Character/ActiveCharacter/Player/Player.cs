@@ -260,11 +260,11 @@ namespace Character2D
             OnPlayerInfoChanged(playerInfo);
         }
 
-        public override void TakeDamage(GameObject attacker, int damage)
+        public override void TakeDamage(GameObject attacker, int damage, bool appliesKnockback = true)
         {
             int dmg = damage - Mathf.RoundToInt(GameData.data.itemData.itemDictionary[equippedArmor].strength) >= 0 ? damage - Mathf.RoundToInt(GameData.data.itemData.itemDictionary[equippedArmor].strength) : 0;
             FMODUnity.RuntimeManager.PlayOneShot("event:/Knight/take_damage");
-            base.TakeDamage(attacker, dmg);
+            base.TakeDamage(attacker, dmg, appliesKnockback);
             if (currentVitality < 0)
             {
                 currentVitality = 0;

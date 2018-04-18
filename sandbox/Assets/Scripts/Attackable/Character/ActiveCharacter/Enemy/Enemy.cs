@@ -89,17 +89,17 @@ namespace Character2D
             deathNoise = "event:/" + character.fields.type + "/death";
         }
 
-        public override void TakeDamage(GameObject attacker, int damage)
+        public override void TakeDamage(GameObject attacker, int damage, bool appliesKnockback = true)
         {
-            base.TakeDamage(attacker, damage);
-            if(canTakeDamage)
+            base.TakeDamage(attacker, damage, appliesKnockback);
+            if (canTakeDamage)
             {
                 FMODUnity.RuntimeManager.PlayOneShot(damageNoise);
                 if (attacker.GetComponent<Player>() != null && !chasingPlayer)
                 {
                     SetPlayerTarget(attacker);
                 }
-            }  
+            }
         }
 
         public void SetPlayerTarget(GameObject player)
@@ -182,7 +182,7 @@ namespace Character2D
         public override void FinalizeDeath()
         {
             //drop loot
-            if(GetComponent<DormantCharacter>() != null)
+            if (GetComponent<DormantCharacter>() != null)
             {
                 EventDisplay.instance.AddEvent("Defeated " + GetComponent<DormantCharacter>().name + ".");
             }
@@ -190,7 +190,7 @@ namespace Character2D
             {
                 EventDisplay.instance.AddEvent("Defeated " + character.fields.type + ".");
             }
-            Player.instance.SetGold(UnityEngine.Random.Range(1,6) * character.fields.vitality);
+            Player.instance.SetGold(UnityEngine.Random.Range(1, 6) * character.fields.vitality);
             Destroy(gameObject);
         }
 

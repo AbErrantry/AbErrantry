@@ -38,7 +38,7 @@ namespace Character2D
         }
 
         //applies damage to the player
-        public virtual void TakeDamage(GameObject attacker, int damage)
+        public virtual void TakeDamage(GameObject attacker, int damage, bool appliesKnockback = true)
         {
             if (!isDying)
             {
@@ -47,7 +47,7 @@ namespace Character2D
                     Flinch();
                 }
 
-                if (canKnockBack)
+                if (canKnockBack && appliesKnockback)
                 {
                     KnockBack(attacker.transform.position, damage);
                 }
@@ -63,7 +63,7 @@ namespace Character2D
             }
         }
 
-        public void Kill()
+        public virtual void Kill()
         {
             currentVitality = 0;
             TakeDamage(gameObject, 0);
