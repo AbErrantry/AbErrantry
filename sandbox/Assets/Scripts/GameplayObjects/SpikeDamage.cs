@@ -10,7 +10,7 @@ namespace Character2D
 		[Range(1.0f, 10.0f)]
 		public float spikeDamage;
 		public bool shouldKill;
-		private void OnCollisionEnter2D(Collision2D coll)
+		private void OnTriggerEnter2D(Collider2D coll)
 		{
 			if(coll.gameObject.GetComponent<Attackable>() != null)
 			{
