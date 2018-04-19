@@ -1,7 +1,58 @@
 <dialogue>
 
 	<segment id="0">
-		<text>Please find my %. I'm counting on you.</text>
+		<text>Do you have something for me?</text>
+		<choice id="0">
+			<text>Yes, sir.</text>
+			<next>1</next>
+		</choice>
+		<choice id="1">
+			<text>Not yet, sir.</text>
+			<next>6</next>
+		</choice>
+	</segment>
+
+	<segment id="1">
+		<text>Alright, let's see.</text>
+		<action type="RequestItem">
+			<name>Royal Decree</name>
+			<number>1</number>
+			<xloc>2</xloc>
+			<yloc>6</yloc>
+		</action>
+	</segment>
+	
+	<segment id="2">
+		<text>Great. Thanks for bringing my % home, knight.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>I owe a great debt to you.</text>
+		<next>4</next>
+	</segment>
+	
+	<segment id="4">
+		<text>I think I know just the thing to repay you with.</text>
+		<action type="GiveItem">
+			<name>Castle Room 2 Key</name>
+			<number>1</number>
+		</action>
+		<action type="ProgressQuest">
+			<name>Find the @</name>
+			<number>-1</number>
+		</action>
+		<action type="ProgressDialogue">
+			<number>2</number>
+		</action>
+	</segment>
+	
+	<segment id="5">
+		<text>Use that key on the room down the hall. That room is now yours, knight.</text>
+	</segment>
+	
+	<segment id="6">
+		<text>Keep up the good work, knight.</text>
 	</segment>
 	
 </dialogue>

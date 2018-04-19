@@ -152,6 +152,7 @@ public class Choices : MonoBehaviour
 
 	public void FinishButtonClick()
 	{
+		BackgroundSwitchMenu.instance.ResetSong();
 		SceneManager.LoadScene("Credits");
 	}
 

@@ -76,6 +76,46 @@ namespace Character2D
             }
         }
 
+        // Ladder logic has to go in FixedUpdate because AddForce does not scale correctly in Update.
+        protected void FixedUpdate()
+        {
+            if (isOnLadder)
+            {
+                vLast = 0.0f;
+                isClimbing = false;
+                isStrafing = false;
+                rb.gravityScale = 0.0f;
+                rb.velocity = Vector2.zero;
+                if (climbSpeedInput > 0.0f || (climbSpeedInput < 0.0f && !isGrounded))
+                {
+                    climbSpeed = climbSpeedInput;
+                    isClimbing = true;
+                    rb.AddForce(Vector3.up * climbSpeedInput * 150);
+                }
+                else if (Mathf.Abs(mvmtSpeed) > 0.0f && !isGrounded)
+                {
+                    climbSpeed = 0.0f;
+                    isStrafing = true;
+                    rb.AddForce(Vector3.right * mvmtSpeed * 150);
+                }
+                else if (isGrounded && climbingTriggerTop.currentObjects.Count != 0)
+                {
+                    climbSpeed = 0.0f;
+                    DoneClimbing();
+                }
+                else if (isGrounded && climbingTriggerTop.currentObjects.Count == 0)
+                {
+                    climbSpeed = 1.0f;
+                    isClimbing = true;
+                    rb.AddForce(Vector3.up * 150);
+                }
+                else
+                {
+                    climbSpeed = 0.0f;
+                }
+            }
+        }
+
         //handles player input
         protected override void HandleInput()
         {
@@ -177,38 +217,7 @@ namespace Character2D
 
             if (isOnLadder)
             {
-                vLast = 0.0f;
-                isClimbing = false;
-                isStrafing = false;
-                rb.gravityScale = 0.0f;
-                rb.velocity = Vector2.zero;
-                if (climbSpeedInput > 0.0f || (climbSpeedInput < 0.0f && !isGrounded))
-                {
-                    climbSpeed = climbSpeedInput;
-                    isClimbing = true;
-                    rb.MovePosition(transform.position + Vector3.up * climbSpeedInput * Time.deltaTime * 5.0f);
-                }
-                else if (Mathf.Abs(mvmtSpeed) > 0.0f && !isGrounded)
-                {
-                    climbSpeed = 0.0f;
-                    isStrafing = true;
-                    rb.MovePosition(transform.position + Vector3.right * mvmtSpeed * Time.deltaTime * 5.0f);
-                }
-                else if (isGrounded && climbingTriggerTop.currentObjects.Count != 0)
-                {
-                    climbSpeed = 0.0f;
-                    DoneClimbing();
-                }
-                else if (isGrounded && climbingTriggerTop.currentObjects.Count == 0)
-                {
-                    climbSpeed = 1.0f;
-                    isClimbing = true;
-                    rb.MovePosition(transform.position + Vector3.up * Time.deltaTime * 5.0f);
-                }
-                else
-                {
-                    climbSpeed = 0.0f;
-                }
+
             }
             else if (!isSliding && !isRolling)
             {

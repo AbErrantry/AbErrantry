@@ -320,6 +320,12 @@ public class ConfigSettings : MonoBehaviour
 		SceneManager.LoadScene("Persistent-SC");
 	}
 
+	public void Reset()
+	{
+		BackgroundSwitchMenu.instance.ResetSong();
+		SceneManager.LoadScene("MainMenu");
+	}
+
 	public void ExitGame()
 	{
 		Application.Quit();

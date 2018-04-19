@@ -1,17 +1,53 @@
 <dialogue>
 
 	<segment id="0">
-		<text>Hey, knight.</text>
+		<text>Knight?</text>
 		<next>1</next>
 	</segment>
 	
 	<segment id="1">
-		<text>This year's crop yield has been really low.</text>
+		<text>Oh it's so good to see you!</text>
 		<next>2</next>
 	</segment>
 	
 	<segment id="2">
-		<text>Anyways, I've got to get back to work.</text>
+		<text>I'm sorry for wandering off.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>Thank you so much for saving me.</text>
+		<next>4</next>
+	</segment>
+	
+	<segment id="4">
+		<text>Well, I guess it's time to head back to the castle and apologize to my father.</text>
+		<next>5</next>
+	</segment>
+	
+	<segment id="5">
+		<text>I'll see about the General escorting me back.</text>
+		<next>6</next>
+	</segment>
+	
+	<segment id="6">
+		<text>Oh, give this to my father if you get back before me.</text>
+		<action type="GiveItem">
+			<name>Royal Decree</name>
+			<number>1</number>
+		</action>
+		<action type="ProgressQuest">
+			<name>Find the @</name>
+			<number>6</number>
+		</action>
+		<action type="TransportLevel">
+			<name>Castle1-AP</name>
+			<xloc>112.04</xloc>
+			<yloc>-49.19</yloc>
+		</action>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
 	</segment>
 	
 </dialogue>

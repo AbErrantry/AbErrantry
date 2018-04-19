@@ -1,0 +1,45 @@
+<dialogue>
+	
+	<segment id="0">
+		<text>Ha! You fell for my trap, knight.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>You foolishly believed that I wanted to save the @.</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>I don't. I want more than that. I desire to be the King myself.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>You're too late now. The plan is already in effect.</text>
+		<next>4</next>
+	</segment>
+	
+	<segment id="4">
+		<text>By the way...</text>
+		<next>5</next>
+	</segment>
+	
+	<segment id="5">
+		<text>What's that over there?</text>
+		<action type="TransportLocation">
+			<name>IceLevel-Boss-AP</name>
+			<xloc>312.73</xloc>
+			<yloc>-570.65</yloc>
+		</action>
+		<action type="Disappear"/>
+		<action type="ProgressDialogue">
+			<number>5</number>
+		</action>
+		<action type="AffectKarma">
+			<number>-15</number>
+			<name>You trusted the Squire over the General. The Squire had his own selfish reasons for doing so which he hinted at.</name>
+		</action>
+	</segment>
+	
+</dialogue>

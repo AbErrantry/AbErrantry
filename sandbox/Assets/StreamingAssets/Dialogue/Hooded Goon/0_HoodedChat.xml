@@ -1,0 +1,63 @@
+<dialogue>
+
+	<segment id="0">
+		<text>At last we finally meet.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>You may be wondering who I am, but that doesn't really matter at this point.</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>I was so close to overthrowing the castle by using the @ as ransom.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>But you just had to intervene and ruin everything.</text>
+		<next>4</next>
+	</segment>
+	
+	<segment id="4">
+		<text>Speaking of the @, did you know how easy it was to lure $ out of the castle?</text>
+		<next>5</next>
+	</segment>
+	
+	<segment id="5">
+		<text>Well, # believed every word that I said.</text>
+		<next>6</next>
+	</segment>
+	
+	<segment id="6">
+		<text>So, what will it be?</text>
+		<choice id="0">
+			<text>Let's end this.</text>
+			<next>7</next>
+		</choice>
+		<choice id="1">
+			<text>Go away and never return.</text>
+			<next>8</next>
+		</choice>
+	</segment>
+	
+	<segment id="7">
+		<text>With pleasure.</text>
+		<action type="BecomeHostile"/>
+		<action type="AffectKarma">
+			<number>5</number>
+			<name>You defeated the monster who kidnapped the @.</name>
+		</action>
+	</segment>
+	
+	<segment id="8">
+		<text>Understood.</text>
+		<action type="Disappear"/>
+		<action type="AffectKarma">
+			<number>5</number>
+			<name>You exiled the monster who kidnapped the @.</name>
+		</action>
+	</segment>
+	
+</dialogue>

@@ -1,0 +1,40 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Hi.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>Would you mind picking up a parcel for me?</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>I could have swore I left it in the Ethereal Badlands in some tower...</text>
+		<choice id="0">
+			<text>Sure.</text>
+			<next>3</next>
+		</choice>
+		<choice id="1">
+			<text>No.</text>
+			<next>4</next>
+		</choice>
+	</segment>
+	
+	<segment id="3">
+		<text>Oh, thanks. If you see my sister, just know that she's evil. If she asks for the parcel, please don't give it to her.</text>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+		<action type="ProgressQuest">
+			<name>Twins</name>
+			<number>1</number>
+		</action>
+	</segment>
+	
+	<segment id="4">
+		<text>Alright then.</text>
+	</segment>
+	
+</dialogue>

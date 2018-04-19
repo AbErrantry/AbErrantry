@@ -1,0 +1,45 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Hi. I've got another job for you.</text>
+		<choice id="0">
+			<text>I don't want to do it.</text>
+			<next>1</next>
+		</choice>
+		<choice id="1">
+			<text>Ok.</text>
+			<next>3</next>
+		</choice>
+	</segment>
+	
+	<segment id="1">
+		<text>Oh yeah? Well how about I tell the King that you were stealing someone else's money?</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>You're in deep now, knight. I know you are from the castle.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>Take this key and collect the King's Crown Jewel for me. It should be in one of the rooms in the castle.</text>
+		<next>4</next>
+	</segment>
+	
+	<segment id="4">
+		<text>Don't take too long now.</text>
+		<action type="GiveItem">
+			<name>Castle Room 1 Key</name>
+			<number>1</number>
+		</action>
+		<action type="ProgressDialogue">
+			<number>3</number>
+		</action>
+		<action type="ProgressQuest">
+			<name>Slope</name>
+			<number>3</number>
+		</action>
+	</segment>
+	
+</dialogue>

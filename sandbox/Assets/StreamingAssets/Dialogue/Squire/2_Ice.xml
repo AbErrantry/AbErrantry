@@ -1,0 +1,54 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Knight, I have a breakthrough on the whereabouts of the @!</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>Well, #'s definitely not in the Lava Caverns like the General thinks # is.</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>Everything points towards the Ice Caverns.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>Trust me on this one over the General. I know what's best for you.</text>
+		<choice id="0">
+			<text>I need a minute to think.</text>
+			<next>4</next>
+		</choice>
+		<choice id="1">
+			<text>I'm on it.</text>
+			<next>5</next>
+		</choice>
+	</segment>
+	
+	<segment id="4">
+		<text>You need to think about what? The @ is in danger! We don't have time to think!</text>
+	</segment>
+	
+	<segment id="5">
+		<text>Alright, here's the key to the Ice Caverns. I'll meet you at the end.</text>
+		<action type="TransportLevel">
+			<name>IceLevel-Boss-AP</name>
+			<xloc>247.51</xloc>
+			<yloc>-573.62</yloc>
+		</action>
+		<action type="ProgressDialogue">
+			<number>3</number>
+		</action>
+		<action type="ProgressQuest">
+			<name>Find the @</name>
+			<number>3</number>
+		</action>
+		<action type="GiveItem">
+			<name>Ice Caverns Key</name>
+			<number>1</number>
+		</action>
+	</segment>
+	
+</dialogue>

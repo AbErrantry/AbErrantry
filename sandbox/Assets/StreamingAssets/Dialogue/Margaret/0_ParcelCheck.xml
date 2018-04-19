@@ -1,0 +1,44 @@
+<dialogue>
+
+	<segment id="0">
+		<text>I'm expecting a gift from my aunt.</text>
+		<choice id="0">
+			<text>I have it right here for you.</text>
+			<next>1</next>
+		</choice>
+		<choice id="1">
+			<text>That's interesting.</text>
+			<next>3</next>
+		</choice>
+	</segment>
+	
+	<segment id="1">
+		<text>Oh, great!</text>
+		<action type="RequestItem">
+			<name>Margaret's Gift</name>
+			<number>1</number>
+			<xloc>2</xloc>
+			<yloc>3</yloc>
+		</action>
+	</segment>
+	
+	<segment id="2">
+		<text>Thanks. I've been waiting for this.</text>
+		<action type="ProgressQuest">
+			<name>Gift for Margaret</name>
+			<number>-1</number>
+		</action>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+		<action type="GiveItem">
+			<name>Steel Spear</name>
+			<number>1</number>
+		</action>
+	</segment>
+	
+	<segment id="3">
+		<text>Hmm... I wonder when it will get here.</text>
+	</segment>
+	
+</dialogue>

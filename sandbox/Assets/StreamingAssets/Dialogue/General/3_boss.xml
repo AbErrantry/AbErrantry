@@ -1,0 +1,28 @@
+<dialogue>
+	
+	<segment id="0">
+		<text>The @ should be down there.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>I'm going to scout out any enemies. You go on ahead without me.</text>
+		<action type="TransportLevel">
+			<name>Castle1-AP</name>
+			<xloc>107.13</xloc>
+			<yloc>-49.15</yloc>
+		</action>
+		<action type="ProgressDialogue">
+			<number>4</number>
+		</action>
+		<action type="GiveItem">
+			<name>Lava Dungeon Key</name>
+			<number>1</number>
+		</action>
+		<action type="AffectKarma">
+			<number>10</number>
+			<name>You trusted the General. He truly wanted to help the @ and King and had the best intentions.</name>
+		</action>
+	</segment>
+	
+</dialogue>

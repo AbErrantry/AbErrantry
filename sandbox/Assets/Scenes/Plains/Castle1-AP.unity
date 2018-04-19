@@ -296,6 +296,11 @@ Prefab:
       propertyPath: doorPair
       value: 
       objectReference: {fileID: 1459828117}
+    - target: {fileID: 114776165813555040, guid: 3a8adcf69852cb44f8c12c21e9eec583,
+        type: 2}
+      propertyPath: id
+      value: 100170
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
   m_IsPrefabParent: 0
@@ -346,7 +351,7 @@ Transform:
   - {fileID: 884380686}
   - {fileID: 844055820}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &127613082 stripped
 Transform:
@@ -530,7 +535,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4265596594925118, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1932706693787498, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
       propertyPath: m_Name
@@ -541,6 +546,11 @@ Prefab:
       propertyPath: doorPair
       value: 
       objectReference: {fileID: 610049955}
+    - target: {fileID: 114776165813555040, guid: 3a8adcf69852cb44f8c12c21e9eec583,
+        type: 2}
+      propertyPath: id
+      value: 100172
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
   m_IsPrefabParent: 0
@@ -721,7 +731,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4265596594925118, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1932706693787498, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
       propertyPath: m_Name
@@ -732,6 +742,16 @@ Prefab:
       propertyPath: doorPair
       value: 
       objectReference: {fileID: 388448927}
+    - target: {fileID: 114776165813555040, guid: 3a8adcf69852cb44f8c12c21e9eec583,
+        type: 2}
+      propertyPath: unlockActionType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776165813555040, guid: 3a8adcf69852cb44f8c12c21e9eec583,
+        type: 2}
+      propertyPath: id
+      value: 100171
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
   m_IsPrefabParent: 0
@@ -740,6 +760,18 @@ GameObject:
   m_PrefabParentObject: {fileID: 1932706693787498, guid: 3a8adcf69852cb44f8c12c21e9eec583,
     type: 2}
   m_PrefabInternal: {fileID: 610049954}
+--- !u!114 &610049956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 610049955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172796780c7edfa45bbf3c95efd842d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyName: Castle Room 2 Key
 --- !u!1 &703612310
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,6 +1053,72 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &740811047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 740811050}
+  - component: {fileID: 740811049}
+  - component: {fileID: 740811048}
+  m_Layer: 0
+  m_Name: ChoicesLoad
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &740811048
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 740811047}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 44.690437, y: 1.010273}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.510788, y: 6.6809464}
+  m_EdgeRadius: 0
+--- !u!114 &740811049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 740811047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dc3ff94013c905489bd33558701e8eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &740811050
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 740811047}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 82.724915, y: -88.800255, z: 7.8671875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &766950465
 Prefab:
   m_ObjectHideFlags: 0
@@ -12051,7 +12149,7 @@ Transform:
   - {fileID: 1290383397}
   - {fileID: 1775757388}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1366838430
 GameObject:
@@ -12088,7 +12186,7 @@ Transform:
   - {fileID: 705995751}
   - {fileID: 2094504328}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1379736394
 GameObject:
@@ -12385,6 +12483,16 @@ Prefab:
       propertyPath: doorPair
       value: 
       objectReference: {fileID: 75948520}
+    - target: {fileID: 114776165813555040, guid: 3a8adcf69852cb44f8c12c21e9eec583,
+        type: 2}
+      propertyPath: id
+      value: 100169
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776165813555040, guid: 3a8adcf69852cb44f8c12c21e9eec583,
+        type: 2}
+      propertyPath: unlockActionType
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3a8adcf69852cb44f8c12c21e9eec583, type: 2}
   m_IsPrefabParent: 0
@@ -12393,6 +12501,18 @@ GameObject:
   m_PrefabParentObject: {fileID: 1932706693787498, guid: 3a8adcf69852cb44f8c12c21e9eec583,
     type: 2}
   m_PrefabInternal: {fileID: 1459828116}
+--- !u!114 &1459828118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1459828117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172796780c7edfa45bbf3c95efd842d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyName: Castle Room 1 Key
 --- !u!1 &1504675467
 GameObject:
   m_ObjectHideFlags: 0

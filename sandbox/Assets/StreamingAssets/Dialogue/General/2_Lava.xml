@@ -1,0 +1,54 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Knight, I have figured out where the @ is!</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>Well, #'s in the Lava Caverns.</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>I honestly do not know why the Squire thinks #'s in the Ice Caverns.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>You'll have to trust me on this one, knight.</text>
+		<choice id="0">
+			<text>I need a minute to think.</text>
+			<next>4</next>
+		</choice>
+		<choice id="1">
+			<text>I'm with you.</text>
+			<next>5</next>
+		</choice>
+	</segment>
+	
+	<segment id="4">
+		<text>Please think quickly. Every second counts.</text>
+	</segment>
+	
+	<segment id="5">
+		<text>Here's the key to the Lava Caverns. I'll be waiting for you.</text>
+		<action type="TransportLevel">
+			<name>LavaBoss-AP</name>
+			<xloc>443.46</xloc>
+			<yloc>-511.19</yloc>
+		</action>
+		<action type="ProgressDialogue">
+			<number>3</number>
+		</action>
+		<action type="ProgressQuest">
+			<name>Find the @</name>
+			<number>4</number>
+		</action>
+		<action type="GiveItem">
+			<name>Lava Caverns Key</name>
+			<number>1</number>
+		</action>
+	</segment>
+	
+</dialogue>

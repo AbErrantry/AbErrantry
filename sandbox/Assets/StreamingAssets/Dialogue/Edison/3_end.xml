@@ -1,0 +1,50 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Do you have my Crown Jewel yet?</text>
+		<choice id="0">
+			<text>Yes.</text>
+			<next>1</next>
+		</choice>
+		<choice id="1">
+			<text>Not yet.</text>
+			<next>5</next>
+		</choice>
+	</segment>
+	
+	<segment id="1">
+		<text>Alright, hand it over.</text>
+		<action type="RequestItem">
+			<name>Crown Jewel</name>
+			<number>1</number>
+			<xloc>2</xloc>
+			<yloc>5</yloc>
+		</action>
+	</segment>
+	
+	<segment id="2">
+		<text>Wow. I can't believe you actually did it.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>That's it from me. Thanks for all of your help.</text>
+		<action type="GiveGold">
+			<number>1</number>
+		</action>
+		<action type="ProgressQuest">
+			<name>Slope</name>
+			<number>-1</number>
+		</action>
+		<action type="Disappear"/>
+		<action type="AffectKarma">
+			<number>-15</number>
+			<name>You stole the King's Crown Jewel to cover up for the fact that you stole money previously. Never give in to blackmail as it will never end better for you.</name>
+		</action>
+	</segment>
+	
+	<segment id="5">
+		<text>Ugh. Hurry up, then.</text>
+	</segment>
+	
+</dialogue>

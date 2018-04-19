@@ -1,0 +1,40 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Hello.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>Would you mind finding a package for me?</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>I'm pretty sure it's in the Ethereal Badlands in a tower.</text>
+		<choice id="0">
+			<text>Sure.</text>
+			<next>3</next>
+		</choice>
+		<choice id="1">
+			<text>No.</text>
+			<next>4</next>
+		</choice>
+	</segment>
+	
+	<segment id="3">
+		<text>Thank you! By the way, my sister wants the package too. You have no reason to believe me, but she can't be trusted.</text>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+		<action type="ProgressQuest">
+			<name>Twins</name>
+			<number>1</number>
+		</action>
+	</segment>
+	
+	<segment id="4">
+		<text>Okay, no problem.</text>
+	</segment>
+	
+</dialogue>

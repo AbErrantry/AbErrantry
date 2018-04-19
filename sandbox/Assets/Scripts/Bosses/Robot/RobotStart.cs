@@ -4,25 +4,23 @@ using UnityEngine;
 
 namespace Character2D
 {
-public class RobotStart : MonoBehaviour {
-
-
-	public GameObject robotPrefab;
-
-	void Start () 
+	public class RobotStart : MonoBehaviour
 	{
-		
-	}
-	public void OnTriggerEnter2D(Collider2D col)
-	{
-		if(col.gameObject.GetComponent<Player>() != null)
+
+		public GameObject robotPrefab;
+
+		void Start()
 		{
-			GameObject clone = Instantiate(robotPrefab, new Vector3( GetComponent<BoxCollider2D>().bounds.max.x, GetComponent<BoxCollider2D>().bounds.min.y, robotPrefab.transform.position.z)
-										,Quaternion.identity);
 
+		}
+		public void OnTriggerEnter2D(Collider2D col)
+		{
+			if (col.gameObject.GetComponent<Player>() != null)
+			{
+				Instantiate(robotPrefab, new Vector3(GetComponent<BoxCollider2D>().bounds.max.x, GetComponent<BoxCollider2D>().bounds.min.y, robotPrefab.transform.position.z), Quaternion.identity);
 
-			Destroy(this.gameObject);
+				Destroy(this.gameObject);
+			}
 		}
 	}
-}
 }

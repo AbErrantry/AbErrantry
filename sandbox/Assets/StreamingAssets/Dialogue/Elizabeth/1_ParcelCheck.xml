@@ -1,0 +1,42 @@
+<dialogue>
+
+	<segment id="0">
+		<text>What's taking you so long? Did you find my parcel?</text>
+		<choice id="0">
+			<text>Yes.</text>
+			<next>1</next>
+		</choice>
+		<choice id="1">
+			<text>Not yet.</text>
+			<next>3</next>
+		</choice>
+	</segment>
+	
+	<segment id="1">
+		<text>Give it here.</text>
+		<action type="RequestItem">
+			<name>Parcel</name>
+			<number>1</number>
+			<xloc>2</xloc>
+			<yloc>3</yloc>
+		</action>
+	</segment>
+	
+	<segment id="2">
+		<text>Ha. My sister is going to be so upset.</text>
+		<action type="Disappear"/>
+		<action type="ProgressQuest">
+			<name>Twins</name>
+			<number>-1</number>
+		</action>
+		<action type="AffectKarma">
+			<number>-10</number>
+			<name>You trusted Elizabeth. It turns out that she was the evil sister. If you had been a bit more cautious, you may have been able to figure this out.</name>
+		</action>
+	</segment>
+	
+	<segment id="3">
+		<text>I don't understand what's so hard about finding my sister's dumb package.</text>
+	</segment>
+	
+</dialogue>

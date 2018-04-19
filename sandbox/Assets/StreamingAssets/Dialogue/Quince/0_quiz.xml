@@ -1,0 +1,53 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Hi, name's Quince.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>If you answer this one question correctly, I'll give you a key to something special around here.</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>What color is the @'s hair?</text>
+		<choice id="0">
+			<text>Red.</text>
+			<next>3</next>
+		</choice>
+		<choice id="1">
+			<text>Blonde.</text>
+			<next>3</next>
+		</choice>
+		<choice id="2">
+			<text>Brown.</text>
+			<next>4</next>
+		</choice>
+		<choice id="3">
+			<text>White?</text>
+			<next>3</next>
+		</choice>
+	</segment>
+	
+	<segment id="3">
+		<text>Nope, that's incorrect.</text>
+	</segment>
+	
+	<segment id="4">
+		<text>That's correct! Here's a key to a chest hidden somewhere around the village.</text>
+		<next>5</next>
+	</segment>
+	
+	<segment id="5">
+		<text>Thanks for playing.</text>
+		<action type="GiveItem">
+			<name>Cave Village Key</name>
+			<number>1</number>
+		</action>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+	</segment>
+	
+</dialogue>

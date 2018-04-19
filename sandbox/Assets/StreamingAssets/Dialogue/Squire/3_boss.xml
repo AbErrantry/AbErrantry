@@ -1,0 +1,24 @@
+<dialogue>
+	
+	<segment id="0">
+		<text>The @ should be right up here.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>I'm going to scout out any enemies. You go on ahead without me.</text>
+		<action type="TransportLocation">
+			<name>IceLevel-Boss-AP</name>
+			<xloc>312.73</xloc>
+			<yloc>-570.65</yloc>
+		</action>
+		<action type="ProgressDialogue">
+			<number>4</number>
+		</action>
+		<action type="GiveItem">
+			<name>Ice Dungeon Key</name>
+			<number>1</number>
+		</action>
+	</segment>
+	
+</dialogue>

@@ -1,0 +1,29 @@
+<dialogue>
+
+	<segment id="0">
+		<text>The caves are no place for the faint of heart.</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>There are some disturbing monsters that roam down here.</text>
+		<next>2</next>
+	</segment>
+	
+	<segment id="2">
+		<text>You have to be careful wherever you go.</text>
+		<next>3</next>
+	</segment>
+	
+	<segment id="3">
+		<text>Take this and be safe.</text>
+		<action type="ProgressDialogue">
+			<number>1</number>
+		</action>
+		<action type="GiveItem">
+			<name>Large Health Potion</name>
+			<number>1</number>
+		</action>
+	</segment>
+	
+</dialogue>
