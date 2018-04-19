@@ -12,7 +12,7 @@ public class LavaBall : MonoBehaviour {
 	{
 		if(col.gameObject.GetComponent<Attackable>() != null)
 		{
-			col.gameObject.GetComponent<Attackable>().TakeDamage(gameObject,damage);
+			col.gameObject.GetComponent<Attackable>().TakeDamage(gameObject,damage,false);
 		}
 	}
 

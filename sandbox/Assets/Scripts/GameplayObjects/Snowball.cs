@@ -33,7 +33,7 @@ public class Snowball : MonoBehaviour {
 	{
 		if(col.gameObject.GetComponent<Attackable>() != null)
 		{
-			col.gameObject.GetComponent<Attackable>().TakeDamage(gameObject,snowballDamage);
+			col.gameObject.GetComponent<Attackable>().TakeDamage(gameObject,snowballDamage,false);
 			StartCoroutine(DestroySnowball());
 		}
 		

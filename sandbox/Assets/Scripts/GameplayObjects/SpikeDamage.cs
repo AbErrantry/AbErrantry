@@ -7,7 +7,7 @@ namespace Character2D
 	public class SpikeDamage : MonoBehaviour {
 
 		[Tooltip("Set the amount of damage this set of spikes does (2 min, 1000 max).")]
-		[Range(1.0f, 10.0f)]
+		[Range(1.0f, 50.0f)]
 		public float spikeDamage;
 		public bool shouldKill;
 		private void OnTriggerEnter2D(Collider2D coll)

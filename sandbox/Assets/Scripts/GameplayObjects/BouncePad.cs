@@ -25,6 +25,7 @@ public class BouncePad : MonoBehaviour {
 				Vector2 playerPos = col.transform.position;
 				Vector2 dir = col.contacts[0].point - playerPos;
 				dir = -dir.normalized;
+				playerRBody.velocity = new Vector2(0,0);
 				playerRBody.AddForce(dir*bounceForce);
 				GetComponent<Animator>().SetTrigger("Bounce");
 			}
@@ -37,6 +38,7 @@ public class BouncePad : MonoBehaviour {
 				Vector2 playerPos = col.transform.position;
 				Vector2 dir = col.contacts[0].point - playerPos;
 				dir = -dir.normalized;
+				playerRBody.velocity = new Vector2(0,0);
 				playerRBody.AddForce(dir*bounceForce);
 				GetComponent<Animator>().SetTrigger("Bounce");
 			}

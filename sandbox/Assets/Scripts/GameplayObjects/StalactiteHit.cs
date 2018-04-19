@@ -24,7 +24,7 @@ public class StalactiteHit : MonoBehaviour
 		if(col.gameObject.GetComponent<Attackable>() != null) //If it is an attackable it will need to give damage
 		{
 			StartCoroutine(ObjectDestroy());
-			col.gameObject.GetComponent<Attackable>().TakeDamage(gameObject, Mathf.RoundToInt(damage));
+			col.gameObject.GetComponent<Attackable>().TakeDamage(gameObject, Mathf.RoundToInt(damage),false);
 		}
 		else if(col.gameObject != parent) //if it hits anything other than its parent, Destroy it.
 		{

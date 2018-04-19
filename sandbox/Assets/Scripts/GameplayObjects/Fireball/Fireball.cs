@@ -29,7 +29,7 @@ public class Fireball : MonoBehaviour {
 	{
 		if(col.gameObject.GetComponent<Attackable>() != null)
 		{
-			col.gameObject.GetComponent<Attackable>().TakeDamage(gameObject, fireballDamage);
+			col.gameObject.GetComponent<Attackable>().TakeDamage(gameObject, fireballDamage,false);
 		}
 	}
 
