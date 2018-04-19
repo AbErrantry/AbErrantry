@@ -11,6 +11,8 @@ namespace Character2D
 
         private FMOD.Studio.EventInstance attackNoise;
 
+        private float timeSinceLast;
+
         // Use this for initialization
         protected new void Start()
         {
@@ -19,6 +21,8 @@ namespace Character2D
 
             attackNoise = FMODUnity.RuntimeManager.CreateInstance("event:/" + character.fields.type + "/attack");
             attackNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+            timeSinceLast = Time.time;
         }
 
         // Update is called once per frame
@@ -60,7 +64,12 @@ namespace Character2D
 
         public void PlayAttack()
         {
-            anim.Play("POWER");
+            if (Time.time - timeSinceLast > 2.0f)
+            {
+                timeSinceLast = Time.time;
+                anim.Play("POWER");
+                attackNoise.start();
+            }
         }
 
         protected override void InitializeAttack(int index)

@@ -28,6 +28,8 @@ public class BackgroundSwitch : MonoBehaviour
 
     private List<FMOD.Studio.EventInstance> songs;
 
+    private int currentElement;
+
     private void Awake()
     {
         if (instance == null)
@@ -69,16 +71,23 @@ public class BackgroundSwitch : MonoBehaviour
             lavaMusic
         };
 
+        currentElement = 0;
+
         UpdateScrolling(0); //TODO: Need to change the 1 to the level they are on.
     }
 
     public void UpdateScrolling(int element) //element aka level
     {
-        ResetSong();
+        if (currentElement == element)
+        {
+            return;
+        }
+        StopSongs();
         if (element == 0)
         {
             return;
         }
+        currentElement = element;
         element--; //makes it work for the array, going to change this
         SetSong(element);
         newSize = background[element].backImages.Length;
@@ -90,8 +99,17 @@ public class BackgroundSwitch : MonoBehaviour
         songs[index].start();
     }
 
-    public void ResetSong()
+    public void StopSongs()
     {
+        foreach (var song in songs)
+        {
+            song.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        }
+    }
+
+    public void ResetSongs()
+    {
+        currentElement = -1;
         foreach (var song in songs)
         {
             song.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);

@@ -4,265 +4,263 @@ using UnityEngine;
 
 namespace Character2D
 {
-public class GolemBoss : Boss
-{
-	public GameObject hand1;
-	public GameObject hand2;
-	public GameObject eyes;
-	public Collider2D DownSwipeBounds;
-	public Collider2D UpSwipeBounds;
-	public Collider2D SmashBounds;
-	
-	[Range(0,30)]
-	public float attackCooldown;
-
-	public int damage;
-	private float cooldown;
-	//public int attackPicked;
-	public bool isAttacking;
-	private float startTime;
-	protected new void Start()
+	public class GolemBoss : Boss
 	{
-		name = "Golem";
-		cooldown = attackCooldown;
-		canTakeDamage = true;
-		startTime = Time.time;
-		base.Start();
-	}
+		public GameObject hand1;
+		public GameObject hand2;
+		public GameObject eyes;
+		public Collider2D DownSwipeBounds;
+		public Collider2D UpSwipeBounds;
+		public Collider2D SmashBounds;
 
-	protected new void Update()
-	{
-		if (player.position.x >= transform.position.x)
+		private FMOD.Studio.EventInstance golemMusic;
+
+		[Range(0, 30)]
+		public float attackCooldown;
+
+		public int damage;
+		private float cooldown;
+		//public int attackPicked;
+		public bool isAttacking;
+		private float startTime;
+		protected new void Start()
 		{
-			isFacingRight = true;
-			transform.eulerAngles = new Vector3(0, 180, 0);
+			name = "Golem";
+			cooldown = attackCooldown;
+			canTakeDamage = true;
+			startTime = Time.time;
+
+			BackgroundSwitch.instance.ResetSongs();
+
+			golemMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/boss/cave_boss");
+			golemMusic.setVolume(PlayerPrefs.GetFloat("MusicVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+			golemMusic.start();
+
+			base.Start();
 		}
-		else
+
+		protected new void Update()
 		{
-			isFacingRight = false;
-			transform.eulerAngles = new Vector3(0, 0, 0);
-		}
-		
-		if(cooldown<=0 && !isAttacking)
-		{
-			isAttacking=true;
-			if((currentVitality/maxVitality)*100 >= 75)
+			if (player.position.x >= transform.position.x)
 			{
-				PickAttack(2);
-			}
-			else if((currentVitality/maxVitality)*100 >= 50)
-			{
-				PickAttack(3);
+				isFacingRight = true;
+				transform.eulerAngles = new Vector3(0, 180, 0);
 			}
 			else
 			{
-				PickAttack(3);
+				isFacingRight = false;
+				transform.eulerAngles = new Vector3(0, 0, 0);
 			}
-			cooldown = attackCooldown;
-			
+
+			if (cooldown <= 0 && !isAttacking)
+			{
+				isAttacking = true;
+				if ((currentVitality / maxVitality) * 100 >= 75)
+				{
+					PickAttack(2);
+				}
+				else if ((currentVitality / maxVitality) * 100 >= 50)
+				{
+					PickAttack(3);
+				}
+				else
+				{
+					PickAttack(3);
+				}
+				cooldown = attackCooldown;
+
+			}
+			else if (isAttacking)
+			{
+				cooldown = attackCooldown;
+			}
+			else
+			{
+				cooldown -= Time.deltaTime;
+			}
 		}
-		else if(isAttacking)
+
+		public void PickAttack(int attackLevel)
 		{
-			cooldown = attackCooldown;
+
+			switch (Random.Range(0, attackLevel + 1))
+			{
+				case 0:
+					StartCoroutine(Move());
+					break;
+				case 1:
+					StartCoroutine(Smash());
+					break;
+				case 2:
+					StartCoroutine(SwipeUp());
+					break;
+				case 3:
+					StartCoroutine(SwipeDown());
+					break;
+			}
+
 		}
-		else
+		private IEnumerator Move()
 		{
-			cooldown -= Time.deltaTime;
-		}
-	}
-
-	
-	public void PickAttack(int attackLevel)
-	{
-		
-		switch(Random.Range(0, attackLevel +1))
-		{
-			case 0:
-			StartCoroutine(Move());
-			break;
-			case 1:
-			StartCoroutine(Smash());
-			break;
-			case 2:
-			StartCoroutine(SwipeUp());
-			break;
-			case 3:
-			StartCoroutine(SwipeDown());
-			break;
-		}
-		
-	}
-	private IEnumerator Move()
-	{
-		Vector3 NewLoc = new Vector3(Random.Range(SmashBounds.bounds.min.x, SmashBounds.bounds.max.x), Random.Range(SmashBounds.bounds.min.y, SmashBounds.bounds.max.y),
-												 transform.position.z);
-		startTime = Time.time;
-		while(Time.time < startTime + 5f)
-		{
-			gameObject.transform.position = new Vector3(Mathf.SmoothStep(gameObject.transform.position.x, NewLoc.x, (Time.time - startTime)/5f)
-															,Mathf.SmoothStep(gameObject.transform.position.y, NewLoc.y, (Time.time - startTime)/5f), 
-															transform.position.z);														
-			yield return null;
-		}
-		isAttacking=false;
-		StopAllCoroutines();
-	}
-	private IEnumerator SwipeUp()
-	{
-		Vector3 hand1Orig = hand1.transform.position;
-		Vector3 hand2Orig = hand2.transform.position;
-		startTime = Time.time;
-		while(Time.time < startTime + 2.25f)
-		{
-            hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, UpSwipeBounds.bounds.min.x - hand1.GetComponentInChildren<Collider2D>().bounds.size.x, (Time.time - startTime)/2.25f)
-															,Mathf.SmoothStep(hand1.transform.position.y, UpSwipeBounds.bounds.min.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);
-
-			hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, UpSwipeBounds.bounds.max.x, (Time.time - startTime)/2.25f)
-															,Mathf.SmoothStep(hand2.transform.position.y, UpSwipeBounds.bounds.min.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);														
-			yield return null;
-		}
-
-		yield return new WaitForSeconds(1);
-		anim.Play("UpSwipe");
-
-		startTime = Time.time;
-		while(Time.time < startTime + 2.25f)
-		{
-            hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, UpSwipeBounds.bounds.min.x, (Time.time - startTime)/2.25f)
-															,hand2.transform.position.y, transform.position.z);
-			yield return null;
-		}
-
-		yield return new WaitForSeconds(1);
-		startTime = Time.time;
-		while(Time.time < startTime + 2.25f)
-		{
-            hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, hand1Orig.x, (Time.time - startTime)/2.25f)
-															,Mathf.SmoothStep(hand1.transform.position.y, hand1Orig.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);
-
-			hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, hand2Orig.x, (Time.time - startTime)/2.25f)
-															,Mathf.SmoothStep(hand2.transform.position.y, hand2Orig.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);														
-			yield return null;
-		}
-		
-		StartCoroutine(Move());
-		yield return new WaitForSeconds(2);
-		isAttacking = false;
-		StopAllCoroutines();
-	}
-
-	private IEnumerator SwipeDown()
-	{
-		Vector3 hand1Orig = hand1.transform.position;
-		Vector3 hand2Orig = hand2.transform.position;
-		startTime = Time.time;
-		while(Time.time < startTime + 2.25f)
-		{
-            hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, DownSwipeBounds.bounds.min.x, (Time.time - startTime)/2.25f)
-															,Mathf.SmoothStep(hand1.transform.position.y, DownSwipeBounds.bounds.min.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);
-
-			hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, DownSwipeBounds.bounds.max.x + hand2.GetComponentInChildren<Collider2D>().bounds.size.x, (Time.time - startTime)/2.25f)
-															,Mathf.SmoothStep(hand2.transform.position.y, DownSwipeBounds.bounds.min.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);														
-			yield return null;
-		}
-		yield return new WaitForSeconds(1);
-		anim.Play("DownSwipe");
-
-		startTime = Time.time;
-		while(Time.time < startTime + 2.25f)
-		{
-            hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, DownSwipeBounds.bounds.max.x, (Time.time - startTime)/2.25f)
-															,hand1.transform.position.y, transform.position.z);
-			yield return null;
-		}
-	yield return new WaitForSeconds(2);
-		startTime = Time.time;
-		while(Time.time < startTime + 2.25f)
-		{
-            hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, hand1Orig.x, (Time.time - startTime)/2.25f)
-															,Mathf.SmoothStep(hand1.transform.position.y, hand1Orig.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);
-
-			hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, hand2Orig.x, (Time.time - startTime)/2.25f)
-															,Mathf.SmoothStep(hand2.transform.position.y, hand2Orig.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);														
-			yield return null;
-		}
-		
-		StartCoroutine(Move());
-		yield return new WaitForSeconds(2);
-		isAttacking = false;
-		StopAllCoroutines();
-	}
-
-	private IEnumerator Smash()
-	{
-		Vector3 hand1Orig = hand1.transform.position;
-		Vector3 hand2Orig = hand2.transform.position;
-		Vector3 hand1NewLoc = new Vector3(Random.Range(SmashBounds.bounds.min.x, SmashBounds.bounds.center.x), SmashBounds.bounds.max.y, transform.position.z);
-		Vector3 hand2NewLoc = new Vector3(Random.Range(SmashBounds.bounds.center.x, SmashBounds.bounds.max.x), SmashBounds.bounds.max.y, transform.position.z);
-		startTime = Time.time;
-		while(Time.time < startTime + 2.25f)
-		{
-            hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, hand1NewLoc.x, (Time.time - startTime)/2.25f)
-															,Mathf.SmoothStep(hand1.transform.position.y, hand1NewLoc.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);
-			hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, hand2NewLoc.x, (Time.time - startTime)/2.25f)
-															,Mathf.SmoothStep(hand2.transform.position.y, hand2NewLoc.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);
-																							
-			yield return null;
-		}
-
-		yield return new WaitForSeconds(0.5f);
-
-		anim.Play("Smash");
-
-		startTime = Time.time;
-		while(Time.time < startTime + 2.25f)
-		{
-            hand1.transform.position = new Vector3(hand1.transform.position.x, Mathf.SmoothStep(hand1.transform.position.y, SmashBounds.bounds.min.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);
-			hand2.transform.position = new Vector3(hand2.transform.position.x, Mathf.SmoothStep(hand2.transform.position.y, SmashBounds.bounds.min.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);
-																							
-			yield return null;
-		}
-		
+			Vector3 NewLoc = new Vector3(Random.Range(SmashBounds.bounds.min.x, SmashBounds.bounds.max.x), Random.Range(SmashBounds.bounds.min.y, SmashBounds.bounds.max.y),
+				transform.position.z);
 			startTime = Time.time;
-		while(Time.time < startTime + 2.25f)
-		{
-            hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, hand1Orig.x, (Time.time - startTime)/2.25f)
-															,Mathf.SmoothStep(hand1.transform.position.y, hand1Orig.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);
-
-			hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, hand2Orig.x, (Time.time - startTime)/2.25f)
-															,Mathf.SmoothStep(hand2.transform.position.y, hand2Orig.y, (Time.time - startTime)/2.25f), 
-															transform.position.z);														
-			yield return null;
+			while (Time.time < startTime + 5f)
+			{
+				gameObject.transform.position = new Vector3(Mathf.SmoothStep(gameObject.transform.position.x, NewLoc.x, (Time.time - startTime) / 5f), Mathf.SmoothStep(gameObject.transform.position.y, NewLoc.y, (Time.time - startTime) / 5f),
+					transform.position.z);
+				yield return null;
+			}
+			isAttacking = false;
+			StopAllCoroutines();
 		}
-		isAttacking = false;
-	}
+		private IEnumerator SwipeUp()
+		{
+			Vector3 hand1Orig = hand1.transform.position;
+			Vector3 hand2Orig = hand2.transform.position;
+			startTime = Time.time;
+			while (Time.time < startTime + 2.25f)
+			{
+				hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, UpSwipeBounds.bounds.min.x - hand1.GetComponentInChildren<Collider2D>().bounds.size.x, (Time.time - startTime) / 2.25f), Mathf.SmoothStep(hand1.transform.position.y, UpSwipeBounds.bounds.min.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
 
-	protected override void InitializeDeath()
-	{
-		anim.Play("Death");
-	}
+				hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, UpSwipeBounds.bounds.max.x, (Time.time - startTime) / 2.25f), Mathf.SmoothStep(hand2.transform.position.y, UpSwipeBounds.bounds.min.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+				yield return null;
+			}
 
-	public override void FinalizeDeath()
-	{
-		BossDefeated();
-	}
+			yield return new WaitForSeconds(1);
+			anim.Play("UpSwipe");
 
-	public void ApplyDamage(GameObject target)
-	{
-		target.GetComponent<Attackable>().TakeDamage(gameObject, damage);
+			startTime = Time.time;
+			while (Time.time < startTime + 2.25f)
+			{
+				hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, UpSwipeBounds.bounds.min.x, (Time.time - startTime) / 2.25f), hand2.transform.position.y, transform.position.z);
+				yield return null;
+			}
+
+			yield return new WaitForSeconds(1);
+			startTime = Time.time;
+			while (Time.time < startTime + 2.25f)
+			{
+				hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, hand1Orig.x, (Time.time - startTime) / 2.25f), Mathf.SmoothStep(hand1.transform.position.y, hand1Orig.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+
+				hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, hand2Orig.x, (Time.time - startTime) / 2.25f), Mathf.SmoothStep(hand2.transform.position.y, hand2Orig.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+				yield return null;
+			}
+
+			StartCoroutine(Move());
+			yield return new WaitForSeconds(2);
+			isAttacking = false;
+			StopAllCoroutines();
+		}
+
+		private IEnumerator SwipeDown()
+		{
+			Vector3 hand1Orig = hand1.transform.position;
+			Vector3 hand2Orig = hand2.transform.position;
+			startTime = Time.time;
+			while (Time.time < startTime + 2.25f)
+			{
+				hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, DownSwipeBounds.bounds.min.x, (Time.time - startTime) / 2.25f), Mathf.SmoothStep(hand1.transform.position.y, DownSwipeBounds.bounds.min.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+
+				hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, DownSwipeBounds.bounds.max.x + hand2.GetComponentInChildren<Collider2D>().bounds.size.x, (Time.time - startTime) / 2.25f), Mathf.SmoothStep(hand2.transform.position.y, DownSwipeBounds.bounds.min.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+				yield return null;
+			}
+			yield return new WaitForSeconds(1);
+			anim.Play("DownSwipe");
+
+			startTime = Time.time;
+			while (Time.time < startTime + 2.25f)
+			{
+				hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, DownSwipeBounds.bounds.max.x, (Time.time - startTime) / 2.25f), hand1.transform.position.y, transform.position.z);
+				yield return null;
+			}
+			yield return new WaitForSeconds(2);
+			startTime = Time.time;
+			while (Time.time < startTime + 2.25f)
+			{
+				hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, hand1Orig.x, (Time.time - startTime) / 2.25f), Mathf.SmoothStep(hand1.transform.position.y, hand1Orig.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+
+				hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, hand2Orig.x, (Time.time - startTime) / 2.25f), Mathf.SmoothStep(hand2.transform.position.y, hand2Orig.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+				yield return null;
+			}
+
+			StartCoroutine(Move());
+			yield return new WaitForSeconds(2);
+			isAttacking = false;
+			StopAllCoroutines();
+		}
+
+		private IEnumerator Smash()
+		{
+			Vector3 hand1Orig = hand1.transform.position;
+			Vector3 hand2Orig = hand2.transform.position;
+			Vector3 hand1NewLoc = new Vector3(Random.Range(SmashBounds.bounds.min.x, SmashBounds.bounds.center.x), SmashBounds.bounds.max.y, transform.position.z);
+			Vector3 hand2NewLoc = new Vector3(Random.Range(SmashBounds.bounds.center.x, SmashBounds.bounds.max.x), SmashBounds.bounds.max.y, transform.position.z);
+			startTime = Time.time;
+			while (Time.time < startTime + 2.25f)
+			{
+				hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, hand1NewLoc.x, (Time.time - startTime) / 2.25f), Mathf.SmoothStep(hand1.transform.position.y, hand1NewLoc.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+				hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, hand2NewLoc.x, (Time.time - startTime) / 2.25f), Mathf.SmoothStep(hand2.transform.position.y, hand2NewLoc.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+
+				yield return null;
+			}
+
+			yield return new WaitForSeconds(0.5f);
+
+			anim.Play("Smash");
+
+			startTime = Time.time;
+			while (Time.time < startTime + 2.25f)
+			{
+				hand1.transform.position = new Vector3(hand1.transform.position.x, Mathf.SmoothStep(hand1.transform.position.y, SmashBounds.bounds.min.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+				hand2.transform.position = new Vector3(hand2.transform.position.x, Mathf.SmoothStep(hand2.transform.position.y, SmashBounds.bounds.min.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+
+				yield return null;
+			}
+
+			startTime = Time.time;
+			while (Time.time < startTime + 2.25f)
+			{
+				hand1.transform.position = new Vector3(Mathf.SmoothStep(hand1.transform.position.x, hand1Orig.x, (Time.time - startTime) / 2.25f), Mathf.SmoothStep(hand1.transform.position.y, hand1Orig.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+
+				hand2.transform.position = new Vector3(Mathf.SmoothStep(hand2.transform.position.x, hand2Orig.x, (Time.time - startTime) / 2.25f), Mathf.SmoothStep(hand2.transform.position.y, hand2Orig.y, (Time.time - startTime) / 2.25f),
+					transform.position.z);
+				yield return null;
+			}
+			isAttacking = false;
+		}
+
+		protected override void InitializeDeath()
+		{
+			anim.Play("Death");
+		}
+
+		public override void FinalizeDeath()
+		{
+			BossDefeated();
+		}
+
+		public void ApplyDamage(GameObject target)
+		{
+			target.GetComponent<Attackable>().TakeDamage(gameObject, damage);
+		}
+
+		private void OnDestroy()
+		{
+			golemMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		}
 	}
-}
 }

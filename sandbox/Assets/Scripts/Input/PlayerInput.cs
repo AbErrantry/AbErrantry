@@ -138,7 +138,7 @@ namespace Character2D
             if (hInput.GetButtonDown("Backpack"))
             {
                 sleepTimer = Time.time;
-                if ((!acceptInput && backpackMenu.isOpen) || acceptInput)
+                if ((!acceptInput && backpackMenu.isOpen) || acceptInput && !playerAttack.isWindingUp)
                 {
                     backpackMenu.ToggleBackpack();
                 }
@@ -146,7 +146,7 @@ namespace Character2D
             else if (hInput.GetButtonDown("Interact"))
             {
                 sleepTimer = Time.time;
-                if ((!acceptInput && playerInteraction.isOpen) || acceptInput)
+                if ((!acceptInput && playerInteraction.isOpen) || acceptInput && !playerAttack.isWindingUp)
                 {
                     playerInteraction.CloseContainer();
                 }
@@ -185,6 +185,7 @@ namespace Character2D
         public void Exit()
         {
             Time.timeScale = 1.0f;
+            BackgroundSwitch.instance.ResetSongs();
             SceneManager.LoadScene("MainMenu");
         }
 

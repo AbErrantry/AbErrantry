@@ -42,6 +42,8 @@ public class TravelMenu : MonoBehaviour
 
 	public void Open(string text, bool init, bool fastTravel = false)
 	{
+		BackgroundSwitch.instance.ResetSongs();
+
 		this.text.text = text;
 		isTravelling = true;
 		if (fastTravel)

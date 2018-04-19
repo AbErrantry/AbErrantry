@@ -17,6 +17,8 @@ namespace Character2D
 		private Vector2 min;
 		private Vector2 max;
 
+		private FMOD.Studio.EventInstance ogreMusic;
+
 		protected new void Start()
 		{
 			name = "Ogre";
@@ -26,6 +28,13 @@ namespace Character2D
 			min = posPositions.bounds.min;
 			max = posPositions.bounds.max;
 			attackTrigger = gameObject.GetComponentInChildren<BoxCollider2D>();
+
+			BackgroundSwitch.instance.ResetSongs();
+
+			ogreMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/boss/plains_boss");
+			ogreMusic.setVolume(PlayerPrefs.GetFloat("MusicVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+			ogreMusic.start();
+
 			base.Start();
 		}
 
@@ -125,6 +134,11 @@ namespace Character2D
 		public void ApplyDamage(GameObject target)
 		{
 			target.GetComponent<Attackable>().TakeDamage(gameObject, punchDamage);
+		}
+
+		private void OnDestroy()
+		{
+			ogreMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 		}
 	}
 }

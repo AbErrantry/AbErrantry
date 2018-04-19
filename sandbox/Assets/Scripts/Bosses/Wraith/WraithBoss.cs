@@ -29,6 +29,9 @@ namespace Character2D
 		//public Transform player;
 		private float startTime;
 		//private bool isFacingRight;
+
+		private FMOD.Studio.EventInstance wraithMusic;
+
 		protected new void Start()
 		{
 			name = "Wraith";
@@ -39,6 +42,13 @@ namespace Character2D
 			//player = GameObject.Find("Knight").GetComponent<Transform>();
 			startTime = Time.time;
 			isFacingRight = false;
+
+			BackgroundSwitch.instance.ResetSongs();
+
+			wraithMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/boss/spooky_boss");
+			wraithMusic.setVolume(PlayerPrefs.GetFloat("MusicVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+			wraithMusic.start();
+
 			base.Start();
 		}
 
@@ -213,6 +223,11 @@ namespace Character2D
 		public void ApplyDamage(GameObject target)
 		{
 			target.GetComponent<Attackable>().TakeDamage(gameObject, damage);
+		}
+
+		private void OnDestroy()
+		{
+			wraithMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 		}
 	}
 }

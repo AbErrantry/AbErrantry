@@ -8,6 +8,8 @@ namespace Character2D
 	{
 		private BearMovement bearMovement;
 
+		private FMOD.Studio.EventInstance bearMusic;
+
 		//used for initialization
 		protected new void Start()
 		{
@@ -17,6 +19,12 @@ namespace Character2D
 			canFlinch = false;
 			canKnockBack = false;
 			canTakeDamage = true;
+
+			BackgroundSwitch.instance.ResetSongs();
+
+			bearMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/boss/plains_boss");
+			bearMusic.setVolume(PlayerPrefs.GetFloat("MusicVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+			bearMusic.start();
 		}
 
 		private new void Update()
@@ -50,6 +58,7 @@ namespace Character2D
 					followTarget.target = Player.instance.gameObject.transform;
 				}
 			}
+			bearMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 		}
 	}
 }
