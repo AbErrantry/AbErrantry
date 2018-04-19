@@ -1,0 +1,80 @@
+<dialogue>
+
+	<segment id="0">
+		<text>Hello!</text>
+		<next>1</next>
+	</segment>
+	
+	<segment id="1">
+		<text>My name is Florence and I'm from the castle.</text>
+		<choice id="0">
+			<text>Are you sure? I haven't seen you around there.</text>
+			<next>2</next>
+		</choice>
+		<choice id="1">
+			<text>Great! You might be able to help me find the @ then.</text>
+			<next>6</next>
+		</choice>
+		<choice id="2">
+			<text>Can you prove to me that you are from the castle?</text>
+			<next>4</next>
+		</choice>
+	</segment>
+	
+	<segment id="2">
+		<text>Oh, so you're from the castle? </text>
+		<choice id="0">
+			<text>Yes, can you prove to me that you are from the castle?</text>
+			<next>3</next>
+		</choice>
+		<choice id="1">
+			<text>No, but can you prove to me that you are from the castle?</text>
+			<next>4</next>
+		</choice>
+	</segment>
+	
+	<segment id="3">
+		<text>You know, I'd rather not.</text>
+		<action type="AffectKarma">
+			<number>-10</number>
+			<name>You let Florence know that you were from the castle, and she attacked you as a result. Be careful who you share personal information with.</name>
+		</action>
+		<action type="BecomeHostile"/>
+	</segment>
+	
+	<segment id="4">
+		<text>Sure! I just saw the @ there a little while ago.</text>
+		<choice id="0">
+			<text>Great. Nice talking with you.</text>
+			<next>5</next>
+		</choice>
+		<choice id="1">
+			<text>That's impossible because the @ is missing.</text>
+			<next>7</next>
+		</choice>
+	</segment>
+	
+	<segment id="5">
+		<text>Alright! I've got to get back to the castle!</text>
+		<action type="AffectKarma">
+			<number>10</number>
+			<name>You were able to see through Florence's lie and avoid escalating the situation into anything violent.</name>
+		</action>
+		<action type="Disappear"/>
+	</segment>
+	
+	<segment id="6">
+		<text>The @ is missing, eh?</text>
+		<next>7</next>
+	</segment>
+	
+	<segment id="7">
+		<text>Interesting. That's news to me.</text>
+		<action type="AffectKarma">
+			<number>-10</number>
+			<name>You let Florence know that the @ was missing, and she attacked you as a result. Be careful who you share personal information with.</name>
+		</action>
+		<action type="BecomeHostile"/>
+	</segment>
+	
+</dialogue>

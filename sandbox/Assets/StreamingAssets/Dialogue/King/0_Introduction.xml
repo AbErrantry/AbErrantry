@@ -78,7 +78,8 @@
 	</segment>
 	
 	<segment id="11">
-		<text>Ah. The sword. An excellent choice for a knight. Here is some gold as well. Be safe on your journey.</text>
+		<text>Ah. The sword. An excellent choice for a knight. Here is some gold as well.</text>
+		<next>14</next>
 		<action type="GiveItem">
 			<name>Iron Sword</name>
 			<number>1</number>
@@ -89,10 +90,15 @@
 		<action type="ProgressDialogue">
 			<number>1</number>
 		</action>
+		<action type="ProgressQuest">
+			<name>Find the @</name>
+			<number>1</number>
+		</action>
 	</segment>
 	
 	<segment id="12">
-		<text>Ah. The axe. A bit nontraditional, but I respect that. Here is some gold as well. Be safe on your journey.</text>
+		<text>Ah. The axe. A bit nontraditional, but I respect that. Here is some gold as well.</text>
+		<next>14</next>
 		<action type="GiveItem">
 			<name>Iron Axe</name>
 			<number>1</number>
@@ -103,10 +109,15 @@
 		<action type="ProgressDialogue">
 			<number>1</number>
 		</action>
+		<action type="ProgressQuest">
+			<name>Find the @</name>
+			<number>1</number>
+		</action>
 	</segment>
 	
 	<segment id="13">
-		<text>Ah. The spear. Tried and true. Here is some gold as well. Be safe on your journey.</text>
+		<text>Ah. The spear. Tried and true. Here is some gold as well.</text>
+		<next>14</next>
 		<action type="GiveItem">
 			<name>Iron Spear</name>
 			<number>1</number>
@@ -117,6 +128,14 @@
 		<action type="ProgressDialogue">
 			<number>1</number>
 		</action>
+		<action type="ProgressQuest">
+			<name>Find the @</name>
+			<number>1</number>
+		</action>
+	</segment>
+	
+	<segment id="14">
+		<text>Be safe on your journey, knight.</text>
 	</segment>
 	
 	<segment id="16">

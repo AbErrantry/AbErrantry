@@ -49,8 +49,8 @@ namespace Character2D
 
         public bool isDormant;
 
-        private string damageNoise;
-        private string deathNoise;
+        private FMOD.Studio.EventInstance damageNoise;
+        private FMOD.Studio.EventInstance deathNoise;
 
         void OnBecameVisible()
         {
@@ -85,8 +85,11 @@ namespace Character2D
 
             enabled = false;
 
-            damageNoise = "event:/" + character.fields.type + "/take_damage";
-            deathNoise = "event:/" + character.fields.type + "/death";
+            damageNoise = FMODUnity.RuntimeManager.CreateInstance("event:/" + character.fields.type + "/take_damage");
+            deathNoise = FMODUnity.RuntimeManager.CreateInstance("event:/" + character.fields.type + "/death");
+
+            damageNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+            deathNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
         }
 
         public override void TakeDamage(GameObject attacker, int damage, bool appliesKnockback = true)
@@ -94,7 +97,7 @@ namespace Character2D
             base.TakeDamage(attacker, damage, appliesKnockback);
             if (canTakeDamage)
             {
-                FMODUnity.RuntimeManager.PlayOneShot(damageNoise);
+                damageNoise.start();
                 if (attacker.GetComponent<Player>() != null && !chasingPlayer)
                 {
                     SetPlayerTarget(attacker);
@@ -176,7 +179,7 @@ namespace Character2D
             //enemy no longer attackable
             isDying = true;
             anim.SetBool("isDying", isDying); //death animation
-            FMODUnity.RuntimeManager.PlayOneShot(deathNoise);
+            deathNoise.start();
         }
 
         public override void FinalizeDeath()

@@ -23,6 +23,10 @@ namespace Character2D
         protected float attackPress;
         protected float attackRelease;
 
+        private FMOD.Studio.EventInstance stabNoise;
+        private FMOD.Studio.EventInstance swingNoise;
+        private FMOD.Studio.EventInstance powerNoise;
+
         //used for initialization
         protected new void Start()
         {
@@ -39,6 +43,14 @@ namespace Character2D
             attackRelease = 0.0f;
             attack2Threshold = 0.15f;
             attack3Threshold = 0.60f;
+
+            stabNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Knight/stab");
+            swingNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Knight/swing");
+            powerNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Knight/power");
+
+            stabNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+            swingNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+            powerNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
         }
 
         //
@@ -81,12 +93,12 @@ namespace Character2D
                 if (attackDuration > attack2Threshold)
                 {
                     StartCoroutine(Attack(1));
-                    FMODUnity.RuntimeManager.PlayOneShot("event:/Knight/swing");
+                    swingNoise.start();
                 }
                 else
                 {
                     StartCoroutine(Attack(0));
-                    FMODUnity.RuntimeManager.PlayOneShot("event:/Knight/stab");
+                    stabNoise.start();
                 }
             }
             else if (isWindingUp && !playerMovement.isFalling)
@@ -94,7 +106,7 @@ namespace Character2D
                 if (Time.time - attackPress > attack3Threshold)
                 {
                     StartCoroutine(Attack(2));
-                    FMODUnity.RuntimeManager.PlayOneShot("event:/Knight/power");
+                    powerNoise.start();
                 }
             }
         }

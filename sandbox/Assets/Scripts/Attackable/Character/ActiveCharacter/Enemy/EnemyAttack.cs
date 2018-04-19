@@ -9,14 +9,16 @@ namespace Character2D
         public bool canAttack;
         private Enemy enemy;
 
-        private string attackNoise;
-        
+        private FMOD.Studio.EventInstance attackNoise;
+
         // Use this for initialization
         protected new void Start()
         {
             enemy = GetComponent<Enemy>();
             base.Start();
-            attackNoise = "event:/" + character.fields.type + "/attack";
+
+            attackNoise = FMODUnity.RuntimeManager.CreateInstance("event:/" + character.fields.type + "/attack");
+            attackNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
         }
 
         // Update is called once per frame
@@ -63,7 +65,7 @@ namespace Character2D
 
         protected override void InitializeAttack(int index)
         {
-            FMODUnity.RuntimeManager.PlayOneShot(attackNoise);
+            attackNoise.start();
         }
     }
 }

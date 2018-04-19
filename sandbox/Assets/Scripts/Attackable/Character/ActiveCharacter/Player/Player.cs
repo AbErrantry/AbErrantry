@@ -44,6 +44,8 @@ namespace Character2D
         public TMP_Text locationText;
         public TMP_Text questText;
 
+        private FMOD.Studio.EventInstance damageNoise;
+
         private void Awake()
         {
             if (instance == null)
@@ -75,6 +77,9 @@ namespace Character2D
             canTakeDamage = true;
 
             SetPlayerInfo();
+
+            damageNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Knight/take_damage");
+            damageNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
         }
 
         private void SetPlayerInfo()
@@ -263,7 +268,7 @@ namespace Character2D
         public override void TakeDamage(GameObject attacker, int damage, bool appliesKnockback = true)
         {
             int dmg = damage - Mathf.RoundToInt(GameData.data.itemData.itemDictionary[equippedArmor].strength) >= 0 ? damage - Mathf.RoundToInt(GameData.data.itemData.itemDictionary[equippedArmor].strength) : 0;
-            FMODUnity.RuntimeManager.PlayOneShot("event:/Knight/take_damage");
+            damageNoise.start();
             base.TakeDamage(attacker, dmg, appliesKnockback);
             if (currentVitality < 0)
             {
