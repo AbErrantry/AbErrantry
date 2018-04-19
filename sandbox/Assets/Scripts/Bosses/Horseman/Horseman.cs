@@ -16,6 +16,8 @@ public class Horseman : Boss
 	public bool isAttacking;
 	public LavaPlume[] plumes;
 	public LavaPlume[] bigPlumes;
+	public Platform leftPlatform;
+	public Platform rightPlatform;
 	protected new void Start()
 	{
 		name = "Horseman";
@@ -42,14 +44,8 @@ public class Horseman : Boss
 		//Debug.Log("Min: "+ min.ToString() + " Max: " + max.ToString());
 		if(cooldown<=0 && !isAttacking)
 		{
-			if((currentVitality/maxVitality)*100 >= 75)
-			{
-				PickAttack(1);//just put the amount of cases there are in pickAttack()
-			}
-			else if((currentVitality/maxVitality)*100 >= 50)
-			{
-				PickAttack(1);
-			}
+			PickAttack(1);//just put the amount of cases there are in pickAttack()
+
 			cooldown = attackCooldown;
 			
 		}
@@ -77,6 +73,7 @@ public class Horseman : Boss
 		}
 	}
 
+	//platforms opening
 	private IEnumerator Attack1()
 	{
 		if(!anim.GetBool("Attack1"))
@@ -86,9 +83,31 @@ public class Horseman : Boss
 		anim.Play("Attack1");
 		yield return new WaitForSeconds(1f);
 		Plume();
-		yield return new WaitForSeconds(.5f);
-		
-		yield return new WaitForSeconds(2);
+		yield return new WaitForSeconds(3f);
+		float startTime = Time.time;
+        while (Time.time < startTime + 10f)
+		{
+			
+			leftPlatform.transform.position = new Vector3(Mathf.SmoothStep(leftPlatform.transform.position.x, leftPlatform.endLoc.x, (Time.time - startTime) / 10f),
+											 leftPlatform.transform.position.y, transform.position.z);
+			rightPlatform.transform.position = new Vector3(Mathf.SmoothStep(rightPlatform.transform.position.x, rightPlatform.endLoc.x, (Time.time - startTime) / 10f),
+											 rightPlatform.transform.position.y, transform.position.z);
+			yield return null;
+		}
+
+		yield return new WaitForSeconds(5);
+
+		startTime = Time.time;
+        while (Time.time < startTime + 10f)
+		{
+			
+			leftPlatform.transform.position = new Vector3(Mathf.SmoothStep(leftPlatform.transform.position.x, leftPlatform.startLoc.x, (Time.time - startTime) / 10f),
+											 leftPlatform.transform.position.y, transform.position.z);
+			rightPlatform.transform.position = new Vector3(Mathf.SmoothStep(rightPlatform.transform.position.x, rightPlatform.startLoc.x, (Time.time - startTime) / 10f),
+											 rightPlatform.transform.position.y, transform.position.z);
+			yield return null;
+		}
+
 		UnPlume();
 
 		yield return new WaitForSeconds(.5f);
@@ -98,6 +117,7 @@ public class Horseman : Boss
 
 	}
 
+	//plumes attacking
 	private IEnumerator Attack2()
 	{
 		int plumeNum = Random.Range(0,bigPlumes.Length +1);
@@ -110,7 +130,7 @@ public class Horseman : Boss
 		Plume();
 		yield return new WaitForSeconds(.5f);
 		bigPlumes[plumeNum].PlumeFake();
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(3f);
 
 		for(int i = 0; i<bigPlumes.Length;i++)
 		{
@@ -119,7 +139,7 @@ public class Horseman : Boss
 				bigPlumes[i].PlumeIt();
 			}
 		}
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(2);
 		for(int i = 0; i<bigPlumes.Length;i++)
 		{
 			if(i != plumeNum)

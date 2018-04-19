@@ -52,11 +52,11 @@ public class GolemBoss : Boss
 			}
 			else if((currentVitality/maxVitality)*100 >= 50)
 			{
-				PickAttack(2);
+				PickAttack(3);
 			}
 			else
 			{
-				PickAttack(2);
+				PickAttack(3);
 			}
 			cooldown = attackCooldown;
 			
@@ -78,18 +78,35 @@ public class GolemBoss : Boss
 		switch(Random.Range(0, attackLevel +1))
 		{
 			case 0:
-			StartCoroutine(Smash());
+			StartCoroutine(Move());
 			break;
 			case 1:
-			StartCoroutine(SwipeDown());
+			StartCoroutine(Smash());
 			break;
 			case 2:
 			StartCoroutine(SwipeUp());
 			break;
+			case 3:
+			StartCoroutine(SwipeDown());
+			break;
 		}
 		
 	}
-
+	private IEnumerator Move()
+	{
+		Vector3 NewLoc = new Vector3(Random.Range(SmashBounds.bounds.min.x, SmashBounds.bounds.max.x), Random.Range(SmashBounds.bounds.min.y, SmashBounds.bounds.max.y),
+												 transform.position.z);
+		startTime = Time.time;
+		while(Time.time < startTime + 5f)
+		{
+			gameObject.transform.position = new Vector3(Mathf.SmoothStep(gameObject.transform.position.x, NewLoc.x, (Time.time - startTime)/5f)
+															,Mathf.SmoothStep(gameObject.transform.position.y, NewLoc.y, (Time.time - startTime)/5f), 
+															transform.position.z);														
+			yield return null;
+		}
+		isAttacking=false;
+		StopAllCoroutines();
+	}
 	private IEnumerator SwipeUp()
 	{
 		Vector3 hand1Orig = hand1.transform.position;
@@ -131,6 +148,9 @@ public class GolemBoss : Boss
 															transform.position.z);														
 			yield return null;
 		}
+		
+		StartCoroutine(Move());
+		yield return new WaitForSeconds(2);
 		isAttacking = false;
 		StopAllCoroutines();
 	}
@@ -174,6 +194,9 @@ public class GolemBoss : Boss
 															transform.position.z);														
 			yield return null;
 		}
+		
+		StartCoroutine(Move());
+		yield return new WaitForSeconds(2);
 		isAttacking = false;
 		StopAllCoroutines();
 	}
