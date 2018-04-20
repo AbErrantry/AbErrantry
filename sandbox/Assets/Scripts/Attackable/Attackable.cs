@@ -54,6 +54,7 @@ namespace Character2D
 
                 if (canTakeDamage)
                 {
+                    ParticleManager.instance.SpawnParticle(gameObject, "hurt");
                     currentVitality = currentVitality - damage;
                     if (currentVitality <= 0f)
                     {
