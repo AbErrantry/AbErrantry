@@ -36,6 +36,7 @@ namespace Character2D
 			ogreMusic.start();
 
 			base.Start();
+			
 		}
 
 		protected new void Update()
@@ -90,20 +91,31 @@ namespace Character2D
 
 		public IEnumerator MoveAway()
 		{
+			canTakeDamage = false;
 			isAttacking = true;
 			LowerWater();
 			yield return new WaitForSeconds(2.3f);
 			NewPosition();
 			//RaiseWater();
-			yield return new WaitForSeconds(2f);
+			yield return new WaitForSeconds(1f);
 			gameObject.GetComponent<Animator>().SetBool("Moved", false);
 			isAttacking = false;
+			canTakeDamage = true;
+			Punch();
+			yield return new WaitForSeconds(1);
 		}
 
 		public void NewPosition()
 		{
 			gameObject.transform.position = new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y));
 			gameObject.GetComponent<Animator>().SetBool("Moved", true);
+		}
+
+		protected override void Flinch()
+		{
+			base.Flinch();
+			StartCoroutine(MoveAway());
+			StartCoroutine(ColorHit());
 		}
 
 		public void RaiseWater()

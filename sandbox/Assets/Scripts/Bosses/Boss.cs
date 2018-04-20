@@ -40,8 +40,16 @@ public abstract class Boss : Attackable
 	protected override void Flinch()
 	{
 		anim.Play("Hurt");
+
 	}
 
+	public IEnumerator ColorHit()
+	{
+		Color baseColor = gameObject.GetComponent<Renderer>().material.color;
+		gameObject.GetComponent<Renderer>().material.color = Color.Lerp(baseColor, Color.red, Mathf.PingPong(Time.time, 1));
+		yield return new WaitForSeconds(2);
+		gameObject.GetComponent<Renderer>().material.color = baseColor;
+	}
 	protected void BossDefeated()
 	{
 		if (!Player.instance.isDying)
