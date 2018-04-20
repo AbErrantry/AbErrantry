@@ -276,6 +276,14 @@ namespace Character2D
             }
             healthText.text = currentVitality + "/" + maxVitality;
             InvokePlayerInfoChange();
+            StartCoroutine(InvincibilityDelay());
+        }
+
+        private IEnumerator InvincibilityDelay()
+        {
+            canTakeDamage = false;
+            yield return new WaitForSeconds(1.0f);
+            canTakeDamage = true;
         }
 
         protected override void InitializeDeath()
