@@ -107,15 +107,15 @@ namespace Character2D
 
 		public void NewPosition()
 		{
-			gameObject.transform.position = new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y));
+			gameObject.transform.position = new Vector2(Random.Range(min.x, max.x), max.y);
 			gameObject.GetComponent<Animator>().SetBool("Moved", true);
 		}
 
 		protected override void Flinch()
 		{
 			base.Flinch();
-			StartCoroutine(MoveAway());
 			StartCoroutine(ColorHit());
+			StartCoroutine(MoveAway());
 		}
 
 		public void RaiseWater()
