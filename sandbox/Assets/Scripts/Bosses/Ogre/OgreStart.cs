@@ -15,7 +15,8 @@ public class OgreStart : MonoBehaviour {
 	}
 	public void OnTriggerEnter2D(Collider2D col)
 	{
-		if(col.gameObject.GetComponent<Player>() != null)
+		bool bossDefeated = GameData.data.saveData.ReadBossState(ogrePrefab.name);
+		if(col.gameObject.GetComponent<Player>() != null && !bossDefeated)
 		{
 			GameObject clone = Instantiate(ogrePrefab, new Vector3(GetComponent<BoxCollider2D>().bounds.max.x, GetComponent<BoxCollider2D>().bounds.min.y, ogrePrefab.transform.position.z)
 										,Quaternion.identity);

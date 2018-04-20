@@ -14,7 +14,8 @@ public class HorseStartTrigger : MonoBehaviour {
 	// Use this for initialization
 	public void OnTriggerEnter2D(Collider2D col)
 	{
-		if(col.gameObject.GetComponent<Player>()!= null)
+		bool bossDefeated = GameData.data.saveData.ReadBossState(Horse.name);
+		if(col.gameObject.GetComponent<Player>() != null && !bossDefeated)
 		{
 			GameObject clone = Instantiate(Horse, new Vector3( GetComponent<BoxCollider2D>().bounds.max.x, GetComponent<BoxCollider2D>().bounds.min.y, Horse.transform.position.z)
 										,Quaternion.identity);

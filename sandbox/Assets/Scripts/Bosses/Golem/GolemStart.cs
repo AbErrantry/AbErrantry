@@ -16,7 +16,8 @@ public class GolemStart : MonoBehaviour {
 	}
 	public void OnTriggerEnter2D(Collider2D col)
 	{
-		if(col.gameObject.GetComponent<Player>() != null)
+		bool bossDefeated = GameData.data.saveData.ReadBossState(golemPrefab.name);
+		if(col.gameObject.GetComponent<Player>() != null && !bossDefeated)
 		{
 			GameObject clone = Instantiate(golemPrefab, new Vector3( GetComponent<BoxCollider2D>().bounds.center.x, GetComponent<BoxCollider2D>().bounds.max.y, golemPrefab.transform.position.z)
 										,Quaternion.identity);
