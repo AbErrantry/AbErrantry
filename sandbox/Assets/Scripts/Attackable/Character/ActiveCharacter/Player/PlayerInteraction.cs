@@ -311,7 +311,7 @@ namespace Character2D
         private void SetInteractBarText(string interactType, string interactItem, bool isMultiple)
         {
             string press = "<color=white>Press ";
-            string key = "<color=red>" + GetKeyName.Input("Interact", KeyTarget.PositivePrimary);
+            string key = "<color=red>" + NameConversion.ConvertSymbol(GetKeyName.Input("Interact", KeyTarget.PositivePrimary));
             string type = "<color=white> to " + interactType;
             if (isMultiple)
             {
