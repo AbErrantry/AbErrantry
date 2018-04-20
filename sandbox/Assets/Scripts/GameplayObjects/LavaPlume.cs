@@ -7,12 +7,13 @@ public class LavaPlume : MonoBehaviour {
 	public float delay;
 	private float time;
 	public bool requiresInput;
-
+	private bool pluming;
+	private Animator anim;
 	// Use this for initialization
 	void Start ()
 	{
 		time = delay;
-		gameObject.GetComponent<Animator>().SetFloat("Delay", time);
+		anim = gameObject.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -20,20 +21,33 @@ public class LavaPlume : MonoBehaviour {
 	{
 		if(!requiresInput)
 		{
-			if(time<=0)
+			if(time<=0 && !pluming)
 			{
-				gameObject.GetComponent<Animator>().SetFloat("Delay", time);
+				StartCoroutine(GenericPlume());
 				time = delay;
 				
 			}
 			else
 			{
 				time -= Time.deltaTime;
-				gameObject.GetComponent<Animator>().SetFloat("Delay", time);
+				//gameObject.GetComponent<Animator>().SetFloat("Delay", time);
 			}
 		}
 	}
+	public IEnumerator GenericPlume()
+	{
+		pluming= true;
+		anim.SetBool("StayDown",false);
+		yield return new WaitForSeconds(delay/2);
+		anim.SetBool("StayUp", false);
+		anim.SetBool("StayDown",true);
+		yield return new WaitForSeconds(delay/2);
+		
+		anim.SetBool("StayUp", true);
 
+		pluming = false;
+		StopAllCoroutines();
+	}
 	//Only used for BossPlumes
 	public void PlumeIt()
 	{
