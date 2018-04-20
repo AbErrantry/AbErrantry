@@ -17,6 +17,7 @@ public class ConfigSettings : MonoBehaviour
 	public TMP_Dropdown screenMode;
 	public TMP_Dropdown resolution;
 	public TMP_Dropdown dialogueTextSpeed;
+	public TMP_Dropdown colorblindMode;
 
 	public TMP_Dropdown controllerType;
 	public TMP_Dropdown gamesToLoad;
@@ -120,6 +121,16 @@ public class ConfigSettings : MonoBehaviour
 			dialogueTextSpeed.captionText.text = "Normal";
 		}
 
+		if (PlayerPrefs.HasKey("ColorblindMode"))
+		{
+			colorblindMode.captionText.text = colorblindMode.options[PlayerPrefs.GetInt("ColorblindMode")].text;
+		}
+		else
+		{
+			PlayerPrefs.SetInt("ColorblindMode", 0);
+			colorblindMode.captionText.text = colorblindMode.options[0].text;
+		}
+
 		if (PlayerPrefs.HasKey("ControllerType"))
 		{
 			controllerType.captionText.text = PlayerPrefs.GetString("ControllerType");
@@ -216,6 +227,11 @@ public class ConfigSettings : MonoBehaviour
 	public void SetTextSpeed()
 	{
 		PlayerPrefs.SetString("TextSpeed", dialogueTextSpeed.captionText.text);
+	}
+
+	public void SetColorblindMode()
+	{
+		PlayerPrefs.SetInt("ColorblindMode", colorblindMode.value);
 	}
 
 	public void SetControllerType()
