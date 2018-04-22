@@ -91,7 +91,6 @@ namespace Character2D
 
 		public IEnumerator MoveAway()
 		{
-			canTakeDamage = false;
 			isAttacking = true;
 			LowerWater();
 			yield return new WaitForSeconds(2.3f);
@@ -99,10 +98,10 @@ namespace Character2D
 			//RaiseWater();
 			yield return new WaitForSeconds(1f);
 			gameObject.GetComponent<Animator>().SetBool("Moved", false);
-			isAttacking = false;
-			canTakeDamage = true;
+			
 			Punch();
 			yield return new WaitForSeconds(1);
+			isAttacking = false;
 		}
 
 		public void NewPosition()

@@ -45,10 +45,12 @@ public abstract class Boss : Attackable
 
 	public IEnumerator ColorHit()
 	{
+		canTakeDamage = false;
 		Color baseColor = gameObject.GetComponent<Renderer>().material.color;
 		gameObject.GetComponent<Renderer>().material.color = Color.Lerp(baseColor, Color.red, Mathf.PingPong(Time.time, 1));
 		yield return new WaitForSeconds(2);
 		gameObject.GetComponent<Renderer>().material.color = baseColor;
+		canTakeDamage = true;
 	}
 	protected void BossDefeated()
 	{
