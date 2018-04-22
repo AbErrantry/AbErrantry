@@ -24,8 +24,6 @@ public class LevelStreamManager : MonoBehaviour
     // Used for initialization.
     private void Start()
     {
-        //TODO: set only the persistent scene as the active scene from the main menu.
-        //       this is a temporary fix for testing since we never technically load into Area1-AP.
         if (scenes == null)
         {
             InitializeActiveScenes();

@@ -16,6 +16,8 @@ public abstract class Openable : Interactable
 	public bool isOpen;
 	public bool isLocked;
 
+	protected FMOD.Studio.EventInstance lockedNoise;
+
 	// Use this for initialization
 	protected new void Start()
 	{
@@ -28,6 +30,9 @@ public abstract class Openable : Interactable
 
 		anim.SetBool("isOpen", isOpen);
 		anim.SetBool("isLocked", isLocked);
+
+		lockedNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/locked");
+		lockedNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
 	}
 
 	protected void ToggleState()
@@ -52,6 +57,7 @@ public abstract class Openable : Interactable
 			isLocked = false;
 			anim.SetBool("isLocked", isLocked);
 			ToggleState();
+			lockedNoise.start();
 		}
 	}
 
@@ -64,6 +70,7 @@ public abstract class Openable : Interactable
 		else
 		{
 			EventDisplay.instance.AddEvent("Locked.");
+			lockedNoise.start();
 		}
 	}
 }

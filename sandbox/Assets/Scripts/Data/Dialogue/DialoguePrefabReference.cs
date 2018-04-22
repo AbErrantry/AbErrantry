@@ -11,7 +11,6 @@ namespace Dialogue2D
         //used for initialization
         void Start()
         {
-            //TODO: fix with knight prefab
             dialogueManager = GameObject.Find("Knight").GetComponent<DialogueManager>();
         }
 

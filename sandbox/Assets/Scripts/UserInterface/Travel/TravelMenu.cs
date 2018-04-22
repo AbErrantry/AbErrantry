@@ -44,6 +44,8 @@ public class TravelMenu : MonoBehaviour
 	{
 		BackgroundSwitch.instance.ResetSongs();
 
+		Character2D.Player.instance.PlayOpenMenuNoise();
+
 		this.text.text = text;
 		isTravelling = true;
 		if (fastTravel)
@@ -72,6 +74,7 @@ public class TravelMenu : MonoBehaviour
 
 	public void CloseTravelScreen()
 	{
+		Character2D.Player.instance.PlayCloseMenuNoise();
 		anim.SetBool("isOpen", false);
 		StartCoroutine(CloseDelay());
 	}

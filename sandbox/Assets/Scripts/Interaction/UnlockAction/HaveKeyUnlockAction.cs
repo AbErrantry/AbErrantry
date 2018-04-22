@@ -23,6 +23,7 @@ public class HaveKeyUnlockAction : UnlockAction
 		}
 		else
 		{
+			lockedNoise.start();
 			EventDisplay.instance.AddEvent("Locked.");
 		}
 	}

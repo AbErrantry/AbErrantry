@@ -11,6 +11,8 @@ namespace Character2D
 		private float explodeTime;
 		public ExplodingTrigger explodingTrigger;
 
+		protected FMOD.Studio.EventInstance crateExplosion;
+
 		public new void Start()
 		{
 			base.Start();
@@ -18,6 +20,11 @@ namespace Character2D
 			canHitAttack = false;
 			explodeDamage = 25.0f;
 			explodeTime = 0.5f;
+
+			crateExplosion = FMODUnity.RuntimeManager.CreateInstance("event:/Crate/explode");
+			crateExplosion.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+			FMODUnity.RuntimeManager.AttachInstanceToGameObject(crateExplosion, GetComponent<Transform>(), GetComponent<Rigidbody>());
 		}
 
 		//applies damage to the player
@@ -60,6 +67,7 @@ namespace Character2D
 			GetComponent<PolygonCollider2D>().enabled = false;
 			rb.gravityScale = 0.0f;
 			StartCoroutine(Attack());
+			crateExplosion.start();
 		}
 
 		public override void DestroyCrate()

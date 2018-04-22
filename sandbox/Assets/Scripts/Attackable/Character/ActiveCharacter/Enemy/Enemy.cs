@@ -119,8 +119,7 @@ namespace Character2D
             if (!isDying && !isDormant)
             {
                 RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, boxCastDimensions, 0.0f, transform.right, boxCastDistance, layers.value);
-
-                DrawBox(transform.position, new Vector2(boxCastDimensions.x * boxCastDistance, boxCastDimensions.y));
+                //DrawBox(transform.position, new Vector2(boxCastDimensions.x * boxCastDistance, boxCastDimensions.y));
 
                 if (ray && ray.collider.gameObject.GetComponent<Player>() != null && !chasingPlayer)
                 {
@@ -157,7 +156,6 @@ namespace Character2D
             }
         }
 
-        //TODO: remove debug function.
         private void DrawBox(Vector2 position, Vector2 size)
         {
             boxCastDirection = enemyMovement.isFacingRight ? 1 : -1;
@@ -174,9 +172,6 @@ namespace Character2D
 
         protected override void InitializeDeath()
         {
-            //take away enemy input
-            //enemy no longer targets player
-            //enemy no longer attackable
             isDying = true;
             anim.SetBool("isDying", isDying); //death animation
             deathNoise.start();
@@ -197,8 +192,6 @@ namespace Character2D
             Destroy(gameObject);
         }
 
-        //TODO: change to using fixed update to constantly monitor towards target (for edge cases)
-        //TODO: move to a behavior AI class that will take care of figuring out where the enemy needs to go
         public void SwitchBeacon()
         {
             beacCon.beaconNum++;

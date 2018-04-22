@@ -46,7 +46,6 @@ public class ItemData : ScriptableObject
         }
     }
 
-    //debug function TODO: remove
     private void PrintItems()
     {
         foreach (Item val in itemDictionary.Values)

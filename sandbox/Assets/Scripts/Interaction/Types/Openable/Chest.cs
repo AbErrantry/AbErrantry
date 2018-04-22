@@ -7,8 +7,13 @@ public class Chest : Openable
 {
     public string itemName;
 
+    private FMOD.Studio.EventInstance openNoise;
+
     private new void Start()
     {
+        openNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/chest_open");
+        openNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
         typeOfInteractable = Types.Chest;
         base.Start();
         if (isOpen)
@@ -19,7 +24,8 @@ public class Chest : Openable
 
     public new void ToggleState()
     {
-        print("Opened: " + itemName + ".");
+        openNoise.start();
+
         isOpen = true;
         anim.SetBool("isOpen", isOpen);
         DisableHitbox();

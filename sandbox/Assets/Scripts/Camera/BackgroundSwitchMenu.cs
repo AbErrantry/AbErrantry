@@ -71,7 +71,7 @@ public class BackgroundSwitchMenu : MonoBehaviour
 
         int randomBackground = Random.Range(1, 7);
 
-        UpdateScrolling(randomBackground); //TODO: Need to change the 1 to the level they are on.
+        UpdateScrolling(randomBackground);
     }
 
     public void UpdateScrolling(int element) //element aka level
@@ -81,7 +81,7 @@ public class BackgroundSwitchMenu : MonoBehaviour
         {
             return;
         }
-        element--; //makes it work for the array, going to change this
+        element--;
         SetSong(element);
         newSize = background[element].backImages.Length;
         scroll.ScrollChange(background[element].grouping, newSize, background[element].backImages, background[element].speed);

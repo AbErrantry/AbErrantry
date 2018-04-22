@@ -45,6 +45,11 @@ namespace Character2D
         public TMP_Text questText;
 
         private FMOD.Studio.EventInstance damageNoise;
+        private FMOD.Studio.EventInstance deathNoise;
+        private FMOD.Studio.EventInstance healNoise;
+
+        private FMOD.Studio.EventInstance openMenuNoise;
+        private FMOD.Studio.EventInstance closeMenuNoise;
 
         private void Awake()
         {
@@ -71,7 +76,7 @@ namespace Character2D
             healthText.text = currentVitality + "/" + maxVitality;
 
             //set from CharacterData
-            spawnPoint = transform.position; //todo: set from file
+            spawnPoint = transform.position;
             canFlinch = false;
             canKnockBack = true;
             canTakeDamage = true;
@@ -80,6 +85,18 @@ namespace Character2D
 
             damageNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Knight/take_damage");
             damageNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+            deathNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Knight/death");
+            deathNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+            healNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Knight/heal");
+            healNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+            openMenuNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Menus_Inventory/open_menu");
+            openMenuNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+            closeMenuNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Menus_Inventory/close_menu");
+            closeMenuNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
         }
 
         private void SetPlayerInfo()
@@ -118,6 +135,16 @@ namespace Character2D
             locationText.text = spawnManager.persistentLevel.levelInfo.displayName;
 
             SetSavingCharacter();
+        }
+
+        public void PlayOpenMenuNoise()
+        {
+            openMenuNoise.start();
+        }
+
+        public void PlayCloseMenuNoise()
+        {
+            closeMenuNoise.start();
         }
 
         private void SetSavingCharacter()
@@ -206,6 +233,7 @@ namespace Character2D
             healthText.text = currentVitality + "/" + maxVitality;
             EventDisplay.instance.AddEvent("The potion restored " + amount + " health.");
             InvokePlayerInfoChange();
+            healNoise.start();
         }
 
         public void SetArmor(string name, bool isLoad = false)
@@ -340,9 +368,7 @@ namespace Character2D
 
         public override void FinalizeDeath()
         {
-            //enemies target player
-            //give player back input
-            //death penalty: 25% of gold?
+            deathNoise.start();
             playerInput.InvokeSleep();
         }
 

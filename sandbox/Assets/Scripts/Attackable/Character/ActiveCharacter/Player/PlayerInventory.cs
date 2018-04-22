@@ -14,11 +14,29 @@ namespace Character2D
         public static event Action<LevelItemTuple, bool, string> OnLooseItemChanged;
         public static event Action<ItemTuple> OnInventoryItemChanged;
 
+        protected FMOD.Studio.EventInstance pickupNoise;
+        protected FMOD.Studio.EventInstance dropNoise;
+        protected FMOD.Studio.EventInstance destroyNoise;
+
+        protected FMOD.Studio.EventInstance equipNoise;
+
         //used for initialization
         protected void Start()
         {
             items = new List<InventoryItem>();
             InitializeInventory();
+
+            pickupNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Menus_Inventory/pickup_item");
+            pickupNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+            dropNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Menus_Inventory/drop_item");
+            dropNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+            destroyNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Menus_Inventory/destroy_item");
+            destroyNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+            equipNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Menus_Inventory/equip_armor_weapon");
+            equipNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
         }
 
         private void InitializeInventory()
@@ -67,6 +85,7 @@ namespace Character2D
             {
                 EventDisplay.instance.AddEvent("Received " + itemName + ".");
                 OnInventoryItemChanged(itemTuple);
+                pickupNoise.start();
             }
             else if (!init && equip)
             {
@@ -118,12 +137,14 @@ namespace Character2D
 
             if (equip)
             {
+                equipNoise.start();
                 EventDisplay.instance.AddEvent("Equipped " + itemToRemove.item.name + ".");
                 return;
             }
 
             if (use)
             {
+                destroyNoise.start();
                 EventDisplay.instance.AddEvent("Used " + itemToRemove.item.name + ".");
                 return;
             }
@@ -136,9 +157,12 @@ namespace Character2D
 
             if (!drop)
             {
+                destroyNoise.start();
                 EventDisplay.instance.AddEvent("Destroyed " + amountToDrop + " " + itemToRemove.item.name + "(s).");
                 return;
             }
+
+            dropNoise.start();
 
             EventDisplay.instance.AddEvent("Dropped " + amountToDrop + " " + itemToRemove.item.name + "(s).");
             for (var i = 0; i < amountToDrop; i++)

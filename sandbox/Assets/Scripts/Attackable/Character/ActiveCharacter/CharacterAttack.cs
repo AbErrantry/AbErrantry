@@ -88,7 +88,6 @@ namespace Character2D
                 if (!targetsHit.Contains(targets[i]))
                 {
                     targetsHit.Add(targets[i]);
-                    //TODO: ensure that only active characters are in the triggers
                     targets[i].GetComponent<Attackable>().TakeDamage(gameObject, Mathf.RoundToInt(damage));
                 }
             }

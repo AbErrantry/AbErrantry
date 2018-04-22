@@ -56,7 +56,11 @@
             <destination>{373dc11c-cb69-4674-b7c5-0fbba54298e9}</destination>
         </relationship>
     </object>
-    <object class="EventAutomatableProperties" id="{a89bc4b2-2e16-4a1e-b592-73f05911e562}"/>
+    <object class="EventAutomatableProperties" id="{a89bc4b2-2e16-4a1e-b592-73f05911e562}">
+        <property name="dopplerEnabled">
+            <value>true</value>
+        </property>
+    </object>
     <object class="MarkerTrack" id="{3095cd9e-7f8c-4399-87ad-79ec25356d61}"/>
     <object class="GroupTrack" id="{9878bb17-747b-4d40-aee6-73e2b563ee86}">
         <relationship name="modules">
@@ -90,7 +94,10 @@
     <object class="MixerBusPanner" id="{12b5cce5-05d7-4071-9064-cddc18b90425}"/>
     <object class="SingleSound" id="{e5d59640-8b65-4625-8672-88b379b6664e}">
         <property name="length">
-            <value>0.26122448979591839</value>
+            <value>0.059999999999999998</value>
+        </property>
+        <property name="timelockedOffset">
+            <value>0.040000000000000008</value>
         </property>
         <relationship name="audioFile">
             <destination>{f127aa0a-feb5-4861-8830-5651832d8f1a}</destination>

@@ -62,7 +62,6 @@ public class DialogueData : ScriptableObject
             id = segment.AttributeValueNull_Integer("id"),
                 text = segment.Element("text").ElementValueNull_String(),
                 next = segment.Element("next").ElementValueNull_Integer(),
-                //SegmentAction = TODO: implement
                 choices = segment.Elements("choice")
                 .Select(choice => new DialogueChoice
                 {

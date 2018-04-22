@@ -8,11 +8,16 @@ public class BoxMove : Trigger<Character2D.Player>
     private BoxCollider2D boxCollider;
     public bool canMove;
 
+    private FMOD.Studio.EventInstance crateBump;
+
     private void Start()
     {
         rb = transform.parent.GetComponent<Rigidbody2D>();
         boxCollider = transform.parent.GetComponent<BoxCollider2D>();
         canMove = true;
+
+        crateBump = FMODUnity.RuntimeManager.CreateInstance("event:/Crate/impact");
+        crateBump.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
     }
 
     //fires upon an object entering/exiting the trigger box
@@ -22,6 +27,7 @@ public class BoxMove : Trigger<Character2D.Player>
         {
             rb.mass = 0.1f;
             boxCollider.enabled = false;
+            crateBump.start();
         }
         else
         {

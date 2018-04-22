@@ -26,12 +26,6 @@ public class CharacterManager : MonoBehaviour
 		//instantiate a prefab for the character
 		var newCharacter = Instantiate(character) as GameObject;
 		var npc = newCharacter.GetComponent<NPC>();
-		var enemy = newCharacter.GetComponent<Enemy>();
-
-		if (enemy != null)
-		{
-			//TODO: handle enemy stuff here
-		}
 
 		//set the properties for the character
 		npc.name = tuple.name;

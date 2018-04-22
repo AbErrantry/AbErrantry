@@ -110,7 +110,6 @@ public class StoreMenu : MonoBehaviour
 		characterInventory = inv;
 		if (!isOpen)
 		{
-			//TODO: move camera to side
 			storeContainer.SetActive(true);
 
 			//move the scrollbar back to the top of the list
@@ -118,6 +117,8 @@ public class StoreMenu : MonoBehaviour
 
 			OpenSellTab();
 			isOpen = true;
+
+			Player.instance.PlayOpenMenuNoise();
 		}
 		else
 		{
@@ -132,6 +133,7 @@ public class StoreMenu : MonoBehaviour
 		CloseTabs();
 		UnloadInventoryItems();
 		isOpen = false;
+		Player.instance.PlayCloseMenuNoise();
 		dialogueManager.SetDoneWaiting();
 	}
 
@@ -194,21 +196,20 @@ public class StoreMenu : MonoBehaviour
 		}
 		foreach (InventoryItem inv in itemList)
 		{
-			//TODO: fix comments
-			//instantiate a prefab for the interact button
+			//instantiate a prefab for the inventory button
 			GameObject newButton = Instantiate(inventoryItem) as GameObject;
 			InventoryPrefabReference controller = newButton.GetComponent<InventoryPrefabReference>();
 
-			//set the text for the interactable onscreen
+			//set the text for the button onscreen
 			controller.itemText.text = inv.item.name;
 			controller.itemQuantity.text = inv.quantity.ToString();
 			controller.itemPrice.text = inv.item.price.ToString();
 			controller.itemStrength.text = inv.item.strength.ToString();
 			controller.itemImage.sprite = inv.item.sprite;
 			controller.itemImage.material = inv.item.material;
-			controller.item = inv; //TODO: may not need. figure that out.
+			controller.item = inv;
 
-			//put the interactable in the list
+			//put the button in the list
 			newButton.transform.SetParent(inventoryList.transform);
 
 			//for some reason Unity does not use full scale for the instantiated object by default

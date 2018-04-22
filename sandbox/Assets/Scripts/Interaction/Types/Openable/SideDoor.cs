@@ -7,8 +7,13 @@ public class SideDoor : Openable
 {
     public bool isTimed;
 
+    private FMOD.Studio.EventInstance openNoise;
+
     private new void Start()
     {
+        openNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/door_open");
+        openNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
         typeOfInteractable = Types.SideDoor;
         base.Start();
 
@@ -27,6 +32,7 @@ public class SideDoor : Openable
 
     public new void ToggleState()
     {
+        openNoise.start();
         if (!isOpen)
         {
             isOpen = true;

@@ -174,7 +174,6 @@ namespace Character2D
 
                 playerInput.DisableInput(false);
 
-                //TODO: move camera to side
                 backpackContainer.SetActive(true);
                 backpackContainer.GetComponent<Animator>().SetBool("IsOpen", true);
 
@@ -190,11 +189,12 @@ namespace Character2D
 
                 isOpen = true;
 
+                Player.instance.PlayOpenMenuNoise();
+
                 canvasGroup.interactable = true;
             }
             else
             {
-                //TODO: move camera back
                 CloseBackpackMenu();
             }
         }
@@ -204,6 +204,7 @@ namespace Character2D
             isOpen = false;
             Player.instance.ResetState();
             cameraShift.ResetCamera();
+            Player.instance.PlayCloseMenuNoise();
             if (!travel)
             {
                 playerInput.EnableInput(true);
@@ -282,21 +283,20 @@ namespace Character2D
         {
             foreach (InventoryItem inv in playerInventory.items)
             {
-                //TODO: fix comments
-                //instantiate a prefab for the interact button
+                //instantiate a prefab for the inventory button
                 GameObject newButton = Instantiate(inventoryItem) as GameObject;
                 InventoryPrefabReference controller = newButton.GetComponent<InventoryPrefabReference>();
 
-                //set the text for the interactable onscreen
+                //set the text for the button onscreen
                 controller.itemText.text = inv.item.name;
                 controller.itemQuantity.text = inv.quantity.ToString();
                 controller.itemPrice.text = inv.item.price.ToString();
                 controller.itemStrength.text = inv.item.strength.ToString();
                 controller.itemImage.sprite = inv.item.sprite;
                 controller.itemImage.material = inv.item.material;
-                controller.item = inv; //TODO: may not need. figure that out.
+                controller.item = inv;
 
-                //put the interactable in the list
+                //put the button in the list
                 newButton.transform.SetParent(inventoryList.transform);
 
                 //for some reason Unity does not use full scale for the instantiated object by default
@@ -315,19 +315,18 @@ namespace Character2D
             {
                 if (quest.step > 0)
                 {
-                    //TODO: fix comments
-                    //instantiate a prefab for the interact button
+                    //instantiate a prefab for the quest button
                     GameObject newButton = Instantiate(questPrefab) as GameObject;
                     JournalPrefabReference controller = newButton.GetComponent<JournalPrefabReference>();
 
-                    //set the text for the interactable onscreen
+                    //set the text for the quest onscreen
                     controller.quest = quest;
                     controller.questName.text = NameConversion.ConvertSymbol(quest.quest.name);
                     controller.questHint = quest.quest.segments[quest.step].hint;
                     controller.questStep = quest.quest.segments[quest.step].text;
                     controller.questText.text = NameConversion.ConvertSymbol(quest.quest.text);
 
-                    //put the interactable in the list
+                    //put the quest in the list
                     newButton.transform.SetParent(journalList.transform);
 
                     //for some reason Unity does not use full scale for the instantiated object by default
@@ -344,16 +343,15 @@ namespace Character2D
             {
                 if (checkpoint.isUnlocked)
                 {
-                    //TODO: fix comments
-                    //instantiate a prefab for the interact button
+                    //instantiate a prefab for the checkpoint button
                     GameObject newButton = Instantiate(locationPrefab) as GameObject;
                     MapPrefabReference controller = newButton.GetComponent<MapPrefabReference>();
 
-                    //set the text for the interactable onscreen
+                    //set the text for the checkpoint onscreen
                     controller.spawn = checkpoint;
                     controller.locationText.text = NameConversion.ConvertSymbol(checkpoint.managerDisplayName);
 
-                    //put the interactable in the list
+                    //put the checkpoint in the list
                     newButton.transform.SetParent(mapList.transform);
 
                     //for some reason Unity does not use full scale for the instantiated object by default

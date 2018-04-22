@@ -156,6 +156,8 @@ namespace Character2D
 
             isOpen = true;
 
+            Player.instance.PlayOpenMenuNoise();
+
             interactBar.SetActive(false);
             interactContainer.SetActive(true);
             ElementFocus.focus.SetMenuFocus(interactList.transform.GetChild(0).gameObject, scrollRect, interactList.GetComponent<RectTransform>());
@@ -276,6 +278,8 @@ namespace Character2D
                 ElementFocus.focus.RemoveFocus();
 
                 isOpen = false;
+
+                Player.instance.PlayCloseMenuNoise();
             }
         }
 
@@ -319,7 +323,6 @@ namespace Character2D
             }
             else
             {
-                //TODO: can set the item color based on item rarity
                 string item = "<color=red> " + interactItem;
                 interactBarText.text = press + key + type + NameConversion.ConvertSymbol(item);
             }

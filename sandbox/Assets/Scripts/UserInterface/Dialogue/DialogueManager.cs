@@ -54,6 +54,8 @@ namespace Dialogue2D
 
         private bool isWaiting;
 
+        private FMOD.Studio.EventInstance textBlipNoise;
+
         //used for initialization
         private void Start()
         {
@@ -88,11 +90,15 @@ namespace Dialogue2D
             xMaxLeft = 0.50f;
             xMinRight = 0.50f;
             xMaxRight = 0.993f;
+
+            textBlipNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Menus_Inventory/blip");
+            textBlipNoise.setVolume(PlayerPrefs.GetFloat("DialogueVolume") * PlayerPrefs.GetFloat("MasterVolume"));
         }
 
         //finishes the dialogue
         public void EndDialogue()
         {
+            Player.instance.PlayCloseMenuNoise();
             followTarget.SetTarget(playerMovement.gameObject.transform);
             playerMovement.StopCoroutine();
             playerInput.EnableInput(true);
@@ -220,12 +226,10 @@ namespace Dialogue2D
                     case ActionTypes.RequestGold:
                         isWaiting = true;
                         requestMenu.ToggleRequest(Convert.ToInt32(action.xloc), Convert.ToInt32(action.yloc), character.GetComponent<NPC>().name, true, action.number);
-                        //TODO: can also progress to a dialogue that starts off here if this is the only continuing branch
                         break;
                     case ActionTypes.RequestItem:
                         isWaiting = true;
                         requestMenu.ToggleRequest(Convert.ToInt32(action.xloc), Convert.ToInt32(action.yloc), character.GetComponent<NPC>().name, false, action.number, action.name);
-                        //TODO: can also progress to a dialogue that starts off here if this is the only continuing branch
                         break;
                     case ActionTypes.TakeGold:
                         int total = player.gold;
@@ -311,8 +315,7 @@ namespace Dialogue2D
 
         private void CreateChoiceButton(string text, int next)
         {
-            //TODO: fix comments
-            //instantiate a prefab for the interact button
+            //instantiate a prefab for the choice button
             GameObject newButton = Instantiate(choiceButton) as GameObject;
             DialoguePrefabReference controller = newButton.GetComponent<DialoguePrefabReference>();
 
@@ -322,7 +325,7 @@ namespace Dialogue2D
             controller.choiceText.text = text;
             controller.choiceNext = next;
 
-            //put the interactable in the list
+            //put the choice in the list
             newButton.transform.SetParent(choiceList.transform);
 
             //for some reason Unity does not use full scale for the instantiated object by default
@@ -363,10 +366,16 @@ namespace Dialogue2D
         private IEnumerator TypeSentence(string Segment)
         {
             dialogueText.text = "";
+            float timeSinceStart = Time.time;
             foreach (char letter in Segment.ToCharArray())
             {
-                dialogueText.text = dialogueText.text + letter; //TODO: add audio for letter being played
+                dialogueText.text = dialogueText.text + letter;
                 yield return new WaitForSeconds(0.01f * textSpeed);
+                if (Time.time - timeSinceStart > 0.05f * textSpeed)
+                {
+                    textBlipNoise.start();
+                    timeSinceStart = Time.time;
+                }
             }
             yield return new WaitForSeconds(1.0f);
             DisplayChoices();
@@ -375,6 +384,8 @@ namespace Dialogue2D
         //starts a dialogue once the character triggers it
         public void StartDialogue(string charName, int convName, GameObject conversingCharacter)
         {
+            Player.instance.PlayOpenMenuNoise();
+
             StopCoroutine();
             isOpen = true;
             character = conversingCharacter;

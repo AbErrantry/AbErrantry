@@ -14,7 +14,9 @@ public class NPC : Interactable
     public bool isFacingRight;
 
     public static event Action<CharacterInfoTuple> OnCharacterInfoChanged;
-    //TODO: add ability to move another character/change their state
+
+    private FMOD.Studio.EventInstance progressionNoise;
+    private FMOD.Studio.EventInstance hostileNoise;
 
     //used for initialization
     private new void Start()
@@ -24,6 +26,12 @@ public class NPC : Interactable
 
         isFacingRight = true;
         FaceRight(true);
+
+        progressionNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/progression_jingle");
+        progressionNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+        hostileNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/become_hostile");
+        hostileNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
     }
 
     public void FaceRight(bool faceRight)
@@ -47,7 +55,7 @@ public class NPC : Interactable
     {
         currentDialogueState = state;
         CharacterInfoChanged(currentSceneName, transform.position.x, transform.position.y);
-        //TODO: some kind of noise or something here?
+        progressionNoise.start();
     }
 
     public void SetGold(int delta)
@@ -73,6 +81,7 @@ public class NPC : Interactable
         var dormantCharacter = gameObject.GetComponent<Character2D.DormantCharacter>();
         if (dormantCharacter != null)
         {
+            hostileNoise.start();
             dormantCharacter.BecomeHostile();
             RemoveReference();
             EventDisplay.instance.AddEvent(name + " became hostile!");

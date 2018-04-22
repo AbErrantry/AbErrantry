@@ -12,7 +12,6 @@ namespace Character2D
         //used for initialization
         void Start()
         {
-            //TODO: fix with knight prefab
             playerInteraction = GameObject.Find("Knight").GetComponent<PlayerInteraction>();
         }
 

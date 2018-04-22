@@ -7,8 +7,13 @@ public class BackDoor : Openable
     public GameObject doorPair;
     private float openTime;
 
+    private FMOD.Studio.EventInstance openNoise;
+
     private new void Start()
     {
+        openNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/door_open");
+        openNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
         typeOfInteractable = Types.BackDoor;
         base.Start();
         openTime = 0.25f;
@@ -34,6 +39,8 @@ public class BackDoor : Openable
 
     private IEnumerator EnterDoor(GameObject character, bool isFirst)
     {
+        openNoise.start();
+
         isOpen = true;
         anim.SetBool("isOpen", isOpen);
         yield return new WaitForSeconds(openTime);

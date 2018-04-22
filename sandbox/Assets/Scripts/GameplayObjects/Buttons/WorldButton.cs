@@ -13,11 +13,18 @@ public class WorldButton : Trigger<Character2D.Attackable>
 	public bool isHoldButton;
 	public bool isPressed;
 
+	private FMOD.Studio.EventInstance buttonNoise;
+
 	// Use this for initialization
 	void Start()
 	{
 		anim = GetComponent<Animator>();
 		isPressed = false;
+
+		buttonNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/button_click");
+		buttonNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+		FMODUnity.RuntimeManager.AttachInstanceToGameObject(buttonNoise, GetComponent<Transform>(), GetComponent<Rigidbody>());
 	}
 
 	protected override void TriggerAction(bool isInTrigger)
@@ -26,6 +33,7 @@ public class WorldButton : Trigger<Character2D.Attackable>
 		{
 			if (!isPressed)
 			{
+				buttonNoise.start();
 				isPressed = true;
 				if (OnButtonPressed != null)
 				{
@@ -35,6 +43,7 @@ public class WorldButton : Trigger<Character2D.Attackable>
 		}
 		else if (isHoldButton)
 		{
+			buttonNoise.start();
 			isPressed = false;
 			if (OnButtonReleased != null)
 			{

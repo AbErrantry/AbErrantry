@@ -56,7 +56,14 @@
             <destination>{373dc11c-cb69-4674-b7c5-0fbba54298e9}</destination>
         </relationship>
     </object>
-    <object class="EventAutomatableProperties" id="{ef490fdf-aae7-4d20-a003-ccfab6a3391b}"/>
+    <object class="EventAutomatableProperties" id="{ef490fdf-aae7-4d20-a003-ccfab6a3391b}">
+        <property name="dopplerEnabled">
+            <value>true</value>
+        </property>
+        <property name="dopplerScale">
+            <value>36</value>
+        </property>
+    </object>
     <object class="MarkerTrack" id="{e2d55b50-6aa3-4a07-acff-d72f41c25bec}"/>
     <object class="GroupTrack" id="{2b3fea65-79c4-4cf1-9ee9-e91383582d02}">
         <relationship name="modules">
@@ -110,6 +117,9 @@
         </relationship>
     </object>
     <object class="EventMixerGroup" id="{dfbf38ca-f92b-4a4c-8c1c-56872afbaa6b}">
+        <property name="volume">
+            <value>-17.5</value>
+        </property>
         <property name="name">
             <value>Audio 1</value>
         </property>

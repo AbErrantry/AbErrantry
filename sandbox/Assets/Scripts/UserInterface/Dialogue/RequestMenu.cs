@@ -58,6 +58,7 @@ public class RequestMenu : MonoBehaviour
 		{
 			requestContainer.SetActive(true);
 			isOpen = true;
+			Player.instance.PlayOpenMenuNoise();
 			ElementFocus.focus.SetItemFocus(NoButton.gameObject);
 			SetUpRequest(requestSuccessPath, requestFailurePath, requestingCharacterName, requestIsGold, requestAmount, requestedItemName);
 		}
@@ -69,6 +70,7 @@ public class RequestMenu : MonoBehaviour
 
 	public void CloseRequestMenu(int result)
 	{
+		Player.instance.PlayCloseMenuNoise();
 		requestContainer.SetActive(false);
 		ElementFocus.focus.RemoveFocus();
 		isOpen = false;

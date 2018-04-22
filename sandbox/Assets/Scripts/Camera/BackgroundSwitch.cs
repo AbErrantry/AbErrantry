@@ -73,7 +73,7 @@ public class BackgroundSwitch : MonoBehaviour
 
         currentElement = 0;
 
-        UpdateScrolling(0); //TODO: Need to change the 1 to the level they are on.
+        UpdateScrolling(0);
     }
 
     public void UpdateScrolling(int element) //element aka level
@@ -88,7 +88,7 @@ public class BackgroundSwitch : MonoBehaviour
             return;
         }
         currentElement = element;
-        element--; //makes it work for the array, going to change this
+        element--;
         SetSong(element);
         newSize = background[element].backImages.Length;
         scroll.ScrollChange(background[element].grouping, newSize, background[element].backImages, background[element].speed);
