@@ -8,7 +8,7 @@ namespace Character2D
 
 		public void OnTriggerEnter2D(Collider2D col)
 		{
-			if(col.gameObject.GetComponent<Attackable>() != null)
+			if(col.gameObject.GetComponent<Player>() != null)
 			{
 				ogre.ApplyDamage(col.gameObject);
 			}

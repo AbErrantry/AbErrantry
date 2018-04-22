@@ -22,7 +22,7 @@ namespace Character2D
 		protected new void Start()
 		{
 			name = "Ogre";
-			canTakeDamage = true;
+			//canTakeDamage = true;
 			cooldown = attackCooldown;
 			isAttacking = false;
 			min = posPositions.bounds.min;
@@ -91,6 +91,7 @@ namespace Character2D
 
 		public IEnumerator MoveAway()
 		{
+			//canTakeDamage = false;
 			isAttacking = true;
 			LowerWater();
 			yield return new WaitForSeconds(2.3f);
@@ -102,6 +103,8 @@ namespace Character2D
 			Punch();
 			yield return new WaitForSeconds(1);
 			isAttacking = false;
+			//canTakeDamage = true;
+			yield return new WaitForSeconds(1);
 		}
 
 		public void NewPosition()
@@ -113,7 +116,6 @@ namespace Character2D
 		protected override void Flinch()
 		{
 			base.Flinch();
-			StartCoroutine(ColorHit());
 			StartCoroutine(MoveAway());
 		}
 

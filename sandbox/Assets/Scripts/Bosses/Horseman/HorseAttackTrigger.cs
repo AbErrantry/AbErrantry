@@ -15,7 +15,7 @@ public class HorseAttackTrigger : MonoBehaviour {
 		}
 		public void OnTriggerEnter2D(Collider2D col)
 		{
-			if(col.gameObject.GetComponent<Attackable>() != null)
+			if(col.gameObject.GetComponent<Player>() != null)
 			{
 				horseman.ApplyDamage(col.gameObject);
 			}

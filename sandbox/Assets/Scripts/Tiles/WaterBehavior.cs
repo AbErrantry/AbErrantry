@@ -89,9 +89,9 @@ public class WaterBehavior : MonoBehaviour
 
 	private void SetMagnitude(float mag)
 	{
-		Debug.Log("Current Mag: " + buoy.flowMagnitude + "  New Mag: " + mag);
+		//Debug.Log("Current Mag: " + buoy.flowMagnitude + "  New Mag: " + mag);
 		buoy.flowMagnitude = mag;
-		Debug.Log("Current Mag: " + buoy.flowMagnitude);
+		//Debug.Log("Current Mag: " + buoy.flowMagnitude);
 	}
 
 	private float GetRandomMag()
