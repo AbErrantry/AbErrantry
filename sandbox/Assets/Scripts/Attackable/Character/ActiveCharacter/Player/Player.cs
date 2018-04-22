@@ -267,8 +267,11 @@ namespace Character2D
 
         public override void TakeDamage(GameObject attacker, int damage, bool appliesKnockback = true)
         {
-            int dmg = damage - Mathf.RoundToInt(GameData.data.itemData.itemDictionary[equippedArmor].strength) >= 0 ? damage - Mathf.RoundToInt(GameData.data.itemData.itemDictionary[equippedArmor].strength) : 0;
-            damageNoise.start();
+            int dmg = damage - GameData.data.itemData.itemDictionary[equippedArmor].strength >= 0 ? Mathf.RoundToInt(damage - GameData.data.itemData.itemDictionary[equippedArmor].strength) : 1;
+            if (canTakeDamage)
+            {
+                damageNoise.start();
+            }
             base.TakeDamage(attacker, dmg, appliesKnockback);
             if (currentVitality < 0)
             {

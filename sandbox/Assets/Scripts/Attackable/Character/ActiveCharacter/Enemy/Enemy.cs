@@ -107,7 +107,7 @@ namespace Character2D
 
         public void SetPlayerTarget(GameObject player)
         {
-            enemyMovement.StopAllCoroutines();
+            enemyMovement.StopCoroutines();
             StopAllCoroutines();
             chasingPlayer = true;
             beacCon.currTarget = player;

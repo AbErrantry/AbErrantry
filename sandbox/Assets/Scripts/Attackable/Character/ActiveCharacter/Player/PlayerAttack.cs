@@ -113,7 +113,7 @@ namespace Character2D
 
         protected override int GetAttackPower(int damage)
         {
-            return character.fields.strength * damage * Mathf.RoundToInt(GameData.data.itemData.itemDictionary[player.equippedWeapon].strength);
+            return Mathf.RoundToInt(character.fields.strength * damage * GameData.data.itemData.itemDictionary[player.equippedWeapon].strength);
         }
 
         protected override void InitializeAttack(int index)
