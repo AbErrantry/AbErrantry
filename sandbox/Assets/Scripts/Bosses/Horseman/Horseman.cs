@@ -20,6 +20,9 @@ namespace Character2D
 		public Platform rightPlatform;
 
 		private FMOD.Studio.EventInstance horsemanMusic;
+		private FMOD.Studio.EventInstance horsemanAttack;
+		private FMOD.Studio.EventInstance horsemanDeath;
+		private FMOD.Studio.EventInstance horsemanHurt;
 
 		protected new void Start()
 		{
@@ -30,6 +33,15 @@ namespace Character2D
 			attackTrigger = gameObject.GetComponentInChildren<BoxCollider2D>();
 
 			BackgroundSwitch.instance.ResetSongs();
+			
+			horsemanAttack = FMODUnity.RuntimeManager.CreateInstance("event:/Horseman/attack");
+			horsemanAttack.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+			horsemanDeath = FMODUnity.RuntimeManager.CreateInstance("event:/Horseman/death");
+			horsemanDeath.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+			
+			horsemanHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Horseman/take_damage");
+			horsemanDeath.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
 
 			horsemanMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/boss/lava_boss");
 			horsemanMusic.setVolume(PlayerPrefs.GetFloat("MusicVolume") * PlayerPrefs.GetFloat("MasterVolume"));
@@ -91,6 +103,7 @@ namespace Character2D
 				anim.SetBool("Attack1", true);
 			}
 			anim.Play("Attack1");
+			horsemanAttack.start();
 			yield return new WaitForSeconds(1f);
 			Plume();
 			yield return new WaitForSeconds(3f);
@@ -136,6 +149,7 @@ namespace Character2D
 				anim.SetBool("Attack2", true);
 			}
 			anim.Play("Attack2");
+			horsemanAttack.start();
 			yield return new WaitForSeconds(1f);
 			Plume();
 			yield return new WaitForSeconds(.5f);
@@ -183,9 +197,21 @@ namespace Character2D
 			}
 		}
 
+		protected override void Flinch()
+		{
+			base.Flinch();
+			horsemanHurt.start();
+			
+			StopAllCoroutines();
+			
+			PickAttack(1);
+			
+		}
+
 		protected override void InitializeDeath()
 		{
 			anim.Play("Death");
+			horsemanDeath.start();
 		}
 
 		public override void FinalizeDeath()

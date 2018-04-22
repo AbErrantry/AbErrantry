@@ -31,6 +31,9 @@ namespace Character2D
 		//private bool isFacingRight;
 
 		private FMOD.Studio.EventInstance wraithMusic;
+		private FMOD.Studio.EventInstance wraithAttack;
+		private FMOD.Studio.EventInstance wraithDeath;
+		private FMOD.Studio.EventInstance wraithHurt;
 
 		protected new void Start()
 		{
@@ -44,6 +47,15 @@ namespace Character2D
 			isFacingRight = false;
 
 			BackgroundSwitch.instance.ResetSongs();
+
+			wraithAttack = FMODUnity.RuntimeManager.CreateInstance("event:/Wraith/attack");
+			wraithAttack.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+			wraithDeath = FMODUnity.RuntimeManager.CreateInstance("event:/Wraith/death");
+			wraithDeath.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+			wraithHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Wraith/take_damage");
+			wraithHurt.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
 
 			wraithMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/boss/spooky_boss");
 			wraithMusic.setVolume(PlayerPrefs.GetFloat("MusicVolume") * PlayerPrefs.GetFloat("MasterVolume"));
@@ -128,6 +140,7 @@ namespace Character2D
 			}
 
 			anim.Play("Wraith_Dash");
+			wraithAttack.start();
 			startTime = Time.time;
 			while (Time.time < startTime + 1.25f)
 			{
@@ -154,7 +167,7 @@ namespace Character2D
 			}
 
 			anim.Play("Wraith_WindupFireball");
-
+			
 			yield return new WaitForSeconds(1);
 			for (int i = 0; i < fireballCount; i++)
 			{
@@ -165,6 +178,7 @@ namespace Character2D
 				clone = Instantiate(fireball, attackTrigger.bounds.center, Quaternion.identity);
 				clone.GetComponent<Rigidbody2D>().AddForce(
 					new Vector2(Random.Range(minMaxForce * -1, minMaxForce) * 10, Random.Range(minMaxForce * -1, minMaxForce) * 10));
+				wraithAttack.start();
 				i++;
 				yield return new WaitForSeconds(1);
 			}
@@ -189,6 +203,7 @@ namespace Character2D
 			for (int i = 0; i < giantFireCount; i++)
 			{
 				Instantiate(giantFireBall, new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y)), Quaternion.identity);
+				wraithAttack.start();
 			}
 
 			yield return new WaitForSeconds(3f);
@@ -210,9 +225,21 @@ namespace Character2D
 		{
 			anim.Play("Wraith_Spawn");
 		}
+
+		protected override void Flinch()
+		{
+			base.Flinch();
+			wraithHurt.start();
+			
+			StopAllCoroutines();
+			isAttacking = true;
+			StartCoroutine(Dash());
+			
+		}
 		protected override void InitializeDeath()
 		{
 			anim.Play("Wraith_Death");
+			wraithDeath.start();
 		}
 
 		public override void FinalizeDeath()

@@ -24,6 +24,10 @@ namespace Character2D
 		public float minMaxForce;
 
 		private FMOD.Studio.EventInstance robotMusic;
+		private FMOD.Studio.EventInstance robotAttack;
+		private FMOD.Studio.EventInstance robotDeath;
+		private FMOD.Studio.EventInstance robotHurt;
+
 
 		// Use this for initialization
 		protected new void Start()
@@ -37,6 +41,15 @@ namespace Character2D
 			cooldown = attackCooldown;
 
 			BackgroundSwitch.instance.ResetSongs();
+
+			robotAttack = FMODUnity.RuntimeManager.CreateInstance("event:/Robot/attack");
+			robotAttack.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+			robotDeath = FMODUnity.RuntimeManager.CreateInstance("event:/Robot/death");
+			robotDeath.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+			
+			robotHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Robot/take_damage");
+			robotDeath.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
 
 			robotMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/boss/ice_boss");
 			robotMusic.setVolume(PlayerPrefs.GetFloat("MusicVolume") * PlayerPrefs.GetFloat("MasterVolume"));
@@ -118,7 +131,7 @@ namespace Character2D
 			float newLocY = player.transform.position.y;
 			while (Time.time < startTime + 2.25f)
 			{
-
+				
 				transform.position = new Vector3(Mathf.SmoothStep(transform.position.x, newLocX, (Time.time - startTime) / 2.25f),
 					Mathf.SmoothStep(transform.position.y, newLocY, (Time.time - startTime) / 2.25f), transform.position.z);
 
@@ -142,6 +155,7 @@ namespace Character2D
 			for (int i = 0; i < snowballCount; i++)
 			{
 				SnowBallShooting(mult);
+				robotAttack.start();
 				yield return new WaitForSeconds(0.5f);
 			}
 
@@ -209,6 +223,8 @@ namespace Character2D
 
 			for (int i = 0; i < snowballCount * 2; i++)
 			{
+				robotAttack.start();
+				robotAttack.start();
 				BackPackShooting(mult, true);
 				BackPackShooting(mult, false);
 				yield return new WaitForSeconds(0.5f);
@@ -234,6 +250,7 @@ namespace Character2D
 
 			for (int i = 0; i < snowballCount; i++)
 			{
+				robotAttack.start();
 				SnowBallShooting(mult);
 				yield return new WaitForSeconds(0.5f);
 			}
@@ -250,10 +267,20 @@ namespace Character2D
 		{
 			anim.Play("Spawn");
 		}
-
+		protected override void Flinch()
+		{
+			base.Flinch();
+			robotHurt.start();
+			
+			StopAllCoroutines();
+			isAttacking = true;
+			StartCoroutine(Move());
+			
+		}
 		protected override void InitializeDeath()
 		{
 			anim.Play("Death");
+			robotDeath.start();
 		}
 
 		public override void FinalizeDeath()

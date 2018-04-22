@@ -6,6 +6,10 @@ namespace Character2D
 	{
 
 		public GolemBoss golem;
+		public void Start()
+		{
+			golem = GetComponentInParent<GolemBoss>();
+		}
 		public void OnTriggerEnter2D(Collider2D col)
 		{
 			if(col.gameObject.GetComponent<Player>() != null)

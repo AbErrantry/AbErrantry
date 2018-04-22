@@ -25,7 +25,7 @@ public class GolemStart : MonoBehaviour {
 			clone.GetComponent<GolemBoss>().UpSwipeBounds = upSwipeTrigger;
 			clone.GetComponent<GolemBoss>().DownSwipeBounds = downSwipeTrigger;
 			clone.GetComponent<GolemBoss>().SmashBounds = SmashTrigger;
-			
+			clone.GetComponent<GolemBoss>().player = col.transform;
 			Destroy(this.gameObject);
 		}
 	}

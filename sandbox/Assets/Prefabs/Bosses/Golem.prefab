@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4854812841724016}
   - component: {fileID: 61736720547763646}
+  - component: {fileID: 114150526192846458}
   m_Layer: 10
   m_Name: AttackTrigger1
   m_TagString: ChildComponent
@@ -36,7 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224779369428816580}
   - component: {fileID: 212600290593192654}
-  m_Layer: 24
+  m_Layer: 10
   m_Name: GolemHand1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +54,7 @@ GameObject:
   - component: {fileID: 224641506708723064}
   - component: {fileID: 61103343864045822}
   - component: {fileID: 114927011728490268}
-  m_Layer: 24
+  m_Layer: 10
   m_Name: AttackTrigger1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +92,7 @@ GameObject:
   - component: {fileID: 224726852466563580}
   - component: {fileID: 61247731274759530}
   - component: {fileID: 114841795307818454}
-  m_Layer: 24
+  m_Layer: 10
   m_Name: AttackTrigger2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224757996527595228}
   - component: {fileID: 212461459644722424}
-  m_Layer: 24
+  m_Layer: 10
   m_Name: GolemHand2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,6 +328,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114150526192846458
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063358826035784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af1c2783545e9444fa3b9943a88f6c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  golem: {fileID: 0}
 --- !u!114 &114186975458416654
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -364,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 585a171e195341e489840e0e66c24b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 11
+  type: 13
 --- !u!114 &114841795307818454
 MonoBehaviour:
   m_ObjectHideFlags: 1

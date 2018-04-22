@@ -19,7 +19,7 @@ public class KillY : MonoBehaviour
         }
         else
         {
-            Debug.Log("destroyed " + other.name.ToString());
+           // Debug.Log("destroyed " + other.name.ToString());
             Destroy(other.gameObject);
         }
     }

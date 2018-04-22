@@ -18,6 +18,9 @@ namespace Character2D
 		private Vector2 max;
 
 		private FMOD.Studio.EventInstance ogreMusic;
+		private FMOD.Studio.EventInstance ogreAttack;
+		private FMOD.Studio.EventInstance ogreDeath;
+		private FMOD.Studio.EventInstance ogreHurt;
 
 		protected new void Start()
 		{
@@ -30,6 +33,15 @@ namespace Character2D
 			attackTrigger = gameObject.GetComponentInChildren<BoxCollider2D>();
 
 			BackgroundSwitch.instance.ResetSongs();
+			
+			ogreAttack = FMODUnity.RuntimeManager.CreateInstance("event:/Ogre/attack");
+			ogreAttack.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+			ogreDeath = FMODUnity.RuntimeManager.CreateInstance("event:/Ogre/death");
+			ogreDeath.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+			
+			ogreHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Ogre/take_damage");
+			ogreDeath.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
 
 			ogreMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/boss/plains_boss");
 			ogreMusic.setVolume(PlayerPrefs.GetFloat("MusicVolume") * PlayerPrefs.GetFloat("MasterVolume"));
@@ -114,6 +126,7 @@ namespace Character2D
 		protected override void Flinch()
 		{
 			base.Flinch();
+			ogreHurt.start();
 			StartCoroutine(MoveAway());
 		}
 
@@ -130,11 +143,13 @@ namespace Character2D
 		private void Punch()
 		{
 			anim.Play("Punch");
+			ogreAttack.start();
 		}
 
 		protected override void InitializeDeath()
 		{
 			anim.Play("Death");
+			ogreDeath.start();
 		}
 
 		public override void FinalizeDeath()
