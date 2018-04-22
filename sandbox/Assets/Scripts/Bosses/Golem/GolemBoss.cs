@@ -15,6 +15,8 @@ namespace Character2D
 
 		private FMOD.Studio.EventInstance golemMusic;
 
+		private FMOD.Studio.EventInstance golemAttack;
+
 		[Range(0, 30)]
 		public float attackCooldown;
 
@@ -31,6 +33,9 @@ namespace Character2D
 			startTime = Time.time;
 
 			BackgroundSwitch.instance.ResetSongs();
+
+			golemAttack = FMODUnity.RuntimeManager.CreateInstance("event:/Golem/attack");
+			golemAttack.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
 
 			golemMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/boss/cave_boss");
 			golemMusic.setVolume(PlayerPrefs.GetFloat("MusicVolume") * PlayerPrefs.GetFloat("MasterVolume"));
