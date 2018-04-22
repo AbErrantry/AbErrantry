@@ -55,7 +55,7 @@ namespace Character2D
 			//Debug.Log("Min: "+ min.ToString() + " Max: " + max.ToString());
 			if (cooldown <= 0 && !isAttacking)
 			{
-				PickAttack(2);
+				PickAttack(1);
 
 				cooldown = attackCooldown;
 
@@ -83,9 +83,7 @@ namespace Character2D
 					Punch();
 					isAttacking = false;
 					break;
-				case 2:
-					StartCoroutine(MoveAway());
-					break;
+
 			}
 		}
 

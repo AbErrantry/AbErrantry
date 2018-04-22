@@ -18,7 +18,7 @@ public class OgreStart : MonoBehaviour {
 		bool bossDefeated = GameData.data.saveData.ReadBossState(ogrePrefab.name);
 		if(col.gameObject.GetComponent<Player>() != null && !bossDefeated)
 		{
-			GameObject clone = Instantiate(ogrePrefab, new Vector3(GetComponent<BoxCollider2D>().bounds.max.x, GetComponent<BoxCollider2D>().bounds.center.y, ogrePrefab.transform.position.z)
+			GameObject clone = Instantiate(ogrePrefab, new Vector3(gameObject.GetComponent<BoxCollider2D>().bounds.max.x, gameObject.GetComponent<BoxCollider2D>().bounds.center.y, ogrePrefab.transform.position.z)
 										,Quaternion.identity);
 
 			clone.GetComponent<OgreBoss>().posPositions = posPositions;
