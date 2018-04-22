@@ -202,10 +202,12 @@ namespace Character2D
 			base.Flinch();
 			horsemanHurt.start();
 			
-			StopAllCoroutines();
-			
-			PickAttack(1);
-			
+			if(!isAttacking)
+			{
+				StopAllCoroutines();
+				isAttacking = true;
+				StartCoroutine(Attack2());
+			}
 		}
 
 		protected override void InitializeDeath()
