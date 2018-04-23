@@ -14,6 +14,7 @@ namespace Character2D
 		private float cooldown;
 		//public int attackPicked;
 		public bool isAttacking;
+		public bool isFleeing;
 
 		[Header("Fireball Attack")]
 		public GameObject fireball;
@@ -39,6 +40,7 @@ namespace Character2D
 		{
 			name = "Wraith";
 			canTakeDamage = true;
+			isFleeing = false;
 			cooldown = attackCooldown;
 			min = rainFireTrigger.bounds.min;
 			max = rainFireTrigger.bounds.max;
@@ -66,18 +68,22 @@ namespace Character2D
 
 		protected new void Update()
 		{
-			if (player.position.x >= transform.position.x)
+			if(!isFleeing)
 			{
-				isFacingRight = true;
-				transform.eulerAngles = new Vector3(0, 180, 0);
-			}
-			else
-			{
-				isFacingRight = false;
-				transform.eulerAngles = new Vector3(0, 0, 0);
+				if (player.position.x+1 >= transform.position.x)
+				{
+					isFacingRight = true;
+					transform.eulerAngles = new Vector3(0, 180, 0);				
+				}
+				else
+				{
+
+					isFacingRight = false;
+					transform.eulerAngles = new Vector3(0, 0, 0);
+				}
 			}
 
-			if (cooldown <= 0 && !isAttacking)
+			if (cooldown <= 0 && !isAttacking && !isFleeing)
 			{
 				isAttacking = true;
 				if ((currentVitality / maxVitality) * 100 >= 75)
@@ -107,11 +113,10 @@ namespace Character2D
 
 		public void PickAttack(int attackLevel)
 		{
-
 			switch (Random.Range(0, attackLevel + 1))
 			{
 				case 0:
-					Laugh();
+					StartCoroutine(Fireball());
 					break;
 				case 1:
 					StartCoroutine(Dash());
@@ -126,7 +131,6 @@ namespace Character2D
 					Walk();
 					break;
 			}
-
 		}
 		private void Walk()
 		{
@@ -138,7 +142,6 @@ namespace Character2D
 			{
 				anim.SetBool("EndDash", false);
 			}
-
 			anim.Play("Wraith_Dash");
 			wraithAttack.start();
 			startTime = Time.time;
@@ -155,10 +158,50 @@ namespace Character2D
 
 				yield return null;
 			}
-
+		
+			
+			isFleeing = false;
 			anim.SetBool("EndDash", true);
 		}
 
+		public IEnumerator Flee()
+		{
+			if (anim.GetBool("EndDash"))
+			{
+				anim.SetBool("EndDash", false);
+			}
+			Vector3 newPos;
+			if(Mathf.Abs(transform.position.x - max.x) >= Mathf.Abs(transform.position.x - min.x))
+			{
+				newPos = max;
+				isFacingRight = true;
+				transform.eulerAngles = new Vector3(0, 180, 0);	
+			}
+			else
+			{
+				newPos = min;
+				isFacingRight = false;
+				transform.eulerAngles = new Vector3(0, 0, 0);
+			}
+			anim.Play("Wraith_Dash");
+			wraithAttack.start();
+			startTime = Time.time;
+			while (Time.time < startTime + 1.25f)
+			{
+				if (isFacingRight)
+				{
+					transform.position = new Vector3(Mathf.SmoothStep(transform.position.x, newPos.x, (Time.time - startTime) / 7.25f), transform.position.y, transform.position.z);
+				}
+				else
+				{
+					transform.position = new Vector3(Mathf.SmoothStep(transform.position.x, newPos.x, (Time.time - startTime) / 7.25f), transform.position.y, transform.position.z);
+				}
+				yield return null;
+			}
+			isFleeing = false;
+			anim.SetBool("EndDash", true);
+			StartCoroutine(RainFire());
+		}
 		private IEnumerator Fireball()
 		{
 			if (anim.GetBool("EndFireball"))
@@ -180,7 +223,7 @@ namespace Character2D
 					new Vector2(Random.Range(minMaxForce * -1, minMaxForce) * 10, Random.Range(minMaxForce * -1, minMaxForce) * 10));
 				wraithAttack.start();
 				i++;
-				yield return new WaitForSeconds(1);
+				yield return new WaitForSeconds(.75f);
 			}
 
 			yield return new WaitForSeconds(2);
@@ -206,9 +249,9 @@ namespace Character2D
 				wraithAttack.start();
 			}
 
-			yield return new WaitForSeconds(3f);
+			yield return new WaitForSeconds(2f);
 			anim.SetBool("EndRainFire", true);
-			yield return new WaitForSeconds(3f);
+			yield return new WaitForSeconds(2f);
 			anim.SetBool("EndRainFire", false);
 			yield return new WaitForFixedUpdate();
 
@@ -228,12 +271,16 @@ namespace Character2D
 
 		protected override void Flinch()
 		{
-			base.Flinch();
-			wraithHurt.start();
-			
-			StopAllCoroutines();
-			isAttacking = true;
-			StartCoroutine(Dash());
+			if(Random.Range(0f,1f)>=.25f)
+			{
+				base.Flinch();
+				wraithHurt.start();
+				
+				StopAllCoroutines();
+				isAttacking = true;
+				isFleeing = true;
+				StartCoroutine(Flee());
+			}
 			
 		}
 		protected override void InitializeDeath()

@@ -93,10 +93,10 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!61 &61511978660481652
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -182,16 +182,17 @@ MonoBehaviour:
   player: {fileID: 0}
   isFacingRight: 0
   attackTrigger: {fileID: 61793564267424312}
-  attackCooldown: 3
+  attackCooldown: 2
   damage: 15
   isAttacking: 0
+  isFleeing: 0
   fireball: {fileID: 1154621105692668, guid: 33b57fea8b6677144b06ff524b0303bf, type: 2}
-  fireballCount: 15
+  fireballCount: 20
   minMaxForce: 15
   rainFireTrigger: {fileID: 0}
   giantFireBall: {fileID: 1852916752822286, guid: 4be90001be4a8d14cb6049b4389725b3,
     type: 2}
-  giantFireCount: 6
+  giantFireCount: 8
 --- !u!114 &114811209341990992
 MonoBehaviour:
   m_ObjectHideFlags: 1

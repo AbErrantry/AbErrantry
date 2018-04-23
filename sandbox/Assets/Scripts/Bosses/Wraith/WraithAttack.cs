@@ -10,7 +10,7 @@ namespace Character2D
 
 		public void OnTriggerEnter2D(Collider2D col)
 		{
-			if(col.gameObject.GetComponent<Player>() != null)
+			if(col.gameObject.GetComponent<Player>() != null && !wraith.isFleeing)
 			{
 				wraith.ApplyDamage(col.gameObject);
 			}
