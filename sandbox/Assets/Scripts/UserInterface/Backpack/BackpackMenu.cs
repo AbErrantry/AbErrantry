@@ -656,7 +656,7 @@ namespace Character2D
             itemPrice.text = inv.item.price.ToString();
             selectedItem = inv;
             descriptionMask.SetActive(false);
-            if (inv.item.type != "Story")
+            if (inv.item.type != "Story" && inv.item.type != "Money")
             {
                 inventoryCancelButton.navigation = horizontalNav;
                 useButton.interactable = true;

@@ -21,17 +21,18 @@ namespace Character2D
 
             crateHit = FMODUnity.RuntimeManager.CreateInstance("event:/Crate/take_damage");
             crateHit.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+            crateHit.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
 
             crateDeath = FMODUnity.RuntimeManager.CreateInstance("event:/Crate/death");
             crateDeath.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
-
-            FMODUnity.RuntimeManager.AttachInstanceToGameObject(crateHit, GetComponent<Transform>(), GetComponent<Rigidbody>());
-            FMODUnity.RuntimeManager.AttachInstanceToGameObject(crateDeath, GetComponent<Transform>(), GetComponent<Rigidbody>());
+            crateDeath.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
         }
 
         public override void TakeDamage(GameObject attacker, int damage, bool appliesKnockback = true)
         {
             base.TakeDamage(attacker, damage, appliesKnockback);
+
+            crateHit.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
             crateHit.start();
         }
 
@@ -42,6 +43,8 @@ namespace Character2D
             GetComponent<BoxCollider2D>().enabled = false;
             GetComponent<PolygonCollider2D>().enabled = false;
             anim.Play("DESTROY");
+
+            crateDeath.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
             crateDeath.start();
         }
 

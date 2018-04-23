@@ -5,7 +5,7 @@
             <value>spike_impale</value>
         </property>
         <property name="outputFormat">
-            <value>1</value>
+            <value>2</value>
         </property>
         <relationship name="folder">
             <destination>{2db9d652-d31a-4c0f-ab3a-774b90704ade}</destination>
@@ -116,6 +116,7 @@
     <object class="MixerBusEffectChain" id="{a72656e3-f4f3-4e9b-a0cf-64c09813bfef}">
         <relationship name="effects">
             <destination>{0e3ebb07-feee-45ed-aa15-c6d112c4569c}</destination>
+            <destination>{c5bb8d70-2c0d-4b3c-8bfb-dcd497807018}</destination>
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{c6d05881-4327-43ba-8794-be98940ab4a6}"/>
@@ -127,5 +128,10 @@
     </object>
     <object class="MixerBusPanner" id="{61c2b786-c947-482a-a794-efb2c988276c}"/>
     <object class="MixerBusFader" id="{0e3ebb07-feee-45ed-aa15-c6d112c4569c}"/>
+    <object class="SpatialiserEffect" id="{c5bb8d70-2c0d-4b3c-8bfb-dcd497807018}">
+        <property name="maximumDistance">
+            <value>50</value>
+        </property>
+    </object>
     <object class="MixerBusFader" id="{43fd5cb9-9f84-4192-8426-dfed8353f21d}"/>
 </objects>

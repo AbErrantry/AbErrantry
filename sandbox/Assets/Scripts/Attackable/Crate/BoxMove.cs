@@ -18,6 +18,7 @@ public class BoxMove : Trigger<Character2D.Player>
 
         crateBump = FMODUnity.RuntimeManager.CreateInstance("event:/Crate/impact");
         crateBump.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+        crateBump.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
     }
 
     //fires upon an object entering/exiting the trigger box
@@ -27,6 +28,7 @@ public class BoxMove : Trigger<Character2D.Player>
         {
             rb.mass = 0.1f;
             boxCollider.enabled = false;
+            crateBump.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
             crateBump.start();
         }
         else

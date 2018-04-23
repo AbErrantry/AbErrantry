@@ -285,7 +285,7 @@ public class SaveData : ScriptableObject
             cmd.Parameters.Add("@name", DbType.String).Value = name;
             cmd.Parameters.Add("@isUnlocked", DbType.Boolean).Value = true;
             cmd.ExecuteNonQuery();
-            Debug.Log("Updated checkpoint " + name + " in Checkpoints to be unlocked.");
+            //Debug.Log("Updated checkpoint " + name + " in Checkpoints to be unlocked.");
         }
         catch (Exception e)
         {
@@ -355,7 +355,7 @@ public class SaveData : ScriptableObject
         cmd.CommandText = "DELETE FROM CharacterInfo WHERE name = @name";
         cmd.Parameters.Add("@name", DbType.String).Value = name;
         cmd.ExecuteNonQuery();
-        Debug.Log("Removed character " + name + " from CharacterInfo");
+        //Debug.Log("Removed character " + name + " from CharacterInfo");
     }
 
     // Gets the list of characters that exist within a level (to be loaded)
@@ -422,7 +422,7 @@ public class SaveData : ScriptableObject
                     cmd.Parameters.Add("@name", DbType.String).Value = item.name;
                     cmd.Parameters.Add("@quantity", DbType.Int32).Value = item.quantity;
                     cmd.ExecuteNonQuery();
-                    Debug.Log("Updated item " + item.name + " for character " + character + " in CharacterItems to quantity " + item.quantity);
+                    //Debug.Log("Updated item " + item.name + " for character " + character + " in CharacterItems to quantity " + item.quantity);
                 }
                 else
                 {
@@ -431,7 +431,7 @@ public class SaveData : ScriptableObject
                     cmd.Parameters.Add("@character", DbType.String).Value = character;
                     cmd.Parameters.Add("@name", DbType.String).Value = item.name;
                     cmd.ExecuteNonQuery();
-                    Debug.Log("Removed item " + item.name + " from CharacterItems for character: " + character);
+                    //Debug.Log("Removed item " + item.name + " from CharacterItems for character: " + character);
                 }
             }
             else
@@ -446,7 +446,7 @@ public class SaveData : ScriptableObject
                     cmd.Parameters.Add("@name", DbType.String).Value = item.name;
                     cmd.Parameters.Add("@quantity", DbType.Int32).Value = item.quantity;
                     cmd.ExecuteNonQuery();
-                    Debug.Log("Added item " + item.name + " to character " + character + " in CharacterItems with quantity " + item.quantity);
+                    //Debug.Log("Added item " + item.name + " to character " + character + " in CharacterItems with quantity " + item.quantity);
                 }
                 else
                 {

@@ -5,7 +5,7 @@
             <value>button_click</value>
         </property>
         <property name="outputFormat">
-            <value>1</value>
+            <value>2</value>
         </property>
         <relationship name="folder">
             <destination>{2db9d652-d31a-4c0f-ab3a-774b90704ade}</destination>
@@ -123,6 +123,7 @@
     <object class="MixerBusEffectChain" id="{f6c5c8e6-51be-4c29-a486-d3ca8bae2a70}">
         <relationship name="effects">
             <destination>{a285182e-2902-410f-bbe3-131a9b587e3d}</destination>
+            <destination>{277ee70c-6152-4e5a-b819-cf64efe4110d}</destination>
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{41ec3709-32c4-4d57-91b5-5f8f736e9e55}"/>
@@ -134,5 +135,10 @@
     </object>
     <object class="MixerBusPanner" id="{0b69a8f4-c523-4352-a6ac-e25bfa20fbd8}"/>
     <object class="MixerBusFader" id="{a285182e-2902-410f-bbe3-131a9b587e3d}"/>
+    <object class="SpatialiserEffect" id="{277ee70c-6152-4e5a-b819-cf64efe4110d}">
+        <property name="maximumDistance">
+            <value>50</value>
+        </property>
+    </object>
     <object class="MixerBusFader" id="{62585f30-bf13-4d05-a22e-ab23f91cba91}"/>
 </objects>

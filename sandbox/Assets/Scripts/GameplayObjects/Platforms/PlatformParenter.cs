@@ -11,7 +11,7 @@ public class PlatformParenter : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.GetComponent<Character2D.Attackable>() != null)
+		if (other.gameObject.GetComponent<Character2D.Attackable>() != null && other.gameObject.GetComponent<Character2D.AttackableTile>() == null)
 		{
 			platform.children.Add(other.gameObject);
 			if (other.gameObject.GetComponent<Character2D.CharacterMovement>())
@@ -23,7 +23,7 @@ public class PlatformParenter : MonoBehaviour
 
 	private void OnTriggerExit2D(Collider2D other)
 	{
-		if (other.gameObject.GetComponent<Character2D.Attackable>() != null)
+		if (other.gameObject.GetComponent<Character2D.Attackable>() != null && other.gameObject.GetComponent<Character2D.AttackableTile>() == null)
 		{
 			platform.children.Remove(other.gameObject);
 			if (other.gameObject.GetComponent<Character2D.CharacterMovement>())

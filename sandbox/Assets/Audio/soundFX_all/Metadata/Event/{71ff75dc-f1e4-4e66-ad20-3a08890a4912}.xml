@@ -5,7 +5,7 @@
             <value>explode</value>
         </property>
         <property name="outputFormat">
-            <value>0</value>
+            <value>2</value>
         </property>
         <relationship name="folder">
             <destination>{50c2d18e-e87f-493d-ba78-68d758842072}</destination>
@@ -122,12 +122,18 @@
     <object class="MixerBusFader" id="{71314176-f8d9-44df-873d-086db7d007f4}"/>
     <object class="MixerBusEffectChain" id="{84f8af63-20a2-4cb6-8cc3-23c56fa136c7}">
         <relationship name="effects">
+            <destination>{ad7e1519-e29e-480e-8e84-f3985e55aea6}</destination>
             <destination>{f51ca327-6006-4463-887c-8725df48c88a}</destination>
             <destination>{c8bc4ab9-bd0b-4590-90c0-cf1f3b169279}</destination>
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{46b1fa28-1687-4ba2-8d8e-692b8b1228ae}"/>
     <object class="MixerBusFader" id="{b9c2c696-f54e-4deb-af92-072bdd914812}"/>
+    <object class="SpatialiserEffect" id="{ad7e1519-e29e-480e-8e84-f3985e55aea6}">
+        <property name="maximumDistance">
+            <value>50</value>
+        </property>
+    </object>
     <object class="MixerBusFader" id="{f51ca327-6006-4463-887c-8725df48c88a}"/>
     <object class="PitchShifterEffect" id="{c8bc4ab9-bd0b-4590-90c0-cf1f3b169279}">
         <property name="pitch">

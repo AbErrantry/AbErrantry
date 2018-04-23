@@ -17,13 +17,16 @@ namespace Character2D
 		{
 			hitNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/spike_impale");
 			hitNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+			hitNoise.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
 		}
 
 		private void OnTriggerEnter2D(Collider2D coll)
 		{
 			if (coll.gameObject.GetComponent<Attackable>() != null)
 			{
+				hitNoise.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
 				hitNoise.start();
+
 				if (shouldKill)
 				{
 					coll.gameObject.GetComponent<Attackable>().Kill();

@@ -5,7 +5,7 @@
             <value>impact</value>
         </property>
         <property name="outputFormat">
-            <value>1</value>
+            <value>2</value>
         </property>
         <relationship name="folder">
             <destination>{50c2d18e-e87f-493d-ba78-68d758842072}</destination>
@@ -101,7 +101,7 @@
     </object>
     <object class="EventMixerGroup" id="{64049b6c-d07c-4759-a8ca-ea95fe841081}">
         <property name="volume">
-            <value>-11.5</value>
+            <value>-13.5</value>
         </property>
         <property name="name">
             <value>Audio 1</value>
@@ -126,9 +126,15 @@
     <object class="MixerBusEffectChain" id="{8d8b798a-5501-4761-a396-0c0282787b2c}">
         <relationship name="effects">
             <destination>{d3517ed7-e6c1-421a-bf70-927e21acca4d}</destination>
+            <destination>{12e57fca-cbb2-4bfa-8c2c-1405a18eaaf7}</destination>
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{bb5d3e52-1d7b-4500-9ec1-ae224abb49b5}"/>
     <object class="MixerBusFader" id="{7237ebfe-8702-4fed-8702-5105276e0227}"/>
     <object class="MixerBusFader" id="{d3517ed7-e6c1-421a-bf70-927e21acca4d}"/>
+    <object class="SpatialiserEffect" id="{12e57fca-cbb2-4bfa-8c2c-1405a18eaaf7}">
+        <property name="maximumDistance">
+            <value>50</value>
+        </property>
+    </object>
 </objects>

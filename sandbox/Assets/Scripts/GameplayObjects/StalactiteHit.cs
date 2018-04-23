@@ -17,6 +17,7 @@ namespace Character2D
 		{
 			hitNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/stalactite");
 			hitNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+			hitNoise.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
 		}
 
 		public void SetVar(float setDamage, GameObject par, float delay)
@@ -45,6 +46,7 @@ namespace Character2D
 
 		public IEnumerator ObjectDestroy()
 		{
+			hitNoise.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
 			hitNoise.start();
 
 			GetComponent<Animator>().SetTrigger("Hit"); //Sets the Animation to the next Transition

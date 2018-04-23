@@ -24,6 +24,9 @@ public class Choices : MonoBehaviour
 
 	public float textSpeed;
 
+	private FMOD.Studio.EventInstance textBlipNoise;
+	private FMOD.Studio.EventInstance progressionNoise;
+
 	private void Start()
 	{
 		currentIndex = 0;
@@ -31,6 +34,12 @@ public class Choices : MonoBehaviour
 		GetTextSpeed();
 		GetChoiceFileAsList();
 		GetResultsPage();
+
+		textBlipNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Menus_Inventory/blip");
+		textBlipNoise.setVolume(PlayerPrefs.GetFloat("DialogueVolume") * PlayerPrefs.GetFloat("MasterVolume"));
+
+		progressionNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/progression_jingle");
+		progressionNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
 	}
 
 	private void GetTextSpeed()
@@ -152,6 +161,7 @@ public class Choices : MonoBehaviour
 
 	public void FinishButtonClick()
 	{
+		progressionNoise.start();
 		BackgroundSwitchMenu.instance.ResetSong();
 		SceneManager.LoadScene("Credits");
 	}
@@ -160,13 +170,18 @@ public class Choices : MonoBehaviour
 	private IEnumerator TypeSentence(int index)
 	{
 		choiceText.text = "";
+		float timeSinceStart = Time.time;
 		foreach (var letter in choices[index].text.ToCharArray())
 		{
 			choiceText.text = choiceText.text + letter;
 			yield return new WaitForSeconds(0.01f * textSpeed);
+			if (Time.time - timeSinceStart > 0.05f * textSpeed)
+			{
+				textBlipNoise.start();
+				timeSinceStart = Time.time;
+			}
 		}
 		yield return new WaitForSeconds(0.5f);
 		nextButton.interactable = true;
 	}
-
 }

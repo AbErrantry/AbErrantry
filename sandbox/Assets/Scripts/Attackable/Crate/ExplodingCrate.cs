@@ -23,8 +23,7 @@ namespace Character2D
 
 			crateExplosion = FMODUnity.RuntimeManager.CreateInstance("event:/Crate/explode");
 			crateExplosion.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
-
-			FMODUnity.RuntimeManager.AttachInstanceToGameObject(crateExplosion, GetComponent<Transform>(), GetComponent<Rigidbody>());
+			crateExplosion.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
 		}
 
 		//applies damage to the player
@@ -67,6 +66,8 @@ namespace Character2D
 			GetComponent<PolygonCollider2D>().enabled = false;
 			rb.gravityScale = 0.0f;
 			StartCoroutine(Attack());
+
+			crateExplosion.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
 			crateExplosion.start();
 		}
 

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BearDeadTrigger : MonoBehaviour {
+public class BearDeadTrigger : MonoBehaviour
+{
 
 	public GameObject bear;
 	public FollowTarget followTarget;
@@ -10,7 +11,7 @@ public class BearDeadTrigger : MonoBehaviour {
 	public void OnTriggerEnter2D(Collider2D col)
 	{
 		//Debug.Log(col.gameObject.name + "        " + bear.name);
-		if(col.gameObject.name == bear.name)
+		if (bear != null && col.gameObject.name == bear.name)
 		{
 			//Debug.Log("Entered");
 			followTarget = GameObject.Find("CameraTarget").GetComponent<FollowTarget>();

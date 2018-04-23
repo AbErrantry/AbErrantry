@@ -23,8 +23,7 @@ public class WorldButton : Trigger<Character2D.Attackable>
 
 		buttonNoise = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/button_click");
 		buttonNoise.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
-
-		FMODUnity.RuntimeManager.AttachInstanceToGameObject(buttonNoise, GetComponent<Transform>(), GetComponent<Rigidbody>());
+		buttonNoise.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
 	}
 
 	protected override void TriggerAction(bool isInTrigger)
@@ -34,6 +33,8 @@ public class WorldButton : Trigger<Character2D.Attackable>
 			if (!isPressed)
 			{
 				buttonNoise.start();
+				buttonNoise.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
+
 				isPressed = true;
 				if (OnButtonPressed != null)
 				{
@@ -43,13 +44,19 @@ public class WorldButton : Trigger<Character2D.Attackable>
 		}
 		else if (isHoldButton)
 		{
+			buttonNoise.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
 			buttonNoise.start();
+
 			isPressed = false;
 			if (OnButtonReleased != null)
 			{
 				OnButtonReleased();
 			}
 		}
-		anim.SetBool("isPressed", isPressed);
+
+		if (GetComponent<Animator>() != null)
+		{
+			anim.SetBool("isPressed", isPressed);
+		}
 	}
 }

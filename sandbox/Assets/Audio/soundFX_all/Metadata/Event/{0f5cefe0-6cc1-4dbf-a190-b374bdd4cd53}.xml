@@ -5,7 +5,7 @@
             <value>stalactite</value>
         </property>
         <property name="outputFormat">
-            <value>1</value>
+            <value>2</value>
         </property>
         <relationship name="folder">
             <destination>{2db9d652-d31a-4c0f-ab3a-774b90704ade}</destination>
@@ -118,6 +118,7 @@
     </object>
     <object class="MixerBusEffectChain" id="{754e615e-3195-4205-ab9d-ebfdba65824d}">
         <relationship name="effects">
+            <destination>{dbd20322-9d3a-4cfd-98f5-f8ef3fea2434}</destination>
             <destination>{b599526a-3043-4f21-a1ae-02e91d4d248a}</destination>
             <destination>{ae0a87f0-b740-464b-b013-d045e1f0ca2d}</destination>
             <destination>{569927f1-04a6-4f0d-a42a-475d6d1c8d99}</destination>
@@ -131,6 +132,11 @@
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{40681366-ab73-4213-8dba-29cb53d06288}"/>
+    <object class="SpatialiserEffect" id="{dbd20322-9d3a-4cfd-98f5-f8ef3fea2434}">
+        <property name="maximumDistance">
+            <value>50</value>
+        </property>
+    </object>
     <object class="MixerBusFader" id="{b599526a-3043-4f21-a1ae-02e91d4d248a}"/>
     <object class="PitchShifterEffect" id="{ae0a87f0-b740-464b-b013-d045e1f0ca2d}">
         <property name="pitch">

@@ -85,6 +85,7 @@ public class BackgroundSwitch : MonoBehaviour
         StopSongs();
         if (element == 0)
         {
+            currentElement = 0;
             return;
         }
         currentElement = element;

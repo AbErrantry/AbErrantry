@@ -40,7 +40,26 @@ public abstract class Boss : Attackable
 
 	protected override void Flinch()
 	{
-		anim.Play("Hurt");
+		StartCoroutine(FlinchColor());
+	}
+
+	protected IEnumerator FlinchColor()
+	{
+		float redTime = Time.time;
+		while (Time.time - redTime < 0.25f)
+		{
+			sr.color = Color.Lerp(sr.color, Color.red, (Time.time - redTime) / 0.25f);
+			yield return new WaitForFixedUpdate();
+		}
+
+		float whiteTime = Time.time;
+		while (Time.time - whiteTime < 0.25f)
+		{
+			sr.color = Color.Lerp(sr.color, Color.white, (Time.time - whiteTime) / 0.25f);
+			yield return new WaitForFixedUpdate();
+		}
+
+		yield return null;
 	}
 
 	protected void BossDefeated()

@@ -24,6 +24,8 @@ public class ConfigSettings : MonoBehaviour
 
 	public Button loadGameButton;
 
+	public CanvasGroup axisGroup;
+
 	private List<string> saveFileNames;
 
 	public TMP_InputField newSaveFile;
@@ -103,10 +105,6 @@ public class ConfigSettings : MonoBehaviour
 		{
 			TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
 			data.text = Screen.resolutions[i].ToString();
-			if (data.text == Screen.currentResolution.ToString())
-			{
-				resolution.value = i;
-			}
 			resolution.options.Add(data);
 		}
 		resolution.captionText.text = Screen.currentResolution.ToString();
@@ -134,6 +132,14 @@ public class ConfigSettings : MonoBehaviour
 		if (PlayerPrefs.HasKey("ControllerType"))
 		{
 			controllerType.captionText.text = PlayerPrefs.GetString("ControllerType");
+			if (controllerType.captionText.text == "Keyboard")
+			{
+				axisGroup.interactable = true;
+			}
+			else
+			{
+				axisGroup.interactable = false;
+			}
 		}
 		else
 		{
@@ -189,7 +195,6 @@ public class ConfigSettings : MonoBehaviour
 	{
 		if (screenMode.captionText.text == "Fullscreen")
 		{
-			Debug.Log("got to fullscreen here");
 			PlayerPrefs.SetInt("FullScreen", 1);
 			Screen.fullScreen = true;
 		}
@@ -251,6 +256,8 @@ public class ConfigSettings : MonoBehaviour
 			hInput.SetKey("Interact", KeyCode.Q, KeyTarget.PositivePrimary);
 			hInput.SetKey("Backpack", KeyCode.R, KeyTarget.PositivePrimary);
 			hInput.SetKey("Pause", KeyCode.Tab, KeyTarget.PositivePrimary);
+
+			axisGroup.interactable = true;
 		}
 		else if (controllerType.captionText.text == "Dualshock 4")
 		{
@@ -263,6 +270,8 @@ public class ConfigSettings : MonoBehaviour
 			hInput.SetKey("Interact", KeyCode.JoystickButton0, KeyTarget.PositivePrimary);
 			hInput.SetKey("Backpack", KeyCode.JoystickButton3, KeyTarget.PositivePrimary);
 			hInput.SetKey("Pause", KeyCode.JoystickButton9, KeyTarget.PositivePrimary);
+
+			axisGroup.interactable = false;
 		}
 		else if (controllerType.captionText.text == "Xbox Controller")
 		{
@@ -275,6 +284,8 @@ public class ConfigSettings : MonoBehaviour
 			hInput.SetKey("Interact", KeyCode.JoystickButton2, KeyTarget.PositivePrimary);
 			hInput.SetKey("Backpack", KeyCode.JoystickButton3, KeyTarget.PositivePrimary);
 			hInput.SetKey("Pause", KeyCode.JoystickButton7, KeyTarget.PositivePrimary);
+
+			axisGroup.interactable = false;
 		}
 	}
 
@@ -349,6 +360,7 @@ public class ConfigSettings : MonoBehaviour
 
 	public void Credits()
 	{
+		BackgroundSwitchMenu.instance.ResetSong();
 		SceneManager.LoadScene("Credits");
 	}
 
