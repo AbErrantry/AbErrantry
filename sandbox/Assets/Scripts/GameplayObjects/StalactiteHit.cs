@@ -48,7 +48,9 @@ namespace Character2D
 		{
 			hitNoise.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
 			hitNoise.start();
-
+			gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+			gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+			gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
 			GetComponent<Animator>().SetTrigger("Hit"); //Sets the Animation to the next Transition
 			AnimatorClipInfo[] animInfo = GetComponent<Animator>().GetCurrentAnimatorClipInfo(0); //Gets Current clip info (Hit info)
 			float clipLength = animInfo[0].clip.length; //Gets length of the animation.
