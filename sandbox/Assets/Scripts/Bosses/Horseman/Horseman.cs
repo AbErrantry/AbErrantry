@@ -67,7 +67,7 @@ namespace Character2D
 			//Debug.Log("Min: "+ min.ToString() + " Max: " + max.ToString());
 			if (cooldown <= 0 && !isAttacking)
 			{
-				PickAttack(1); //just put the amount of cases there are in pickAttack()
+				PickAttack(2); //just put the amount of cases there are in pickAttack()
 
 				cooldown = attackCooldown;
 
@@ -92,6 +92,9 @@ namespace Character2D
 					StartCoroutine(Attack1());
 					break;
 				case 1:
+					StartCoroutine(Attack2());
+					break;
+				case 2:
 					StartCoroutine(Attack2());
 					break;
 			}
@@ -123,7 +126,7 @@ namespace Character2D
 			yield return new WaitForSeconds(3);
 
 			startTime = Time.time;
-			while (Time.time < startTime + 10f)
+			while (Time.time < startTime + 5f)
 			{
 
 				leftPlatform.transform.position = new Vector3(Mathf.SmoothStep(leftPlatform.transform.position.x, leftPlatform.startLoc.x, (Time.time - startTime) / 10f),
@@ -146,7 +149,8 @@ namespace Character2D
 		//plumes attacking
 		private IEnumerator Attack2()
 		{
-			int plumeNum = Random.Range(0, bigPlumes.Length + 1);
+			int plumeNum = Random.Range(0, bigPlumes.Length);
+
 			if (!anim.GetBool("Attack2"))
 			{
 				anim.SetBool("Attack2", true);
@@ -157,7 +161,7 @@ namespace Character2D
 			Plume();
 			yield return new WaitForSeconds(.5f);
 			bigPlumes[plumeNum].PlumeFake();
-			yield return new WaitForSeconds(3f);
+			yield return new WaitForSeconds(4f);
 
 			for (int i = 0; i < bigPlumes.Length; i++)
 			{
@@ -211,19 +215,26 @@ namespace Character2D
 				StopAllCoroutines();
 				isAttacking = true;
 				pushout.gameObject.SetActive(true);
-				StartCoroutine(Attack2());
+				PickAttack(2);
 			}
 		}
 
 		protected override void InitializeDeath()
 		{
+
+			
+			isAttacking=false;
+			pushout.gameObject.SetActive(false);
 			anim.Play("Death");
 			horsemanDeath.start();
+			
+			
 		}
 
 		public override void FinalizeDeath()
 		{
 			BossDefeated();
+			UnPlume();
 		}
 
 		public void ApplyDamage(GameObject target)

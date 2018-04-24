@@ -286,6 +286,7 @@ namespace Character2D
 		{
 			anim.Play("Wraith_Death");
 			wraithDeath.start();
+			
 		}
 
 		public override void FinalizeDeath()
