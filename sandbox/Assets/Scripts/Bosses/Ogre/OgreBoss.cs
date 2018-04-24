@@ -33,22 +33,22 @@ namespace Character2D
 			attackTrigger = gameObject.GetComponentInChildren<BoxCollider2D>();
 
 			BackgroundSwitch.instance.ResetSongs();
-			
+
 			ogreAttack = FMODUnity.RuntimeManager.CreateInstance("event:/Ogre/attack");
 			ogreAttack.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
 
 			ogreDeath = FMODUnity.RuntimeManager.CreateInstance("event:/Ogre/death");
 			ogreDeath.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
-			
+
 			ogreHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Ogre/take_damage");
 			ogreDeath.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
 
-			ogreMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/boss/plains_boss");
+			ogreMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/boss/swamp_boss");
 			ogreMusic.setVolume(PlayerPrefs.GetFloat("MusicVolume") * PlayerPrefs.GetFloat("MasterVolume"));
 			ogreMusic.start();
 
 			base.Start();
-			
+
 		}
 
 		protected new void Update()
@@ -109,7 +109,7 @@ namespace Character2D
 			//RaiseWater();
 			yield return new WaitForSeconds(1f);
 			gameObject.GetComponent<Animator>().SetBool("Moved", false);
-			
+
 			Punch();
 			yield return new WaitForSeconds(1);
 			isAttacking = false;

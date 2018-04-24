@@ -66,9 +66,6 @@ namespace Character2D
 			GetComponent<PolygonCollider2D>().enabled = false;
 			rb.gravityScale = 0.0f;
 			StartCoroutine(Attack());
-
-			crateExplosion.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
-			crateExplosion.start();
 		}
 
 		public override void DestroyCrate()
@@ -78,6 +75,9 @@ namespace Character2D
 
 		protected IEnumerator Attack()
 		{
+			crateExplosion.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
+			crateExplosion.start();
+
 			isDying = true;
 			anim.Play("EXPLODE");
 			float attackStart = Time.time;

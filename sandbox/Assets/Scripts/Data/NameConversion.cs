@@ -20,10 +20,9 @@ public class NameConversion
 			text = text.Replace("$", "him");
 		}
 		text = text.Replace("{jump}", GetKeyName.Input("move_Jump", KeyTarget.PositivePrimary));
-		text = text.Replace("{horizontal}", GetKeyName.Input("move_Horizontal", KeyTarget.PositivePrimary));
-		text = text.Replace("{vertical}", GetKeyName.Input("move_Vertical", KeyTarget.PositivePrimary));
 		text = text.Replace("{crouch}", GetKeyName.Input("move_Crouch", KeyTarget.PositivePrimary));
 		text = text.Replace("{backpack}", GetKeyName.Input("Backpack", KeyTarget.PositivePrimary));
+		text = text.Replace("{pause}", GetKeyName.Input("Pause", KeyTarget.PositivePrimary));
 		text = text.Replace("{run}", GetKeyName.Input("move_Run", KeyTarget.PositivePrimary));
 		text = text.Replace("{attack}", GetKeyName.Input("Attack", KeyTarget.PositivePrimary));
 
@@ -43,6 +42,8 @@ public class NameConversion
 			text = text.Replace("JoystickButton11", "[R3]");
 			text = text.Replace("JoystickButton12", "[PS]");
 			text = text.Replace("JoystickButton12", "[PadPress]");
+			text = text.Replace("{horizontal}", "left and right DPad");
+			text = text.Replace("{vertical}", "up and down DPad");
 		}
 		else if (PlayerPrefs.GetString("ControllerType") == "Xbox Controller")
 		{
@@ -56,6 +57,13 @@ public class NameConversion
 			text = text.Replace("JoystickButton7", "[Start]");
 			text = text.Replace("JoystickButton8", "[LS]");
 			text = text.Replace("JoystickButton9", "[RS]");
+			text = text.Replace("{horizontal}", "left and right DPad");
+			text = text.Replace("{vertical}", "up and down DPad");
+		}
+		else if (PlayerPrefs.GetString("ControllerType") == "Keyboard")
+		{
+			text = text.Replace("{horizontal}", GetKeyName.Input("move_Horizontal", KeyTarget.PositivePrimary) + " and " + GetKeyName.Input("move_Horizontal", KeyTarget.NegativePrimary));
+			text = text.Replace("{vertical}", GetKeyName.Input("move_Vertical", KeyTarget.PositivePrimary) + " and " + GetKeyName.Input("move_Vertical", KeyTarget.NegativePrimary));
 		}
 
 		return text;

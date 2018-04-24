@@ -255,7 +255,7 @@ public class ConfigSettings : MonoBehaviour
 			hInput.SetKey("Attack", KeyCode.E, KeyTarget.PositivePrimary);
 			hInput.SetKey("Interact", KeyCode.Q, KeyTarget.PositivePrimary);
 			hInput.SetKey("Backpack", KeyCode.R, KeyTarget.PositivePrimary);
-			hInput.SetKey("Pause", KeyCode.Tab, KeyTarget.PositivePrimary);
+			hInput.SetKey("Pause", KeyCode.Escape, KeyTarget.PositivePrimary);
 
 			axisGroup.interactable = true;
 		}

@@ -41,11 +41,11 @@ namespace Character2D
 
 			golemDeath = FMODUnity.RuntimeManager.CreateInstance("event:/Golem/death");
 			golemDeath.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
-			
+
 			golemHurt = FMODUnity.RuntimeManager.CreateInstance("event:/Golem/take_damage");
 			golemDeath.setVolume(PlayerPrefs.GetFloat("SfxVolume") * PlayerPrefs.GetFloat("MasterVolume"));
 
-			golemMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/boss/cave_boss");
+			golemMusic = FMODUnity.RuntimeManager.CreateInstance("event:/Music/area/village");
 			golemMusic.setVolume(PlayerPrefs.GetFloat("MusicVolume") * PlayerPrefs.GetFloat("MasterVolume"));
 			golemMusic.start();
 
@@ -114,7 +114,7 @@ namespace Character2D
 				yield return null;
 			}
 			isAttacking = false;
-			
+
 			StopAllCoroutines();
 			//PickAttack(3);
 		}
@@ -252,13 +252,12 @@ namespace Character2D
 
 		protected override void Flinch()
 		{
-			base.Flinch();
 			golemHurt.start();
-			
+
 			StopAllCoroutines();
 			isAttacking = true;
 			StartCoroutine(Move());
-			
+
 		}
 
 		protected override void InitializeDeath()
