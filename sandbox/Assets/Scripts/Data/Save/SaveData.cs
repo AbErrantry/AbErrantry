@@ -168,11 +168,6 @@ public class SaveData : ScriptableObject
                     cmd.ExecuteNonQuery();
                     //Debug.Log("Added item " + item.name + " to PlayerItems with quantity " + item.quantity);
                 }
-                else
-                {
-                    throw new Exception("attempted to write an item change to PlayerItems table with a record " +
-                        "that does not exist and a quantity of zero.");
-                }
             }
         }
         catch (Exception e)

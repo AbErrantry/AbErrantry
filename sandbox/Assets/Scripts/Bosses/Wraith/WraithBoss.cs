@@ -68,12 +68,12 @@ namespace Character2D
 
 		protected new void Update()
 		{
-			if(!isFleeing)
+			if (!isFleeing)
 			{
-				if (player.position.x+1 >= transform.position.x)
+				if (player.position.x + 1 >= transform.position.x)
 				{
 					isFacingRight = true;
-					transform.eulerAngles = new Vector3(0, 180, 0);				
+					transform.eulerAngles = new Vector3(0, 180, 0);
 				}
 				else
 				{
@@ -158,8 +158,7 @@ namespace Character2D
 
 				yield return null;
 			}
-		
-			
+
 			isFleeing = false;
 			anim.SetBool("EndDash", true);
 		}
@@ -171,11 +170,11 @@ namespace Character2D
 				anim.SetBool("EndDash", false);
 			}
 			Vector3 newPos;
-			if(Mathf.Abs(transform.position.x - max.x) >= Mathf.Abs(transform.position.x - min.x))
+			if (Mathf.Abs(transform.position.x - max.x) >= Mathf.Abs(transform.position.x - min.x))
 			{
 				newPos = max;
 				isFacingRight = true;
-				transform.eulerAngles = new Vector3(0, 180, 0);	
+				transform.eulerAngles = new Vector3(0, 180, 0);
 			}
 			else
 			{
@@ -210,7 +209,7 @@ namespace Character2D
 			}
 
 			anim.Play("Wraith_WindupFireball");
-			
+
 			yield return new WaitForSeconds(1);
 			for (int i = 0; i < fireballCount; i++)
 			{
@@ -221,7 +220,7 @@ namespace Character2D
 				clone = Instantiate(fireball, attackTrigger.bounds.center, Quaternion.identity);
 				clone.GetComponent<Rigidbody2D>().AddForce(
 					new Vector2(Random.Range(minMaxForce * -1, minMaxForce) * 10, Random.Range(minMaxForce * -1, minMaxForce) * 10));
-				wraithAttack.start();
+				//wraithAttack.start(); too noisy
 				i++;
 				yield return new WaitForSeconds(.75f);
 			}
@@ -246,7 +245,7 @@ namespace Character2D
 			for (int i = 0; i < giantFireCount; i++)
 			{
 				Instantiate(giantFireBall, new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y)), Quaternion.identity);
-				wraithAttack.start();
+				//wraithAttack.start(); too noisy
 			}
 
 			yield return new WaitForSeconds(2f);
@@ -271,17 +270,17 @@ namespace Character2D
 
 		protected override void Flinch()
 		{
-			if(Random.Range(0f,1f)>=.25f)
+			if (Random.Range(0f, 1f) >= .25f)
 			{
 				base.Flinch();
 				wraithHurt.start();
-				
+
 				StopAllCoroutines();
 				isAttacking = true;
 				isFleeing = true;
 				StartCoroutine(Flee());
 			}
-			
+
 		}
 		protected override void InitializeDeath()
 		{

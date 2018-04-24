@@ -335,6 +335,8 @@ namespace Character2D
             ToggleCamera(false);
             playerInput.DisableInput();
 
+            deathNoise.start();
+
             //death penalty of 5% of gold
             SetGold(-Mathf.RoundToInt(gold * 0.05f), false, true);
 
@@ -368,7 +370,6 @@ namespace Character2D
 
         public override void FinalizeDeath()
         {
-            deathNoise.start();
             playerInput.InvokeSleep();
         }
 

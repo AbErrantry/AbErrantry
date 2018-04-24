@@ -94,7 +94,7 @@ public class Platform : MonoBehaviour
 
 		foreach (GameObject obj in children)
 		{
-			if (obj.GetComponent<Character2D.CharacterMovement>())
+			if (obj.GetComponent<Character2D.CharacterMovement>() != null)
 			{
 				if (!obj.GetComponent<Character2D.CharacterMovement>().isJumping && !obj.GetComponent<Character2D.CharacterAttack>().isAttacking)
 				{
