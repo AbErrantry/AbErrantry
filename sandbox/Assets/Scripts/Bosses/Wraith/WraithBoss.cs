@@ -241,7 +241,7 @@ namespace Character2D
 			}
 
 			anim.Play("Wraith_RainFire");
-
+			wraithAttack.start();
 			for (int i = 0; i < giantFireCount; i++)
 			{
 				Instantiate(giantFireBall, new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y)), Quaternion.identity);

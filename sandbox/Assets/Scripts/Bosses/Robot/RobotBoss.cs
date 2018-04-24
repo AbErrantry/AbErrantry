@@ -128,7 +128,7 @@ namespace Character2D
 		{
 			float startTime = Time.time;
 			float newLocX = Random.Range(moveLoc.bounds.min.x, moveLoc.bounds.max.x);
-			float newLocY = player.transform.position.y;
+			float newLocY = player.transform.position.y +2f;
 			while (Time.time < startTime + 2.25f)
 			{
 				
