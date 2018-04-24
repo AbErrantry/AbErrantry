@@ -11,6 +11,7 @@ public class HorseStartTrigger : MonoBehaviour {
 	public LavaPlume[] bigPlumes;
 	public Platform leftPlatform;
 	public Platform rightPlatform;
+	public BoxCollider2D pusher;
 	// Use this for initialization
 	public void OnTriggerEnter2D(Collider2D col)
 	{
@@ -23,7 +24,7 @@ public class HorseStartTrigger : MonoBehaviour {
 			clone.GetComponent<Horseman>().bigPlumes = bigPlumes;
 			clone.GetComponent<Horseman>().leftPlatform = leftPlatform;
 			clone.GetComponent<Horseman>().rightPlatform = rightPlatform;
-
+			clone.GetComponent<Horseman>().pushout = pusher;
 			Destroy(this.gameObject);
 		}
 	}

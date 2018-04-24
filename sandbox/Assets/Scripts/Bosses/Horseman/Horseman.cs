@@ -18,6 +18,7 @@ namespace Character2D
 		public LavaPlume[] bigPlumes;
 		public Platform leftPlatform;
 		public Platform rightPlatform;
+		public BoxCollider2D pushout;
 
 		private FMOD.Studio.EventInstance horsemanMusic;
 		private FMOD.Studio.EventInstance horsemanAttack;
@@ -31,7 +32,7 @@ namespace Character2D
 			cooldown = attackCooldown;
 			isAttacking = false;
 			attackTrigger = gameObject.GetComponentInChildren<BoxCollider2D>();
-
+			pushout.gameObject.SetActive(false);
 			BackgroundSwitch.instance.ResetSongs();
 			
 			horsemanAttack = FMODUnity.RuntimeManager.CreateInstance("event:/Horseman/attack");
@@ -84,6 +85,7 @@ namespace Character2D
 		public void PickAttack(int attackLevel)
 		{
 			isAttacking = true;
+			pushout.gameObject.SetActive(true);
 			switch (Random.Range(0, attackLevel + 1))
 			{
 				case 0:
@@ -108,7 +110,7 @@ namespace Character2D
 			Plume();
 			yield return new WaitForSeconds(3f);
 			float startTime = Time.time;
-			while (Time.time < startTime + 10f)
+			while (Time.time < startTime + 4f)
 			{
 
 				leftPlatform.transform.position = new Vector3(Mathf.SmoothStep(leftPlatform.transform.position.x, leftPlatform.endLoc.x, (Time.time - startTime) / 10f),
@@ -118,7 +120,7 @@ namespace Character2D
 				yield return null;
 			}
 
-			yield return new WaitForSeconds(5);
+			yield return new WaitForSeconds(3);
 
 			startTime = Time.time;
 			while (Time.time < startTime + 10f)
@@ -136,6 +138,7 @@ namespace Character2D
 			yield return new WaitForSeconds(.5f);
 			anim.SetBool("Attack1", false);
 			isAttacking = false;
+			pushout.gameObject.SetActive(false);
 			StopAllCoroutines();
 
 		}
@@ -178,6 +181,7 @@ namespace Character2D
 			yield return new WaitForSeconds(.5f);
 			anim.SetBool("Attack2", false);
 			isAttacking = false;
+			pushout.gameObject.SetActive(false);
 			StopAllCoroutines();
 		}
 
@@ -206,6 +210,7 @@ namespace Character2D
 			{
 				StopAllCoroutines();
 				isAttacking = true;
+				pushout.gameObject.SetActive(true);
 				StartCoroutine(Attack2());
 			}
 		}
