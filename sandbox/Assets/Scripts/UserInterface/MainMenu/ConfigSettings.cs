@@ -291,12 +291,13 @@ public class ConfigSettings : MonoBehaviour
 
 	public void ValidateSaveFileName()
 	{
+		var path = Path.Combine(Application.streamingAssetsPath + "/Saves/", newSaveFile.text + ".db");
 		var isValid = !string.IsNullOrEmpty(newSaveFile.text) &&
 			newSaveFile.text.IndexOfAny(Path.GetInvalidFileNameChars()) < 0 &&
-			!File.Exists(Path.Combine(Application.streamingAssetsPath + "/Saves/", newSaveFile.text));
+			!File.Exists(path);
 		if (!isValid)
 		{
-			errorMessage.text = "Error: save file is invalid";
+			errorMessage.text = "Error: save file is invalid. Renaming...";
 			newSaveFile.text = "SaveData";
 			while (saveFileNames.Contains(newSaveFile.text))
 			{
